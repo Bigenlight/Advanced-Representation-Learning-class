@@ -1,0 +1,4 @@
+lectures/_pages/
+__pycache__/
+.vscode/
+*.tmp
