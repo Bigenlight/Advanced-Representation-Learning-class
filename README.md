@@ -21,6 +21,7 @@
 | 03 | Contrastive Learning I | 74p | ☑ | ☑ | ☐ | ☐ |
 | 04 | Contrastive Learning II | 72p | ☑ | ☑ | ☐ | ☐ |
 | 05 | Contrastive Learning III | 76p | ☑ | ☑ | ☐ | ☐ |
+| 06 | Semi-Supervised Learning I | 76p | ☑ | ☑ | ☐ | ☐ |
 
 ## 평가 구조
 
