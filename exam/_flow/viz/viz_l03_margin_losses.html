@@ -38,7 +38,7 @@
     <label for="viz-l03-margin-e">margin ε <input type="range" id="viz-l03-margin-e" min="0.4" max="1.4" step="0.05" value="1"></label><output data-eo>1.00</output>
     <label for="viz-l03-margin-a">d_an (triplet) <input type="range" id="viz-l03-margin-a" min="0" max="2" step="0.05" value="0.9"></label><output data-ao>0.90</output>
   </div>
-  <figcaption>위 목록 ① Contrastive loss (p.11)와 ② Triplet loss (p.12–13)를 설명하는 그림. 위: positive pair는 d²로 계속 0쪽으로 당겨. negative pair는 d &lt; ε일 때만 밀고, 음영(negative, d ≥ ε)에서는 loss = gradient = 0이라 inactive. 아래: triplet도 positive를 당기지만(p.13) 절대 목표(positive→0, negative→ε)를 없애고 상대 조건 <code>d_an − d_ap ≥ ε</code>만 요구해서 positive를 한 점에 모을 필요가 없어 (d_ap는 0.5로 고정한 개념 그림).</figcaption>
+  <figcaption>계보의 Contrastive loss (p.11)와 Triplet loss (p.12–13)를 비교하는 그림. <b>위 그래프</b>: 가로축은 두 embedding 사이 거리 d, 세로축은 loss야. "positive: d²" 곡선은 d가 0이 될 때까지 계속 당겨. "negative: max(0, ε − d)²" 곡선은 d &lt; ε일 때만 밀고, 음영 구간(negative pair, d ≥ ε)에서는 loss = gradient = 0이라 inactive야. margin ε 슬라이더로 경계를 옮겨 봐. <b>아래 줄</b>: triplet도 positive는 당기고 negative는 밀지만(p.13), 절대 목표(positive → 0, negative → ε)를 없애고 상대 조건 <code>d_an − d_ap ≥ ε</code>만 요구해. d_an 슬라이더로 점을 점선(d_ap + ε)보다 오른쪽에 두면 loss 0(만족), 왼쪽이면 loss &gt; 0(위반). 그래서 positive를 한 점에 모을 필요가 없어 (d_ap는 0.5로 고정한 개념 그림).</figcaption>
   <script>
   (function(){
     var root=document.getElementById('viz-l03-margin'); if(!root) return;

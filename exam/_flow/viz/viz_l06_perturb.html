@@ -30,7 +30,7 @@
   </svg>
   </div>
   <div class="viz-ctrl"><label for="viz-l06-perturb-e">ε (perturbation 크기) <input type="range" id="viz-l06-perturb-e" min="40" max="110" step="1" value="70"></label><output data-out>70</output><span data-cross style="font-family:var(--f-mono);font-size:.8rem"></span></div>
-  <figcaption>x는 boundary 근처의 점이야. 회색 = random 방향 r(RPT): 대부분 boundary와 상관없는 방향이라 낭비. 굵은 갈색 화살표 r_adv = <b>가장 adversarial한 방향</b>(예측이 가장 크게 바뀌는 쪽 = boundary 쪽)으로 ε-ball 안에서 최악으로 민 r_adv. AT는 이 점에서 <b>정답 y</b>를 맞히게, VAT는 y 대신 <b>모델 자신의 예측 f(x)</b>를 target으로 써서 label 없이도 돼. (개념 그림, L06 p.32–35)</figcaption>
+  <figcaption>x는 decision boundary 근처의 점이고, 점선 원(ε-ball)은 "크기 ε 이하의 noise로 갈 수 있는 범위"야. 회색 점선 화살표 = random 방향 r(RPT): 대부분 boundary와 상관없는 쪽이라 예측이 거의 안 바뀌어서 낭비야. 굵은 갈색 화살표 r_adv = ε-ball 안에서 <b>예측이 가장 크게 바뀌는 방향</b>(여기선 boundary 쪽)으로 끝까지 민 최악의 noise야. 슬라이더로 ε를 키우면 r_adv가 boundary를 넘어가. AT는 이 점에서도 <b>정답 y</b>를 맞히게 학습하고, VAT는 y 대신 <b>모델 자신의 예측 f(x)</b>를 target으로 써서 label 없이도 돼. (개념 그림, L06 p.32–35)</figcaption>
   <script>
   (function(){
     var root=document.getElementById('viz-l06-perturb'); if(!root) return;
@@ -54,7 +54,7 @@
         l.setAttribute('x2',(X0+L*Math.cos(a)).toFixed(1)); l.setAttribute('y2',(Y0+L*Math.sin(a)).toFixed(1));
         l.setAttribute('marker-end','url(#viz-l06-perturb-ah-m)'); rg.appendChild(l);
       }
-      cross.textContent=(e>D)?'ε > '+D+': r_adv가 boundary를 넘어 예측이 바뀜':'ε < '+D+': boundary에 못 닿음';
+      cross.textContent=(e>D)?'ε > '+D+': r_adv가 boundary를 넘어서 예측이 바뀜':'ε ≤ '+D+': r_adv가 boundary까지 못 닿음';
       cross.style.color=(e>D)?'var(--trap)':'var(--muted)';
     }
     inp.addEventListener('input',draw); draw();

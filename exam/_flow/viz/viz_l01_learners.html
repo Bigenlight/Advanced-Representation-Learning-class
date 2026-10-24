@@ -10,7 +10,7 @@
   #viz-l01-learners .trap{background:var(--trap-soft);border-color:var(--trap)}
   #viz-l01-learners .tg{display:inline-block;font:600 .68rem/1 var(--f-mono);color:var(--trap);border:1px solid var(--trap);border-radius:999px;padding:.15rem .4rem;margin-left:.4rem;white-space:nowrap}
   </style>
-  <div class="viz-head"><span class="viz-tag">개념 그림</span><p class="viz-title">Types of Representation Learners: 6개를 원리별로</p></div>
+  <div class="viz-head"><span class="viz-tag">개념 그림</span><p class="viz-title">Types of Representation Learners: 6개를 원리 2개로 나누기</p></div>
   <div class="lr">
     <div class="g" style="color:var(--accent)">Compression</div>
     <div class="n c">Autoencoding</div><div class="d">Remove redundant information</div>
@@ -21,5 +21,5 @@
     <div class="n p">Imputation</div><div class="d">Predict missing data</div>
     <div class="n p">Pretext tasks</div><div class="d">Predict abstract properties of your data</div>
   </div>
-  <figcaption>앞 세 개는 정보를 <b>압축</b>해서 배우고(Compression), 뒤 세 개는 안 보이는 걸 <b>예측</b>해서 배워(Prediction). 헷갈리기 쉬운 건 <b>Contrastive = Compression</b> (viewing transformation에 invariant하게 만들어서 군더더기를 버림). 좋은 representation은 이 둘의 교집합. (L01 p.21–23)</figcaption>
+  <figcaption>p.23 표를 학습 원리별로 묶은 거야. 오른쪽 영어 문장은 슬라이드 원문 한 줄 요약이야. 위 세 개(<b>Compression</b>)는 쓸모없는 정보를 버리면서 배우고, 아래 세 개(<b>Prediction</b>)는 안 보이는 걸 맞히면서 배워. 헷갈리기 쉬운 건 <b>Contrastive = Compression</b>이야 (변형 때문에 생긴 차이를 nuisance로 보고 버리니까). (L01 p.21–23)</figcaption>
 </figure>

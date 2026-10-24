@@ -4,7 +4,7 @@
     <g data-g></g>
   </svg>
   <div class="viz-ctrl"><label for="viz-l03-xclr-t">target temperature τ_s <input type="range" id="viz-l03-xclr-t" min="0.02" max="1" step="0.01" value="0.3"></label><output data-o>0.30</output></div>
-  <figcaption>행 i = anchor, 열 j = 후보가 "얼마나 positive인가"의 target (p.62–68). <b>위 X-CLR 패널만 행 정규화</b>된 값이야: <code>s_ij = softmax_j(G_ij/τ_s)</code> (CE의 target 분포, p.67 코드처럼 대각 포함). 아래 SSL(같은 이미지의 다른 view만 1)과 SupCon(같은 class면 1)은 0/1 graph. τ_s를 낮추면 X-CLR이 one-hot(≈ 표준 contrastive)으로, 높이면 평평해져. G는 지어낸 text 유사도 예시(dogA–dogB 0.9, dog–cat 0.6, dog–piano 0.2, cat–piano 0.2).</figcaption>
+  <figcaption>X-CLR의 target graph를 SupCon·SSL과 비교하는 그림 (p.62–68). 행 i = anchor, 열 j = 후보, 칸 값 = "j가 i에게 얼마나 positive인가"의 target이고, 진할수록 값이 커. <b>위 X-CLR 패널만 행 정규화</b>된 값이야: <code>s_ij = softmax_j(G_ij/τ_s)</code>, 한 행을 더하면 1 (CE의 target 분포, p.67 코드처럼 대각 포함). 아래 SSL(대각 1 = 같은 이미지의 다른 view만 positive)과 SupCon(같은 class면 1)은 0/1 graph야. τ_s 슬라이더: 낮추면 X-CLR이 대각만 남는 one-hot(≈ 표준 contrastive)으로 가고, 높이면 평평해져서 dog–piano 같은 먼 짝도 값을 꽤 받아. 그래서 p.68은 "preserve the true positive"를 강조해. G는 지어낸 text 유사도 예시(dogA–dogB 0.9, dog–cat 0.6, dog–piano 0.2, cat–piano 0.2).</figcaption>
   <script>
   (function(){
     var root=document.getElementById('viz-l03-xclr'); if(!root) return;

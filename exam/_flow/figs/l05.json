@@ -1,11 +1,74 @@
 [
- {"slot":"l05-m02-instance-discrimination","src":"assets/lecture05/p006_pipeline.png","alt":"Instance discrimination pipeline: CNN backbone, 128D L2-normalized embedding, non-parametric softmax over memory bank entries v1..vn","caption":"Instance Discrimination 구조. 이미지 하나 → CNN → 128D L2 norm 벡터 → <b>학습 가능한 classifier 대신 memory bank의 v₁…vₙ(이미지별 저장 feature)와 비교</b>하는 non-parametric softmax. 클래스 = 이미지 한 장 한 장이야.","page":"L05 p.6","width":700},
- {"slot":"l05-m03-moco","src":"assets/lecture05/p011_moco_diagram.png","alt":"MoCo: query encoder, momentum encoder producing a queue of keys, similarity and contrastive loss, with InfoNCE formula","caption":"MoCo 구조. 왼쪽 <b>encoder(q)만 gradient</b>로 학습되고, 오른쪽 <b>momentum encoder</b>가 만든 key들이 <b>queue</b>에 쌓여 negative가 돼. batch size와 negative 개수가 분리되는 게 핵심.","page":"L05 p.11","width":420},
- {"slot":"l05-tbl01","src":"assets/lecture05/p013_three_mechanisms.png","alt":"Conceptual comparison of end-to-end, memory bank and MoCo contrastive mechanisms","caption":"세 방식 비교. 차이는 <b>key를 어디서 얻고 key encoder를 어떻게 갱신하느냐</b>야: (a) 두 encoder 모두 backprop, (b) memory bank에서 샘플링(encoder 없음, 오래된 feature), (c) momentum encoder로 그때그때 인코딩 + queue.","page":"L05 p.13","width":700},
- {"slot":"l05-m05-curl","src":"assets/lecture05/p021_curl.png","alt":"CURL: replay buffer observations augmented into query and key, query encoder and key encoder, RL and contrastive unsupervised learning heads","caption":"CURL 구조. replay buffer의 observation에 augmentation 두 번 → query/key encoder. <b>query encoder 출력은 RL 학습에도, contrastive loss에도 같이 쓰여</b> (RL 쪽 사람한테 제일 익숙한 그림).","page":"L05 p.21","width":560},
- {"slot":"l05-m06-deepcluster","src":"assets/lecture05/p023_deepcluster.png","alt":"DeepCluster: convnet features are clustered, cluster assignments become pseudo-labels for classification, backprop","caption":"DeepCluster 루프. convnet feature를 <b>k-means로 clustering → cluster 번호를 pseudo-label로 삼아 classification → backprop</b>, 이걸 반복해. target이 정답이 아니라 자기 feature에서 나온다는 점을 봐.","page":"L05 p.23","width":700},
- {"slot":"l05-m07-swav","src":"assets/lecture05/p027_swav_framework.png","alt":"Contrastive instance learning versus SwAV: two views, features Z, prototypes C, codes Q, swapped prediction","caption":"왼쪽은 feature끼리 직접 비교하는 contrastive, 오른쪽이 SwAV. <b>prototype C로 각 view의 code Q를 만들고, 한 view의 code를 다른 view의 feature로 예측(swapped prediction)</b>해. 샘플끼리 비교 안 하고 prototype을 거친다는 게 포인트.","page":"L05 p.27","width":700},
- {"slot":"l05-m08-clip","src":"assets/lecture05/p033_clip_pipeline.png","alt":"CLIP: contrastive pre-training with NxN similarity matrix, label-text classifier, zero-shot prediction","caption":"CLIP 전체 그림. (1) image/text encoder 출력으로 <b>N×N 유사도 행렬을 만들고 대각선(매칭 쌍)만 올리는</b> contrastive 학습, (2)(3) 클래스 이름을 <code>A photo of a {object}.</code>로 인코딩해 두고 이미지와 가장 비슷한 text를 고르면 <b>학습 없이 zero-shot 분류</b>.","page":"L05 p.33","width":730},
- {"slot":"l05-m09-supcon","src":"assets/lecture05/p039_supcon.png","alt":"Self-supervised contrastive versus supervised contrastive: with labels, the other dog image becomes a positive instead of a negative","caption":"왼쪽(self-supervised)에선 같은 강아지 종류의 다른 사진이 <b>negative</b>로 밀려나지만, 오른쪽(SupCon)은 label을 써서 같은 클래스 사진을 전부 <b>positive</b>로 당겨. 이게 false negative를 없애는 방식이야.","page":"L05 p.39","width":620},
- {"slot":"l05-m10-nnclr-all4one","src":"assets/lecture05/p046_all4one_overview.png","alt":"All4One overview: encoder, EMA momentum encoder, predictor, KNN, transformer encoder, neighbour/centroid/feature contrast","caption":"All4One 구조. encoder가 학습되고 momentum encoder는 <b>EMA</b>로만 따라가. 이 위에 <b>Neighbor / Centroid / Feature</b> 세 가지 contrast loss가 서로 다른 표현(P_nn, C, Z)에 걸려 있어.","page":"L05 p.46","width":560}
+  {
+    "slot": "l05-m02-instance-discrimination",
+    "src": "assets/lecture05/p006_pipeline.png",
+    "alt": "Instance discrimination pipeline: CNN backbone, 128D L2-normalized embedding, non-parametric softmax over memory bank entries v1..vn",
+    "caption": "Instance Discrimination 구조. 이미지 → CNN backbone → 128D 벡터 → L2 norm(길이 1로 맞춤)까지가 encoder <i>f</i><sub>θ</sub>(x)야. 오른쪽 memory bank의 각 행 v₁…vₙ은 이미지 한 장 한 장의 저장된 feature고, <b>학습되는 classifier weight 대신 이 행들과 비교</b>해서 softmax를 계산해(non-parametric softmax). 그래서 class 수 = 이미지 수야.",
+    "page": "L05 p.6",
+    "width": 700
+  },
+  {
+    "slot": "l05-m03-moco",
+    "src": "assets/lecture05/p011_moco_diagram.png",
+    "alt": "MoCo: query encoder, momentum encoder producing a queue of keys, similarity and contrastive loss, with InfoNCE formula",
+    "caption": "MoCo 구조. 왼쪽 encoder가 query 이미지로 q를 만들고, 오른쪽 <b>momentum encoder</b>가 key 이미지들로 k₀, k₁, k₂…를 만들어 <b>queue</b>에 쌓아. q와 key들의 similarity로 contrastive loss를 계산하는데, <b>gradient는 왼쪽 encoder(query 쪽)로만</b> 흘러. queue 길이를 batch 크기와 따로 정할 수 있어서 negative 수가 batch에 안 묶여. 아래 식은 InfoNCE야: 분자는 q와 positive key k⁺, 분모는 k⁺와 queue key 전부. \"k+ is differently augmented query\"는 k⁺가 같은 사진을 다르게 augmentation해 key encoder에 넣은 것이라는 뜻이야.",
+    "page": "L05 p.11",
+    "width": 420
+  },
+  {
+    "slot": "l05-tbl01",
+    "src": "assets/lecture05/p013_three_mechanisms.png",
+    "alt": "Conceptual comparison of end-to-end, memory bank and MoCo contrastive mechanisms",
+    "caption": "MoCo 논문의 세 방식 그림. 세 칸 모두 q는 학습되는 encoder로 만들고, 차이는 <b>k를 어디서 얻고 key 쪽을 어떻게 갱신하나</b>야. 회색 <b>gradient</b> 화살표를 봐: (a) end-to-end는 encoder q와 encoder k <b>양쪽</b>으로 gradient가 가. (b) memory bank는 key encoder 없이 bank에서 저장된 feature를 sampling해 (오래된 값이라 stale). (c) MoCo는 <b>momentum encoder</b>가 key를 그때그때 만들고, gradient는 q 쪽으로만 가. 이 key들이 queue에 쌓여 negative가 돼.",
+    "page": "L05 p.13",
+    "width": 700
+  },
+  {
+    "slot": "l05-m05-curl",
+    "src": "assets/lecture05/p021_curl.png",
+    "alt": "CURL: replay buffer observations augmented into query and key, query encoder and key encoder, RL and contrastive unsupervised learning heads",
+    "caption": "CURL 구조. replay buffer에서 꺼낸 observation에 augmentation(random crop)을 두 번 해서 query용·key용 view를 만들어. <b>query encoder 출력은 RL(policy/value) 학습과 contrastive loss 양쪽에 같이 쓰이고</b>, key encoder(momentum) 출력은 contrastive loss에만 쓰여. RL과 representation 학습이 동시에 돌아간다는 게 핵심이야.",
+    "page": "L05 p.21",
+    "width": 560
+  },
+  {
+    "slot": "l05-m06-deepcluster",
+    "src": "assets/lecture05/p023_deepcluster.png",
+    "alt": "DeepCluster: convnet features are clustered, cluster assignments become pseudo-labels for classification, backprop",
+    "caption": "DeepCluster 루프. 화살표를 따라가면: convnet이 feature를 뽑고 → <b>k-means로 clustering</b> → cluster 번호를 <b>pseudo-label</b>(가짜 정답)로 붙이고 → 그걸 맞히는 classification loss로 convnet을 backprop. 이걸 반복해. 정답이 사람 label이 아니라 network 자기 feature에서 나온다는 점을 봐.",
+    "page": "L05 p.23",
+    "width": 700
+  },
+  {
+    "slot": "l05-m07-swav",
+    "src": "assets/lecture05/p027_swav_framework.png",
+    "alt": "Contrastive instance learning versus SwAV: two views, features Z, prototypes C, codes Q, swapped prediction",
+    "caption": "왼쪽은 두 view의 feature z₁, z₂를 직접 비교하는 일반 contrastive, 오른쪽이 SwAV야. SwAV는 feature를 학습되는 <b>prototype C</b>와 비교해서 각 view의 <b>code Q</b>(어느 prototype에 속하나)를 만들고, <b>한 view의 code를 다른 view로 예측</b>해(swapped prediction). feature끼리 비교하지 않고 prototype을 거친다는 게 포인트야.",
+    "page": "L05 p.27",
+    "width": 700
+  },
+  {
+    "slot": "l05-m08-clip",
+    "src": "assets/lecture05/p033_clip_pipeline.png",
+    "alt": "CLIP: contrastive pre-training with NxN similarity matrix, label-text classifier, zero-shot prediction",
+    "caption": "CLIP 전체 그림. (1) 학습: text encoder와 image encoder 출력으로 <b>N×N similarity 행렬</b>(칸 = I<sub>i</sub>·T<sub>j</sub>)을 만들고, <b>대각선(진짜 짝)은 올리고 나머지는 내리는</b> contrastive 학습. (2) class 이름을 <code>A photo of a {object}.</code> 문장에 넣어 text embedding으로 만들어 두고, (3) 새 이미지와 가장 비슷한 문장을 고르면 추가 학습 없이 <b>zero-shot 분류</b>가 돼.",
+    "page": "L05 p.33",
+    "width": 730
+  },
+  {
+    "slot": "l05-m09-supcon",
+    "src": "assets/lecture05/p039_supcon.png",
+    "alt": "Self-supervised contrastive versus supervised contrastive: with labels, the other dog image becomes a positive instead of a negative",
+    "caption": "왼쪽(Self Supervised Contrastive)에선 anchor 강아지와 같은 '개' class인 다른 사진(빨간 테두리)이 <b>negative</b>로 밀려나. 잘못 밀어내는 false negative야. 오른쪽(Supervised Contrastive, SupCon)은 label을 써서 그 사진(초록 테두리)까지 <b>positive</b>로 당겨. positive가 1개에서 여러 개로 늘어나는 걸 봐.",
+    "page": "L05 p.39",
+    "width": 620
+  },
+  {
+    "slot": "l05-m10-nnclr-all4one",
+    "src": "assets/lecture05/p046_all4one_overview.png",
+    "alt": "All4One overview: encoder, EMA momentum encoder, predictor, KNN, transformer encoder, neighbour/centroid/feature contrast",
+    "caption": "All4One 구조. 왼쪽 encoder(+predictor)가 gradient로 학습되고, 오른쪽 momentum encoder는 <b>EMA</b>로만 따라가(점선 화살표). 그 위에 loss 세 개가 서로 다른 표현에 걸려 있어: <b>Neighbour Contrast</b>(P<sub>nn</sub> ↔ nearest neighbor 1개), <b>Centroid Contrast</b>(KNN 이웃들을 transformer로 요약한 C¹ ↔ C²), <b>Feature Contrast</b>(Z¹ ↔ Z², Barlow Twins식).",
+    "page": "L05 p.46",
+    "width": 560
+  }
 ]

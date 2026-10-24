@@ -21,7 +21,7 @@
   </svg>
   <div class="viz-ctrl"><button type="button" data-b="good" aria-pressed="true">gap을 지나는 boundary</button><button type="button" data-b="bad" aria-pressed="false">cluster를 가르는 boundary</button></div>
   <p class="viz-note" data-note style="margin:0;font-size:.86rem;color:var(--ink);line-height:1.6"></p>
-  <figcaption>두 boundary 모두 <b>labeled 점 4개는 다 맞혀</b> (label만 보면 구분 불가). 하지만 unlabeled까지 보면 아래쪽은 같은 cluster 안의 점들을 갈라서 H2(cluster)·H3(low-density)를 어겨. unlabeled의 역할 = 이런 boundary를 걸러내는 거야. (개념 그림, 점은 임의 생성, L06 p.11–14)</figcaption>
+  <figcaption>작은 빈 점 = unlabeled, 색칠한 큰 점 = labeled, 굵은 선 = decision boundary야. 버튼으로 boundary를 바꿔 봐. 두 boundary 모두 <b>labeled 점 4개는 다 맞혀</b>서, label만 보면 어느 쪽이 나은지 구분이 안 돼. 하지만 unlabeled까지 보면 "cluster를 가르는 boundary"는 같은 cluster 안의 점들을 둘로 갈라서 H2(cluster)·H3(low-density)를 어겨. unlabeled의 역할은 이런 boundary를 걸러내는 거야. (개념 그림, 점은 임의 생성, L06 p.11–14)</figcaption>
   <script>
   (function(){
     var root=document.getElementById('viz-l06-lds'); if(!root) return;
@@ -31,7 +31,7 @@
       var bad=(m==='bad');
       g.setAttribute('display',bad?'none':''); b.setAttribute('display',bad?'':'none'); bl.setAttribute('display',bad?'':'none');
       for(var i=0;i<btns.length;i++) btns[i].setAttribute('aria-pressed',btns[i].getAttribute('data-b')===m?'true':'false');
-      note.textContent=bad?('H3 위반: 점이 빽빽한 곳을 지나서 cluster A의 unlabeled '+NB+'개가 B쪽으로 넘어가. H2도 위반.'):'H3: 점이 드문 곳을 지나니까 각 cluster가 통째로 한 class가 돼. H2도 만족.';
+      note.textContent=bad?('H3 위반: boundary가 점이 빽빽한 곳을 지나서, cluster A에 있는 unlabeled '+NB+'개가 B로 예측돼. 한 cluster가 둘로 쪼개졌으니 H2도 위반이야.'):'H3 만족: boundary가 점이 드문 cluster 사이를 지나니까, 각 cluster가 통째로 한 class가 돼. H2도 만족해.';
     }
     for(var i=0;i<btns.length;i++) btns[i].addEventListener('click',function(){ draw(this.getAttribute('data-b')); });
     draw('good');

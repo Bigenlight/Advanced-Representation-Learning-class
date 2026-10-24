@@ -30,7 +30,7 @@
     <button type="button" data-m="0.9" aria-pressed="false">0.9</button>
     <button type="button" data-m="0.99" aria-pressed="true">0.99</button>
     <button type="button" data-m="0.999" aria-pressed="false">0.999</button></div>
-  <figcaption>얇은 선 θ<sub>q</sub>는 매 step 흔들리면서 움직이는 query encoder, 굵은 선 θ<sub>k</sub>는 그걸 EMA로 따라가는 key encoder야. <b>m이 클수록 θ<sub>k</sub>가 느리고 매끈해져</b> (그림은 300 step뿐이라 0.999는 거의 안 움직여 보여). 오른쪽 점들의 y축은 <b>"key를 만든 encoder의 상태"</b>야: memory bank는 과거 여러 시점의 θ<sub>q</sub>라 넓게 퍼지고(inconsistent), queue는 천천히 변하는 θ<sub>k</sub>의 최근 구간이라 좁게 모여(consistent). 데이터는 지어낸 개념 그림이야. (L05 p.11–12)</figcaption>
+  <figcaption>첫 번째 그래프: 가로축은 학습 step, 세로축은 encoder 파라미터 θ를 1차원으로 단순화한 값이야. 얇은 파란 선 θ<sub>q</sub>는 매 step gradient로 흔들리며 움직이는 query encoder, 굵은 선 θ<sub>k</sub>는 그걸 <code>θ_k ← m·θ_k + (1−m)·θ_q</code>(EMA)로 따라가는 key encoder야. 버튼으로 m을 바꿔 봐. <b>m이 클수록 θ<sub>k</sub>가 느리고 매끈해져</b> (300 step만 그려서 0.999는 거의 안 움직여 보여). 속 빈 주황 점 = memory bank key가 만들어진 시점, 초록 점 = queue key(음영 친 최근 구간)야. 두 번째 그래프: 점 하나 = key 하나, 세로 위치 = <b>그 key를 만든 encoder의 상태</b>. memory bank key는 과거 여러 시점의 θ<sub>q</sub>로 만든 거라 넓게 퍼지고(inconsistent), queue key는 천천히 변하는 θ<sub>k</sub>의 최근 구간에서 나와서 좁게 모여(consistent). 데이터는 지어낸 개념 그림이야. (L05 p.11–12)</figcaption>
   <script>
   (function(){
     var root=document.getElementById('viz-l05-momentum'); if(!root) return;

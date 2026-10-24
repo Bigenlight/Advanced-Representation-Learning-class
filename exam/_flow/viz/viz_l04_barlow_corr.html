@@ -12,7 +12,7 @@
     <text class="t t-m mono" x="620" y="337" text-anchor="end" style="font-size:12px">C_ij = batch 방향 상관</text>
   </svg>
   <div class="viz-ctrl"><label for="viz-l04-barlow-corr-p">training progress <input type="range" id="viz-l04-barlow-corr-p" min="0" max="1" step="0.01" value="0.25"></label><output data-out>0.25</output></div>
-  <figcaption>C는 두 view의 embedding을 <b>batch 방향</b>으로 계산한 D×D cross-correlation이야 (sample×sample이 아니라 feature×feature, L04 p.35). 대각선(accent)을 1로 올리는 게 <b>invariance term</b>, 비대각(갈색)을 0으로 누르는 게 <b>redundancy reduction term</b>. 값은 개념용이고 실제 학습 결과가 아니야. 진행도가 0일 땐 차원끼리 많이 겹쳐 있어. (개념 그림, L04 p.35–38)</figcaption>
+  <figcaption>왼쪽은 목표 I, 오른쪽은 학습 중인 C야. 슬라이더(training progress)를 오른쪽으로 밀면 C가 I에 가까워지는 모습을 볼 수 있어. C는 두 view의 embedding을 <b>batch 방향</b>으로 계산한 D×D cross-correlation이야 (sample×sample이 아니라 feature×feature, L04 p.35). 칸 (i, j) = "view A의 i번 차원과 view B의 j번 차원이 batch에서 같이 움직이는 정도". 대각선(진한 파란 칸)을 1로 올리는 게 <b>invariance term</b>, 비대각(갈색)을 0으로 누르는 게 <b>redundancy reduction term</b>이야. 아래 숫자 Σ(1−C_ii)²와 ΣC_ij²가 두 항의 크기고, 둘 다 0으로 줄어. 진행도가 0일 땐 차원끼리 많이 겹쳐 있어 (정보 중복). 값은 개념용이고 실제 학습 결과가 아니야. (개념 그림, L04 p.35–38)</figcaption>
   <script>
   (function(){
     var root=document.getElementById('viz-l04-barlow-corr'); if(!root) return;

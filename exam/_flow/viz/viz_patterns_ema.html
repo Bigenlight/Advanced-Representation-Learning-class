@@ -1,5 +1,5 @@
 <figure class="viz" id="viz-patterns-ema">
-  <div class="viz-head"><span class="viz-tag">개념 그래프</span><p class="viz-title">EMA의 m이 클수록 teacher가 얼마나 느려지나</p><span class="illus">illustrative</span></div>
+  <div class="viz-head"><span class="viz-tag">개념 그래프</span><p class="viz-title">EMA 계수 m이 클수록 teacher가 얼마나 느리게 따라오나</p><span class="illus">illustrative</span></div>
   <div class="viz-scroll">
 <svg viewBox="0 0 640 296" role="img" aria-label="EMA step response on a log step axis for m = 0.9, 0.99, 0.999">
 <line class="grid" x1="60" y1="193.5" x2="620" y2="193.5"/>
@@ -41,6 +41,6 @@
 <text class="t t-m" style="paint-order:stroke;stroke:var(--surface);stroke-width:4px" x="529.2" y="73.1" text-anchor="end">≈1000 steps</text>
 </svg>
   </div>
-  <div class="note next" style="margin:0"><span class="tag">Temporal Ensembling은 다른 EMA</span><p>같은 식 모양이지만 <b>weight가 아니라 sample별 prediction</b>의 EMA야 (<span class="math">Z ← αZ + (1−α)z</span>). 매 step이 아니라 <b>epoch 끝</b>에 갱신하고, 처음 epoch의 편향은 <span class="math">z̃ = Z/(1−α<sup>t</sup>)</span>로 보정해. 위 곡선은 weight EMA에 해당 (L06 p.20).</p></div>
-  <figcaption>fast 쪽 값이 0 → 1로 바뀐 순간부터 slow 쪽(teacher)이 따라오는 곡선 <code>1 − m<sup>t</sup></code>. 63%에 닿는 데 걸리는 시간이 대략 <code>1/(1−m)</code> step이라, m이 1에 가까울수록 teacher는 느리고 안정적이야. Mean Teacher는 처음엔 β = 0.99로 빨리 따라가다 student가 수렴하면 β = 0.999로 teacher를 더 안정적으로 만들어 (L06 p.28). MoCo의 key encoder도 같은 weight EMA인데 m 값은 슬라이드에 안 나와서 표시 안 했어 (L05 p.12). 개념 그림.</figcaption>
+  <div class="note next" style="margin:0"><span class="tag">TE만 예외</span><p>식 모양은 같지만 network <b>weight가 아니라 sample별 prediction</b>(예측값)의 EMA야 (<span class="math">Z ← αZ + (1−α)z</span>). 매 step이 아니라 <b>epoch 끝</b>에 갱신해. Z가 0에서 출발해서 처음 몇 epoch은 값이 0쪽으로 치우치는데, 이걸 <span class="math">z̃ = Z/(1−α<sup>t</sup>)</span>로 나눠 보정해 (t = epoch 번호). 위 곡선은 weight EMA 쪽 얘기야 (L06 p.20).</p></div>
+  <figcaption>읽는 법: 빠른 쪽(student) 값이 어느 순간 0 → 1로 확 바뀌었다고 치고, 느린 쪽(teacher) 값이 1을 향해 따라오는 모양을 그린 거야. 가로축은 그 뒤로 지난 step 수(1 → 10 → 100 → 1000, 10배씩 늘어나는 log 눈금), 세로축은 teacher 값이야. 곡선 세 개가 m = 0.9 / 0.99 / 0.999이고, 식으로는 <code>1 − m<sup>t</sup></code> (t step 뒤까지 따라온 비율)야. 점선 63%(= 1 − 1/e)에 닿는 데 대략 <code>1/(1−m)</code> step이 걸려서 m = 0.9면 약 10, 0.99면 약 100, 0.999면 약 1000 step이야. 즉 m이 1에 가까울수록 teacher는 느리지만 안정적이야. "Mean Teacher β" 화살표는 처음엔 β = 0.99로 빨리 따라가다 student가 수렴하면 β = 0.999로 teacher를 더 안정적으로 만드는 schedule이야 (L06 p.28). MoCo의 key encoder도 같은 weight EMA인데 m 값은 슬라이드에 안 나와서 표시 안 했어 (L05 p.12). 개념 그림.</figcaption>
 </figure>

@@ -1,9 +1,58 @@
 [
- {"slot":"l03-intro","src":"assets/lecture03/p008_siamese_crop.png","alt":"Siamese network: two sister networks with shared weights, embeddings f(x1), f(x2) fed to contrastive loss","caption":"Siamese network. 두 입력이 <b>같은 네트워크 + shared weights</b>를 지나 같은 embedding space로 가고, 그 거리 d(z1,z2)에 loss를 걸어. 같은 사람이면 거리 줄이고 다른 사람이면 늘리는 게 contrastive learning의 출발점.","page":"L03 p.8","width":560},
- {"slot":"l03-steps01","src":"assets/lecture03/p012_triplet_crop.png","alt":"FaceNet triplet loss: batch, deep architecture, L2, embedding, triplet loss; anchor/positive/negative before and after learning","caption":"Triplet loss(FaceNet). 아래 그림처럼 학습 전엔 Negative가 Anchor에 더 가까운데, 학습 후엔 <b>Positive가 Negative보다 가까워지게</b> 정렬돼. 절대 거리가 아니라 <b>상대적 순서(ranking)</b>를 강제한다는 점이 포인트.","page":"L03 p.12","width":600},
- {"slot":"l03-m01-modern-setup","src":"assets/lecture03/p031_setup_crop.png","alt":"Common setup for modern contrastive learning: anchor, positives, negatives, shared encoder, similarity, InfoNCE loss","caption":"현대 contrastive learning의 공통 틀. <b>Anchor, Positive(같은 x의 다른 view), Negatives(batch 안의 다른 샘플)</b>가 모두 같은 encoder f를 지나고, cosine similarity를 InfoNCE / NT-Xent에 넣어. 이후 방법들은 전부 이 틀에서 positive나 negative를 어떻게 만드느냐의 변주야.","page":"L03 p.31","width":620},
- {"slot":"l03-m02-genview","src":"assets/lecture03/p038_genview_crop.png","alt":"GenView framework: adaptive view generation with Stable Diffusion and quality-driven contrastive loss","caption":"GenView의 두 덩어리. 왼쪽 초록 = <b>Stable Diffusion으로 diverse positive view P⁺ 생성</b>, 오른쪽 파랑 = pair 품질 q_i(foreground vs background 유사도 차이)로 <b>loss에 weight w_i = softmax(q_i)</b>를 줘서 좋은 pair에 더 가중. 얼음 아이콘(❄) 모듈은 학습 안 하는 frozen 모델.","page":"L03 p.38","width":730},
- {"slot":"l03-m03-mcl","src":"assets/lecture03/p048_suppression_crop.png","alt":"Feature suppression: SimCLR ignores shape, CLIP ignores rabbit orientation, similarity still ~0.93","caption":"Feature suppression 예시. SimCLR는 색·texture만 보고 <b>모양이 달라도 similarity 0.935</b>, CLIP도 토끼 방향이 달라도 0.933이야. 즉 <b>similarity가 높다고 같은 semantics는 아니라는 것</b>이 MCL의 출발 문제.","page":"L03 p.48","width":600},
- {"slot":"l03-m03-mcl","src":"assets/lecture03/p051_mcl_crop.png","alt":"Multistage contrastive learning: stage 0 color, stage 1 texture, stage 2 shape, K-means clustering, concatenated representations","caption":"MCL 파이프라인. Stage 0에서 학습 → <b>K-means로 cluster → 같은 cluster 안에서 negative 선택</b> → 이미 배운 shortcut(color)으로는 못 구분하니 다음 stage는 texture, shape를 배워. 마지막엔 stage별 representation을 <b>concatenate</b>해서 Z=[Z₀,Z₁,…]로 사용.","page":"L03 p.51","width":730},
- {"slot":"l03-m04-x-clr","src":"assets/lecture03/p065_graph_crop.png","alt":"Similarity graphs: self-supervised diagonal, supervised class blocks, X-CLR soft similarity","caption":"세 개의 target 행렬을 비교해봐. Self-supervised는 <b>대각선만(같은 이미지의 두 view)</b>, Supervised는 <b>같은 class 블록 전체</b>가 1, X-CLR은 <b>회색 농도로 soft similarity</b>야. 예를 들어 Cat–Dog 블록이 Cat–Piano보다 진하게 연결돼 있어.","page":"L03 p.65","width":680}
+  {
+    "slot": "l03-intro",
+    "src": "assets/lecture03/p008_siamese_crop.png",
+    "alt": "Siamese network: two sister networks with shared weights, embeddings f(x1), f(x2) fed to contrastive loss",
+    "caption": "Siamese network (p.8). 위아래 두 줄(Sister Network-1, -2)은 사실 <b>같은 네트워크, 같은 weight</b>야 (\"Same Network + Shared Weights\"). 두 얼굴 사진이 각각 통과해서 벡터 f(x1), f(x2)가 되고, 같은 좌표계에 놓이니까 둘 사이 거리를 비교할 수 있어. Contrastive Loss는 같은 사람이면 거리를 줄이고 다른 사람이면 늘려. 오른쪽 \"No Match\"는 두 사람이 다르다는 판정이야.",
+    "page": "L03 p.8",
+    "width": 560
+  },
+  {
+    "slot": "l03-steps01",
+    "src": "assets/lecture03/p012_triplet_crop.png",
+    "alt": "FaceNet triplet loss: batch, deep architecture, L2, embedding, triplet loss; anchor/positive/negative before and after learning",
+    "caption": "Triplet loss (FaceNet, p.12). 위 줄은 파이프라인이야: 얼굴 batch → CNN(Deep Architecture) → L2 normalize(벡터 길이를 1로) → embedding → triplet loss. 아래 줄은 embedding 공간의 세 점이야. 파랑 = Anchor, 초록 = Positive(같은 사람), 빨강 = Negative(다른 사람). 학습 전(왼쪽)엔 Negative가 Anchor에 더 가깝고, LEARNING 후(오른쪽)엔 <b>Positive가 Negative보다 가까워져</b>. 거리를 특정 값에 맞추는 게 아니라 <b>상대적 순서(ranking)</b>를 맞춘다는 게 포인트야.",
+    "page": "L03 p.12",
+    "width": 600
+  },
+  {
+    "slot": "l03-m01-modern-setup",
+    "src": "assets/lecture03/p031_setup_crop.png",
+    "alt": "Common setup for modern contrastive learning: anchor, positives, negatives, shared encoder, similarity, InfoNCE loss",
+    "caption": "현대 contrastive learning의 공통 틀 (p.31). 파랑 = Anchor x(query), 초록 = Positive x⁺(같은 x의 다른 augmentation view), 빨강 = Negatives(batch 안의 다른 샘플). 모두 <b>같은 encoder f</b>를 지나 벡터 z가 되고, anchor z와 나머지 각각의 cosine similarity s(a, b)를 구해서 InfoNCE / NT-Xent(Normalized Temperature-scaled cross-entropy) loss에 넣어. 오른쪽 τ는 temperature야. L03 뒷부분의 GenView·MCL·X-CLR은 이 틀에서 positive view, negative 고르기, target을 각각 바꾼 변주야.",
+    "page": "L03 p.31",
+    "width": 620
+  },
+  {
+    "slot": "l03-m02-genview",
+    "src": "assets/lecture03/p038_genview_crop.png",
+    "alt": "GenView framework: adaptive view generation with Stable Diffusion and quality-driven contrastive loss",
+    "caption": "GenView 전체 구조 (p.38). <b>왼쪽 아래 초록 영역 (Adaptive View Generation)</b>: 원본 X<sub>i</sub>를 CLIP image encoder에 넣어 embedding c<sub>i</sub>를 얻고, foreground 비율로 정한 양 l<sub>i</sub><sup>ada</sup>만큼 noise를 섞어(noisy) Stable Diffusion(본문의 Stable unCLIP)이 새 이미지를 그리고, 그걸 augmentation t<sup>+</sup>에 통과시킨 게 positive view P<sub>i</sub><sup>+</sup>야. 위쪽 P<sub>i</sub>는 보통 augmentation t로 만든 view야. 가운데: 두 view를 학습 중인 encoder f에 넣어 SSL loss를 계산해. <b>오른쪽 파랑 영역 (Quality-Driven Contrastive Loss)</b>: 별도 encoder E가 두 view를 foreground(M<sup>f</sup>)와 background(M<sup>b</sup>)로 나눠 유사도를 재고, <b>q<sub>i</sub> = s<sub>i</sub><sup>f</sup> − s<sub>i</sub><sup>b</sup></b>로 품질을 매긴 뒤 <b>w<sub>i</sub> = softmax(q<sub>i</sub>)</b>를 loss에 곱해. 눈송이 아이콘이 붙은 모듈(CLIP, Stable Diffusion, E)은 학습 안 하는 frozen 모델이야.",
+    "page": "L03 p.38",
+    "width": 730
+  },
+  {
+    "slot": "l03-m03-mcl",
+    "src": "assets/lecture03/p048_suppression_crop.png",
+    "alt": "Feature suppression: SimCLR ignores shape, CLIP ignores rabbit orientation, similarity still ~0.93",
+    "caption": "Feature suppression 예시 (p.48). 왼쪽: 무늬·색은 같고 모양만 다른 오각형과 원을 SimCLR는 <b>similarity 0.935</b>로 거의 같다고 봐 (shape 정보를 버림). 오른쪽: 왼쪽을 보는 토끼와 오른쪽을 보는 토끼를 CLIP이 <b>0.933</b>으로 봐 (방향 정보를 버림). 초록 화살표는 각 그림의 실제 설명, 빨간 화살표는 표현이 거의 같아서 생기는 혼동을 가리켜. 즉 <b>similarity가 높다고 같은 semantics는 아니야</b>. 이게 MCL의 출발 문제야.",
+    "page": "L03 p.48",
+    "width": 600
+  },
+  {
+    "slot": "l03-m03-mcl",
+    "src": "assets/lecture03/p051_mcl_crop.png",
+    "alt": "Multistage contrastive learning: stage 0 color, stage 1 texture, stage 2 shape, K-means clustering, concatenated representations",
+    "caption": "MCL 파이프라인 (p.51). 빨간 원 = Anchor, 빨간 사각형 = 고른 Negative, 양방향 화살표 = 거리 벌리기. <b>Stage 0</b>: 보통 contrastive로 학습하면 공간 Z<sub>0</sub>가 색(Color)으로 갈라져. 여기에 K-means를 돌려 cluster를 만들어. <b>Stage 1</b>: anchor와 같은 색 cluster 안에서만 negative를 골라. 색으로는 구분이 안 되니 새 encoder f<sub>1</sub>이 texture를 배워. <b>Stage 2</b>: 색·texture가 모두 같은 그룹에서 negative를 골라 shape를 배워. 패널 아래 ŷ<sup>−</sup> 식은 stage마다 cluster 정보가 쌓여 가는 모습이야 (기호 정의는 슬라이드에 없어). 마지막엔 stage별 representation을 <b>concatenate</b>해서 Z = [Z<sub>0</sub>, Z<sub>1</sub>, …, Z<sub>N−1</sub>]로 써.",
+    "page": "L03 p.51",
+    "width": 730
+  },
+  {
+    "slot": "l03-m04-x-clr",
+    "src": "assets/lecture03/p065_graph_crop.png",
+    "alt": "Similarity graphs: self-supervised diagonal, supervised class blocks, X-CLR soft similarity",
+    "caption": "세 가지 target graph (p.65). 가로·세로 모두 batch 샘플 번호고, 색 띠는 class(Cat·Dog·Piano·Guitar)야. 칸이 검을수록 target 값이 커 (오른쪽 아래 막대 0~1). <b>Self-supervised</b>: 대각선만 1 (같은 이미지의 두 view만 positive). <b>Supervised</b>: 같은 class 블록 전체가 1이고 나머지는 0 (binary). <b>X-CLR</b>: 회색 농도의 soft similarity라서, 예를 들어 Cat–Dog 블록은 회색으로 연결되고 Cat–Piano 블록은 거의 흰색이야.",
+    "page": "L03 p.65",
+    "width": 680
+  }
 ]

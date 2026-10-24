@@ -13,7 +13,7 @@
   </svg>
   </div>
   <div class="viz-ctrl"><label for="viz-l03-nce-t">temperature τ <input type="range" id="viz-l03-nce-t" min="0.05" max="1" step="0.01" value="0.3"></label><output data-o>0.30</output></div>
-  <figcaption>InfoNCE 설명(p.23–32)을 위한 그림. N = 7 후보(positive 1 + negative 6)를 softmax로 분류하고, loss = −log p(positive). 이 예시는 positive가 이미 argmax라 τ가 작을수록 loss가 <b>작아져</b> (τ=0.05 → 0.13, τ=1 → 1.69). 작은 τ의 진짜 효과는 오른쪽 열: negative들끼리 나눠 갖는 gradient 몫 <code>p_j / (1 − p_pos)</code>가 hard negative(0.70)에 몰려 (τ=0.05 ≈ 0.89, τ=1 ≈ 0.31). 큰 τ는 몫이 고르게 퍼져. (s 값은 개념 그림)</figcaption>
+  <figcaption>InfoNCE와 temperature τ(p.23–32)를 직접 만져 보는 그림. 본문 예시처럼 후보가 7개(positive 1 + negative 6)인 7지선다 softmax 분류야. 왼쪽 열은 anchor와 각 후보의 similarity s, 가운데 열은 s/τ를 softmax한 확률 p, 오른쪽 열 "negative 중 몫"은 negative들끼리 gradient를 나눠 갖는 비율 <code>p_j / (1 − p_pos)</code>야. 아래쪽 loss 줄이 −log p(positive)이고, 그 밑 줄은 hard negative 몫을 숫자로 보여줘. τ 슬라이더를 움직여 봐. 이 예시는 positive가 이미 1등(argmax)이라 τ가 작을수록 loss가 <b>작아져</b> (τ=1 → 1.49, τ=0.05 → 0.13). 작은 τ의 진짜 효과는 오른쪽 열이야: hard negative(0.70)의 몫이 커져 (τ=1 ≈ 0.26, τ=0.1 ≈ 0.93, τ=0.05 ≈ 1.00). τ가 크면 몫이 고르게 퍼져. (s 값은 설명용 숫자)</figcaption>
   <script>
   (function(){
     var root=document.getElementById('viz-l03-nce'); if(!root) return;

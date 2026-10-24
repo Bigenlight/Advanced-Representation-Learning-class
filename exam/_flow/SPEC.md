@@ -1,5 +1,8 @@
 > 이 폴더(`exam/_flow/`)가 `exam/flow.html`의 소스. 아래 FLOW 경로는 작업 당시 scratchpad 기준이고, 지금은 FLOW = `exam/_flow/`.
 > 다시 만들기: `python3 -I exam/_flow/build.py` → `exam/flow.html`. 미리보기는 `--chapter l04` / `--preview viz/<file>.html` (preview/, shots/는 gitignore).
+> **2026-10-24 다시 쓰기**: 본문·캡션을 "처음 배우는 사람" 눈높이로 풀어 씀 (Opus 작성 11 + 검수 9). 규칙은 `EASY_SPEC.md`.
+> 이제 **`base.html`이 본문 원본**이야 (slot marker 포함, 직접 수정). `base_src.html`은 base.html에서 slot 줄만 뺀 사본(그림 없는 artifact용).
+> `make_slots.py`는 최초 slot 생성용이라 다시 돌리면 slot id가 바뀔 수 있음 → 돌리지 말 것.
 
 # SPEC — 고급표현학습 한 바퀴 (local HTML 버전) 팀 작업 규칙
 

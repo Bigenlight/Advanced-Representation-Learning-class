@@ -9,5 +9,5 @@
     <text class="t t-trap b mono" x="610" y="168" text-anchor="end" style="font-size:18px">μ(t) (= Π-model 코드의 w(t))</text>
     <text class="t b mono" x="60" y="270" style="font-size:20px">L = L_s + μ(t) · L_u</text>
   </svg>
-  <figcaption>슬라이드에는 "increasing in time"이라고만 나와. 곡선 모양은 <b>예시</b>(Gaussian 형태 ramp-up)일 뿐이야. 요점: 초반 예측은 부정확하니 unsupervised consistency 항을 작게 시작해서 키워. 이 가중치를 p.10에선 μ(t), Π-model 코드(p.18)에선 w(t)라고 써. (L06 p.10, p.18)</figcaption>
+  <figcaption>가로축은 학습 시간(epoch t), 세로축은 unlabeled loss L<sub>u</sub>에 곱하는 가중치 μ(t)야. 슬라이드에는 "increasing in time"이라고만 나와. 곡선 모양은 <b>예시</b>(Gaussian 형태 ramp-up)일 뿐이야. 왜 이렇게 키우는지는 본문 "왜 키우나" 참고. 이 가중치를 p.10에선 μ(t), Π-model 코드(p.18)에선 w(t)라고 써. (L06 p.10, p.18)</figcaption>
 </figure>

@@ -16,7 +16,7 @@
     <button type="button" data-c aria-pressed="true">centering on</button>
     <button type="button" data-s aria-pressed="true">sharpening on</button>
   </div>
-  <figcaption>teacher 출력 <code>softmax((t − C) / τ_t)</code> (L04 p.40). logit <code>t</code>는 개념용 값이야. <b>centering off</b>면 계속 큰 한 차원(k=3)이 독점해서 one-hot으로 collapse. <b>sharpening off</b>(τ_t를 크게)이면 분포가 평평해져 uniform collapse. 둘이 서로 반대 방향으로 막아주니까 같이 써야 해. 각 막대 위가 확률값이야. 이 collapse 해석(centering은 한 차원 독점, sharpening은 uniform을 막음)은 슬라이드 밖 논문 보충이고, 슬라이드엔 <code># center + sharpen</code> 주석뿐이야. logit·τ 값은 개념용. (개념 그림)</figcaption>
+  <figcaption>막대 8개는 teacher가 한 사진에 대해 내는 확률 분포 <code>softmax((t − C) / τ_t)</code>야 (L04 p.40, K = 8). 막대 위 숫자가 확률이고 합은 1이야. logit <code>t</code>와 center <code>C</code>는 개념용 값이야. 버튼으로 하나씩 꺼 봐. <b>centering off</b>면 늘 큰 한 차원(k=3)이 독점해서 one-hot 쪽으로 collapse해 (모든 사진이 같은 답). <b>sharpening off</b>(τ_t를 크게)면 분포가 평평해져서 uniform collapse야 (아무 정보 없음). 슬라이더로 τ_t를 키워도 평평해지는 걸 볼 수 있어. 둘이 서로 반대 방향을 막으니까 같이 써야 해. 이 collapse 해석(centering은 한 차원 독점, sharpening은 uniform을 막음)은 슬라이드 밖 논문 보충이고, 슬라이드엔 <code># center + sharpen</code> 주석뿐이야. logit·τ 값은 개념용. (개념 그림)</figcaption>
   <script>
   (function(){
     var root=document.getElementById('viz-l04-dino-centering'); if(!root) return;

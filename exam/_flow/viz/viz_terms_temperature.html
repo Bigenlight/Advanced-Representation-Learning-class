@@ -14,7 +14,7 @@
     <text class="t t-m" x="30" y="288">s</text>
   </svg></div>
   <div class="viz-ctrl"><label for="viz-terms-temp-t">τ <input type="range" id="viz-terms-temp-t" min="0.05" max="2" step="0.01" value="0.5"></label><output data-out>0.50</output><span class="t-trap" style="font:600 .8rem var(--f-mono)" data-loss></span></div>
-  <figcaption>anchor 하나에 positive 1개 + negative 7개. 아래 숫자가 고정된 similarity s이고, 막대는 <code>softmax(s/τ)</code>야. τ를 줄이면 <b>제일 큰 s 쪽으로 분포가 뾰족해지고</b> (positive는 더 확실해지고, anchor와 가까운 hard negative neg1이 나머지 negative보다 큰 몫을 가져가), τ를 키우면 8개가 거의 균등해져 (loss = −log p(positive)). SimCLR · MoCo · DINO · X-CLR은 <code>s/τ</code>로 나누고, <b>CLIP만</b> <code>logits * exp(t)</code>로 곱해 (learned, exp(t) = 1/τ). 개념 그림이고 similarity 값은 지어낸 거야. (L03 p.29 Soft-NN · p.68 X-CLR · L05 p.35 CLIP)</figcaption>
+  <figcaption><b>읽는 법</b>: anchor 하나에 후보 8개가 있는 상황이야: positive 1개(pos) + negative 7개(neg1–neg7). 막대 밑 숫자는 anchor와 각 후보의 similarity s(고정값, 지어낸 값)이고, 막대 높이는 <code>softmax(s/τ)</code>, 곧 "이 후보가 positive일 확률"이야. 함께 표시되는 loss는 −log p(pos), 곧 InfoNCE loss야.<br><b>볼 것</b>: 슬라이더로 τ를 움직여 봐. τ를 줄이면 s 차이가 커져서 <b>제일 큰 s 쪽으로 확률이 몰려(뾰족)</b>: pos는 더 확실해지고, negative 중에선 anchor와 가까운 hard negative neg1이 나머지보다 훨씬 큰 몫을 가져가. τ를 키우면 차이가 줄어서 8개가 거의 균등해져(평평). 여기선 pos의 s가 제일 커서 τ를 줄일수록 loss가 작아져. 하지만 pos보다 가까운 negative가 있으면, 작은 τ에선 그 hard negative가 분모를 거의 혼자 차지해서 loss와 gradient가 거기에 집중돼.<br><b>주의</b>: SimCLR · MoCo · DINO · X-CLR은 <code>s/τ</code>로 나누고, <b>CLIP만</b> <code>logits * exp(t)</code>로 곱해 (learned, exp(t) = 1/τ). 개념 그림이야. (L03 p.29 Soft-NN · p.68 X-CLR · L05 p.35 CLIP)</figcaption>
   <script>
   (function(){
     var root=document.getElementById('viz-terms-temp'); if(!root) return;

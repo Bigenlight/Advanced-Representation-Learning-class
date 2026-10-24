@@ -1,6 +1,6 @@
 <figure class="viz" id="viz-map-timeline">
   <style>#viz-map-timeline .viz-scroll>svg{min-width:40rem}#viz-map-timeline .t{font-size:14.5px}</style>
-  <div class="viz-head"><span class="viz-tag">개념 그래프</span><p class="viz-title">7강 방법들을 연도순으로: 계보가 어떻게 이어지나</p></div>
+  <div class="viz-head"><span class="viz-tag">개념 그래프</span><p class="viz-title">7강에 나온 방법들을 연도순으로 놓으면: 계보가 어떻게 이어지나</p></div>
   <div class="viz-scroll">
 <svg viewBox="0 0 720 986" role="img" aria-label="Method timeline 2005 to 2025 by family, dots colored by lecture L02 to L07">
 <line class="grid" x1="168.0" y1="14" x2="168.0" y2="914"/>
@@ -177,5 +177,5 @@
 <circle class="f-bg ln-ink" cx="427" cy="966" r="6" style="stroke:var(--ink);stroke-width:1.6"/><text class="t mono" x="437" y="970">L07</text>
 </svg>
   </div>
-  <figcaption>가로 = 슬라이드에 적힌 발표 연도, 세로 = 방법 계열, 점 색 = 어느 강의에서 나왔는지. 같은 해 점은 세로로 쌓았어(x는 연도 그대로). 위에서 아래로 보면 <b>사람이 설계한 pretext → contrastive loss → negative 없는 방법 / clustering / 언어</b>로 가고, 아래 두 줄은 label이 조금 있는 semi-supervised 흐름이야. 연도가 있는 것 중 대표 방법만 골랐어. 2005 → 2010 사이는 축을 끊었어(//). FixMatch는 슬라이드 표기 2021 · DivideMix는 슬라이드 표기 ICML 2020 기준. (L02–L07 전체)</figcaption>
+  <figcaption><b>읽는 법</b>: 점 하나 = 방법 하나야. 가로 = 슬라이드에 적힌 발표 연도, 세로 = 방법 계열(무엇을 target으로 쓰나), 점 색 = 어느 강의에서 나왔는지. 맨 아래 lecture 줄이 색 범례이고, 속이 빈 점이 L07이야. 같은 해 점은 세로로 쌓았어(x는 연도 그대로). 2005 → 2010 사이는 축을 끊었어(//).<br><b>계열 이름</b>: Loss functions = contrastive 계열 loss 식 자체의 발전 · Pretext tasks = 사람이 설계한 가짜 문제(회전 맞히기 등) · Contrastive (InfoNCE family) = InfoNCE로 "같은 건 가깝게, 다른 건 멀게" 학습하는 방법 · No negatives / self-distillation = negative 없이 teacher 출력이나 상관행렬을 맞히는 방법 · Clustering = cluster 번호를 target으로 · Language / multimodal = 사진과 글(caption)을 짝지어 학습 · Semi-sup = semi-supervised(label 조금 + unlabeled 많이)의 두 갈래, consistency와 pseudo label.<br><b>줄임말</b>: NCE = Noise-Contrastive Estimation · Rel. position = Relative Position · CDJP = jigsaw · inpainting · colorization을 한 번에 푸는 damaged jigsaw puzzle · AVTS = Audio-Visual Temporal Synchronization(소리와 영상이 시간상 맞는지 맞히기) · Inst. Disc. = Instance Discrimination · Barlow Tw. = Barlow Twins · Adv. training = Adversarial training · Temp. Ens. = Temporal Ensembling · Label Prop. = Label Propagation.<br><b>볼 것</b>: 위에서 아래로 보면 <b>사람이 설계한 pretext → contrastive loss → negative 없는 방법 / clustering / 언어</b>로 가고, 아래 두 줄은 label이 조금 있는 semi-supervised 흐름이야. 연도가 있는 것 중 대표 방법만 골랐어. FixMatch는 슬라이드 표기 2021 · DivideMix는 슬라이드 표기 ICML 2020 기준. (L02–L07 전체)</figcaption>
 </figure>

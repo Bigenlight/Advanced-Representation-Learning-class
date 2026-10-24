@@ -1,6 +1,32 @@
 [
- {"slot":"l01-m01-ai","src":"assets/lecture01/p007_ai_journey.png","alt":"What AI has been learning: Rules, Patterns, Features, Representations, World Knowledge","caption":"AI가 배우는 대상이 <b>Rules → Patterns → Features → Representations → World Knowledge</b> 순으로 옮겨 왔어. 사람이 짠 규칙에서 시작해서, 점점 데이터에서 스스로 배우는 쪽으로 가는 흐름을 봐. 이 수업은 4번째(Representations)가 중심이야.","page":"L01 p.7"},
- {"slot":"l01-m02-representation","src":"assets/lecture01/p013_many_representations.png","alt":"One dog image represented as color histogram, CNN feature vector, and CLIP embedding","caption":"같은 강아지 사진도 <b>color histogram / CNN feature / CLIP embedding</b>으로 전혀 다르게 표현돼. 뭘 담느냐(색 분포, 계층적 시각 feature, 텍스트와 정렬된 의미)가 representation마다 다르다는 게 포인트야.","page":"L01 p.13","width":640},
- {"slot":"l01-m03-feature-engineering-feat","src":"assets/lecture01/p017_reuse_across_tasks.png","alt":"Task-specific models vs one general-purpose representation reused across detection, segmentation, tracking","caption":"위쪽은 task마다 모델을 따로 만드는 방식, 아래는 <b>representation을 한 번 학습(learn once)</b>하고 detection/segmentation/tracking에 재사용하는 방식이야. 좋은 representation = 여러 task에 재사용 가능.","page":"L01 p.17"},
- {"slot":"l01-m06-representation","src":"assets/lecture01/p021_compression_prediction_venn.png","alt":"Venn diagram: Compression and Prediction overlap as Better Representations","caption":"좋은 representation은 <b>Compression ∩ Prediction</b>의 교집합이야. 왼쪽(Autoencoder, Contrastive, Clustering)은 compression, 오른쪽(Future prediction, Imputation, Pretext tasks)은 prediction 계열로 어느 방법이 어디 속하는지 봐.","page":"L01 p.21","width":680}
+  {
+    "slot": "l01-m01-ai",
+    "src": "assets/lecture01/p007_ai_journey.png",
+    "alt": "What AI has been learning: Rules, Patterns, Features, Representations, World Knowledge",
+    "caption": "AI가 배우는 대상이 왼쪽에서 오른쪽으로 <b>Rules → Patterns → Features → Representations → World Knowledge</b> 순으로 옮겨 왔어. 맨 왼쪽은 사람이 IF–THEN 규칙을 직접 쓰는 단계고, 오른쪽으로 갈수록 data에서 스스로 배우는 게 더 추상적이고 일반적이 돼. 아래 Example 칸에서 3번(edges, textures, shapes, parts)과 4번(여러 task로 transfer되는 embedding)의 차이를 봐. 이 수업은 4번째(Representations)가 중심이야.",
+    "page": "L01 p.7"
+  },
+  {
+    "slot": "l01-m02-representation",
+    "src": "assets/lecture01/p013_many_representations.png",
+    "alt": "One dog image represented as color histogram, CNN feature vector, and CLIP embedding",
+    "caption": "같은 강아지 사진 한 장을 세 가지 representation으로 바꾼 그림이야. <b>Color Histogram</b>은 색(Hue)별로 얼마나 있는지만 세서 모양 정보가 없어. <b>CNN Feature</b>는 edge부터 물체 부분까지 계층적으로 뽑은 고차원 숫자 벡터(e.g., 2048-D)야. <b>CLIP Embedding</b>은 사진을 \"A dog\", \"A cat\" 같은 문장과 같은 공간에 놓아서, 격자 색이 진할수록 그 문장과 비슷하다는 뜻이야. 뭘 담고 뭘 버리느냐가 representation마다 다르다는 게 포인트야.",
+    "page": "L01 p.13",
+    "width": 640
+  },
+  {
+    "slot": "l01-m03-feature-engineering-feat",
+    "src": "assets/lecture01/p017_reuse_across_tasks.png",
+    "alt": "Task-specific models vs one general-purpose representation reused across detection, segmentation, tracking",
+    "caption": "위쪽 칸은 task마다 모델(Model A/B/C)을 처음부터 따로 만드는 방식(task-specific model)이야. 아래쪽 칸은 여러 이미지로 <b>representation을 한 번 학습(learn once)</b>하고 detection(물체 위치를 box로 찾기)·segmentation(픽셀마다 무엇인지 칠하기)·tracking(frame마다 같은 물체 따라가기)에 재사용하는 방식(general-purpose representation)이야. 좋은 representation = 여러 task에 재사용 가능.",
+    "page": "L01 p.17"
+  },
+  {
+    "slot": "l01-m06-representation",
+    "src": "assets/lecture01/p021_compression_prediction_venn.png",
+    "alt": "Venn diagram: Compression and Prediction overlap as Better Representations",
+    "caption": "왼쪽 원은 <b>Compression</b>(필요 없는 정보 버리기), 오른쪽 원은 <b>Prediction</b>(안 보이는 것 맞히기)이고, 가운데 겹친 부분이 좋은 representation(Better Representations)이야. 원 안에 적힌 건 그 원리에 속하는 학습 방법이야: 왼쪽 Autoencoder·Contrastive·Clustering, 오른쪽 Future prediction·Imputation·Pretext tasks. 교집합에 적힌 Generalize better, Transfer across tasks, Support decision making, More sample efficient가 둘 다 갖췄을 때 얻는 이점이야.",
+    "page": "L01 p.21",
+    "width": 680
+  }
 ]

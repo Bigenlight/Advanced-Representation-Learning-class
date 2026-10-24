@@ -1,5 +1,5 @@
 <figure class="viz" id="viz-l04-frameworks">
-  <div class="viz-head"><span class="viz-tag">구조 비교</span><p class="viz-title">SimCLR · BYOL · Barlow Twins · DINO를 같은 문법으로</p></div>
+  <div class="viz-head"><span class="viz-tag">구조 비교</span><p class="viz-title">SimCLR · BYOL · Barlow Twins · DINO를 같은 그림 문법으로: 누가 gradient를 받고 누가 EMA로 따라가나</p></div>
   <div class="viz-scroll">
 <svg viewBox="0 0 720 750" role="img" aria-label="SimCLR, BYOL, Barlow Twins, DINO architecture comparison">
 <defs><marker id="viz-l04-fw-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ink)"/></marker></defs>
@@ -166,5 +166,5 @@
     <span style="display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap"><b style="color:var(--trap);font-family:var(--f-mono)">// sg</b> stop-gradient</span>
     <span style="display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap"><svg width="26" height="14" aria-hidden="true"><rect class="box-loss" x="1" y="1" width="24" height="12" rx="3"/></svg> loss</span>
   </div>
-  <figcaption>세로로 비교해 봐. <b>SimCLR</b>는 같은 encoder 두 번 + InfoNCE(batch 안 negative). <b>BYOL</b>은 online에만 <b>predictor</b>가 있고 target은 EMA + <b>sg</b>라 negative 없이도 collapse를 피해. <b>Barlow Twins</b>는 sample이 아니라 feature 차원끼리 D×D 상관행렬을 I로. <b>DINO</b>는 BYOL과 비슷하지만 MSE가 아니라 softmax 분포 간 CE이고, collapse는 teacher의 <b>centering + sharpening</b>(teacher에만, softmax는 양쪽)으로 막아. (L04 p.23–44)</figcaption>
+  <figcaption>네 줄을 위에서 아래로 비교해 봐. 모두 같은 사진 x에서 view x₁, x₂를 만들어 두 branch에 넣어. 상자 모양이 핵심이야: 실선으로 채워진 상자는 <b>gradient로 학습</b>, 점선 상자는 <b>EMA로만 갱신</b>(BYOL의 target, DINO의 teacher)이고, <code>// sg</code>는 stop-gradient야. SimCLR·Barlow는 두 branch가 같은 encoder(shared weights)라 점선 상자가 없어. predictor q는 BYOL 줄에만, centering(t − C)은 DINO teacher 쪽에만 있어. loss 상자 이름(InfoNCE / normalized MSE / C → I / Cross-Entropy)이 네 방법의 차이야. (L04 p.23–44)</figcaption>
 </figure>

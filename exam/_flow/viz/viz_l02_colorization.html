@@ -20,5 +20,5 @@
     <path d="M121.0,284 L121.0,300 L359.0,300 L359.0,284" class="ln-ok" stroke-width="1.5" fill="none"/>
     <text class="t t-ok b" x="240.0" y="320" text-anchor="middle" style="font-size:15px">313-bin 분포 + CE</text>
   </svg>
-  <figcaption>같은 흑백 픽셀에 그럴듯한 색이 둘이면, MSE regression은 <b>평균</b>(두 색 사이의 탁한 색)을 내. <b>313-bin 분포를 예측</b>하고 cross-entropy로 학습하면 평균으로 뭉개지지 않고, 분포에서 선명한 색을 고를 수 있어. 분포 모양은 개념을 보여주려고 그린 것. (L02 p.36–38)</figcaption>
+  <figcaption>흑백 pixel 하나를 보고 "원래 무슨 색이었을까"의 확률을 그린 거야. 그럴듯한 색이 둘(색 A, 색 B)이면, 색 값 하나만 내는 MSE regression은 둘의 <b>평균</b>(가운데 점선, 탁한 색)을 내. 오차 제곱을 가장 작게 만드는 답이 평균이기 때문이야. 대신 <b>313-bin 분포를 예측</b>하고 cross-entropy로 학습하면 "A일 수도, B일 수도"를 그대로 표현해서 평균으로 뭉개지지 않고, 분포에서 선명한 색을 고를 수 있어. 분포 모양은 개념을 보여주려고 그린 것. (L02 p.36–38)</figcaption>
 </figure>

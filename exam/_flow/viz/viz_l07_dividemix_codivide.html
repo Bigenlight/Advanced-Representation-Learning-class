@@ -28,7 +28,7 @@
     <span><i class="l" style="border-color:var(--ink)"></i>w = clean 확률 (0~1, 차트 높이에 맞춰 그림)</span>
   </div>
   <div class="viz-ctrl"><label for="viz-l07-dm-tau">clean probability threshold τ <input type="range" id="viz-l07-dm-tau" min="0.05" max="0.95" step="0.01" value="0.5"></label><output data-out>0.50</output><span data-cnt class="mono"></span></div>
-  <figcaption>합성 loss 분포라 모양만 봐. clean 샘플은 loss가 낮고 noisy는 높아서 2-GMM이 두 덩어리로 갈라 줘. 샘플별 <code>w</code> = 낮은 loss 성분에 속할 확률이고, <code>w ≥ τ</code>면 labeled 𝒳, 아니면 <b>label만 버리고</b> unlabeled 𝒰로 MixMatch에 넣어. net A의 GMM 분할로 net B를 학습, 반대도 마찬가지 (co-divide, p.54 line 4–5). 단, 그림에서 w는 clean 성분 평균보다 loss가 낮은 구간을 1로 고정해서 그렸어. (L07 p.49–54)</figcaption>
+  <figcaption>가로축은 샘플별 loss, 막대는 그 loss를 가진 샘플 수야 (범례대로 실제 clean / 실제 noisy를 색으로 구분한 합성 데이터라 모양만 봐). 학습 초반엔 clean은 loss가 낮고 noisy는 높아서 분포가 두 덩어리가 되고, 2-component GMM(Gaussian 두 개를 겹친 모델, 두 곡선)이 이걸 갈라 줘. 굵은 곡선 <code>w</code> = 낮은 loss 성분에 속할 확률(clean probability)이야. 슬라이더 τ를 움직이면 <code>w ≥ τ</code>인 쪽은 labeled 𝒳, 나머지는 <b>label만 버리고</b> unlabeled 𝒰로 MixMatch에 들어가. 실제 DivideMix에선 net A의 GMM 분할로 net B를 학습하고 반대도 마찬가지야 (co-divide, p.54 line 4–5). 단, 그림에서 w는 clean 성분 평균보다 loss가 낮은 구간을 1로 고정해서 그렸어. (L07 p.49–54)</figcaption>
   <script>
   (function(){
     var root=document.getElementById('viz-l07-dm'); if(!root) return;

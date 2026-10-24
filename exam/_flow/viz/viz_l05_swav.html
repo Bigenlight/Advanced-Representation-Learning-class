@@ -1,5 +1,5 @@
 <figure class="viz" id="viz-l05-swav">
-  <div class="viz-head"><span class="viz-tag">구조 비교</span><p class="viz-title">SwAV: 한 view의 code를 다른 view의 feature로 예측해</p></div>
+  <div class="viz-head"><span class="viz-tag">구조 비교</span><p class="viz-title">SwAV: 한 view의 code(어느 prototype에 속하나)를 다른 view가 맞혀</p></div>
   <div class="viz-scroll">
   <svg viewBox="0 0 680 350" role="img" aria-label="SwAV swapped prediction: two views, shared encoder and prototypes, predict code of the other view">
   <defs>
@@ -68,5 +68,5 @@
 <text class="t t-m" x="110" y="344" text-anchor="start">Feature ↔ Prototype · online code, 명시적 negative 없음</text>
   </svg>
   </div>
-  <figcaption>두 view의 feature z₁, z₂는 같은 encoder와 같은 prototype C(accent 실선 = gradient로 학습)를 지나가. C로 <b>prediction p</b>와 <b>code q</b>를 얻고, loss는 <b>자기 view가 아니라 반대 view의 q</b>를 맞히는 CE야(crossed 화살표). 자기 code를 자기가 맞히면 trivial하니까 swap해서 view-invariant를 배우게 해. q는 C가 바로 주는 게 아니라 z·C 점수를 Sinkhorn으로 정리한 target이고, gradient가 안 간다는 건(sg*) 슬라이드가 아니라 노트의 보충 설명이야. 아래 줄처럼 SwAV는 feature끼리 비교하지 않고 prototype 배정을 예측해. (L05 p.26–30)</figcaption>
+  <figcaption>같은 사진 x에서 만든 두 view x₁, x₂가 같은 encoder f<sub>θ</sub>를 지나 feature z₁, z₂가 되고, 둘 다 같은 prototype C(K개, gradient로 학습되는 파란 상자)와 비교돼. 여기서 두 가지가 나와: 파란 <b>p</b> = prototype별 확률로 바꾼 <b>예측(prediction)</b>, 초록 <b>q</b> = 이 view가 어느 prototype에 속하나를 정한 <b>code</b>(정답 역할). loss 상자를 봐: CE(p₁, q₂)는 view 1의 예측으로 view 2의 code를 맞히고, CE(p₂, q₁)은 반대야. 초록 화살표가 엇갈리는 게(swap) 핵심이야. 자기 code를 자기가 맞히면 너무 쉬우니까(trivial), 엇갈려 맞혀야 view가 바뀌어도 같은 feature(view-invariant)를 배워. q를 Sinkhorn으로 계산한다는 것과 q 쪽에 gradient가 안 간다는 표시(sg*)는 노트 보충이라 슬라이드엔 없어 (시험 범위 밖). 맨 밑 두 줄은 p.30 비교표 요약: contrastive는 Feature ↔ Feature, SwAV는 Feature ↔ Prototype. (L05 p.26–30)</figcaption>
 </figure>

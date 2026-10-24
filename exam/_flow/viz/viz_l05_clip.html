@@ -21,7 +21,7 @@
     <button type="button" data-mode="col" aria-pressed="false">column 보기 (text → image)</button>
     <label for="viz-l05-clip-idx">index <input type="range" id="viz-l05-clip-idx" min="1" max="5" step="1" value="2"></label><output data-out>2</output>
   </div>
-  <figcaption>행렬의 칸 (i, j) = 이미지 i와 text j의 scaled cosine similarity야. 이미지 i 하나를 고정하고 <b>row</b>를 softmax하면 "정답 text는 어느 것?" 문제가 되고(image→text), text j를 고정하고 <b>column</b>을 softmax하면 반대 방향(text→image)이 돼. 정답은 항상 diagonal(<code>labels = np.arange(n)</code>)이고 loss는 두 방향 CE의 평균이야. 칸을 눌러도 선택돼. 슬라이드 코드는 <code>loss_i</code>(axis=0), <code>loss_t</code>(axis=1)로 쓰는데 axis가 어느 방향인지는 정의가 없어서 해석이 갈려. 시험엔 '두 방향 CE 평균 = symmetric'만 확실히 기억해. (N=5 예시) 숫자는 지어낸 개념 그림이야. (L05 p.33, p.35)</figcaption>
+  <figcaption>batch에 (image, caption) 짝이 5개 있는 예시야 (숫자는 지어낸 개념 그림). 행렬 칸 (i, j) = 이미지 i와 text j의 similarity 점수 (cosine × <code>exp(t)</code>). 초록 점선 칸 = 대각선 = 진짜 짝(positive), 나머지 칸 = negative야. <b>row 보기</b>: 이미지 하나를 고정하고 그 행을 softmax하면 "이 이미지의 caption은 5개 중 어느 것?"(image→text) 확률이 막대그래프로 나와. <b>column 보기</b>: text 하나를 고정하고 그 열을 softmax하면 반대 방향(text→image) 문제야. 정답 칸 확률이 클수록 CE = −log p(정답)가 작아져. 최종 loss는 행 방향 CE 평균과 열 방향 CE 평균을 다시 평균한 값(symmetric)이야. 칸을 눌러도 선택돼. 슬라이드 코드는 <code>loss_i</code>(axis=0), <code>loss_t</code>(axis=1)로 쓰는데 axis가 어느 방향인지는 정의가 없어서 해석이 갈려. 시험엔 '<code>labels = np.arange(n)</code> + 두 방향 CE 평균 = symmetric'만 확실히 기억해. (L05 p.33, p.35)</figcaption>
   <script>
   (function(){
     var root=document.getElementById('viz-l05-clip'); if(!root) return;

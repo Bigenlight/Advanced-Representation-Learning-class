@@ -4,6 +4,7 @@
   python3 -I build.py                      -> <repo>/exam/flow.html (final, relative ../assets paths)
   python3 -I build.py --preview viz/X.html -> preview/X.html + preview/X_dark.html (one fragment alone)
   python3 -I build.py --chapter l04        -> preview/chapter_l04.html + _dark (one section with its figs + viz)
+  --base FILE (base.html 대신), --out FILE (전체 페이지를 다른 곳에, 절대 이미지 경로)
 
 Inputs (all in this folder):
   base.html          page text with <!--slot:ID--> markers (see slots.md)
@@ -218,8 +219,8 @@ def slot_content(sid, figs, vizs, prefix):
     return '\n'.join(parts)
 
 
-def split_base():
-    base = (FLOW / 'base.html').read_text(encoding='utf-8')
+def split_base(path=None):
+    base = pathlib.Path(path or FLOW / 'base.html').read_text(encoding='utf-8')
     i = base.index('</style>') + len('</style>')
     head, body = base[:i], base[i:]
     head = head.replace('<meta name="claude:viewport-fit-sides" content="cover">', '')
@@ -251,8 +252,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--preview')
     ap.add_argument('--chapter')
+    ap.add_argument('--base', help='base.html 대신 쓸 파일 (미리보기용)')
+    ap.add_argument('--out', help='전체 페이지를 exam/flow.html 대신 여기에 (이미지 경로는 절대경로)')
     a = ap.parse_args()
-    head, body = split_base()
+    head, body = split_base(a.base)
     (FLOW / 'preview').mkdir(exist_ok=True)
     if a.preview:
         frag = pathlib.Path(a.preview)
@@ -266,7 +269,7 @@ def main():
             out.write_text(wrap(head, page, dark, preview=True), encoding='utf-8')
             print(out)
         return
-    prefix = REPO.as_uri() + '/' if a.chapter else '../'
+    prefix = REPO.as_uri() + '/' if (a.chapter or a.out) else '../'
     filled = fill(body, prefix)
     if a.chapter:
         m = re.search(r'(<section id="' + re.escape(a.chapter) + r'">.*?</section>)', filled, re.S)
@@ -278,8 +281,9 @@ def main():
             out.write_text(wrap(head, page, dark, preview=True), encoding='utf-8')
             print(out)
         return
-    OUT.write_text(wrap(head, filled), encoding='utf-8')
-    print(OUT, f'{OUT.stat().st_size/1024:.0f} KB')
+    out = pathlib.Path(a.out).resolve() if a.out else OUT
+    out.write_text(wrap(head, filled), encoding='utf-8')
+    print(out, f'{out.stat().st_size/1024:.0f} KB')
 
 
 if __name__ == '__main__':

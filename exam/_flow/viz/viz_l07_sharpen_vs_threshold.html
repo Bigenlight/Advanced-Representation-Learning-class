@@ -29,7 +29,7 @@
     <label for="viz-l07-sharp-tau" data-ltau hidden>threshold τ <input type="range" id="viz-l07-sharp-tau" min="0.3" max="0.99" step="0.01" value="0.7"></label>
     <output data-out>0.50</output>
   </div>
-  <figcaption>Sharpen은 <code>p_i^{1/T} / Σ_j p_j^{1/T}</code>라서 T가 작을수록 entropy가 줄지만 <b>soft한 분포</b>고 모든 샘플이 loss에 들어가 (T=1이면 그대로, T→0이면 one-hot에 가까워져). Threshold는 max가 τ 넘는 샘플만 <b>hard one-hot</b>으로 쓰고 나머지는 버려. FixMatch는 sharpening 없이 threshold만으로 더 좋았어. 예측값은 개념용 가짜 값. (L07 p.32, p.42–48)</figcaption>
+  <figcaption>막대 c1–c6는 unlabeled 샘플 하나에 대한 6개 class 예측 확률이고, H는 그 entropy야 (여기선 bit 단위 log<sub>2</sub>라서 본문의 ln 기준 값 1.09 같은 숫자와 단위가 달라). <b>Sharpen</b>(MixMatch)은 <code>p_i^{1/T} / Σ_j p_j^{1/T}</code>라서 T가 작을수록 뾰족해지고 entropy가 줄어 (T=1이면 그대로, T→0이면 one-hot에 가까워져). 그래도 결과는 <b>soft한 분포</b>고, 애매한 샘플도 버리지 않고 모두 loss에 들어가. <b>Threshold</b>(FixMatch)는 max가 τ 이상인 샘플만 <b>hard one-hot</b>으로 쓰고 나머지는 버려 (mask = 0). "Threshold" 버튼을 누르고 "B 꽤 확신"(max 0.52)을 고른 뒤 τ를 0.52 위아래로 움직이면 one-hot ↔ 버림이 바뀌는 걸 볼 수 있어. FixMatch는 sharpening 없이 threshold만으로 더 좋았어. 예측값은 개념용 가짜 값. (L07 p.32, p.42–48)</figcaption>
   <script>
   (function(){
     var root=document.getElementById('viz-l07-sharp'); if(!root) return;

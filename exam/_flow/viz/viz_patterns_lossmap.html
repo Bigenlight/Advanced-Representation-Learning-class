@@ -1,5 +1,5 @@
 <figure class="viz" id="viz-patterns-lossmap">
-  <div class="viz-head"><span class="viz-tag">구조 비교</span><p class="viz-title">loss 지도: target의 모양 × negative를 쓰나</p></div>
+  <div class="viz-head"><span class="viz-tag">구조 비교</span><p class="viz-title">loss 지도: target의 모양 × negative를 직접 쓰나</p></div>
   <div class="viz-scroll">
 <svg viewBox="0 0 720 394" role="img" aria-label="Loss map: target type by whether negatives are used">
 <text class="t b" x="202.0" y="24" text-anchor="middle">hard index</text><text class="t t-m mono" x="202.0" y="44" text-anchor="middle">one-hot CE</text>
@@ -52,5 +52,5 @@
 <circle class="f-bg" cx="361" cy="372" r="5" style="stroke:var(--ink);stroke-width:1.6"/><text class="t mono" x="371" y="376">L07</text>
 </svg>
   </div>
-  <figcaption>가로 = loss가 맞히려는 target의 모양, 세로 = negative를 직접 쓰는지. negative를 쓰는 방법은 거의 전부 <b>InfoNCE(positive index 하나 맞히기)</b> 칸에 몰려 있고, X-CLR만 그 target을 soft 분포로 바꿨어 (L03 p.62–72). negative 없는 쪽은 <b>soft 분포(DINO · SwAV)</b>, <b>회귀(BYOL · consistency 계열)</b>, <b>행렬(Barlow Twins)</b>, <b>hard pseudo label(DeepCluster · Pseudo-Label (Lee 2013) · FixMatch)</b>로 갈려서, 이 칸 하나만 기억해도 "이건 어느 방법?"이 좁혀져. 위 loss 표를 한 장으로 다시 그린 거야. <br>* SupCon은 positive가 여러 개(multi-positive)라 "index 하나"는 대략적인 표현이야. All4One의 feature contrast(행렬)는 neighbour · centroid contrast랑 섞인 방법이라 이 지도에선 뺐어.</figcaption>
+  <figcaption>읽는 법: 점 하나가 방법 하나, 점 색은 강의 번호야 (맨 아래 범례, L07은 속이 빈 점). 가로 4칸은 loss가 맞히려는 target의 모양이야: <b>hard index</b>(정답 번호 하나 → one-hot CE) / <b>soft distribution</b>(확률 분포 → CE · KL) / <b>regression vector</b>(벡터 자체를 맞히기 → MSE · L2) / <b>matrix</b>(상관행렬을 identity로). 세로 2줄은 negative(밀어낼 다른 샘플)를 loss에 직접 넣는지야. negative를 쓰는 방법은 거의 전부 <b>InfoNCE(N개 후보 중 positive index 하나 맞히기)</b> 칸에 몰려 있고, X-CLR만 그 target을 soft 분포로 바꿨어 (L03 p.62–72). negative 없는 쪽은 <b>soft 분포(DINO · SwAV · UDA)</b>, <b>회귀(BYOL · L06 consistency 계열 · MixMatch)</b>, <b>행렬(Barlow Twins)</b>, <b>hard pseudo label(DeepCluster · Pseudo-Label (Lee 2013) · FixMatch)</b>로 갈려. InfoNCE와 hard pseudo label이 같은 열에 있는 건 둘 다 "정답 번호 하나"를 맞히는 CE라서야. 차이는 후보가 다른 샘플(batch, MoCo는 queue)이냐(InfoNCE), class · cluster냐(pseudo label)야. 이 칸 하나만 기억해도 "이건 어느 방법?"이 좁혀져. 위 loss 표를 한 장으로 다시 그린 거야. <br>* SupCon은 positive가 여러 개(multi-positive)라 "index 하나"는 대략적인 표현이야. All4One의 feature contrast(행렬)는 neighbour · centroid contrast랑 섞인 방법이라 이 지도에선 뺐어. L03의 margin 계열(contrastive · triplet · lifted)과 NCE도 negative를 쓰지만 target 모양 축에 안 맞아서 이 지도엔 없어.</figcaption>
 </figure>
