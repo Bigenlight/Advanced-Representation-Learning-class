@@ -106,7 +106,7 @@
 - **Human vs synthetic label errors**: humans confuse visually similar classes (errors stay close to the assigned class, overlap with true positives) vs random label changes (p.68).
 - **Easy vs hard positive**: high similarity → low weight vs low similarity → high weight in SCL-RHE (p.72).
 
-## C. Question pool (18 questions)
+## C. Question pool (19 questions)
 
 ### Q1 [T/F]
 In instance discrimination (Wu et al.), each image is considered a unique class: the positive pair is the same image and the negative pairs are all other images.
@@ -212,4 +212,72 @@ Which of the following is NOT true about human labeling errors in supervised con
 (D) Methods designed for heavy synthetic noise (Sel-CL, TCL) can underperform standard SupCon.
 **Answer**: (C) — 반대. SCL-RHE는 high similarity → **lower** weight (easy positive에 human error가 섞여 있음), hard positive 강조. (A) p.69/p.73, (B) p.68, (D) p.74 (p.68–74)
 
+### Q19 [T/F]
+NNCLR retrieves the K nearest neighbors of a sample from a support set and summarizes them with a small Transformer into a single positive representation.
+**Answer**: False — 그건 **All4One**의 Centroid Contrast. **NNCLR**은 support set에서 **nearest neighbor 하나**를 꺼내 positive로 씀 (두 augmented view를 직접 비교하지 않고, 첫 view의 nearest neighbor가 한쪽 view를 대체). "NNCLR uses one neighbor. All4One summarizes multiple neighbors into one representation." (p.45, p.47–48)
+
+## D. Fill-in-the-blank pool (13 questions)
+
+### F1 [Blank]
+Mini-batch negatives are limited but (1) ______, whereas memory bank negatives are large in number but slightly (2) ______.
+**Answer**: (1) fresh (2) stale (accept: outdated) — memory bank = 과거 embedding을 저장해 negative로 재사용 → 계산은 싸고 negative 수는 많지만, 옛 encoder로 계산된 feature라 현재 query와 안 맞음. Key Idea: "Trade stale representations for efficient large-scale contrastive learning." (p.4, p.9)
+
+### F2 [Blank]
+In instance discrimination (Wu et al.), each image is treated as a unique (1) ______; because training a softmax with that many heads is infeasible, the full softmax is approximated by (2) ______, which samples only some negatives.
+**Answer**: (1) class (2) Noise Contrastive Estimation (accept: NCE) — positive = 같은 이미지, negatives = 나머지 전부. classifier weight $\mathbf w_i$ 대신 memory bank에 저장된 feature $\mathbf v_i$를 쓰는 **non-parametric** softmax $P(i|\mathbf v) = \frac{\exp(\mathbf v_i^\top \mathbf v/\tau)}{\sum_j \exp(\mathbf v_j^\top \mathbf v/\tau)}$, 분모는 random subset M으로 Monte Carlo 근사. (p.5–8)
+
+### F3 [Blank]
+MoCo's key idea is to replace the memory bank with a (1) ______-updated (2) ______ of keys, in which the newest keys are added and the oldest are removed (first-in, first-out).
+**Answer**: (1) momentum (2) queue (accept: FIFO queue) — "Key Idea: Replace the memory bank with a momentum-updated queue." queue 덕분에 dictionary가 크고(large), momentum encoder 덕분에 key가 일관됨(consistent). (p.10)
+
+### F4 [Blank]
+Compared with a memory bank, MoCo's keys are more (1) ______ because they come from a slowly progressing momentum encoder $\theta_k \leftarrow m\theta_k + (1-m)\theta_q$, and gradients are computed and the encoder updated only through the (2) ______.
+**Answer**: (1) consistent (2) queries (accept: query, query encoder) — 비교표 Feature Freshness: End-to-End = Fresh, Memory Bank = Stale, MoCo = **Consistent**. key로는 gradient 안 흐름 → key encoder는 backprop이 아니라 momentum update. MoCo = end-to-end와 memory bank의 hybrid. (p.11–12, p.14)
+
+### F5 [Blank]
+MoCo v2 adopts the (1) ______ projection head from SimCLR and uses (2) ______ data augmentation, while retaining MoCo's momentum encoder and queue.
+**Answer**: (1) MLP (accept: non-linear) (2) stronger (accept: strong) — Key Idea: "Combine MoCo with SimCLR's effective training strategies." 새 architecture 아님. negative 수가 batch size와 decouple돼서 SimCLR보다 훨씬 작은 batch (256 vs. 8192)·적은 memory로 SimCLR를 이김. (p.16–19)
+
+### F6 [Blank]
+CURL applies MoCo-style contrastive learning (random-crop positive pairs, a query encoder and a momentum key encoder) to ______ from raw pixel observations, in order to improve sample efficiency.
+**Answer**: reinforcement learning (accept: RL) — replay buffer에서 observation을 뽑아 두 view로 contrastive 학습하면서, **동시에(simultaneously)** RL policy/value network를 그 representation 위에서 최적화. pre-train 후 freeze하는 게 아님. (p.20–21)
+
+### F7 [Blank]
+DeepCluster clusters the current image features with (1) ______ and uses the cluster IDs as (2) ______ to train the network, alternating between clustering and classification.
+**Answer**: (1) k-means (2) pseudo labels (accept: pseudo-labels) — contrastive learning과 달리 **positive/negative pair를 만들지 않음**. Key Idea: "Alternate between clustering and classification." pseudo-label learning을 contrastive의 대안으로 정립, SwAV·DINO에 영향. (p.23–25)
+
+### F8 [Blank]
+SwAV learns by (1) ______ cluster assignments between multiple views — it predicts the code of one view from another view — so it compares Feature ↔ (2) ______ instead of Feature ↔ Feature.
+**Answer**: (1) swapping (accept: swapped) (2) Prototype (accept: prototypes, prototype vectors) — K개의 trainable prototype vector $C$로 **online** cluster assignment(code $q$)를 계산, $\mathcal L = \ell(z_t, q_s) + \ell(z_s, q_t)$. explicit negative pair도, DeepCluster식 offline clustering도 필요 없음. (p.26–27, p.30)
+
+### F9 [Blank]
+CLIP trains image and text encoders with a (1) ______ contrastive loss over an $N\times N$ image–text similarity matrix (image→text and text→image), and at inference performs (2) ______ classification by predicting the text prompt with the highest image–text similarity.
+**Answer**: (1) symmetric (2) zero-shot — Training: matched pair 유사도 최대화, mismatched 최소화. Inference: "Classification is performed by image–text matching instead of a trained classifier." positive가 augmentation이 아니라 (image, caption) pair, 400M pairs, natural language가 supervisory signal. (p.32–33, p.37)
+
+### F10 [Blank]
+SupCon uses SimCLR's InfoNCE as is, but instead of a single positive it treats all samples of the same ______ as positives, computes InfoNCE for each positive, and takes the average.
+**Answer**: class — self-supervised contrastive에선 같은 class 다른 이미지도 negative로 밀려나는데, SupCon은 label을 써서 같은 class는 당기고 다른 class는 밂. CE보다 정확도는 small amount만 높지만 ImageNet-C에 robust하고 hyperparameter에 덜 민감. (p.38–40, p.42)
+
+### F11 [Blank]
+NNCLR uses the single (1) ______ retrieved from a support set as the positive sample, whereas All4One retrieves K neighbors and summarizes them into a centroid via (2) ______ in a small Transformer encoder.
+**Answer**: (1) nearest neighbor (2) self-attention (accept: a small Transformer, attention) — "The centroid is produced by self-attention. It is not an average or a cluster center." All4One = Neighbor Contrast + Centroid Contrast + Feature Contrast(Barlow Twins식 redundancy reduction). memory bank가 negative뿐 아니라 positive도 제공. (p.45–49)
+
+### F12 [Blank]
+PAPN's Stage-wise Progressive Augmentation applies (1) ______ augmentation to shallow stages and strong augmentation to deep stages, and its second component, holistic-partial learning, uses learnable (2) ______ over spatial descriptors to extract part-level features that are concatenated with the whole feature in InfoNCE.
+**Answer**: (1) mild (accept: weak) (2) prototypes — strong augmentation은 **shallow stage**를 더 심하게 흔듦 (같은 새 두 장을 다른 개체로 인식), deep stage는 상대적으로 augmentation-tolerant → "One augmentation strength does not fit every stage." PHP: whole feature(전체 모양) + part feature(국소 판별 패턴) 같이 contrast. (p.58–61)
+
+### F13 [Blank]
+With human labeling errors in supervised contrastive learning, almost all incorrect signals come from false (1) ______, so SCL-RHE assigns a (2) ______ sampling weight to easy positives that are already highly similar to the anchor.
+**Answer**: (1) positives (2) lower (accept: low, smaller) — false positive = assigned label 같음 + latent label 다름 → 잘못 당김. human error는 시각적으로 비슷한 class끼리 헷갈린 거라 anchor와 이미 가까운 **easy positive**로 숨어 있음. Core Idea: "High similarity → Lower sampling weight", $q^+(x^+) \propto e^{-\beta f(x)^\top f(x^+)}\, p_x^+(x^+)$ → hard positive 강조. (p.69, p.71–73)
+
 <!-- REVIEWED | fixes: 1 | reviewer: opus -->
+<!-- AUGMENTED 2026-10-22 | C fixes: 0 | C added: 1 | D blanks: 13 | author: opus
+(no C fixes — all 18 answers and page refs verified against slides, incl. figure-only pages p.7–8, p.11, p.27, p.33, p.40, p.46, p.69, p.72)
+-->
+
+
+<!-- VERIFIED 2026-10-22 | checked: 32 | fixed: 2 | deleted: 0 | reviewer: opus
+F3: "newest keys are enqueued and the oldest are dequeued" gave away blank (2) "queue"; changed to "added ... removed".
+F12: the component name "Prototype-based Holistic-Partial Learning" gave away blank (2) "prototypes"; changed to "its second component, holistic-partial learning".
+All other C/D items: key, p.N, and distractors confirmed against slides (image pages p.11, p.27, p.33, p.40, p.61 checked). Sections A/B: no slide contradictions found.
+-->

@@ -1,0 +1,70 @@
+[
+  {
+    "slot": "l02-tbl01",
+    "src": "assets/lecture02/p021_relpos.png",
+    "alt": "Relative position of patches: center patch and one of 8 neighbors, label is the neighbor index",
+    "caption": "<b>Relative Position</b>. 가운데 patch(파랑)와 이웃 patch(빨강, 1~8) 한 쌍이 입력이고, 이웃이 몇 번 자리인지(Y=3)가 label이야. label을 사람이 안 달았는데 data에서 공짜로 나온 걸 봐.",
+    "page": "L02 p.21",
+    "width": 560,
+    "fold": true
+  },
+  {
+    "slot": "l02-tbl01",
+    "src": "assets/lecture02/p025_context_encoder.png",
+    "alt": "Context encoder: masked image, encoder, channel-wise fully connected, decoder, reconstruction loss on the hole",
+    "caption": "<b>Context Encoder</b>. 구멍 뚫린 이미지를 encoder-decoder에 넣고, 지운 영역만 target과 비교해 L2 reconstruction loss를 줘 (<code>M̂</code>가 mask). 정답 target이 이미지 자기 자신이야.",
+    "page": "L02 p.25",
+    "width": 560,
+    "fold": true
+  },
+  {
+    "slot": "l02-tbl01",
+    "src": "assets/lecture02/p030_jigsaw_tight.png",
+    "alt": "Jigsaw puzzle network: 9 tiles share a conv tower, predict one of 64 permutations",
+    "caption": "<b>Jigsaw</b>. 9개 tile을 섞어서 weight 공유 tower에 각각 통과시키고, 마지막에 합쳐서 <b>64개 permutation 중 하나</b>를 classification해. 9! = 362,880 대신 Hamming distance가 큰 64개만 쓰는 게 포인트.",
+    "page": "L02 p.30",
+    "width": 600
+  },
+  {
+    "slot": "l02-tbl01",
+    "src": "assets/lecture02/p038_colorization_cls.png",
+    "alt": "Colorization results: grayscale input, regression output, classification output",
+    "caption": "<b>Colorization</b>. 왼쪽 흑백 입력, 가운데 regression, 오른쪽 classification. regression은 여러 plausible한 색을 평균 내서 탁하고 칙칙한데, 313-class classification은 색이 선명해. (풍선 줄의 빨간 부분을 봐)",
+    "page": "L02 p.38",
+    "width": 480,
+    "fold": true
+  },
+  {
+    "slot": "l02-m07-space-time-cubic-puzzles",
+    "src": "assets/lecture02/p062_cubic_cnn.png",
+    "alt": "Space-time cubic puzzle: four shared 3D CNN towers, features concatenated, predict permutation (48 classes)",
+    "caption": "cube 4개를 각자 3D CNN tower(weight 공유)에 넣고 <b>맨 끝에서만 concat</b>해서 permutation을 맞혀. tower는 이 퍼즐이 공간 방향인지 시간 방향인지 모르니까 둘 다 배워야 해.",
+    "page": "L02 p.62",
+    "width": 600,
+    "after": true
+  },
+  {
+    "slot": "l02-m08-avts",
+    "src": "assets/lecture02/p068_avts_pairs.png",
+    "alt": "AVTS: positive, hard negative and super hard negative video-audio pairs",
+    "caption": "같은 video clip(초록)에 audio 구간만 바꿔서 negative를 만들어. positive는 같은 구간이고, <b>hard negative(파랑)</b>는 같은 영상의 멀리 떨어진 구간, <b>super hard negative(빨강)</b>는 바로 인접해서 겹치는 구간이야. negative를 어떻게 고르느냐가 핵심.",
+    "page": "L02 p.68",
+    "width": 560
+  },
+  {
+    "slot": "l02-m09-invariance-vs-equivarian",
+    "src": "assets/lecture02/p075_inv_equiv.png",
+    "alt": "Invariance: f(t(x)) = f(x). Equivariance: f(t(x)) = phi(t, f(x))",
+    "caption": "Invariance는 변환 t 후에도 feature가 <b>같은 점</b>에 있고, Equivariance는 feature가 <b>φ(t,·)만큼 예측 가능하게 이동</b>해. 둘의 차이는 변환 정보를 남기느냐 지우느냐야.",
+    "page": "L02 p.75",
+    "width": 520
+  },
+  {
+    "slot": "l02-m10-stl",
+    "src": "assets/lecture02/p076_stl.png",
+    "alt": "STL framework: invariant, equivariant and transformation representation losses",
+    "caption": "STL의 세 loss를 색으로 구분해서 봐. 갈색 = 같은 이미지·다른 변환 (invariant), 파랑 = 다른 이미지·같은 변환 (변환 표현 학습), 초록 = 학습한 변환을 적용해 예측 (equivariant).",
+    "page": "L02 p.76",
+    "width": 680
+  }
+]

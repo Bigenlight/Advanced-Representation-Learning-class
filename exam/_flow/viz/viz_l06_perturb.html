@@ -1,0 +1,63 @@
+<figure class="viz" id="viz-l06-perturb">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">Perturbation 방향: random(RPT) vs adversarial(AT/VAT)</p><span class="illus">illustrative</span></div>
+  <div class="viz-scroll">
+  <svg viewBox="0 0 640 410" role="img" aria-label="Random vs adversarial perturbation around a point near the decision boundary">
+    <defs>
+      <clipPath id="viz-l06-perturb-clip"><rect x="20" y="30" width="600" height="270"/></clipPath>
+      <marker id="viz-l06-perturb-ah-m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--muted)"/></marker>
+      <marker id="viz-l06-perturb-ah-t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--trap)"/></marker>
+    </defs>
+    <g clip-path="url(#viz-l06-perturb-clip)">
+      <polygon class="f-accs" points="451.8,543.4 244.8,-229.3 -528.0,-22.3 -320.9,750.5"/><polygon class="f-rls" points="451.8,543.4 244.8,-229.3 1017.5,-436.4 1224.6,336.4"/>
+      <line class="ln-ink" stroke-width="2" x1="451.8" y1="543.4" x2="244.8" y2="-229.3"/>
+    </g>
+    <rect x="20" y="30" width="600" height="270" fill="none" style="stroke:var(--line)"/>
+    <text class="t b" x="314" y="22" text-anchor="middle">decision boundary</text>
+    <text class="t t-acc b" x="34" y="54">class A 예측</text><text class="t t-rl b" x="606" y="54" text-anchor="end">class B 예측</text>
+    <circle class="ln-m dash" stroke-width="1.5" data-ball cx="300" cy="170" r="70" fill="none"/>
+    <g data-rand></g>
+    <line class="ln-trap" stroke-width="3" data-adv x1="300" y1="170" x2="0" y2="0" marker-end="url(#viz-l06-perturb-ah-t)"/>
+    <circle class="f-bg ln-trap" stroke-width="2" data-end cx="0" cy="0" r="5"/>
+        <text class="t t-trap mono" data-endl x="0" y="0">x + r_adv</text>
+    <text class="t t-m mono" data-ballabel x="0" y="0" text-anchor="end">ε-ball</text>
+    <circle class="f-ink" cx="300" cy="170" r="5" style="fill:var(--ink)"/>
+    <text class="t b mono" x="288" y="175" text-anchor="end">x</text>
+    <g transform="translate(24,326)">
+      <text class="t b" y="0">AT</text><text class="t t-m" x="120" y="0">target = <tspan class="mono" style="fill:var(--ink)">정답 y (GT)</tspan>  ·  CE(f(x+r_adv), y)</text>
+      <text class="t b" y="30">VAT</text><text class="t t-m" x="120" y="30">target = <tspan class="mono" style="fill:var(--ink)">모델 자신의 f(x)</tspan>  ·  D(f(x), f(x+r_adv))</text>
+      <text class="t b" y="60">RPT</text><text class="t t-m" x="120" y="60">random r (회색) · 방향이 낭비돼서 효과 약함</text>
+    </g>
+  </svg>
+  </div>
+  <div class="viz-ctrl"><label for="viz-l06-perturb-e">ε (perturbation 크기) <input type="range" id="viz-l06-perturb-e" min="40" max="110" step="1" value="70"></label><output data-out>70</output><span data-cross style="font-family:var(--f-mono);font-size:.8rem"></span></div>
+  <figcaption>x는 boundary 근처의 점이야. 회색 = random 방향 r(RPT): 대부분 boundary와 상관없는 방향이라 낭비. 굵은 갈색 화살표 r_adv = <b>가장 adversarial한 방향</b>(예측이 가장 크게 바뀌는 쪽 = boundary 쪽)으로 ε-ball 안에서 최악으로 민 r_adv. AT는 이 점에서 <b>정답 y</b>를 맞히게, VAT는 y 대신 <b>모델 자신의 예측 f(x)</b>를 target으로 써서 label 없이도 돼. (개념 그림, L06 p.32–35)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l06-perturb'); if(!root) return;
+    var inp=root.querySelector('input'), out=root.querySelector('[data-out]'), cross=root.querySelector('[data-cross]');
+    var ball=root.querySelector('[data-ball]'), adv=root.querySelector('[data-adv]'), en=root.querySelector('[data-end]'), endl=root.querySelector('[data-endl]'), bl=root.querySelector('[data-ballabel]'), rg=root.querySelector('[data-rand]');
+    var NS='http://www.w3.org/2000/svg', X0=300, Y0=170, N=[0.9659,-0.2588], D=50;
+    var RA=[[225,.9],[255,.7],[115,.75],[65,.8]];
+    function draw(){
+      var e=parseFloat(inp.value); out.textContent=e;
+      ball.setAttribute('r',e);
+      var ex=X0+e*N[0], ey=Y0+e*N[1];
+      adv.setAttribute('x2',(X0+(e-6)*N[0]).toFixed(1)); adv.setAttribute('y2',(Y0+(e-6)*N[1]).toFixed(1));
+      en.setAttribute('cx',ex.toFixed(1)); en.setAttribute('cy',ey.toFixed(1));
+      endl.setAttribute('x',(ex+10).toFixed(1)); endl.setAttribute('y',(ey-8).toFixed(1));
+      bl.setAttribute('x',X0-4); bl.setAttribute('y',Y0-e-8);
+      while(rg.firstChild) rg.removeChild(rg.firstChild);
+      for(var i=0;i<RA.length;i++){
+        var a=RA[i][0]*Math.PI/180, L=RA[i][1]*e-6, l=document.createElementNS(NS,'line');
+        l.setAttribute('class','ln-m dash'); l.setAttribute('stroke-width','2');
+        l.setAttribute('x1',X0); l.setAttribute('y1',Y0);
+        l.setAttribute('x2',(X0+L*Math.cos(a)).toFixed(1)); l.setAttribute('y2',(Y0+L*Math.sin(a)).toFixed(1));
+        l.setAttribute('marker-end','url(#viz-l06-perturb-ah-m)'); rg.appendChild(l);
+      }
+      cross.textContent=(e>D)?'ε > '+D+': r_adv가 boundary를 넘어 예측이 바뀜':'ε < '+D+': boundary에 못 닿음';
+      cross.style.color=(e>D)?'var(--trap)':'var(--muted)';
+    }
+    inp.addEventListener('input',draw); draw();
+  })();
+  </script>
+</figure>

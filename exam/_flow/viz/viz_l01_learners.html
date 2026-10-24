@@ -1,0 +1,25 @@
+<figure class="viz" id="viz-l01-learners">
+  <style>
+  #viz-l01-learners .lr{display:grid;grid-template-columns:minmax(7.5rem,10rem) 1fr;gap:.35rem .7rem;align-items:center}
+  #viz-l01-learners .lr>*{padding:.45rem .6rem;border-radius:6px;min-width:0}
+  #viz-l01-learners .n{font:600 .9rem/1.3 var(--f-mono);border:1px solid var(--line)}
+  #viz-l01-learners .d{font-size:.9rem;line-height:1.4;color:var(--ink)}
+  #viz-l01-learners .g{grid-column:1/-1;font:600 .72rem/1 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;padding:.2rem .1rem;margin-top:.3rem}
+  #viz-l01-learners .c{background:var(--accent-soft);border-color:var(--accent)}
+  #viz-l01-learners .p{background:var(--rl-soft);border-color:var(--rl)}
+  #viz-l01-learners .trap{background:var(--trap-soft);border-color:var(--trap)}
+  #viz-l01-learners .tg{display:inline-block;font:600 .68rem/1 var(--f-mono);color:var(--trap);border:1px solid var(--trap);border-radius:999px;padding:.15rem .4rem;margin-left:.4rem;white-space:nowrap}
+  </style>
+  <div class="viz-head"><span class="viz-tag">개념 그림</span><p class="viz-title">Types of Representation Learners: 6개를 원리별로</p></div>
+  <div class="lr">
+    <div class="g" style="color:var(--accent)">Compression</div>
+    <div class="n c">Autoencoding</div><div class="d">Remove redundant information</div>
+    <div class="n trap">Contrastive</div><div class="d">Achieve invariance to viewing transformations<span class="tg">시험 함정</span></div>
+    <div class="n c">Clustering</div><div class="d">Quantize continuous data into discrete categories</div>
+    <div class="g" style="color:var(--rl)">Prediction</div>
+    <div class="n p">Future prediction</div><div class="d">Predict the future</div>
+    <div class="n p">Imputation</div><div class="d">Predict missing data</div>
+    <div class="n p">Pretext tasks</div><div class="d">Predict abstract properties of your data</div>
+  </div>
+  <figcaption>앞 세 개는 정보를 <b>압축</b>해서 배우고(Compression), 뒤 세 개는 안 보이는 걸 <b>예측</b>해서 배워(Prediction). 헷갈리기 쉬운 건 <b>Contrastive = Compression</b> (viewing transformation에 invariant하게 만들어서 군더더기를 버림). 좋은 representation은 이 둘의 교집합. (L01 p.21–23)</figcaption>
+</figure>

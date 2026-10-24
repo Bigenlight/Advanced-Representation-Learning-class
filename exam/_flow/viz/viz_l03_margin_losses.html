@@ -1,0 +1,69 @@
+<figure class="viz" id="viz-l03-margin">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">Contrastive vs Triplet: 절대 목표 vs 상대 격차</p><span class="illus">illustrative</span></div>
+  <div class="viz-scroll">
+  <svg viewBox="0 0 640 410" role="img" aria-label="Contrastive loss terms versus distance with margin, and triplet loss hinge">
+    <text class="t b" x="50" y="18">Contrastive loss (pair 하나) — d = ‖f(xᵢ) − f(xⱼ)‖₂</text>
+    <rect data-inact style="fill:var(--accent-soft)" x="330" y="196" width="280" height="34"/>
+    <line class="grid" x1="50" y1="130" x2="610" y2="130"/>
+    <line class="ax" x1="50" y1="230" x2="610" y2="230"/><line class="ax" x1="50" y1="30" x2="50" y2="230"/>
+    <text class="t t-m mono" x="44" y="234" text-anchor="end">0</text>
+    <text class="t t-m mono" x="44" y="134" text-anchor="end">1</text>
+    <text class="t t-m mono" x="44" y="38" text-anchor="end">2</text>
+    <text class="t t-m mono" x="50" y="250" text-anchor="middle">0</text>
+    <text class="t t-m mono" x="330" y="250" text-anchor="middle">1</text>
+    <text class="t t-m mono" x="610" y="250" text-anchor="middle">2</text>
+    <text class="t t-m mono" x="610" y="268" text-anchor="end">d (loss 축은 2에서 잘림)</text>
+    <polyline class="ln-ok" stroke-width="2.5" data-pos points=""/>
+    <polyline class="ln-trap" stroke-width="2.5" data-neg points=""/>
+    <line class="ln-m dash" stroke-width="1.5" data-eps x1="330" y1="30" x2="330" y2="230"/>
+    <text class="t t-ok b" x="62" y="60">positive: d²</text>
+    <text class="t t-trap b" data-neglab x="62" y="84">negative: max(0, ε − d)²</text>
+    <text class="t t-m b" data-epslab x="334" y="46">ε</text>
+    <text class="t t-acc b" data-inlab x="470" y="218" text-anchor="middle">negative pair, d ≥ ε: inactive</text>
+    <line class="grid" x1="30" y1="285" x2="620" y2="285"/>
+    <text class="t b" x="50" y="310">Triplet loss — 상대 격차만 본다 (d = 제곱 거리)</text>
+    <line class="ax" x1="50" y1="355" x2="610" y2="355"/>
+    <text class="t t-m mono" x="50" y="376" text-anchor="middle">0</text>
+    <text class="t t-m mono" x="610" y="376" text-anchor="middle">2</text>
+    <circle class="f-ok" cx="190" cy="355" r="7"/>
+    <text class="t t-ok b" x="190" y="342" text-anchor="middle">d_ap</text>
+    <line class="ln-m dash" stroke-width="1.5" data-tgt x1="470" y1="330" x2="470" y2="355"/>
+    <text class="t t-m mono" data-tgtlab x="470" y="324" text-anchor="middle">d_ap+ε</text>
+    <circle class="f-trap" data-an cx="330" cy="355" r="7"/>
+    <text class="t t-trap b" data-anlab x="330" y="342" text-anchor="middle">d_an</text>
+    <text class="t b mono" data-tloss x="50" y="400">loss = max(0, d_ap − d_an + ε) = 0</text>
+  </svg>
+  </div>
+  <div class="viz-ctrl">
+    <label for="viz-l03-margin-e">margin ε <input type="range" id="viz-l03-margin-e" min="0.4" max="1.4" step="0.05" value="1"></label><output data-eo>1.00</output>
+    <label for="viz-l03-margin-a">d_an (triplet) <input type="range" id="viz-l03-margin-a" min="0" max="2" step="0.05" value="0.9"></label><output data-ao>0.90</output>
+  </div>
+  <figcaption>위 목록 ① Contrastive loss (p.11)와 ② Triplet loss (p.12–13)를 설명하는 그림. 위: positive pair는 d²로 계속 0쪽으로 당겨. negative pair는 d &lt; ε일 때만 밀고, 음영(negative, d ≥ ε)에서는 loss = gradient = 0이라 inactive. 아래: triplet도 positive를 당기지만(p.13) 절대 목표(positive→0, negative→ε)를 없애고 상대 조건 <code>d_an − d_ap ≥ ε</code>만 요구해서 positive를 한 점에 모을 필요가 없어 (d_ap는 0.5로 고정한 개념 그림).</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l03-margin'); if(!root) return;
+    var q=function(s){return root.querySelector(s)};
+    var ie=q('#viz-l03-margin-e'), ia=q('#viz-l03-margin-a');
+    function X(d){return 50+280*d} function Y(l){return 230-100*Math.min(l,2)}
+    function draw(){
+      var e=parseFloat(ie.value), a=parseFloat(ia.value), dap=0.5, i, p=[], n=[];
+      for(i=0;i<=200;i++){ var d=i/100; var lp=d*d; if(lp<=2) p.push(X(d).toFixed(1)+','+Y(lp).toFixed(1)); }
+      for(i=0;i<=100;i++){ var d2=i/100*e; var ln=(e-d2)*(e-d2); n.push(X(d2).toFixed(1)+','+Y(ln).toFixed(1)); }
+      n.push(X(e).toFixed(1)+',230'); n.push(X(2).toFixed(1)+',230');
+      q('[data-pos]').setAttribute('points',p.join(' ')); q('[data-neg]').setAttribute('points',n.join(' '));
+      var ex=X(e); var ei=q('[data-eps]'); ei.setAttribute('x1',ex); ei.setAttribute('x2',ex);
+      var r=q('[data-inact]'); r.setAttribute('x',ex); r.setAttribute('width',610-ex);
+      var el=q('[data-epslab]'); el.setAttribute('x',ex+4); el.textContent='ε = '+e.toFixed(2);
+      q('[data-inlab]').setAttribute('x',(ex+610)/2);
+      q('[data-inlab]').style.display=(610-ex>200)?'':'none';
+      function T(v){return 50+280*v}
+      q('[data-an]').setAttribute('cx',T(a)); var al=q('[data-anlab]'); al.setAttribute('x',T(a));
+      var tg=T(dap+e), tl=q('[data-tgtlab]'); var tgl=q('[data-tgt]'); tgl.setAttribute('x1',tg); tgl.setAttribute('x2',tg); tl.setAttribute('x',tg);
+      var L=Math.max(0,dap-a+e);
+      q('[data-tloss]').textContent='loss = max(0, '+dap.toFixed(2)+' − '+a.toFixed(2)+' + '+e.toFixed(2)+') = '+L.toFixed(2)+(L===0?'  (만족 → gradient 0)':'  (위반 → 당기고/밀어냄)');
+      q('[data-eo]').textContent=e.toFixed(2); q('[data-ao]').textContent=a.toFixed(2);
+    }
+    ie.addEventListener('input',draw); ia.addEventListener('input',draw); draw();
+  })();
+  </script>
+</figure>

@@ -1,0 +1,51 @@
+<figure class="viz" id="viz-l04-dino-centering">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">DINO teacher: centering은 한 차원 독점을, sharpening은 uniform을 막아</p><span class="illus">illustrative</span></div>
+  <svg viewBox="0 0 640 300" role="img" aria-label="teacher softmax output over 8 dimensions with and without centering and sharpening">
+    <line class="ax" x1="50" y1="250" x2="620" y2="250"/><line class="ax" x1="50" y1="30" x2="50" y2="250"/>
+    <line class="grid" x1="50" y1="140" x2="620" y2="140"/>
+    <text class="t t-m mono" x="44" y="34" text-anchor="end">1</text>
+    <text class="t t-m mono" x="44" y="144" text-anchor="end">.5</text>
+    <text class="t t-m mono" x="44" y="254" text-anchor="end">0</text>
+    <text class="t t-m mono" x="620" y="284" text-anchor="end">dimension k (K = 8)</text>
+    <g data-bars></g>
+    <text class="t b mono" data-formula x="56" y="18" style="font-size:14px"></text>
+    <text class="t t-m" data-note x="56" y="284"></text>
+  </svg>
+  <div class="viz-ctrl">
+    <label for="viz-l04-dino-centering-t">teacher temp τ_t <input type="range" id="viz-l04-dino-centering-t" min="0.05" max="2" step="0.05" value="0.4"></label><output data-out>0.40</output>
+    <button type="button" data-c aria-pressed="true">centering on</button>
+    <button type="button" data-s aria-pressed="true">sharpening on</button>
+  </div>
+  <figcaption>teacher 출력 <code>softmax((t − C) / τ_t)</code> (L04 p.40). logit <code>t</code>는 개념용 값이야. <b>centering off</b>면 계속 큰 한 차원(k=3)이 독점해서 one-hot으로 collapse. <b>sharpening off</b>(τ_t를 크게)이면 분포가 평평해져 uniform collapse. 둘이 서로 반대 방향으로 막아주니까 같이 써야 해. 각 막대 위가 확률값이야. 이 collapse 해석(centering은 한 차원 독점, sharpening은 uniform을 막음)은 슬라이드 밖 논문 보충이고, 슬라이드엔 <code># center + sharpen</code> 주석뿐이야. logit·τ 값은 개념용. (개념 그림)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l04-dino-centering'); if(!root) return;
+    var T=[1.0,0.4,0.2,2.6,0.0,0.6,0.3,0.8];          // illustrative teacher logits: dim 3 dominates
+    var Cv=[0.6,0.5,0.4,2.2,0.3,0.5,0.4,0.6];          // illustrative center C (running mean of teacher logits)
+    var inp=root.querySelector('input'), out=root.querySelector('[data-out]'), g=root.querySelector('[data-bars]');
+    var bc=root.querySelector('[data-c]'), bs=root.querySelector('[data-s]'), fm=root.querySelector('[data-formula]'), nt=root.querySelector('[data-note]');
+    var cOn=true, sOn=true, NS='http://www.w3.org/2000/svg';
+    function toggle(b,v){ b.setAttribute('aria-pressed', v?'true':'false'); }
+    function draw(){
+      var tau=parseFloat(inp.value); inp.disabled=!sOn; out.style.opacity=sOn?1:.4; out.textContent=tau.toFixed(2);
+      var z=T.map(function(v,i){return (v-(cOn?Cv[i]:0))/(sOn?tau:2.0);});
+      var mx=Math.max.apply(null,z), e=z.map(function(v){return Math.exp(v-mx);}), s=e.reduce(function(a,b){return a+b;},0), p=e.map(function(v){return v/s;});
+      var h='';
+      for(var i=0;i<8;i++){
+        var x=70+i*70, bh=220*p[i], dom=p[i]>0.5;
+        h+='<rect class="'+(dom?'f-trap':'f-acc')+'" x="'+x+'" y="'+(250-bh).toFixed(1)+'" width="44" height="'+bh.toFixed(1)+'" rx="3"/>';
+        h+='<text class="t mono" x="'+(x+22)+'" y="'+(Math.max(250-bh-6,44)).toFixed(1)+'" text-anchor="middle" style="font-size:13px">'+p[i].toFixed(2)+'</text>';
+        h+='<text class="t t-m mono" x="'+(x+22)+'" y="268" text-anchor="middle" style="font-size:13px">'+i+'</text>';
+      }
+      g.innerHTML=h;
+      fm.textContent='softmax(( t '+(cOn?'− C':'')+' ) / '+(sOn?'τ_t='+tau.toFixed(2):'2 (큰 temp)')+' )';
+      var mp=Math.max.apply(null,p);
+      nt.textContent= mp>0.8?'→ 한 차원이 독점 (one-hot에 가까움)' : mp<0.2?'→ 거의 uniform (1/K = 0.125에 가까움)' : '→ 적당히 뾰족하고 한쪽에 쏠리지 않음';
+    }
+    inp.addEventListener('input',draw);
+    bc.addEventListener('click',function(){cOn=!cOn;toggle(bc,cOn);bc.textContent='centering '+(cOn?'on':'off');draw();});
+    bs.addEventListener('click',function(){sOn=!sOn;toggle(bs,sOn);bs.textContent='sharpening '+(sOn?'on':'off');draw();});
+    draw();
+  })();
+  </script>
+</figure>

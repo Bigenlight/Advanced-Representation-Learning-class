@@ -1,0 +1,44 @@
+<figure class="viz" id="viz-l03-xclr">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">Target graph: X-CLR (soft) vs SupCon vs SSL</p><span class="illus">illustrative</span></div>
+  <svg viewBox="0 0 450 560" style="max-width:520px;margin:0 auto" role="img" aria-label="X-CLR soft target matrix above SupCon and self-supervised binary matrices for dogA, dogB, cat, piano">
+    <g data-g></g>
+  </svg>
+  <div class="viz-ctrl"><label for="viz-l03-xclr-t">target temperature τ_s <input type="range" id="viz-l03-xclr-t" min="0.02" max="1" step="0.01" value="0.3"></label><output data-o>0.30</output></div>
+  <figcaption>행 i = anchor, 열 j = 후보가 "얼마나 positive인가"의 target (p.62–68). <b>위 X-CLR 패널만 행 정규화</b>된 값이야: <code>s_ij = softmax_j(G_ij/τ_s)</code> (CE의 target 분포, p.67 코드처럼 대각 포함). 아래 SSL(같은 이미지의 다른 view만 1)과 SupCon(같은 class면 1)은 0/1 graph. τ_s를 낮추면 X-CLR이 one-hot(≈ 표준 contrastive)으로, 높이면 평평해져. G는 지어낸 text 유사도 예시(dogA–dogB 0.9, dog–cat 0.6, dog–piano 0.2, cat–piano 0.2).</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l03-xclr'); if(!root) return;
+    var inp=root.querySelector('input'), g=root.querySelector('[data-g]'), o=root.querySelector('[data-o]'), NS='http://www.w3.org/2000/svg';
+    var names=['dogA','dogB','cat','piano'];
+    var G=[[1,.9,.6,.2],[.9,1,.6,.2],[.6,.6,1,.2],[.2,.2,.2,1]];
+    var SSL=[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]], SUP=[[1,1,0,0],[1,1,0,0],[0,0,1,0],[0,0,0,1]];
+    function el(n,a,t){var e=document.createElementNS(NS,n); for(var k in a) e.setAttribute(k,a[k]); if(t!==undefined) e.textContent=t; return e}
+    function panel(ox,c,ty,title,sub,M){
+      var x0=ox+46, y0=ty+48, cx=x0+2*c;
+      g.appendChild(el('text',{'class':'t b',x:cx,y:ty,'text-anchor':'middle'},title));
+      g.appendChild(el('text',{'class':'t t-m',x:cx,y:ty+20,'text-anchor':'middle'},sub));
+      for(var i=0;i<4;i++){
+        g.appendChild(el('text',{'class':'t t-m mono',x:x0+i*c+c/2,y:y0-6,'text-anchor':'middle'},names[i]));
+        g.appendChild(el('text',{'class':'t t-m mono',x:x0-6,y:y0+i*c+c/2+5,'text-anchor':'end'},names[i]));
+        for(var j=0;j<4;j++){
+          var v=M[i][j], x=x0+j*c, y=y0+i*c;
+          g.appendChild(el('rect',{x:x,y:y,width:c-1,height:c-1,style:'fill:var(--bg);stroke:var(--line)'}));
+          g.appendChild(el('rect',{x:x,y:y,width:c-1,height:c-1,style:'fill:var(--accent);fill-opacity:'+(0.9*v).toFixed(3)}));
+          g.appendChild(el('text',{'class':'t mono',x:x+c/2,y:y+c/2+5,'text-anchor':'middle',style:'fill:'+(v>0.5?'var(--bg)':'var(--ink)')},v===0?'0':(v===1?'1':v.toFixed(2).replace(/^0/,''))));
+        }
+      }
+    }
+    function draw(){
+      var ts=parseFloat(inp.value), S=[], i,j;
+      for(i=0;i<4;i++){ var z=0, r=[]; for(j=0;j<4;j++){ r.push(Math.exp(G[i][j]/ts)); z+=r[j]; } S.push(r.map(function(v){return v/z})); }
+      g.textContent='';
+      panel(102,50,18,'X-CLR (soft)','s = softmax(G/τ_s), 행 합 = 1',S);
+      panel(2,44,298,'SupCon','0/1: 같은 class',SUP);
+      panel(226,44,298,'Self-supervised','0/1: 같은 이미지 view',SSL);
+      g.appendChild(el('text',{'class':'t t-m',x:225,y:552,'text-anchor':'middle'},'진할수록 target 값이 큼'));
+      o.textContent=ts.toFixed(2);
+    }
+    inp.addEventListener('input',draw); draw();
+  })();
+  </script>
+</figure>

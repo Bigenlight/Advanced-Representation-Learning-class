@@ -1,0 +1,33 @@
+<figure class="viz" id="viz-l06-te-bias">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">Temporal Ensembling의 bias correction: 왜 1−α^t로 나누나</p><span class="illus">illustrative</span></div>
+  <svg viewBox="0 0 640 340" role="img" aria-label="Raw Z versus bias-corrected Z over epochs for a constant prediction 0.8">
+    <line class="ax" x1="56" y1="240" x2="610" y2="240"/><line class="ax" x1="56" y1="20" x2="56" y2="240"/>
+    <line class="grid" x1="56" y1="240" x2="610" y2="240"/><text class="t t-m mono" x="48" y="246" text-anchor="end" style="font-size:17px">0</text><line class="grid" x1="56" y1="130" x2="610" y2="130"/><text class="t t-m mono" x="48" y="136" text-anchor="end" style="font-size:17px">0.5</text><line class="grid" x1="56" y1="20" x2="610" y2="20"/><text class="t t-m mono" x="48" y="26" text-anchor="end" style="font-size:17px">1</text><line class="ax" x1="56.0" y1="240" x2="56.0" y2="245"/><text class="t t-m mono" x="56.0" y="264" text-anchor="middle" style="font-size:17px">0</text><line class="ax" x1="240.7" y1="240" x2="240.7" y2="245"/><text class="t t-m mono" x="240.7" y="264" text-anchor="middle" style="font-size:17px">10</text><line class="ax" x1="425.3" y1="240" x2="425.3" y2="245"/><text class="t t-m mono" x="425.3" y="264" text-anchor="middle" style="font-size:17px">20</text><line class="ax" x1="610.0" y1="240" x2="610.0" y2="245"/><text class="t t-m mono" x="610.0" y="264" text-anchor="middle" style="font-size:17px">30</text>
+    <text class="t t-m mono" x="610" y="288" text-anchor="end" style="font-size:17px">epoch t</text>
+    <line class="ln-m dash" stroke-width="1.5" x1="56" y1="64" x2="610" y2="64"/>
+    <polyline class="ln-trap" stroke-width="2.5" data-raw points=""/>
+    <polyline class="ln-ok" stroke-width="2.5" data-fix points=""/>
+    <circle class="f-trap" cx="56" cy="240" r="4"/>
+    <text class="t b mono" data-label x="72" y="44" style="font-size:19px"></text>
+    <g transform="translate(60,300)" style="font-size:17px"><line class="ln-trap" stroke-width="2.5" x1="0" y1="-5" x2="24" y2="-5"/><text class="t t-m" x="32" y="0" style="font-size:17px">raw Z</text>
+    <line class="ln-ok" stroke-width="2.5" x1="130" y1="-5" x2="154" y2="-5"/><text class="t t-m" x="162" y="0" style="font-size:17px">보정 z̃ = Z/(1−α^t)</text>
+    <line class="ln-m dash" stroke-width="1.5" x1="0" y1="23" x2="24" y2="23"/><text class="t t-m" x="32" y="28" style="font-size:17px">예측 z = 0.8 (가정)</text></g>
+  </svg>
+  <div class="viz-ctrl"><label for="viz-l06-te-bias-a">α (ensembling momentum) <input type="range" id="viz-l06-te-bias-a" min="0.3" max="0.99" step="0.01" value="0.9"></label><output data-out>0.90</output></div>
+  <figcaption>한 샘플의 예측이 매 epoch 0.8로 똑같다고 가정한 <b>개념 그림</b>이야. Z는 0에서 시작하니까 <code>Z_t = (1−α^t)·0.8</code>로 초반엔 한참 낮아 (갈색 선). <code>1−α^t</code>로 나누면 epoch 1부터 정확히 0.8 (초록). α가 클수록 bias가 오래 가서 보정이 더 중요해. (L06 p.20)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l06-te-bias'); if(!root) return;
+    var inp=root.querySelector('input'), out=root.querySelector('[data-out]'), raw=root.querySelector('[data-raw]'), fix=root.querySelector('[data-fix]'), lab=root.querySelector('[data-label]');
+    function X(t){return 56+t*554/30;} function Y(v){return 240-220*v;}
+    function draw(){
+      var a=parseFloat(inp.value), p=0.8, r=['56,240'], f=[];
+      for(var t=1;t<=30;t++){ var Z=(1-Math.pow(a,t))*p; r.push(X(t).toFixed(1)+','+Y(Z).toFixed(1)); f.push(X(t).toFixed(1)+','+Y(p).toFixed(1)); }
+      raw.setAttribute('points',r.join(' ')); fix.setAttribute('points',f.join(' '));
+      out.textContent=a.toFixed(2);
+      lab.textContent='epoch 1: raw Z = '+((1-a)*p).toFixed(2)+' → 보정 '+p.toFixed(2);
+    }
+    inp.addEventListener('input',draw); draw();
+  })();
+  </script>
+</figure>

@@ -1,0 +1,90 @@
+[
+ {
+  "slot": "l07-steps01",
+  "src": "assets/lecture07/p006_boundary_shift.png",
+  "alt": "Entropy minimization shifts decision boundary from high-density to low-density region",
+  "caption": "왼쪽은 decision boundary가 데이터 밀집 구간을 가로질러 애매한 점(보라)이 많아. Entropy minimization을 하면 오른쪽처럼 <b>boundary가 low-density region으로 밀려나</b> 예측이 confident해져 (low-density separation).",
+  "page": "L07 p.6",
+  "width": 700
+ },
+ {
+  "slot": "l07-steps01",
+  "src": "assets/lecture07/p010_lp_pipeline.png",
+  "alt": "Label propagation pipeline: train network, extract features, build kNN affinity, propagate labels, retrain with pseudo labels",
+  "caption": "Phase 1은 labeled로만 학습, Phase 2는 feature로 affinity graph를 만들어 label을 <b>diffusion</b>. 점 크기가 certainty ω라서 확신 낮은 pseudo label은 약하게 반영돼. 이 pseudo label로 다시 네트워크를 학습하는 loop야.",
+  "page": "L07 p.10",
+  "width": 620
+ },
+ {
+  "slot": "l07-steps01",
+  "src": "assets/lecture07/p018_noisy_student_fig1.png",
+  "alt": "Noisy Student: teacher on labeled data, pseudo labels, equal-or-larger noised student, student becomes new teacher",
+  "caption": "teacher → pseudo label → <b>equal-or-larger</b> student 학습 → student가 새 teacher로 반복. noise(augmentation, dropout, stochastic depth)는 <b>student에만</b> 들어가는 점을 봐.",
+  "page": "L07 p.18",
+  "width": 520
+ },
+ {
+  "slot": "l07-m02-meta-pseudo-labels",
+  "src": "assets/lecture07/p026_meta_two_moons.png",
+  "alt": "Two moons: supervised, pseudo labels, meta pseudo labels decision regions",
+  "caption": "같은 TwoMoon 데이터에서 Pseudo Labels(가운데)는 teacher가 고정이라 틀린 boundary를 그대로 굳히고, Meta PL(오른쪽)은 student의 feedback으로 teacher가 고쳐져서 두 moon이 제대로 갈려.",
+  "page": "L07 p.26",
+  "width": 680
+ },
+ {
+  "slot": "l07-tbl01",
+  "src": "assets/lecture07/p032_label_guessing_sharpen.png",
+  "alt": "MixMatch label guessing: K augmentations, average predictions, sharpen",
+  "caption": "MixMatch의 핵심 두 단계. unlabeled 하나에 <b>K번 augmentation</b>해서 예측을 평균(label guessing)하고, 온도 T로 <b>sharpening</b>해서 분포를 뾰족하게 만들어 target으로 써.",
+  "page": "L07 p.32",
+  "width": 640
+ },
+ {
+  "slot": "l07-tbl01",
+  "src": "assets/lecture07/p046_fixmatch_diagram_loss.png",
+  "alt": "FixMatch diagram: weak augmentation pseudo label with threshold, strong augmentation prediction, cross entropy",
+  "caption": "FixMatch 전체 구조. weak aug 예측이 <b>threshold τ를 넘을 때만</b> hard pseudo label이 되고, 그걸 strong aug 예측의 target으로 CE. 식의 indicator 1[max ≥ τ]가 confidence masking이야.",
+  "page": "L07 p.46",
+  "width": 560
+ },
+ {
+  "slot": "l07-m03-dividemix",
+  "src": "assets/lecture07/p052_pipeline.png",
+  "alt": "DivideMix co-divide: two networks A and B each fit a GMM and divide data for the other, then MixMatch",
+  "caption": "네트워크 A·B가 각자 GMM으로 loss를 나눠서 <b>서로에게</b> labeled/unlabeled 분할을 넘겨줘 (화살표가 교차). 이 분할로 MixMatch를 돌려서 자기 분할의 confirmation bias를 피해.",
+  "page": "L07 p.52",
+  "width": 700
+ },
+ {
+  "slot": "l07-m04-pre-training-ssl",
+  "src": "assets/lecture07/p061_simclrv2_pipeline.png",
+  "alt": "SimCLRv2 pipeline: unsupervised pretraining of big CNN, supervised fine-tuning, self-training distillation into task-specific CNN",
+  "caption": "SimCLRv2 3단계: (1) unlabeled로 큰 모델 self-supervised pre-training → (2) 적은 labeled로 fine-tuning → (3) 이 모델을 teacher로 unlabeled에 <b>distillation (soft label)</b>해서 작은 task-specific 모델로.",
+  "page": "L07 p.61",
+  "width": 620
+ },
+ {
+  "slot": "l07-steps02",
+  "src": "assets/lecture07/p068_sat_diagram.png",
+  "alt": "FreeMatch self-adaptive thresholding: global threshold rising over training, local class-wise thresholds",
+  "caption": "FreeMatch는 threshold를 고정하지 않고 학습 진행에 따라 올라가는 <b>global threshold</b>를 class별 학습 진척도로 스케일한 <b>local threshold</b>로 바꿔. 쉬운 class는 상대적으로 높게, 어려운 class는 상대적으로 낮게 잡혀서 샘플을 덜 버려.",
+  "page": "L07 p.68",
+  "width": 560
+ },
+ {
+  "slot": "l07-steps02",
+  "src": "assets/lecture07/p083_bcc_pipeline.png",
+  "alt": "AllMatch binary classification consistency: top-k candidate classes vs negative classes, consistency between weak and strong views",
+  "caption": "AllMatch BCC. 예측을 <b>candidate class vs negative class</b> 이진으로 나눠서 weak/strong view의 이진 분할이 일치하게 해. low-confidence 샘플도 버리지 않고 쓰는 구조야. weak 쪽엔 stop-gradient.",
+  "page": "L07 p.83",
+  "width": 700
+ },
+ {
+  "slot": "l07-steps02",
+  "src": "assets/lecture07/p097_ifmatch_arch.png",
+  "alt": "IFMatch vs conventional image-level consistency, adding feature-level perturbation",
+  "caption": "왼쪽은 기존 image-level weak→strong. IFMatch(오른쪽)는 image perturbation을 <b>대체하지 않고 feature perturbation을 추가</b>해. Branch I = weak image + <b>strong feature</b> perturbation(새로 추가된 경로), Branch II = strong image + <b>조건부 weak feature</b> perturbation이고, 이건 strong image aug 뒤에도 confidence가 높은 '쉬운' 샘플(CBI)에만 붙어.",
+  "page": "L07 p.97",
+  "width": 700
+ }
+]

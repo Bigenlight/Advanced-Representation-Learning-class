@@ -1,0 +1,28 @@
+<!-- EXAMPLE ONLY (format reference, never listed in a manifest) -->
+<figure class="viz" id="viz-example-ema">
+  <div class="viz-head"><span class="viz-tag">개념 그래프</span><p class="viz-title">EMA는 빠른 신호를 얼마나 늦게 따라가나</p><span class="illus">illustrative</span></div>
+  <div class="viz-scroll">
+    <svg viewBox="0 0 640 260" role="img" aria-label="EMA step response curves">
+      <line class="ax" x1="50" y1="220" x2="620" y2="220"/><line class="ax" x1="50" y1="20" x2="50" y2="220"/>
+      <text class="t t-m mono" x="620" y="244" text-anchor="end">step</text>
+      <text class="t t-m mono" x="44" y="24" text-anchor="end">1</text>
+      <polyline class="ln-m dash" stroke-width="1.5" points="50,220 60,220 60,40 620,40"/>
+      <polyline class="ln-acc" stroke-width="2.5" data-curve points=""/>
+      <text class="t t-acc b" data-label x="600" y="70" text-anchor="end"></text>
+    </svg>
+  </div>
+  <div class="viz-ctrl"><label for="viz-example-ema-m">momentum m <input type="range" id="viz-example-ema-m" min="0.5" max="0.99" step="0.01" value="0.9"></label><output data-out>0.90</output></div>
+  <figcaption>점선 = 빠른 쪽(student) 값이 0 → 1로 바뀐 순간. 실선 = <code>θ ← m·θ + (1−m)·θ_s</code>로 따라가는 느린 쪽(teacher). m이 클수록 늦게, 부드럽게 따라가. (개념 그림, L04 p.30 · L05 p.12)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-example-ema'); if(!root) return;
+    var inp=root.querySelector('input'), out=root.querySelector('[data-out]'), pl=root.querySelector('[data-curve]'), lab=root.querySelector('[data-label]');
+    function draw(){
+      var m=parseFloat(inp.value), v=0, pts=[];
+      for(var i=0;i<=56;i++){ var x=50+i*10; if(i>=1) v=m*v+(1-m)*1; pts.push(x+','+(220-180*v).toFixed(1)); }
+      pl.setAttribute('points',pts.join(' ')); out.textContent=m.toFixed(2); lab.textContent='m = '+m.toFixed(2);
+    }
+    inp.addEventListener('input',draw); draw();
+  })();
+  </script>
+</figure>

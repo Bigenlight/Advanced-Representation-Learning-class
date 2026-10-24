@@ -135,7 +135,7 @@
 - **DINO vs DINOv2**: ImageNet-1K, image-level, ViT-S/B vs curated 142M, image + patch-level, up to ViT-g (~1B).
 - **DINOv2 distillation vs DINOv3 Gram anchoring**: transfer a frozen large teacher's representation vs preserve an earlier model's patch similarity structure.
 
-## C. Question pool (18 questions)
+## C. Question pool (21 questions)
 
 ### Q1 [T/F]
 Hard negatives are negatives that are close to the anchor in the embedding space, but they provide less informative supervision than easy negatives.
@@ -231,7 +231,7 @@ Which of the following is NOT a component of "DINOv2 = DINO + ... " as presented
 (B) KoLeo regularizer
 (C) Curated data (LVD-142M)
 (D) Gram anchoring
-**Answer**: (D) — Gram anchoring은 DINOv3. DINOv2 = DINO + iBOT + KoLeo + Curated Data + Scaling. (p.57, p.69)
+**Answer**: (D) — Gram anchoring은 DINOv3. DINOv2 = DINO + iBOT + KoLeo + Curated Data + Scaling. (p.57, p.68–69)
 
 ### Q18 [MCQ]
 What does Gram anchoring in DINOv3 preserve during longer training?
@@ -241,4 +241,80 @@ What does Gram anchoring in DINOv3 preserve during longer training?
 (D) An even assignment of teacher outputs across prototypes
 **Answer**: (B) — earlier model의 patch feature 간 pairwise similarity 보존. (A) DINOv2 distillation, (C) Barlow Twins, (D) Sinkhorn-Knopp. (p.69)
 
+### Q19 [T/F]
+Unsupervised Data Augmentation (UDA) learns from unlabeled data by maximizing the KL divergence between the predictions on an original image and on its augmented version.
+**Answer**: False — UDA는 KL divergence를 **minimize**해서 원본·augmented 입력의 예측을 **일치**시킴 ("Minimizes KL divergence between predictions"). Key Idea: *Learn from unlabeled data through **consistency regularization**.* (p.18)
+
+### Q20 [T/F]
+Mixup performs a region-level mixture by pasting a local region of one image onto another image, whereas CutMix creates a global-level, weighted pixel-wise combination of two images.
+**Answer**: False — 둘이 뒤바뀜. **Mixup = global-level** weighted pixel-wise combination ($\tilde x = \lambda x_i + (1-\lambda)x_j$), **CutMix = region-level** — local region of one image + rest of the other image ($I_{\text{cutmix}} = M_b \odot I_1 + (1-M_b)\odot I_2$). (p.19–20)
+
+### Q21 [T/F]
+Image augmentations for contrastive learning should significantly change the visual appearance of an image while preserving its semantic meaning, so that the resulting views can form positive pairs.
+**Answer**: True — Key Points 그대로: create different views / **significantly change visual appearance** / **preserve the semantic meaning** / form positive pairs. 겉모습은 크게, 의미는 그대로. (p.13)
+
+## D. Fill-in-the-blank pool (13 questions)
+
+### F1 [Blank]
+A large batch size is essential for contrastive methods relying on (1) ______ (e.g., SimCLR, CLIP) because it provides many diverse in-batch negatives, whereas hard negatives are negatives that lie (2) ______ to the anchor in the embedding space and therefore give more informative supervision than easy negatives.
+**Answer**: (1) InfoNCE (accept: InfoNCE loss) (2) close (accept: near, similar) — large batch는 negative의 **양·다양성**, hard negative는 negative의 **질**을 책임짐. hard negative는 anchor랑 가까워서 구분이 어려움 → 더 informative. SSL에선 label이 없어서 찾기 어렵고, 큰 batch·memory bank가 찾을 확률을 높이지만 memory cost와 trade-off. (p.5–6)
+
+### F2 [Blank]
+Debiased contrastive loss addresses sampling bias, i.e., random negative sampling may include (1) ______, by estimating the true negative distribution: True Negative = (Random Sampling − (2) ______ Contribution) / $\eta^-$.
+**Answer**: (1) false negatives (2) Positive — anchor와 같은 class인 샘플이 negative로 뽑히는 게 false negative → big performance drop. 식으로는 $p_x^-(x') = \big(p(x') - \eta^+ p_x^+(x')\big)/\eta^-$, 여기서 $\eta^- = 1-\eta^+$ = probability of observing a different class. 이 추정치를 InfoNCE 분모에 넣음. (p.7–10)
+
+### F3 [Blank]
+AutoAugment formulates augmentation search as a (1) ______ problem that maximizes validation accuracy, whereas RandAugment eliminates the expensive search and controls all transformations with the number of operations N and one global (2) ______ M.
+**Answer**: (1) reinforcement learning (accept: RL) (2) magnitude — AutoAugment: controller(RNN)가 strategy를 sample → child network의 validation accuracy를 reward로 controller 갱신 (which operation / probability / magnitude → huge search space). RandAugment: random selection + N, M 두 개 → very small search space. (p.15–16)
+
+### F4 [Blank]
+UDA applies augmentations to unlabeled data and minimizes the KL divergence between predictions on the original and augmented inputs; its key idea is to learn from unlabeled data through ______ regularization.
+**Answer**: consistency — 원본·augmented의 예측이 같아야 한다는 제약 = consistency regularization. labeled data엔 supervised cross-entropy, unlabeled data엔 consistency loss (RandAugment, back translation 등 augmentation). (p.18)
+
+### F5 [Blank]
+Mixup performs a (1) ______-level mixture by creating a weighted pixel-wise combination of two images, whereas MoCHi generates harder negatives by mixing embeddings in the (2) ______ space.
+**Answer**: (1) global (2) feature (accept: embedding, latent) — Mixup = 이미지 통째로 섞기(global), CutMix = 패치 붙이기(region-level), 둘 다 **pixel** 공간. MoCHi는 hardest negative를 찾아 그 embedding끼리 interpolate하고 query와도 섞어서 **feature space**에서 synthetic hard negative를 만듦. (p.19–21)
+
+### F6 [Blank]
+In SimCLR, the contrastive loss operates on an extra ______ head $g(\cdot)$ applied to the representation $h$; after training, $g$ is thrown away and $h$ from the base encoder $f(\cdot)$ is used for downstream tasks.
+**Answer**: projection (accept: projection layer) — $z = g(h)$ 공간은 data transformation에 invariant하게 학습돼서 downstream에 쓸모 있는 정보를 버릴 수 있음 → $g$를 두면 $h$에 더 많은 정보가 보존됨. "return encoder network $f(\cdot)$, and throw away $g(\cdot)$". (p.24–25, p.28)
+
+### F7 [Blank]
+In BYOL, only the online network has a (1) ______ $q_\theta$ that predicts the target network's projection of another augmented view, and the target network is updated as an (2) ______ of the online parameters with no backpropagation.
+**Answer**: (1) predictor (2) exponential moving average (accept: EMA, moving average) — $\xi \leftarrow \tau\xi + (1-\tau)\theta$. loss = L2-normalized prediction $\bar q_\theta(z)$와 $\bar z'$ 사이 MSE, **negative pair 없음**. target 쪽은 sg(stop-gradient)라 $\theta$만 최적화됨. (p.30–32)
+
+### F8 [Blank]
+Barlow Twins computes the (1) ______ matrix between the two views' embeddings along the batch dimension and pushes it toward the identity matrix; the off-diagonal part of this objective is called the (2) ______ term.
+**Answer**: (1) cross-correlation (2) redundancy reduction — $C$는 $D\times D$ (D = feature dimension). diagonal $C_{ii}\to1$ = **invariance** (같은 feature가 augmentation 후에도 유지), off-diagonal $C_{ij}\to0$ = **redundancy reduction** (feature끼리 decorrelated). shared encoder, no negatives, batch size에 robust. (p.35–38)
+
+### F9 [Blank]
+In DINO, the (1) ______ network is trained by backpropagation to match the output (softmax) distribution of a teacher that is an EMA of it; unlike BYOL, which matches feature vectors with an MSE loss, DINO matches probability distributions with a (2) ______ loss.
+**Answer**: (1) student (2) cross-entropy — 방향 주의: **student가 teacher를 따라가고**, teacher = student의 EMA (momentum teacher). BYOL = feature matching / MSE / predictor, DINO = distribution matching / cross-entropy / softmax probability. 공통점: EMA teacher, no labels. (p.39, p.41)
+
+### F10 [Blank]
+In DINO's teacher branch, the teacher output goes through ______ before the softmax: a running mean $c \leftarrow mc + (1-m)\frac{1}{B}\sum_{i=1}^{B} g_{\theta_t}(x_i)$ is subtracted from it, and a stop-gradient (sg) blocks gradients into the teacher.
+**Answer**: centering (accept: centering and sharpening) — 그림에서 **teacher 쪽에만** centering 블록이 있음 (student는 바로 softmax). teacher 출력은 center를 빼고 teacher temperature로 나눠 softmax → "center + sharpen". loss는 $-p_2\log p_1$. (p.40)
+> 보충: centering은 한 dimension이 독점하는 걸 막고, sharpening은 uniform 분포로 퍼지는 걸 막아서 둘이 함께 collapse를 방지함 (DINO 논문 설명, 슬라이드엔 명시 X).
+
+### F11 [Blank]
+SimCLR preserves image identity, whereas SynCLR preserves ______-level semantics: images generated by a text-to-image model from the same synthetic text description form a positive set for multi-positive contrastive learning.
+**Answer**: caption (accept: text) — "A caption defines the granularity of a visual class." SimCLR: 이미지 하나 = class 하나, Supervised: 모든 golden retriever = 한 class (action·background 무시), SynCLR: 같은 caption에서 생성한 이미지들 = 한 class (objects, actions, relationships 포착). positive가 같은 이미지에서 나올 필요 없음, real image 없이도 학습 가능. (p.47–48, p.54)
+
+### F12 [Blank]
+DINOv2 = DINO + (1) ______ + (2) ______ + Curated Data + Scaling, where (1) adds a masked patch-level self-distillation objective and (2) is a regularizer that spreads image-level features across the entire embedding space.
+**Answer**: (1) iBOT (2) KoLeo — 새 loss 하나가 아니라 기존 SSL 요소를 합치고 학습을 안정화한 **integrated system**. iBOT: student patch 일부를 mask하고 teacher의 visible patch를 target으로 → local/spatial representation. KoLeo: $\mathcal L_{\text{koleo}} = -\frac1n\sum_i \log d_{n,i}$, 서로 다른 이미지 feature를 밀어내서 crowding 방지. (p.57, p.61–62)
+
+### F13 [Blank]
+In DINOv3, longer training improves global features but dense features gradually degrade; ______ anchoring fixes this by preserving the pairwise patch-similarity structure of an earlier model with clean patch features.
+**Answer**: Gram — $\mathcal L_{\text{Gram}} = \|X_S X_S^\top - X_G X_G^\top\|_F^2$. feature 자체가 아니라 patch 간 **similarity 구조(Gram matrix)**를 맞춤 → patch similarity가 깨끗해지고 object boundary가 선명해짐 (spatially consistent). (p.68–70)
+
 <!-- REVIEWED | fixes: 3 | reviewer: opus -->
+<!-- AUGMENTED 2026-10-22 | C fixes: 1 | C added: 3 | D blanks: 13 | author: opus
+Q17: page ref (p.57, p.69) -> (p.57, p.68–69) — the "DINOv3" label for Gram anchoring is on p.68; p.69 is titled only "Gram Anchoring".
+-->
+
+
+<!-- VERIFIED 2026-10-22 | checked: 34 | fixed: 1 | deleted: 0 | reviewer: opus
+F11: stem gave away the blank ("SynCLR preserves ______-level semantics ... from the same synthetic caption"); changed "synthetic caption" -> "synthetic text description", added accept: text.
+All other C/D items: key, p.N, and distractors confirmed against slides (image pages p.9, p.10, p.18, p.19, p.20, p.24, p.28, p.32, p.36, p.40, p.69 checked). Sections A/B: no slide contradictions found.
+-->

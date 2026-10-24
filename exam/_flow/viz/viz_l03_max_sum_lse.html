@@ -1,0 +1,41 @@
+<figure class="viz" id="viz-l03-lse">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">Max vs Sum vs Log-Sum-Exp: negative가 받는 gradient 가중치</p><span class="illus">illustrative</span></div>
+  <div class="viz-scroll">
+  <svg viewBox="0 0 640 330" role="img" aria-label="Gradient weights of eight negatives under max, mean and log-sum-exp">
+    <line class="ax" x1="50" y1="250" x2="620" y2="250"/><line class="ax" x1="50" y1="30" x2="50" y2="250"/>
+    <line class="grid" x1="50" y1="140" x2="620" y2="140"/><line class="grid" x1="50" y1="30" x2="620" y2="30"/>
+    <text class="t t-m mono" x="44" y="254" text-anchor="end">0</text>
+    <text class="t t-m mono" x="44" y="144" text-anchor="end">.5</text>
+    <text class="t t-m mono" x="44" y="34" text-anchor="end">1</text>
+    <g data-bars></g>
+    <text class="t t-m" x="335" y="296" text-anchor="middle">s_j (오른쪽 = hard negative)</text>
+    <rect class="f-trap" x="60" y="312" width="12" height="12"/><text class="t" x="78" y="323">Max: one-hot</text>
+    <rect class="f-m" x="195" y="312" width="12" height="12"/><text class="t" x="213" y="323">Sum (= mean): 1/N</text>
+    <rect class="f-acc" x="365" y="312" width="12" height="12"/><text class="t" x="383" y="323">LSE: softmax(s/τ)</text>
+  </svg>
+  </div>
+  <div class="viz-ctrl"><label for="viz-l03-lse-t">temperature τ <input type="range" id="viz-l03-lse-t" min="0.03" max="3" step="0.01" value="0.25"></label><output data-o>0.25</output></div>
+  <figcaption>위 목록 ③ Lifted Structured (p.15–16)의 max → log-sum-exp 이유를 보여주는 그림. 같은 8개 negative에서 각자가 받는 ∂/∂s_j. Max는 hardest 하나만(sparse), Sum(= mean)은 전부 1/N(hard 신호 희석), LSE는 전부 받되 hard일수록 크게(dense &amp; focused). τ → 0이면 LSE의 가중치가 Max의 one-hot으로, τ → ∞면 Sum으로 가 (τ는 슬라이드 보충 개념, s 값은 개념 그림). L03 p.16.</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l03-lse'); if(!root) return;
+    var inp=root.querySelector('input'), g=root.querySelector('[data-bars]'), o=root.querySelector('[data-o]');
+    var S=[0.15,0.25,0.3,0.4,0.5,0.6,0.7,0.85], N=S.length, NS='http://www.w3.org/2000/svg';
+    var cls=['f-trap','f-m','f-acc'];
+    function rect(c,x,y,w,h){var r=document.createElementNS(NS,'rect'); r.setAttribute('class',c); r.setAttribute('x',x); r.setAttribute('y',y); r.setAttribute('width',w); r.setAttribute('height',Math.max(h,0)); return r}
+    function txt(x,y,s){var t=document.createElementNS(NS,'text'); t.setAttribute('class','t t-m mono'); t.setAttribute('x',x); t.setAttribute('y',y); t.setAttribute('text-anchor','middle'); t.textContent=s; return t}
+    function draw(){
+      var tau=parseFloat(inp.value), i, ex=[], z=0, am=0;
+      for(i=0;i<N;i++){ ex.push(Math.exp((S[i]-S[N-1])/tau)); z+=ex[i]; if(S[i]>S[am]) am=i; }
+      g.textContent='';
+      for(i=0;i<N;i++){
+        var x0=62+i*70, w=18, v=[i===am?1:0, 1/N, ex[i]/z];
+        for(var k=0;k<3;k++){ var h=220*v[k]; g.appendChild(rect(cls[k],x0+k*(w+1),250-h,w,h)); }
+        g.appendChild(txt(x0+28,270,S[i].toFixed(2)));
+      }
+      o.textContent=tau.toFixed(2);
+    }
+    inp.addEventListener('input',draw); draw();
+  })();
+  </script>
+</figure>

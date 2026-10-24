@@ -121,7 +121,7 @@
 - **τ vs τs (X-CLR)**: image-similarity contrastive temperature vs softness of the target graph (p.68).
 - **Three views**: GenView = views, MCL = features, X-CLR = relationships (p.73).
 
-## C. Question pool (18 questions)
+## C. Question pool (19 questions)
 
 ### Q1 [T/F]
 In a Siamese network, the two inputs are processed by the same network with shared weights, so that both images are mapped into the same embedding space.
@@ -192,7 +192,7 @@ In GenView's adaptive view generation, images with a small foreground receive mo
 **Answer**: False — 반대. Small foreground → **less** noise (object가 쉽게 사라짐), large foreground → more noise. (p.40)
 
 ### Q13 [MCQ]
-In GenView's quality-driven contrastive loss, which positive pair receives a higher weight?
+In GenView's quality-driven contrastive loss, which positive pair receives the highest weight?
 (A) A pair with similar foreground and different background.
 (B) A pair with different foreground and similar background.
 (C) A pair with similar foreground and similar background.
@@ -227,4 +227,70 @@ Which matching of paper ↔ solution is correct?
 (D) X-CLR — generate and weight better positive views
 **Answer**: (C) — GenView = views (generate & weight positive views), MCL = features (stages), X-CLR = relationships (soft similarity graph). (p.65–66, p.73)
 
+### Q19 [MCQ]
+Which training objective extends the contrastive loss to include **multiple positive samples** (all neighbors of the same class in the numerator, all neighbors in the denominator), with a temperature that tunes how concentrated the features are in the representation space?
+(A) Triplet loss
+(B) Multi-class N-pair loss
+(C) Noise Contrastive Estimation (NCE)
+(D) Soft-Nearest Neighbors loss
+**Answer**: (D) — "Soft-Nearest Neighbors Loss extends it to include multiple positive samples." class label $y_i$를 써서 같은 class 이웃을 전부 positive로. (A) triplet = 1 positive ↔ 1 negative, (B) N-pair = 1 positive ↔ N−1 negatives, (C) NCE = data vs noise 이진 분류 (p.29)
+
 <!-- REVIEWED | fixes: 2 | reviewer: opus -->
+
+## D. Fill-in-the-blank pool (12 questions)
+
+### F1 [Blank]
+Pretext tasks are all handcrafted objectives. A more general view is "Representation Learning = Learning ______": good representations place semantically similar samples nearby.
+**Answer**: Similarity — task를 설계하지 말고 similarity 자체를 supervision으로 ("Similarity as Supervision") → metric learning: pull similar samples together, push dissimilar samples apart (p.4–7)
+
+### F2 [Blank]
+In the contrastive loss (Chopra et al., 2005), positive pairs are pulled together, while negative pairs are pushed apart beyond a ______ $\varepsilon$, which defines the minimum distance required between different classes.
+**Answer**: margin — negative 항 $\max(0, \varepsilon - \|f_\theta(x_i)-f_\theta(x_j)\|_2)^2$. 한계: pair만 봄, 이미 margin 밖인 negative는 inactive, relative ordering 강제 X (p.11)
+
+### F3 [Blank]
+Triplet loss (FaceNet) uses (1) ______–Positive–Negative triplets and enforces (2) ______ similarity, i.e., it focuses on ranking relationships instead of absolute distance targets.
+**Answer**: (1) Anchor (2) relative — $\max(0, \|f(x)-f(x^+)\|_2^2 - \|f(x)-f(x^-)\|_2^2 + \varepsilon)$. 문제: Triplet Explosion($N^3$), easy triplets dominate → hard negative가 crucial (p.12–13)
+
+### F4 [Blank]
+In the Lifted Structured Loss, the max over negatives is not smooth, so it is relaxed to ______, a smooth approximation of max that keeps gradients dense while giving larger weights to harder negatives.
+**Answer**: log-sum-exp (accept: LSE, soft max) — Max = sparse gradient (hardest만), Sum/average = uniform (hard에 집중 X), **LSE** = softmax weight, dense & focused → soft hard negative mining (p.15–16)
+
+### F5 [Blank]
+Multi-class N-pair loss generalizes triplet loss to compare 1 positive against N−1 negatives at once. Its form is the ______ loss for an N-way softmax classifier, i.e., it learns to find the positive sample among the N samples.
+**Answer**: cross entropy (accept: cross-entropy, softmax cross-entropy, CE, softmax — p.18 "equivalent to the softmax loss for multi-class classification") — Lifted는 여전히 1 positive ↔ 1 negative, N-pair는 1 positive ↔ many negatives → more information (p.17–20)
+
+### F6 [Blank]
+NCE reinterprets "positive vs negative" as "data vs ______" and runs logistic regression to tell the target data apart from it.
+**Answer**: noise — logit $\log p_\theta(u) - \log q(u)$에 sigmoid + binary cross-entropy. "a method for estimating parameters of a statistical model" (p.21–22)
+
+### F7 [Blank]
+The InfoNCE loss uses (1) ______ cross-entropy loss to identify the positive sample amongst a set of unrelated noise samples. Learning a good $f(\mathbf{x},\mathbf{c})$ means estimating a good density ratio, which increases the (2) ______ information between $\mathbf{x}$ and $\mathbf{c}$.
+**Answer**: (1) categorical (2) mutual — NCE = binary(sigmoid) vs InfoNCE = N-way **categorical**(softmax). 최적 $f(\mathbf{x},\mathbf{c}) \propto p(\mathbf{x}|\mathbf{c})/p(\mathbf{x})$. "not simply learned to match positives" (p.23–24, p.28)
+
+### F8 [Blank]
+Soft-Nearest Neighbors Loss extends the contrastive objective to include multiple ______ samples: all neighbors of the same class appear in the numerator.
+**Answer**: positive (accept: positives) — 분모는 all neighbors. temperature $\tau$ = feature가 representation space에서 얼마나 concentrated 되는지 조절 (p.29)
+
+### F9 [Blank]
+Without labels, positive pairs are created as different views of the same sample using data ______, and different images in the batch are treated as negative pairs.
+**Answer**: augmentation (accept: augmentations) — label 있으면 same class = positive. 공통 setup: anchor / positive(another view) / in-batch negatives / shared encoder / cosine similarity / InfoNCE(NT-Xent) with $\tau$ (p.31–32)
+
+### F10 [Blank]
+GenView starts from the limitations of handcrafted views (a strong crop may remove the main object; a weak crop may give two nearly identical views): a good positive pair should preserve (1) ______ while introducing (2) ______.
+**Answer**: (1) semantics (accept: object identity, semantic information) (2) diversity (accept: variation) — False Positive Pair vs Limited Diversity. 해결: Stable unCLIP으로 positive view 생성(foreground ratio 기반 adaptive noise) + quality-driven loss (similar foreground, different background에 큰 weight) (p.36–42)
+
+### F11 [Blank]
+Multistage Contrastive Learning (MCL) mitigates feature (1) ______, where useful information in the input is lost in the representation, by selecting negatives only from the same (2) ______ as the anchor from the previous stage, so previously learned features (e.g., color) can no longer be used.
+**Answer**: (1) suppression (2) cluster (accept: K-means cluster) — model이 가장 쉬운 discriminative feature(color)만 배우고 나머지가 억눌림. Stage 0 color → Stage 1 texture → Stage 2 shape, 마지막에 concatenate. hard negative mining과 목적이 다름: 어려운 sample 찾기가 아니라 이전 feature 재사용 방지 (p.49–56)
+
+### F12 [Blank]
+X-CLR replaces a binary graph with a ______ similarity graph, built from text captions, class descriptions, or other metadata with a fixed text encoder, so that another dog, a cat, and a piano are not treated as equally negative.
+**Answer**: soft — SSL graph = 같은 이미지의 두 view만 연결, SupCon = same class만 연결(binary), X-CLR = 다양한 degree of similarity. target temperature $\tau_s$가 높을수록 graph가 softer (p.64–68)
+
+<!-- AUGMENTED 2026-10-22 | C fixes: 0 | C added: 1 | D blanks: 12 | author: opus -->
+
+<!-- VERIFIED 2026-10-22 | checked: 31 | fixed: 3 | deleted: 0 | reviewer: opus
+Q13: "receives a higher weight" → "receives the highest weight" (4지선다 비교급 모호성 제거, 정답 (A) 유지)
+F5: accept에 "softmax" 추가 — p.18 "equivalent to the softmax loss for multi-class classification"
+F6: stem의 "(Noise Contrastive Estimation)" 풀네임 삭제 — 답(noise)을 그대로 노출하고 있었음
+-->

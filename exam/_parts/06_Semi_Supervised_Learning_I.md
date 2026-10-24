@@ -120,11 +120,11 @@
 - **Single Teacher vs Dual Student vs Dual Teacher**: 1 permanent EMA teacher (coupling) vs 2 trained students (higher cost) vs 2 temporary teachers, one at a time.
 - **S⁴Former**: Input–PatchShuffle, Feature–PASA, Output–NCR.
 
-## C. Question pool (18 questions)
+## C. Question pool (20 questions)
 
 ### Q1 [T/F]
-Active learning selects the most valuable unlabeled samples to be labeled next, helping us act smartly with a limited budget.
-**Answer**: True — 슬라이드 원문 그대로. (p.5)
+Active learning selects the most valuable unlabeled samples to be collected next, helping us act smartly with a limited budget.
+**Answer**: True — 슬라이드 원문 그대로 ("Select most valuable unlabeled samples to be collected next / Helps us act smartly with a limited budget"). "collected" = 골라서 사람(oracle)한테 label 받아 labeled set에 추가한다는 뜻. (p.5)
 
 ### Q2 [T/F]
 In the SSL objective $\mathcal L = \mathcal L_s + \mu(t)\mathcal L_u$, the unsupervised loss weight $\mu(t)$ is decreasing in time.
@@ -148,7 +148,7 @@ For Mean Teacher, KL divergence performs better than MSE as the consistency loss
 
 ### Q7 [T/F]
 VAT replaces the ground-truth label used in adversarial training with the model's own current prediction, so the VAT loss can be applied to unlabeled samples as well.
-**Answer**: True — "If GT is known" → use current model prediction; VAT loss applies to both labeled and unlabeled samples. (p.34)
+**Answer**: True — AT 식의 GT $q(y|\mathbf x^l)$ 자리에 current model prediction $p_{\hat\theta}(y|\mathbf x)$를 넣음 → "The VAT loss applies to both labeled and unlabeled samples." (슬라이드 화살표 라벨 "If GT is known," ← 원문 유지, 문맥상 "GT를 모를 때(unknown) model prediction 사용"으로 읽어야 자연스러움) (p.34)
 
 ### Q8 [T/F]
 In ICT, random MixUp samples are likely to lie near the decision boundary, so enforcing consistency on them aligns with the low-density separation assumption.
@@ -226,4 +226,84 @@ Which correctly matches S⁴Former's regularization components to their levels?
 (D) Input – PatchShuffle, Feature – NCR, Output – PASA
 **Answer**: (B) — PatchShuffle(블록 셔플 후 복원) = input, PASA(teacher confidence 기반 attention modulation) = feature, NCR(pseudo-label class 뺀 softmax 분포 매칭) = output. (p.69–72)
 
+### Q19 [T/F]
+In the Π-model, two versions of the same input with different stochastic augmentation and dropout masks are passed through two separately trained networks, and the two outputs are encouraged to be consistent.
+**Answer**: False — 네트워크는 **하나**(같은 network with dropout)임. 같은 입력을 다른 noise(stochastic aug + dropout mask)로 **두 번 forward** 해서 두 출력을 MSE로 맞춤: p.18 pseudocode에서 $z_i \leftarrow f_\theta(g(x_i))$, $\tilde z_i \leftarrow f_\theta(g(x_i))$ ("again, with different dropout and augmentation") — 둘 다 같은 $f_\theta$, unsupervised term $w(t)\frac{1}{C|B|}\sum_i\|z_i-\tilde z_i\|^2$. 이 forward 2회가 단점 → Temporal Ensembling의 동기. (p.17, p.18, p.19)
+
+### Q20 [MCQ]
+Which statement best describes the core idea of consistency regularization?
+(A) Predictions should remain consistent under small perturbations, which may come from data augmentations or model stochasticity (e.g., Dropout).
+(B) High-confidence predictions are converted into hard labels and used as targets with cross-entropy.
+(C) Labels are propagated from labeled samples to unlabeled samples over a similarity graph.
+(D) Decision boundaries should be placed in high-density regions of the data.
+**Answer**: (A) — Core idea 원문 그대로; perturbation 출처 = data augmentations / model stochasticity (Dropout). H1 smoothness를 loss로 만든 것. (B)는 Pseudo Label (다음 강의, $\mathcal L_u$ 설계의 다른 축), (C)는 Label Propagation (07강), (D)는 low-density separation을 뒤집은 오답. (p.9, p.16)
+
+## D. Fill-in-the-blank pool (12 questions)
+
+### F1 [Blank]
+The SSL learning objective $\mathcal L = \mathcal L_s + \mu(t)\,\mathcal L_u$ consists of a supervised loss, an unsupervised loss, and a (1) ______ term $\mu(t)$, which is (2) ______ in time.
+**Answer**: (1) weighting (accept: weight) (2) increasing (accept: increased, growing) — 초반 모델 예측은 부정확해서 예측 기반 target인 $\mathcal L_u$를 처음부터 세게 걸면 noise를 학습함 → $\mu(t)$를 작게 시작해 점점 키움 (ramp-up). "decreasing"으로 바꾼 T/F 함정 주의. (p.8, p.10)
+
+### F2 [Blank]
+The key question of semi-supervised learning is how to design the (1) ______ loss. The two main answers are consistency regularization (this lecture) and (2) ______ (next lecture).
+**Answer**: (1) unsupervised (accept: $\mathcal L_u$) (2) pseudo label (accept: pseudo labeling, pseudo-labeling) — supervised loss는 그냥 CE라 설계할 게 없고, label 없는 데이터에서 loss를 어떻게 만드냐가 SSL의 본질. consistency regularization = perturbed 예측끼리 맞춤 / pseudo label = confident 예측을 hard label로 바꿔 CE. (p.9)
+
+### F3 [Blank]
+H1, the ______ assumption: nearby samples should have similar predictions, and small perturbations should not change the label.
+**Answer**: smoothness (accept: smooth) — consistency regularization의 직접적 근거 ("perturbation 줘도 예측은 같아야"). H2 cluster (같은 cluster = 같은 label, boundary가 cluster를 쪼개면 안 됨), H3 low-density separation (boundary는 low-density region에), H4 manifold (고차원 데이터는 low-dimensional manifold 위)와 구분. (p.11–14)
+
+### F4 [Blank]
+In the Π-model, two versions of the same input with different stochastic augmentation and (1) ______ masks pass through the network, and the outputs are expected to be consistent. Its main drawback is that it requires (2) ______ forward passes for every input.
+**Answer**: (1) dropout (2) two (accept: 2) — 같은 network에 다른 noise로 두 번 forward → 두 출력 MSE. forward 2회 = high computational cost → Temporal Ensembling이 이걸 해결하려고 나옴. (p.17, p.19)
+
+### F5 [Blank]
+Temporal Ensembling uses, as the consistency target, an EMA of the model (1) ______ in time, maintained per training sample. Its limitation is that these targets are updated only once per (2) ______.
+**Answer**: (1) prediction (accept: predictions, outputs) (2) epoch — forward 1회라 싸고 Π-model보다 stable한 target. 대신 sample마다 EMA 예측을 저장해야 해서 memory intensive + epoch당 한 번만 갱신 → large dataset에 scale 어려움 → Mean Teacher로. **prediction EMA(TE) vs weight EMA(MT)** 헷갈리지 말 것. (p.19, p.22)
+
+### F6 [Blank]
+Mean Teacher replaces the EMA of predictions with an EMA of model (1) ______: $\theta' \leftarrow \beta\theta' + (1-\beta)\theta$. The teacher's parameters are updated only by this EMA, with no (2) ______.
+**Answer**: (1) weights (accept: parameters) (2) backpropagation (accept: backprop, gradient update, gradient descent) — student는 gradient descent (supervised + consistency loss), teacher는 student weight의 EMA로만 갱신. per-sample prediction memory 불필요, 매 iteration 갱신 → scalable. 실전 팁: dropout은 student만, $\beta$ 0.99 (early) → 0.999 (later), MSE > KL. (p.23, p.24, p.28)
+
+### F7 [Blank]
+VAT replaces the ground-truth label used in adversarial training with the model's own current (1) ______, so the loss can also be applied to unlabeled samples. Unlike RPT, which smooths predictions in random directions, VAT smooths only along the most (2) ______ direction.
+**Answer**: (1) prediction (accept: model prediction, output) (2) adversarial — "virtual" = 진짜 GT 대신 모델 자기 예측을 label처럼 씀. AT = GT labels / supervised / robustness vs VAT = model predictions / semi-supervised / local smoothness. 가장 민감한(worst-case) 방향만 골라 smoothing하니 random 방향(RPT)보다 훨씬 효과적. (p.34, p.35)
+
+### F8 [Blank]
+ICT follows the idea of (1) ______: two unlabeled samples are linearly interpolated, and the consistency target (from a Mean Teacher) is the same interpolation of their predictions — "Mixing inputs should produce (2) ______ predictions."
+**Answer**: (1) MixUp (accept: mixup) (2) mixed (accept: interpolated) — $p(y|\mathrm{mixup}_\lambda(\mathbf x_i,\mathbf x_j)) \approx \lambda p(y|\mathbf x_i) + (1-\lambda)p(y|\mathbf x_j)$, target은 Mean Teacher가 만듦. 섞인 sample은 decision boundary 근처에 놓이기 쉬움 → 거기서 consistency 걸면 boundary가 smooth해짐 → low-density separation 가정과 잘 맞음. (p.36, p.37)
+
+### F9 [Blank]
+UDA applies strong, label-preserving semantic augmentations (e.g., RandAugment) to unlabeled samples and emphasizes the importance of augmentation ______ rather than adversarial perturbations.
+**Answer**: quality — "How we perturb the input matters more than simply adding perturbations." adversarial perturbation을 strong semantic aug로 바꾸기만 해도 VAT·ICT를 이김. 좋은 aug = label-preserving, diverse, realistic, task-relevant ("adversarial"은 목록에 없음). (p.39–42)
+
+### F10 [Blank]
+In PS-MT, the student matches the (1) ______ of two mean teachers (only one teacher is updated in each epoch), and the MSE consistency loss is replaced by a stricter cross-entropy-based loss called (2) ______.
+**Answer**: (1) ensemble (accept: teacher ensemble, average) (2) Conf-CE (accept: confidence-weighted CE, confidence-weighted cross-entropy) — 출발 질문 "Can a more accurate teacher support stronger perturbations?": teacher가 틀리면 strong perturbation 하에서 student가 그 오류를 재생산 → 먼저 target을 reliable하게 (2-teacher ensemble). MSE는 noisy target에 robust하지만 convergence 근처 gradient가 작아 supervision이 약함 → teacher가 정확해졌으니 CE로 더 strict하게. (p.43, p.45–48)
+
+### F11 [Blank]
+Dual Teacher targets teacher–student (1) ______: with EMA, the teacher gradually follows the student and becomes too similar, providing little new information. Its solution is teacher (2) ______ — two temporary EMA teachers take turns, and only the active teacher guides the student in each epoch.
+**Answer**: (1) coupling (2) switching (accept: switch, alternation) — PS-MT식 ensemble은 두 teacher가 동시에 guide해서 점점 distinct characteristics를 잃음 → switching이면 각 teacher가 다른 student 상태를 관찰해 다른 perspective 유지. EMA 규칙은 그대로, teacher schedule만 바뀜. student를 하나 더 학습하는 Dual Student보다 저렴. "A teacher should be stable, but it should not become identical to the student." (p.57, p.58, p.63, p.65)
+
+### F12 [Blank]
+S⁴Former's input-level regularization, ______, groups neighboring patches into $M\times M$ blocks, randomly permutes the blocks before Transformer encoding, and restores the feature order before decoding.
+**Answer**: PatchShuffle (accept: patch shuffle) — ViT는 이미지를 patch token + self-attention으로 처리하니 image-level perturbation만으론 부족 → Input: PatchShuffle / Feature: PASA (teacher가 uncertain한 patch의 attention 교란) / Output: NCR (pseudo-label class 뺀 나머지 분포 매칭). PatchShuffle이 largest individual improvement. "Effective consistency regularization should reflect the structure of the model." (p.68, p.70, p.73, p.74)
+
 <!-- REVIEWED | fixes: 0 | reviewer: opus -->
+
+<!-- AUGMENTED 2026-10-22 | C fixes: 2 | C added: 2 | D blanks: 12 | author: opus
+Q1: stem "to be labeled next" -> "to be collected next"; explanation claimed verbatim slide wording but stem was paraphrased (p.5 says "collected"). Answer unchanged (True).
+Q7: explanation quoted p.34 arrow label "If GT is known -> use current model prediction" as if correct; rewrote to explain GT -> model-prediction substitution and flagged the label as a likely slide slip ("unknown"). Answer unchanged (True).
+Q19 added: Pi-model had no direct question (T/F, same network vs two networks).
+Q20 added: Consistency Regularization core idea (p.16) had no question (MCQ vs pseudo label / LP / flipped LDS).
+-->
+
+<!-- VERIFIED 2026-10-22 | checked: 32 | fixed: 7 | deleted: 0 | reviewer: opus
+Q19: explanation formula was not from the slides (Lil'Log-style MSE(f, f')); replaced with p.18 pseudocode (same f_theta evaluated twice) and added p.18 to citation. Answer unchanged (False).
+F1: stem gave away blank (1) ("Here mu(t) is the unsupervised loss weight" right after "a ______ term"); merged into "a (1) ______ term mu(t), which is (2) ______ in time".
+F5: stem gave away blank (1) ("uses the historical predictions ... : an EMA of the model ______"); removed the phrase so the blank actually tests prediction-EMA (TE) vs weight-EMA (MT).
+F6: added "gradient descent" to accept for (2) (p.24 contrasts student "updated by gradient descent" vs teacher "no backpropagation").
+F8: added "interpolated" to accept for (2) (stem itself describes the target as an interpolation of predictions).
+F10: stem gave away (2) ("confidence-weighted cross-entropy loss called ______" ~ Conf-CE); reworded to "a stricter cross-entropy-based loss called ______", added "confidence-weighted cross-entropy" to accept.
+F12: "shuffles the blocks" handed over the name PatchShuffle; changed to "randomly permutes the blocks".
+All other C/D items: key, p.N, and distractors confirmed against slides (image pages p.8, p.10, p.18, p.23, p.33, p.34, p.36, p.47, p.48 checked). Sections A/B: no slide contradictions found.
+-->

@@ -38,7 +38,7 @@
 - **Problem**: Learn object parts and their global arrangement without labels.
 - **Core idea**: Shuffle 3×3 tiles and classify which permutation was used. Since 9! = 362,880 permutations are too many classes, use a subset of 64 permutations that **maximize pairwise Hamming distance**. Each tile goes through a shared-weight branch (Context-Free Network), and features are joined only at the end.
 - **vs. previous / key difference**: It generalizes relative position (2 patches) to 9 patches, so it learns global instead of local spatial structure.
-- **Keywords**: 9! = 362,880, Hamming distance, permutation classification, shortcut (edge continuity, color/intensity statistics), random gap / color jitter / normalization
+- **Keywords**: 9! = 362,880, Hamming distance, permutation classification, shortcut (edge continuity, color/intensity statistics), multiple puzzle configurations / random gaps / random crop / spatial & color jitter / grayscale
 - 한 줄: 9개 tile 순열 index를 분류, low-level shortcut을 막아야 의미 있는 feature가 나옴
 
 ### Colorization (Zhang et al., ECCV 2016, p.34–39)
@@ -116,7 +116,7 @@
 - **Spatial vs temporal puzzle**: "Where was each cube located?" vs "When did each cube occur?" (p.59)
 - **STL losses**: Brown = same image under transformation (semantic), Blue = same transformation on different images (transformation representation), Green = apply learned transformation (equivariance). (p.76)
 
-## C. Question pool (18 questions)
+## C. Question pool (20 questions)
 
 ### Q1 [T/F]
 Self-supervised learning obtains "labels" from the data itself by using a "semi-automatic" process, for example by predicting part of the data from other parts.
@@ -172,7 +172,7 @@ Which statement about Rotation Prediction (RotNet) is correct?
 
 ### Q10 [T/F]
 In the Jigsaw puzzle task, the network may solve the puzzle using low-level cues such as edge continuity and color/intensity statistics instead of semantics.
-**Answer**: True — shortcut(cheating) 문제, gap·jitter·normalization 등으로 막음 (p.31)
+**Answer**: True — shortcut(cheating) 문제 (Low-level cue #1 Edge Continuity, #2 Color/Intensity Statistics). 해결책: multiple puzzle configurations per image, random gaps between patches, random crop, spatial jitter, color jitter, grayscale images (p.31)
 
 ### Q11 [MCQ]
 Which of the following is **NOT** a problem of hand-crafted pretext tasks mentioned in the lecture?
@@ -222,4 +222,80 @@ In STL (Self-supervised Transformation Learning), which component learns **trans
 (D) Pushing representations of different images apart as negatives
 **Answer**: (B) — Blue loss: "Same transformation on different images → Learn transformation representations". (A)는 Brown(semantic 보존, invariance), (C)는 RotNet (p.76–77)
 
+### Q19 [MCQ]
+Which of the following is **NOT** presented in the lecture as a limitation of supervised labeling that motivates self-supervised learning?
+(A) Getting "real" labels is difficult and expensive (e.g., ImageNet with 14M images took 22 human years).
+(B) Complex concepts such as video are hard to label, and labelling cannot scale to the size of the data we generate.
+(C) Rare concepts (a long-tailed class distribution) and different domains such as medical images lack labels.
+(D) Features from networks pre-trained on ImageNet cannot be used for other downstream tasks.
+**Answer**: (D) — 반대. supervised pre-training의 **success story**가 "Features from networks pre-trained on ImageNet can be used for a variety of different downstream tasks" (p.4). 문제는 성능이 아니라 label을 scale할 수 없다는 것. (A) p.6, (B) p.8, (C) p.9–10 (p.4–10)
+
+### Q20 [T/F]
+To get a more general pretext task, the lecture proposes treating transformed versions of the same image (e.g., rotated, cropped, grayscale) as **different objects**, and other images as the **same object**.
+**Answer**: False — 반대. 같은 이미지의 변환본(inpainting, rotation, jigsaw, grayscale) = **same object** (가깝게), 다른 이미지(고양이 vs 강아지) = **different object** (멀게) → contrastive learning으로 이어짐. 동기: "Learned representations may be tied to a specific pretext task (even multi tasks)!" (p.55–56)
+
 <!-- REVIEWED | fixes: 1 | reviewer: opus -->
+
+## D. Fill-in-the-blank pool (13 questions)
+
+### F1 [Blank]
+In the SSL paradigm, the (1) ______ task is defined from the data itself with no manual annotation (but is trained with supervised objectives such as classification or regression), while the (2) ______ task is the application you care about, with a small labeled dataset.
+**Answer**: (1) pretext (2) downstream — pretext는 label을 data에서 자동 생성, downstream은 "You do not have large datasets / The dataset is labeled". pretext로 encoder 학습 → downstream으로 transfer (p.16)
+
+### F2 [Blank]
+To evaluate an SSL method, we keep the learned feature extractor fixed, attach a ______ network on it (e.g., a linear classifier on "fixed" features), and train it on the target task with a small amount of labeled data.
+**Answer**: shallow (accept: linear) — head를 얕게만 학습해야 representation 품질이 그대로 드러남. 평가는 pretext 성능이 아니라 **downstream 성능** (p.18, p.46, p.48)
+
+### F3 [Blank]
+Relative Position of Patches (Doersch et al.) learns (1) ______ spatial context by predicting where a neighboring patch is relative to the center patch, while Jigsaw Puzzles learns (2) ______ spatial structure by arranging shuffled tiles.
+**Answer**: (1) local (2) global — Summary 표: Relative Position = "Where is the neighboring patch?" → Local Spatial Context (8-way 분류), Jigsaw = "How should patches be arranged?" → Global Spatial Structure (p.45)
+
+### F4 [Blank]
+Context Encoders (inpainting) learn from (1) ______ loss plus (2) ______ loss: the first alone gives blurry results, and adding the second makes the filled region sharp and realistic.
+**Answer**: (1) reconstruction (accept: L2, masked L2) (2) adversarial (accept: GAN) — $\mathcal{L}_{rec}(x)=\|\hat{M}\odot(x-F((1-\hat{M})\odot x))\|_2^2$ + $\mathcal{L}_{adv}$. 결과: L2 = blurry, Adv = 선명하지만 맥락 어긋남, **L2+Adv**가 최고 (p.25–27)
+
+### F5 [Blank]
+In colorization (Zhang et al.), multiple colors can be plausible for a grayscale input and regression averages them, so the task is solved by ______ over 313 color classes instead of regression.
+**Answer**: classification — L(lightness)에서 ab를 예측. regression은 그럴듯한 색들을 평균내 desaturated 결과 → 313-bin **classification**으로 선명한 색 유지 (p.37–38)
+
+### F6 [Blank]
+In Rotation Prediction (RotNet, Gidaris et al.), no labels are needed because the applied rotation becomes the label. To recognize rotation, the network must recognize ______.
+**Answer**: objects (accept: the object, object) — "To recognize rotation, the network must recognize objects." 0°, 90°, 180°, 270° 중 무엇을 적용했는지 맞히는 4-way classification. Learned concept = Object-Centric Understanding (p.40–41, p.45)
+
+### F7 [Blank]
+Hand-crafted pretext tasks have two problems: (1) coming up with individual pretext tasks is ______, and (2) the learned representations may not be ______, since higher layers specialize to the pretext task.
+**Answer**: (1) tedious (2) general (accept: generalizable) — Jigsaw로 학습한 network의 linear classifier mAP가 res4에서 최고, res5에서 하락 → "Higher layers do not generalize" (p.46, p.49)
+
+### F8 [Blank]
+CDJP (Kim et al., WACV 2018, "Completing Damaged Jigsaw Puzzles") uses multiple pretext tasks at once: jigsaw puzzle, inpainting, and ______.
+**Answer**: colorization — damaged puzzle = tile 섞기 + tile 하나 제거 + color channel 제거 → 세 task를 shared backbone으로 동시에. 그래도 "tied to a specific pretext task (even multi tasks)" 한계 (p.50, p.55)
+
+### F9 [Blank]
+Toward a more general pretext task: transformed versions of an image (masked, rotated, shuffled into tiles, grayscale) are treated as the (1) ______ object, and other images are treated as a (2) ______ object. This leads to contrastive learning.
+**Answer**: (1) same (2) different — 변환을 "맞혀라" 대신 같은 object는 가깝게, 다른 object는 멀게 (p.54–56)
+
+### F10 [Blank]
+Space-Time Cubic Puzzles (Kim et al., AAAI 2019) asks the network to arrange shuffled video cubes into their original space-time order. Joint space-time learning performs better than learning each dimension separately, because spatial and temporal context are ______.
+**Answer**: complementary — spatial puzzle("Where was each cube located?") + temporal puzzle("When did each cube occur?")을 한 network로. 4 shared 3D CNN towers, 24 permutations × 2 orientations = 48 classes (p.59–64)
+
+### F11 [Blank]
+In AVTS (Korbar et al., NeurIPS 2018), the pretext task asks whether the video and audio are temporally (1) ______. Training first with easy negatives only and then with a mix of easy and hard negatives is called (2) ______ learning.
+**Answer**: (1) aligned (accept: synchronized, in sync) (2) curriculum — in-sync pair = 같은 time segment, out-of-sync = 다른 segment. "A good pretext task depends not only on the labels, but also on how positive and negative examples are constructed." (p.68, p.70)
+
+### F12 [Blank]
+(1) ______: the representation does not change after the input transformation, $f(t(x)) = f(x)$. (2) ______: the representation changes predictably according to the input transformation, $f(t(x)) = \phi(t, f(x))$.
+**Answer**: (1) Invariance (accept: invariant) (2) Equivariance (accept: equivariant) — classification("What is the object?")엔 invariance가 유용할 수 있지만, detection("Where?")·flower classification("What color?")엔 위치·색 정보 보존이 필요 → equivariance (p.74–75)
+
+### F13 [Blank]
+STL (Yu et al., NeurIPS 2024) learns transformation representations without transformation labels by applying the same transformation to ______ images and matching their transformation representations.
+**Answer**: different (accept: two different, other) — Blue loss $\mathcal{L}_{trans}(x,x',t)=\mathcal{L}(y^x_t, y^{x'}_t)$. Brown = 같은 이미지·변환 → semantic 보존(invariant), Green = 학습된 변환 적용 → equivariant (p.76–77)
+
+<!-- AUGMENTED 2026-10-22 | C fixes: 1 | C added: 2 | D blanks: 13 | author: opus
+Q10: 해설의 "gap·jitter·normalization" → p.31의 실제 solution 목록(multiple configurations, random gaps, random crop, spatial/color jitter, grayscale)으로 교체. normalization은 p.31에 없음
+-->
+
+<!-- VERIFIED 2026-10-22 | checked: 33 | fixed: 3 | deleted: 0 | reviewer: opus
+A (Jigsaw Keywords): "random gap / color jitter / normalization" → p.31 solution 목록(multiple puzzle configurations / random gaps / random crop / spatial & color jitter / grayscale)으로 교체. normalization은 p.31에 없음
+F4: stem의 "(masked L2)" 삭제 — blank (1)의 accept 답("L2")을 stem이 알려주고 있었음
+F6: "In RotNet ... the applied ______ becomes the label" → 이름(RotNet)이 답(rotation)을 노출. core idea 후반부 "To recognize rotation, the network must recognize ______ (objects)" (p.40)로 blank 이동
+-->

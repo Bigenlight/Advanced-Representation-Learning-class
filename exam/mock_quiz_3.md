@@ -123,7 +123,7 @@ In ReMixMatch's Distribution Alignment, how is the prediction for an unlabeled s
 
 **14.** `[L05]` (D) — CURL은 contrastive learning과 RL policy/value network를 **simultaneously** 최적화함 (p.20–21)
 
-**15.** `[L06]` True — "If GT is known" → use current model prediction; VAT loss applies to both labeled and unlabeled samples. (p.34)
+**15.** `[L06]` True — AT 식의 GT $q(y|\mathbf x^l)$ 자리에 current model prediction $p_{\hat\theta}(y|\mathbf x)$를 넣음 → "The VAT loss applies to both labeled and unlabeled samples." (슬라이드 화살표 라벨 "If GT is known,"은 원문 유지 ← 문맥상 "unknown"으로 읽어야 자연스러움) (p.34)
 
 **16.** `[L06]` False — TE는 sample별 **prediction**의 EMA. weight EMA는 Mean Teacher. (p.19, p.23)
 

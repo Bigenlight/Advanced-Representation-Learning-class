@@ -1,0 +1,83 @@
+[
+  {
+    "slot": "l06-m02-x",
+    "src": "assets/lecture06/p009_cr_vs_pl.png",
+    "alt": "Consistency regularization (two augmentations, make predictions consistent) vs pseudo labeling (confidence threshold, cross-entropy)",
+    "caption": "왼쪽 consistency는 <b>정답 label 없이 두 augmentation의 prediction끼리</b> 맞추고, 오른쪽 pseudo label은 <b>confidence &gt; τ인 prediction을 hard label로 굳혀</b> CE로 학습해. target이 'prediction 간 일치' vs '확정된 label'로 갈리는 지점을 봐.",
+    "page": "L06 p.9",
+    "width": 720
+  },
+  {
+    "slot": "l06-m03-h1-h4",
+    "src": "assets/lecture06/p013_low_density.png",
+    "alt": "Low-density separation: good boundary between clusters vs bad boundary cutting a cluster",
+    "caption": "H3(low-density separation)의 직관. decision boundary가 cluster <b>사이 빈 곳</b>을 지나가면 좋고(왼쪽), cluster <b>안을 가르면</b> 같은 cluster가 다른 label로 쪼개져 H3 위반이야(오른쪽).",
+    "page": "L06 p.13",
+    "width": 500
+  },
+  {
+    "slot": "l06-tbl01",
+    "src": "assets/lecture06/p017_pi_model.png",
+    "alt": "Pi-model: two stochastic passes of the same network, squared difference",
+    "caption": "Π-model. 같은 x를 augmentation + dropout으로 <b>두 번 통과</b>시켜 z, z̃를 얻고, 둘의 squared difference가 consistency loss야. 한 step에 forward가 2번 필요해.",
+    "page": "L06 p.17",
+    "fold": true
+  },
+  {
+    "slot": "l06-tbl01",
+    "src": "assets/lecture06/p019_temporal_ensembling.png",
+    "alt": "Temporal ensembling: target z-tilde is a stored ensemble of past predictions",
+    "caption": "Temporal Ensembling. 두 번째 forward 대신 <b>과거 epoch prediction의 ensemble z̃</b>(입력 쪽에서 들어옴)를 target으로 쓰고, 현재 z는 다시 저장돼(오른쪽 아래 z). forward가 1번이라 빠르지만 target은 epoch당 한 번만 갱신돼.",
+    "page": "L06 p.19",
+    "fold": true
+  },
+  {
+    "slot": "l06-tbl01",
+    "src": "assets/lecture06/p024_mean_teacher.png",
+    "alt": "Mean Teacher: student, EMA teacher, classification cost and consistency cost",
+    "caption": "Mean Teacher. teacher는 gradient가 아니라 <b>student 가중치의 EMA(θ′ ← βθ′ + (1−β)θ)</b>로만 갱신되고, student는 label과의 classification cost + teacher와의 consistency cost로 학습돼. Temporal Ensembling이 prediction을 평균냈다면 여기선 weight를 평균내.",
+    "page": "L06 p.24",
+    "width": 560
+  },
+  {
+    "slot": "l06-steps01",
+    "src": "assets/lecture06/p032_panda_gibbon.png",
+    "alt": "Adversarial example: panda plus small sign-gradient noise becomes gibbon",
+    "caption": "Adversarial Training의 동기. 사람 눈엔 안 보이는 ε·sign(∇ₓJ) 노이즈(.007배)만 더해도 panda가 99.3% 확신의 gibbon으로 바뀌어. 이런 worst-case perturbation에서도 맞히게 학습하는 게 AT고, label 대신 model prediction을 쓰면 VAT가 돼.",
+    "page": "L06 p.32",
+    "width": 600
+  },
+  {
+    "slot": "l06-steps01",
+    "src": "assets/lecture06/p037_ict.png",
+    "alt": "ICT: mixup of two unlabeled samples, consistency between mixed prediction and mix of teacher predictions",
+    "caption": "ICT. 두 unlabeled u_j, u_k를 mix한 입력의 prediction이 <b>teacher(θ′) prediction들을 같은 λ로 mix한 값</b>과 같아지도록 맞춰(Mix_λ(ŷ_j, ŷ_k) vs ŷ_m). 위쪽 labeled 가지는 평범한 supervised loss야.",
+    "page": "L06 p.37",
+    "width": 600,
+    "after": true
+  },
+  {
+    "slot": "l06-m05-ps-mt",
+    "src": "assets/lecture06/p046_psmt.png",
+    "alt": "PS-MT framework: two teachers, weak/strong augmentation, T-VAT, stop gradient, student",
+    "caption": "PS-MT. teacher 2개(θ^t1, θ^t2)의 출력을 합쳐 <b>stop gradient</b>된 pseudo label ỹ^u를 만들고, strong aug를 받은 student가 이걸 맞춰(ℓ_con). T-VAT는 <b>student feature z^s</b>에 넣는 perturbation인데, 방향은 student 자신이 아니라 <b>두 teacher decoder</b>가 예측이 가장 크게 바뀌는 쪽으로 찾아줘.",
+    "page": "L06 p.46",
+    "width": 720
+  },
+  {
+    "slot": "l06-m06-dual-teacher",
+    "src": "assets/lecture06/p058_coupling.png",
+    "alt": "Teacher-Student vs Dual Student vs Dual Teacher",
+    "caption": "(a) 하나의 teacher, (b) 서로 가르치는 student 두 개, (c) Dual Teacher는 <b>student 하나 + EMA teacher 둘</b>로, 서로 다른 strong aug(x_s1, x_s2)에 대응하는 teacher가 번갈아 label을 줘. coupling이 느슨한 (a)(b)와 비교해서 봐.",
+    "page": "L06 p.58",
+    "width": 720
+  },
+  {
+    "slot": "l06-m07-s-former",
+    "src": "assets/lecture06/p069_s4former.png",
+    "alt": "S4Former framework: Patch Shuffle strong augmentation, patch-adaptive self-attention, NCR loss, EMA teacher",
+    "caption": "S⁴Former. EMA teacher + student 구조에서 strong aug는 <b>Patch Shuffle</b>(input)이고, 주황 <code>feature restore</code> 화살표는 decoder 앞에서 shuffle된 patch 순서를 되돌리는 거야. <b>Patch-Adaptive Self-Attention</b>(파란 박스)은 teacher patch confidence로 attention mask를 만드는 feature-level perturbation, output 쪽은 CE + NCR(non-pseudo-label class 분포 맞추기).",
+    "page": "L06 p.69",
+    "width": 720
+  }
+]

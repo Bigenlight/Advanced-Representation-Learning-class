@@ -1,7 +1,8 @@
 # 고급표현학습 중간고사 퀴즈 대비 — Core Ideas (01–07)
 
-> 퀴즈: **2026-10-29 (목), 20문제, 영어 T/F + MCQ, 쉬움.** 교수님: *"please study basic concept & core idea of the papers"*
-> 각 방법마다 **Problem → Core idea → vs. previous** 순서. 문제 pool 원본은 `exam/_parts/NN_*.md`, 모의고사는 `exam/mock_quiz_1~3.md`.
+> 퀴즈: **2026-10-29 (목), 20문제, 영어 T/F + MCQ + 빈칸(fill-in-the-blank), 쉬움.** 교수님: *"please study basic concept & core idea of the papers"* + *"study the pseudo code"* (10/22 추가 공지)
+> 각 방법마다 **Problem → Core idea → vs. previous** 순서. 문제 pool 원본은 `exam/_parts/NN_*.md` (C: T/F·MCQ, D: 빈칸), 모의고사는 `exam/mock_quiz_1~3.md` (T/F·MCQ) + `exam/mock_quiz_4~5.md` (빈칸·pseudo code 포함 새 형식).
+> **Pseudo code 9개 (X-CLR · SimCLR · DINO · MoCo · CLIP · Π-model · Temporal Ensembling · Label Propagation · DivideMix) → [`exam/pseudocode.md`](pseudocode.md)** 에 따로 정리.
 
 ## 목차
 

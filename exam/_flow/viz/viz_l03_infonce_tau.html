@@ -1,0 +1,49 @@
+<figure class="viz" id="viz-l03-nce">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">InfoNCE = N개 후보(1 positive + N−1 negative) 중 positive 고르는 softmax 분류</p><span class="illus">illustrative</span></div>
+  <div class="viz-scroll">
+  <svg viewBox="0 0 640 340" role="img" aria-label="Similarities, softmax probabilities and share among negatives under temperature, N=7">
+    <text class="t b" x="130" y="20">similarity s</text>
+    <text class="t b" x="312" y="20">p = softmax(s/τ)</text>
+    <text class="t b" x="496" y="20">negative 중 몫</text>
+    <line class="ax" x1="190" y1="28" x2="190" y2="262"/>
+    <g data-rows></g>
+    <line class="grid" x1="20" y1="268" x2="620" y2="268"/>
+    <text class="t b mono t-trap" data-loss x="20" y="294"></text>
+    <text class="t t-m" data-note x="20" y="318"></text>
+  </svg>
+  </div>
+  <div class="viz-ctrl"><label for="viz-l03-nce-t">temperature τ <input type="range" id="viz-l03-nce-t" min="0.05" max="1" step="0.01" value="0.3"></label><output data-o>0.30</output></div>
+  <figcaption>InfoNCE 설명(p.23–32)을 위한 그림. N = 7 후보(positive 1 + negative 6)를 softmax로 분류하고, loss = −log p(positive). 이 예시는 positive가 이미 argmax라 τ가 작을수록 loss가 <b>작아져</b> (τ=0.05 → 0.13, τ=1 → 1.69). 작은 τ의 진짜 효과는 오른쪽 열: negative들끼리 나눠 갖는 gradient 몫 <code>p_j / (1 − p_pos)</code>가 hard negative(0.70)에 몰려 (τ=0.05 ≈ 0.89, τ=1 ≈ 0.31). 큰 τ는 몫이 고르게 퍼져. (s 값은 개념 그림)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l03-nce'); if(!root) return;
+    var inp=root.querySelector('input'), g=root.querySelector('[data-rows]'), o=root.querySelector('[data-o]');
+    var L=['positive z⁺','hard neg','neg','neg','neg','neg','neg'], S=[0.80,0.70,0.40,0.30,0.10,-0.10,-0.30], NS='http://www.w3.org/2000/svg';
+    function el(n,a,t){var e=document.createElementNS(NS,n); for(var k in a) e.setAttribute(k,a[k]); if(t!==undefined) e.textContent=t; return e}
+    function draw(){
+      var tau=parseFloat(inp.value), i, z=0, p=[];
+      for(i=0;i<S.length;i++){ p.push(Math.exp((S[i]-S[0])/tau)); z+=p[i]; }
+      var neg=z-p[0], lo=-Math.log(p[0]/z);
+      g.textContent='';
+      for(i=0;i<S.length;i++){
+        var y=34+i*33, pos=(i===0), c=pos?'f-ok':(i===1?'f-trap':'f-m'), pr=p[i]/z;
+        g.appendChild(el('text',{'class':'t'+(pos?' t-ok b':''),x:20,y:y+15},L[i]));
+        var w=Math.max(1,70*Math.abs(S[i])/0.8);
+        g.appendChild(el('rect',{'class':c,x:S[i]>=0?190:190-w,y:y,width:w,height:20}));
+        g.appendChild(el('text',{'class':'t t-m mono',x:S[i]>=0?190+w+6:190-w-6,y:y+15,'text-anchor':S[i]>=0?'start':'end'},S[i].toFixed(2)));
+        var pw=Math.max(1,100*pr);
+        g.appendChild(el('rect',{'class':c,x:312,y:y,width:pw,height:20}));
+        g.appendChild(el('text',{'class':'t mono',x:318+pw,y:y+15},pr.toFixed(3)));
+        if(!pos){ var sh=p[i]/neg, sw=Math.max(1,80*sh);
+          g.appendChild(el('rect',{'class':c,x:496,y:y,width:sw,height:20}));
+          g.appendChild(el('text',{'class':'t mono',x:502+sw,y:y+15},sh.toFixed(2))); }
+        else g.appendChild(el('text',{'class':'t t-m',x:496,y:y+15},'—'));
+      }
+      g.parentNode.querySelector('[data-loss]').textContent='loss = −log p(positive) = '+lo.toFixed(3);
+      g.parentNode.querySelector('[data-note]').textContent='hard negative의 몫 = '+(p[1]/neg).toFixed(2)+(tau<0.15?' → negative 중 hard에 gradient 집중':(tau>0.6?' → 몫이 고르게 퍼짐':' (τ를 낮춰 봐)'))+'   (N = 7)';
+      o.textContent=tau.toFixed(2);
+    }
+    inp.addEventListener('input',draw); draw();
+  })();
+  </script>
+</figure>

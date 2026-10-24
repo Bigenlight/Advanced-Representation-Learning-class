@@ -1,0 +1,72 @@
+<figure class="viz" id="viz-l05-swav">
+  <div class="viz-head"><span class="viz-tag">구조 비교</span><p class="viz-title">SwAV: 한 view의 code를 다른 view의 feature로 예측해</p></div>
+  <div class="viz-scroll">
+  <svg viewBox="0 0 680 350" role="img" aria-label="SwAV swapped prediction: two views, shared encoder and prototypes, predict code of the other view">
+  <defs>
+<marker id="viz-l05-swav-ar-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ink)"/></marker>
+<marker id="viz-l05-swav-ar-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--accent)"/></marker>
+<marker id="viz-l05-swav-ar-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ok)"/></marker>
+</defs>
+<rect class="box-data" x="14" y="48" width="36" height="28"/>
+<text class="t t-m" x="32" y="67" text-anchor="middle">x₁</text>
+<path class="ln-ink" stroke-width="1.6" d="M50,62 L68,62" marker-end="url(#viz-l05-swav-ar-ink)"/>
+<rect class="box-train" x="68" y="42" width="70" height="40" rx="6"/>
+<text class="t b" x="103" y="67" text-anchor="middle">f<tspan dy="3" font-size="10">θ</tspan></text>
+<path class="ln-ink" stroke-width="1.6" d="M138,62 L168,62" marker-end="url(#viz-l05-swav-ar-ink)"/>
+<rect class="box" x="168" y="48" width="40" height="28" rx="5"/>
+<text class="t b" x="188" y="67" text-anchor="middle">z₁</text>
+<path class="ln-ink" stroke-width="1.6" d="M208,62 L246,62" marker-end="url(#viz-l05-swav-ar-ink)"/>
+<rect class="box" x="366" y="56" width="60" height="28" rx="5"/>
+<text class="t b t-acc" x="396" y="75" text-anchor="middle">p₁</text>
+<rect class="box" style="stroke:var(--ok)" x="366" y="101" width="60" height="28" rx="5"/>
+<text class="t b t-ok" x="396" y="120" text-anchor="middle">q₁</text>
+<path class="ln-acc" stroke-width="1.6" d="M282,70 L366,70" marker-end="url(#viz-l05-swav-ar-acc)"/>
+<path class="ln-ok" stroke-width="1.6" d="M282,115 L366,115" marker-end="url(#viz-l05-swav-ar-ok)"/>
+<path class="ln-trap" stroke-width="2" d="M340,122 L346,108 M346,122 L352,108"/>
+<text class="t t-trap mono" x="343" y="141" text-anchor="middle">sg*</text>
+<text class="t t-m" x="288" y="105" text-anchor="start">Sinkhorn</text>
+<rect class="box-data" x="14" y="248" width="36" height="28"/>
+<text class="t t-m" x="32" y="267" text-anchor="middle">x₂</text>
+<path class="ln-ink" stroke-width="1.6" d="M50,262 L68,262" marker-end="url(#viz-l05-swav-ar-ink)"/>
+<rect class="box-train" x="68" y="242" width="70" height="40" rx="6"/>
+<text class="t b" x="103" y="267" text-anchor="middle">f<tspan dy="3" font-size="10">θ</tspan></text>
+<path class="ln-ink" stroke-width="1.6" d="M138,262 L168,262" marker-end="url(#viz-l05-swav-ar-ink)"/>
+<rect class="box" x="168" y="248" width="40" height="28" rx="5"/>
+<text class="t b" x="188" y="267" text-anchor="middle">z₂</text>
+<path class="ln-ink" stroke-width="1.6" d="M208,262 L246,262" marker-end="url(#viz-l05-swav-ar-ink)"/>
+<rect class="box" x="366" y="246" width="60" height="28" rx="5"/>
+<text class="t b t-acc" x="396" y="265" text-anchor="middle">p₂</text>
+<rect class="box" style="stroke:var(--ok)" x="366" y="201" width="60" height="28" rx="5"/>
+<text class="t b t-ok" x="396" y="220" text-anchor="middle">q₂</text>
+<path class="ln-acc" stroke-width="1.6" d="M282,260 L366,260" marker-end="url(#viz-l05-swav-ar-acc)"/>
+<path class="ln-ok" stroke-width="1.6" d="M282,215 L366,215" marker-end="url(#viz-l05-swav-ar-ok)"/>
+<path class="ln-trap" stroke-width="2" d="M340,222 L346,208 M346,222 L352,208"/>
+<text class="t t-trap mono" x="343" y="241" text-anchor="middle">sg*</text>
+<text class="t t-m" x="288" y="205" text-anchor="start">Sinkhorn</text>
+<rect class="box-train" x="246" y="30" width="36" height="262" rx="6"/>
+<text class="t b" transform="translate(269,161) rotate(-90)" text-anchor="middle">C : K prototypes (공유)</text>
+<rect class="box-loss" x="500" y="49" width="110" height="52" rx="8"/>
+<rect class="box-loss" x="500" y="229" width="110" height="52" rx="8"/>
+<text class="t b" x="555" y="70" text-anchor="middle">CE(p₁, q₂)</text>
+<text class="t b" x="555" y="250" text-anchor="middle">CE(p₂, q₁)</text>
+<text class="t t-m" x="555" y="88" text-anchor="middle">= 1이 2를 예측</text>
+<text class="t t-m" x="555" y="268" text-anchor="middle">= 2가 1을 예측</text>
+<path class="ln-acc" stroke-width="1.6" d="M426,70 L500,70" marker-end="url(#viz-l05-swav-ar-acc)"/>
+<path class="ln-acc" stroke-width="1.6" d="M426,260 L500,260" marker-end="url(#viz-l05-swav-ar-acc)"/>
+<path class="ln-ok" stroke-width="1.6" d="M426,215 L500,90" marker-end="url(#viz-l05-swav-ar-ok)"/>
+<path class="ln-ok" stroke-width="1.6" d="M426,115 L500,240" marker-end="url(#viz-l05-swav-ar-ok)"/>
+<rect class="f-bg" x="431" y="142" width="64" height="22" rx="11" style="stroke:var(--trap);stroke-width:1.2"/>
+<text class="t t-trap b" x="463" y="158" text-anchor="middle">swap</text>
+<path class="ln-m" stroke-width="1.5" d="M10,62 L5,62 L5,262 L10,262"/>
+<text class="t t-m" x="14" y="166" text-anchor="start">같은 x의</text>
+<text class="t t-m" x="14" y="183" text-anchor="start">두 view</text>
+<text class="t t-m" x="666" y="294" text-anchor="end">* 노트 보충 (슬라이드엔 없음) · q = Sinkhorn(z·C)</text>
+<line class="grid" x1="14" y1="302" x2="666" y2="302"/>
+<text class="t b" x="14" y="324" text-anchor="start">Contrastive</text>
+<text class="t t-m" x="110" y="324" text-anchor="start">Feature ↔ Feature · positive/negative pair 비교</text>
+<text class="t b t-acc" x="14" y="344" text-anchor="start">SwAV</text>
+<text class="t t-m" x="110" y="344" text-anchor="start">Feature ↔ Prototype · online code, 명시적 negative 없음</text>
+  </svg>
+  </div>
+  <figcaption>두 view의 feature z₁, z₂는 같은 encoder와 같은 prototype C(accent 실선 = gradient로 학습)를 지나가. C로 <b>prediction p</b>와 <b>code q</b>를 얻고, loss는 <b>자기 view가 아니라 반대 view의 q</b>를 맞히는 CE야(crossed 화살표). 자기 code를 자기가 맞히면 trivial하니까 swap해서 view-invariant를 배우게 해. q는 C가 바로 주는 게 아니라 z·C 점수를 Sinkhorn으로 정리한 target이고, gradient가 안 간다는 건(sg*) 슬라이드가 아니라 노트의 보충 설명이야. 아래 줄처럼 SwAV는 feature끼리 비교하지 않고 prototype 배정을 예측해. (L05 p.26–30)</figcaption>
+</figure>

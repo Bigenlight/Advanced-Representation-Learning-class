@@ -1,0 +1,170 @@
+<figure class="viz" id="viz-l04-frameworks">
+  <div class="viz-head"><span class="viz-tag">구조 비교</span><p class="viz-title">SimCLR · BYOL · Barlow Twins · DINO를 같은 문법으로</p></div>
+  <div class="viz-scroll">
+<svg viewBox="0 0 720 750" role="img" aria-label="SimCLR, BYOL, Barlow Twins, DINO architecture comparison">
+<defs><marker id="viz-l04-fw-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ink)"/></marker></defs>
+<text class="t t-acc b" x="8" y="18" style="font-size:15px">SimCLR · InfoNCE</text>
+<text class="t t-m" x="162" y="18">shared encoder · negative 있음</text>
+<rect class="box-data" x="8" y="83" width="30" height="28" rx="5"/>
+<text class="t b" x="23.0" y="102.0" text-anchor="middle">x</text>
+<line class="ln-ink" stroke-width="1.4" x1="38" y1="97" x2="56" y2="60" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-data" x="56" y="46" width="34" height="28" rx="5"/>
+<text class="t b" x="73.0" y="65.0" text-anchor="middle">x₁</text>
+<line class="ln-ink" stroke-width="1.4" x1="90" y1="60" x2="108" y2="60" marker-end="url(#viz-l04-fw-ah)"/>
+<line class="ln-ink" stroke-width="1.4" x1="38" y1="97" x2="56" y2="135" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-data" x="56" y="121" width="34" height="28" rx="5"/>
+<text class="t b" x="73.0" y="140.0" text-anchor="middle">x₂</text>
+<line class="ln-ink" stroke-width="1.4" x1="90" y1="135" x2="108" y2="135" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-train" x="108" y="42" width="92" height="36" rx="5"/>
+<text class="t b" x="154.0" y="65.0" text-anchor="middle">encoder f</text>
+<line class="ln-ink" stroke-width="1.4" x1="200" y1="60" x2="216" y2="60" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-train" x="216" y="42" width="92" height="36" rx="5"/>
+<text class="t b" x="262.0" y="65.0" text-anchor="middle">proj. g</text>
+<line class="ln-ink" stroke-width="1.4" x1="308" y1="60" x2="470" y2="60" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-train" x="108" y="117" width="92" height="36" rx="5"/>
+<text class="t b" x="154.0" y="140.0" text-anchor="middle">encoder f</text>
+<line class="ln-ink" stroke-width="1.4" x1="200" y1="135" x2="216" y2="135" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-train" x="216" y="117" width="92" height="36" rx="5"/>
+<text class="t b" x="262.0" y="140.0" text-anchor="middle">proj. g</text>
+<line class="ln-ink" stroke-width="1.4" x1="308" y1="135" x2="470" y2="135" marker-end="url(#viz-l04-fw-ah)"/>
+<text class="t t-m mono" x="390" y="52" text-anchor="middle">z₁</text><text class="t t-m mono" x="390" y="127" text-anchor="middle">z₂</text>
+<line class="ln-acc dash" stroke-width="1.4" x1="154" y1="78" x2="154" y2="117"/>
+<line class="ln-acc dash" stroke-width="1.4" x1="262" y1="78" x2="262" y2="117"/>
+<text class="t t-acc" x="208" y="102" text-anchor="middle" style="font-size:13px">shared weights</text>
+<polyline class="ln-ink" stroke-width="1.4" fill="none" points="470,60 505,85" marker-end="url(#viz-l04-fw-ah)"/><polyline class="ln-ink" stroke-width="1.4" fill="none" points="470,135 505,109" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-loss" x="520" y="63" width="190" height="68" rx="5"/>
+<text class="t b" x="615.0" y="95.0" text-anchor="middle">InfoNCE (NT-Xent)</text>
+<text class="t t-m" x="615.0" y="111.0" text-anchor="middle" style="font-size:13px">z₁↔z₂ 당김 · 나머지 2N−2 밀기</text>
+<text class="t t-m" x="520" y="149" style="font-size:13px">negative = 같은 batch의 다른 샘플</text><text class="t t-acc b" x="520" y="169" style="font-size:13px">학습 후 g 버림, f 사용 (p.25)</text>
+<line class="grid" x1="0" y1="184" x2="720" y2="184"/>
+<text class="t t-acc b" x="8" y="208" style="font-size:15px">BYOL · MSE</text>
+<text class="t t-m" x="108" y="208">online ↔ EMA target · negative 없음</text>
+<rect class="box-data" x="8" y="276" width="30" height="28" rx="5"/>
+<text class="t b" x="23.0" y="295.0" text-anchor="middle">x</text>
+<line class="ln-ink" stroke-width="1.4" x1="38" y1="290" x2="56" y2="252" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-data" x="56" y="238" width="34" height="28" rx="5"/>
+<text class="t b" x="73.0" y="257.0" text-anchor="middle">x₁</text>
+<line class="ln-ink" stroke-width="1.4" x1="90" y1="252" x2="108" y2="252" marker-end="url(#viz-l04-fw-ah)"/>
+<line class="ln-ink" stroke-width="1.4" x1="38" y1="290" x2="56" y2="328" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-data" x="56" y="314" width="34" height="28" rx="5"/>
+<text class="t b" x="73.0" y="333.0" text-anchor="middle">x₂</text>
+<line class="ln-ink" stroke-width="1.4" x1="90" y1="328" x2="108" y2="328" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-train" x="108" y="234" width="92" height="36" rx="5"/>
+<text class="t b" x="154.0" y="257.0" text-anchor="middle">encoder f</text>
+<line class="ln-ink" stroke-width="1.4" x1="200" y1="252" x2="216" y2="252" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-train" x="216" y="234" width="92" height="36" rx="5"/>
+<text class="t b" x="262.0" y="257.0" text-anchor="middle">proj. g</text>
+<line class="ln-ink" stroke-width="1.4" x1="308" y1="252" x2="324" y2="252" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-ema" x="108" y="310" width="92" height="36" rx="5"/>
+<text class="t b" x="154.0" y="333.0" text-anchor="middle">encoder f′</text>
+<line class="ln-ink" stroke-width="1.4" x1="200" y1="328" x2="216" y2="328" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-ema" x="216" y="310" width="92" height="36" rx="5"/>
+<text class="t b" x="262.0" y="333.0" text-anchor="middle">proj. g′</text>
+<rect class="box-train" x="324" y="234" width="92" height="36" rx="5"/>
+<text class="t b" x="370.0" y="257.0" text-anchor="middle">predictor q</text>
+<line class="ln-ink" stroke-width="1.4" x1="416" y1="252" x2="470" y2="252"/><polyline class="ln-ink" stroke-width="1.4" fill="none" points="470,252 505,278" marker-end="url(#viz-l04-fw-ah)"/>
+<line class="ln-ink" stroke-width="1.4" x1="308" y1="328" x2="470" y2="328"/><polyline class="ln-ink" stroke-width="1.4" fill="none" points="470,328 505,302" marker-end="url(#viz-l04-fw-ah)"/>
+<line class="ln-trap" stroke-width="2" x1="393" y1="335" x2="399" y2="321"/><line class="ln-trap" stroke-width="2" x1="401" y1="335" x2="407" y2="321"/>
+<text class="t t-trap b mono" x="400" y="316" text-anchor="middle">sg</text>
+<text class="t t-m" x="354" y="350" text-anchor="middle" style="font-size:13px">predictor 없음</text>
+<line class="ln-m dash" stroke-width="1.4" x1="154" y1="270" x2="154" y2="308" marker-end="url(#viz-l04-fw-ah)"/>
+<text class="t t-m b" x="162" y="295">EMA</text>
+<line class="ln-m dash" stroke-width="1.4" x1="262" y1="270" x2="262" y2="308" marker-end="url(#viz-l04-fw-ah)"/>
+<text class="t t-m b" x="270" y="295">EMA</text>
+<text class="t t-acc" x="424" y="244" style="font-size:13px">q(z)</text><text class="t t-m" x="326" y="320" style="font-size:13px">z′</text>
+<rect class="box-loss" x="520" y="256" width="190" height="68" rx="5"/>
+<text class="t b" x="615.0" y="288.0" text-anchor="middle">normalized MSE</text>
+<text class="t t-m" x="615.0" y="304.0" text-anchor="middle" style="font-size:13px">q(z) ≈ sg(z′)</text>
+<text class="t t-m" x="520" y="342" style="font-size:13px">gradient는 online 쪽에만 흐름</text>
+<line class="grid" x1="0" y1="374" x2="720" y2="374"/>
+<text class="t t-acc b" x="8" y="398" style="font-size:15px">Barlow · C→I</text>
+<text class="t t-m" x="126" y="398">shared encoder · negative 없음</text>
+<rect class="box-data" x="8" y="463" width="30" height="28" rx="5"/>
+<text class="t b" x="23.0" y="482.0" text-anchor="middle">x</text>
+<line class="ln-ink" stroke-width="1.4" x1="38" y1="477" x2="56" y2="440" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-data" x="56" y="426" width="34" height="28" rx="5"/>
+<text class="t b" x="73.0" y="445.0" text-anchor="middle">x₁</text>
+<line class="ln-ink" stroke-width="1.4" x1="90" y1="440" x2="108" y2="440" marker-end="url(#viz-l04-fw-ah)"/>
+<line class="ln-ink" stroke-width="1.4" x1="38" y1="477" x2="56" y2="515" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-data" x="56" y="501" width="34" height="28" rx="5"/>
+<text class="t b" x="73.0" y="520.0" text-anchor="middle">x₂</text>
+<line class="ln-ink" stroke-width="1.4" x1="90" y1="515" x2="108" y2="515" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-train" x="108" y="422" width="92" height="36" rx="5"/>
+<text class="t b" x="154.0" y="445.0" text-anchor="middle">encoder f</text>
+<line class="ln-ink" stroke-width="1.4" x1="200" y1="440" x2="360" y2="440" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-train" x="108" y="497" width="92" height="36" rx="5"/>
+<text class="t b" x="154.0" y="520.0" text-anchor="middle">encoder f</text>
+<line class="ln-ink" stroke-width="1.4" x1="200" y1="515" x2="360" y2="515" marker-end="url(#viz-l04-fw-ah)"/>
+<text class="t t-m mono" x="280" y="432" text-anchor="middle">Zᴬ</text><text class="t t-m mono" x="280" y="507" text-anchor="middle">Zᴮ</text>
+<line class="ln-acc dash" stroke-width="1.4" x1="154" y1="458" x2="154" y2="497"/>
+<text class="t t-acc" x="164" y="482" style="font-size:13px">shared weights</text>
+<polyline class="ln-ink" stroke-width="1.4" fill="none" points="360,440 400,440 400,471"/><polyline class="ln-ink" stroke-width="1.4" fill="none" points="360,515 400,515 400,483"/>
+<text class="t t-m" x="408" y="481" style="font-size:13px">batch 방향</text>
+<rect class="f-acc" x="470" y="443" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-bg" x="487" y="443" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-bg" x="504" y="443" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-bg" x="521" y="443" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-bg" x="470" y="460" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-acc" x="487" y="460" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-bg" x="504" y="460" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-bg" x="521" y="460" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-bg" x="470" y="477" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-bg" x="487" y="477" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-acc" x="504" y="477" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-bg" x="521" y="477" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-bg" x="470" y="494" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-bg" x="487" y="494" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-bg" x="504" y="494" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<rect class="f-acc" x="521" y="494" width="17" height="17" style="stroke:var(--line);stroke-width:1"/>
+<text class="t b" x="504" y="437" text-anchor="middle" style="font-size:13px">C (D×D)</text>
+<line class="ln-ink" stroke-width="1.4" x1="538" y1="477" x2="556" y2="477" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-loss" x="558" y="451" width="126" height="52" rx="5"/>
+<text class="t b" x="621.0" y="475.0" text-anchor="middle">C → I</text>
+<text class="t t-m" x="621.0" y="491.0" text-anchor="middle" style="font-size:13px">diag→1, off→0</text>
+<line class="grid" x1="0" y1="564" x2="720" y2="564"/>
+<text class="t t-acc b" x="8" y="588" style="font-size:15px">DINO · CE</text>
+<text class="t t-m" x="99" y="588">student ↔ EMA teacher · negative 없음</text>
+<rect class="box-data" x="8" y="656" width="30" height="28" rx="5"/>
+<text class="t b" x="23.0" y="675.0" text-anchor="middle">x</text>
+<line class="ln-ink" stroke-width="1.4" x1="38" y1="670" x2="56" y2="632" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-data" x="56" y="618" width="34" height="28" rx="5"/>
+<text class="t b" x="73.0" y="637.0" text-anchor="middle">x₁</text>
+<line class="ln-ink" stroke-width="1.4" x1="90" y1="632" x2="108" y2="632" marker-end="url(#viz-l04-fw-ah)"/>
+<line class="ln-ink" stroke-width="1.4" x1="38" y1="670" x2="56" y2="708" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-data" x="56" y="694" width="34" height="28" rx="5"/>
+<text class="t b" x="73.0" y="713.0" text-anchor="middle">x₂</text>
+<line class="ln-ink" stroke-width="1.4" x1="90" y1="708" x2="108" y2="708" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box-train" x="108" y="614" width="120" height="36" rx="5"/>
+<text class="t b" x="168.0" y="637.0" text-anchor="middle">student g_θs</text>
+<line class="ln-ink" stroke-width="1.4" x1="228" y1="632" x2="350" y2="632" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box" x="350" y="614" width="92" height="36" rx="5"/>
+<text class="t b" x="396.0" y="637.0" text-anchor="middle">softmax τ_s</text>
+<rect class="box-ema" x="108" y="690" width="120" height="36" rx="5"/>
+<text class="t b" x="168.0" y="713.0" text-anchor="middle">teacher g_θt</text>
+<line class="ln-ink" stroke-width="1.4" x1="228" y1="708" x2="244" y2="708" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box" x="244" y="690" width="90" height="36" rx="5"/>
+<text class="t b" x="289.0" y="713.0" text-anchor="middle">t − C</text>
+<line class="ln-ink" stroke-width="1.4" x1="334" y1="708" x2="350" y2="708" marker-end="url(#viz-l04-fw-ah)"/>
+<rect class="box" x="350" y="690" width="92" height="36" rx="5"/>
+<text class="t b" x="396.0" y="713.0" text-anchor="middle">softmax τ_t</text>
+<text class="t t-m" x="289" y="742" text-anchor="middle" style="font-size:13px">centering (teacher만)</text>
+<line class="ln-ink" stroke-width="1.4" x1="442" y1="632" x2="490" y2="632"/><polyline class="ln-ink" stroke-width="1.4" fill="none" points="490,632 525,658" marker-end="url(#viz-l04-fw-ah)"/>
+<line class="ln-ink" stroke-width="1.4" x1="442" y1="708" x2="490" y2="708"/><polyline class="ln-ink" stroke-width="1.4" fill="none" points="490,708 525,682" marker-end="url(#viz-l04-fw-ah)"/>
+<line class="ln-trap" stroke-width="2" x1="459" y1="715" x2="465" y2="701"/><line class="ln-trap" stroke-width="2" x1="467" y1="715" x2="473" y2="701"/>
+<text class="t t-trap b mono" x="466" y="696" text-anchor="middle">sg</text>
+<line class="ln-m dash" stroke-width="1.4" x1="168" y1="650" x2="168" y2="688" marker-end="url(#viz-l04-fw-ah)"/>
+<text class="t t-m b" x="176" y="675">EMA</text>
+<text class="t t-acc" x="466" y="624" text-anchor="middle" style="font-size:13px">p_s</text>
+<rect class="box-loss" x="530" y="636" width="180" height="68" rx="5"/>
+<text class="t b" x="620.0" y="668.0" text-anchor="middle">Cross-Entropy</text>
+<text class="t t-m" x="620.0" y="684.0" text-anchor="middle" style="font-size:13px">H(p_t, p_s) 분포끼리</text>
+</svg>
+  </div>
+  <div class="viz-ctrl" style="font-size:.8rem;gap:.4rem 1rem">
+    <span style="display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap"><svg width="26" height="14" aria-hidden="true"><rect class="box-train" x="1" y="1" width="24" height="12" rx="3"/></svg> gradient로 학습</span>
+    <span style="display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap"><svg width="26" height="14" aria-hidden="true"><rect class="box-ema" x="1" y="1" width="24" height="12" rx="3"/></svg> EMA로만 갱신</span>
+    <span style="display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap"><b style="color:var(--trap);font-family:var(--f-mono)">// sg</b> stop-gradient</span>
+    <span style="display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap"><svg width="26" height="14" aria-hidden="true"><rect class="box-loss" x="1" y="1" width="24" height="12" rx="3"/></svg> loss</span>
+  </div>
+  <figcaption>세로로 비교해 봐. <b>SimCLR</b>는 같은 encoder 두 번 + InfoNCE(batch 안 negative). <b>BYOL</b>은 online에만 <b>predictor</b>가 있고 target은 EMA + <b>sg</b>라 negative 없이도 collapse를 피해. <b>Barlow Twins</b>는 sample이 아니라 feature 차원끼리 D×D 상관행렬을 I로. <b>DINO</b>는 BYOL과 비슷하지만 MSE가 아니라 softmax 분포 간 CE이고, collapse는 teacher의 <b>centering + sharpening</b>(teacher에만, softmax는 양쪽)으로 막아. (L04 p.23–44)</figcaption>
+</figure>

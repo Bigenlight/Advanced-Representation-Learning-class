@@ -10,7 +10,7 @@
 | `notes/` | 강의별 정식 노트 `NN_topic.md` |
 | `notes/_drafts/` | 페이지 청크별 초안 (멀티에이전트 산출물, 검증 완료) |
 | `assets/lectureNN/` | 노트용 슬라이드 그림 |
-| `exam/` | 시험 대비 — `core_ideas.md` (01–07 core idea 치트시트), `mock_quiz_1~3.md` (20문제 모의고사), `_parts/` (강의별 문제 pool 130문항) |
+| `exam/` | 시험 대비 — **`flow.html` (7강 한 바퀴 복습 페이지: 슬라이드 그림 + 개념 그래프·인터랙티브, 브라우저로 열기 / 소스는 `_flow/`)**, `core_ideas.md` (01–07 core idea 치트시트), **`pseudocode.md` (pseudo code 9개 총정리)**, `mock_quiz_1~3.md` (T/F·MCQ 20문제), **`mock_quiz_4~5.md` (빈칸·pseudo code 포함 새 형식)**, `_parts/` (강의별 pool: T/F·MCQ 139 + 빈칸 84, `pc_1~4` pseudo code pool 59 — 전부 Opus 독립 검수) |
 
 ## 진도 표
 
@@ -31,3 +31,5 @@
 - **중간고사 퀴즈: 2026-10-29 (목)** — 총 **20문제**, 쉽게 출제. 교수님: *"please study basic concept & core idea of the papers"* → 논문별 핵심 아이디어 위주
 - 시험 있음 (상세 TBD — 강의계획서 확인 후 기입)
 - **퀴즈**: 영어 출제, 주로 **T/F + 객관식(MCQ)**, 교수님 말로는 **어렵지 않을 것** (2026-10-15 전달받음)
+- **추가 공지 (2026-10-22, 시험 전 마지막 수업)**: **빈칸 채우기(fill-in-the-blank)**도 출제, **pseudo code도 공부할 것**. 완전 서술형은 없을 듯
+  - 슬라이드 pseudo code 9개: X-CLR (L03 p.67) · SimCLR (L04 p.25) · DINO (L04 p.40) · MoCo (L05 p.12) · CLIP (L05 p.35) · Π-model (L06 p.18) · Temporal Ensembling (L06 p.20) · Label Propagation (L07 p.11) · DivideMix (L07 p.54)

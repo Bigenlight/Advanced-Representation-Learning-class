@@ -178,3 +178,41 @@ Disentangled, Interpretable, Actionable, and Transferable are additional desirab
 **Answer**: True — "Beyond Compression and Prediction", "often consequences of learning representations that are both..." (p.22)
 
 <!-- REVIEWED | fixes: 0 | reviewer: opus -->
+
+## D. Fill-in-the-blank pool (7 questions)
+
+### F1 [Blank]
+In "What AI has been learning," the target of learning moves from rules to world knowledge: Rules → Patterns → Features → ______ → World Knowledge. This stage means learning object-, scene-, and semantic-level embeddings that generalize across tasks.
+**Answer**: Representations (accept: representation) — 3단계 Features(edges, textures, shapes, parts) 다음이 4단계 **Representations** (transfer to many tasks). 사람이 넣는 지식↓, 학습된 것의 추상성·일반성↑. 이 강의의 중심 단계 (p.7)
+
+### F2 [Blank]
+A representation is a transformation of raw data into a form that makes (1) ______ tasks easier. It is written $\mathbf{z}=f(\mathbf{x})$, where the mapping $f$ from data space $\mathcal{X}$ to representation space $\mathcal{Z}$ is called the (2) ______.
+**Answer**: (1) downstream (2) encoder (accept: encoding function) — p.12의 ★ 정의 문장 + "Mapping (Encoding)" 그림 그대로. $\mathbf{z}$를 classification / detection / retrieval 같은 **downstream task**에 씀, 보통 $D \ll \dim(\mathbf{x})$ (p.12)
+
+### F3 [Blank]
+Before deep learning, features such as SIFT, HOG, and SURF were ______ features, and a separate classifier (e.g., SVM) was trained on top of them.
+**Answer**: hand-crafted (accept: handcrafted, hand-designed, human-designed, manually designed, engineered) — "Feature Engineering Era: Humans manually designed features." 문제 3개 = Human-designed / Task-specific / Limited scalability → "Every new task requires new features" (p.14–15)
+
+### F4 [Blank]
+With deep learning, a backbone pretrained on ImageNet is reused for detection, segmentation, and tracking: "One representation, many applications. Learn once, use ______."
+**Answer**: everywhere — **representation reuse**. task마다 Model A/B/C를 따로 학습하는 task-specific model과 대비되는 general-purpose representation (p.16–17)
+
+### F5 [Blank]
+"Compression is not about losing information. It is about removing ______ information."
+**Answer**: irrelevant (accept: task-irrelevant, nuisance, redundant — p.21 "removing redundancy and nuisances") — 압축 = 정보 손실이 아니라 **무관한 정보(nuisance) 제거**. 이점 3개: Less Memory / Invariance / Occam's Razor (p.19)
+
+### F6 [Blank]
+"Prediction means inferring ______ properties of the world," such as the future (video prediction, V-JEPA), the past (state estimation), or missing data (MAE, inpainting).
+**Answer**: unobserved (accept: unobservable, not directly observed, hidden) — "Why do we need representations? To predict what we cannot directly observe." (p.20)
+
+### F7 [Blank]
+In the "Types of Representation Learners" table, Autoencoding, Contrastive, and Clustering belong to the (1) ______ principle, while Future prediction, Imputation, and Pretext tasks belong to the (2) ______ principle.
+**Answer**: (1) Compression (2) Prediction — Contrastive가 **Compression** 쪽("Achieve invariance to viewing transformations")인 게 함정 포인트. 두 원리의 교집합 = Better Representations (generalize better, transfer, sample efficient) (p.21, p.23)
+
+<!-- AUGMENTED 2026-10-22 | C fixes: 0 | C added: 0 | D blanks: 7 | author: opus -->
+
+<!-- VERIFIED 2026-10-22 | checked: 25 | fixed: 3 | deleted: 0 | reviewer: opus
+F2: accept에 "encoding function" 추가 (p.12 "Mapping (Encoding)" 박스 표현)
+F3: stem의 "humans manually designed them" 삭제 — accept 목록(manually designed / human-designed)을 그대로 알려주는 giveaway였음. "engineered"(feature engineering era) accept 추가
+F5: accept에 "redundant" 추가 — p.21 Compression "removing redundancy and nuisances"로도 방어 가능
+-->

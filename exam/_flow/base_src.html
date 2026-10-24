@@ -1,0 +1,1141 @@
+<title>고급표현학습 한 바퀴</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: 왼쪽 sticky 노선(rail = 실제 강의 순서) + 가운데 읽기 칼럼 하나. 모바일에선 rail이 위쪽 가로 칩 바로. */
+:root{
+  --bg:#F1F3F7; --surface:#FFFFFF; --ink:#141A23; --muted:#596476; --line:#D7DDE6;
+  --accent:#2445C4; --accent-soft:#E3E9FB;
+  --rl:#7A3D9F; --rl-soft:#F3EBF8;
+  --trap:#9C5300; --trap-soft:#FBEFDF;
+  --ok:#0F7646; --code-bg:#E8ECF3;
+  --f-display:"Bricolage Grotesque","IBM Plex Sans KR","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1218; --surface:#161B23; --ink:#E3E8EF; --muted:#9BA6B6; --line:#29313D;
+    --accent:#8AA2FF; --accent-soft:#1B2442;
+    --rl:#CFA0EC; --rl-soft:#261C30;
+    --trap:#F2AA62; --trap-soft:#2E2318;
+    --ok:#4FC98F; --code-bg:#1C222C;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1218; --surface:#161B23; --ink:#E3E8EF; --muted:#9BA6B6; --line:#29313D;
+  --accent:#8AA2FF; --accent-soft:#1B2442;
+  --rl:#CFA0EC; --rl-soft:#261C30;
+  --trap:#F2AA62; --trap-soft:#2E2318;
+  --ok:#4FC98F; --code-bg:#1C222C;
+  color-scheme:dark;
+}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.72;word-break:keep-all;overflow-wrap:break-word}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:var(--accent)}
+a:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+b,strong{font-weight:600}
+code{font-family:var(--f-mono);font-size:.86em;background:var(--code-bg);padding:.08em .32em;border-radius:4px;word-break:break-all}
+pre{margin:0;background:var(--code-bg);border-radius:8px;padding:.85rem 1rem;overflow-x:auto;font:400 .8rem/1.65 var(--f-mono);color:var(--ink)}
+pre code{background:none;padding:0;font-size:inherit;word-break:normal}
+.hl{color:var(--accent);font-weight:600}
+.math{font-family:var(--f-mono);font-size:.88em;white-space:nowrap}
+.wrap{max-width:74rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:2.5rem;align-items:center;padding-block:3rem 2.5rem}
+.eyebrow{font:600 .74rem/1.4 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(2.3rem,6.4vw,3.8rem);line-height:1.04;letter-spacing:-.02em;margin:.5rem 0 1rem;text-wrap:balance}
+.lede{font-size:1.06rem;color:var(--muted);max-width:36rem;margin:0 0 1.2rem}
+.thesis{font-family:var(--f-display);font-weight:600;font-size:clamp(1.15rem,2.6vw,1.45rem);line-height:1.45;margin:0 0 1.3rem;max-width:34rem;text-wrap:balance}
+.thesis em{font-style:normal;color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;list-style:none;padding:0;margin:0}
+.chips li{font:500 .8rem/1 var(--f-mono);padding:.45rem .6rem;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.chips li.key{border-color:var(--accent);color:var(--accent)}
+.matrix{margin:0;justify-self:center;width:100%;max-width:19rem}
+.mx-top{display:flex;justify-content:space-between;font:500 .7rem/1 var(--f-mono);color:var(--muted);margin:0 0 .45rem 1.4rem}
+.mx-body{display:grid;grid-template-columns:1.4rem minmax(0,1fr);align-items:center}
+.mx-side{writing-mode:vertical-rl;transform:rotate(180deg);font:500 .7rem/1 var(--f-mono);color:var(--muted);text-align:center}
+.simgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;aspect-ratio:1/1;max-width:100%}
+.cell{background:var(--accent);border-radius:2px}
+.cell.pos{opacity:1}
+.matrix figcaption{font-size:.82rem;color:var(--muted);margin-top:.8rem;line-height:1.6}
+
+/* shell + rail */
+.shell{display:grid;grid-template-columns:13.5rem minmax(0,46rem);gap:3.5rem;justify-content:center;padding-block:1rem 4rem}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 1.25rem);align-self:start;max-height:calc(100vh - 2.5rem);overflow:auto;padding-block:1.5rem}
+.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:.1rem}
+.rail a{display:flex;gap:.55rem;align-items:baseline;padding:.32rem .55rem;border-radius:6px;color:var(--muted);text-decoration:none;font-size:.9rem;line-height:1.4}
+.rail a:hover{color:var(--ink);background:var(--surface)}
+.rail a .n{font:600 .7rem/1 var(--f-mono);min-width:2.3rem;color:var(--muted);flex:none}
+.rail a[aria-current="true"]{background:var(--accent-soft);color:var(--ink)}
+.rail a[aria-current="true"] .n{color:var(--accent)}
+.rail a.is-done .t::after{content:" ✓";color:var(--ok);font-weight:600}
+.rail .grp{font:600 .66rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:.9rem .55rem .35rem;opacity:.8}
+
+main{min-width:0}
+main>section{padding-block:2.6rem;border-top:1px solid var(--line);scroll-margin-top:4.5rem}
+main>section:first-child{border-top:0}
+h2{font-family:var(--f-display);font-weight:700;font-size:1.75rem;line-height:1.2;letter-spacing:-.01em;margin:0 0 .7rem;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:600;font-size:1.15rem;line-height:1.3;margin:1.8rem 0 .5rem;text-wrap:balance}
+p{margin:0 0 .9rem}
+.muted{color:var(--muted)}
+.offscope{display:inline-block;font:600 .74rem/1 var(--f-mono);letter-spacing:.04em;color:var(--rl);border:1px solid var(--rl);border-radius:999px;padding:.4rem .6rem;margin:0 0 1rem}
+
+/* chapter head */
+.ch-head{display:flex;gap:1rem;align-items:baseline;flex-wrap:wrap;margin-bottom:.3rem}
+.ch-num{font-family:var(--f-display);font-weight:800;font-size:3.1rem;line-height:1;color:var(--accent);letter-spacing:-.03em}
+.ch-head h2{margin:0}
+.ch-meta{font:500 .78rem/1 var(--f-mono);color:var(--muted);margin:0}
+.ch-q{font-size:1.12rem;font-weight:600;margin:.8rem 0 1rem;display:flex;gap:.6rem;align-items:baseline;flex-wrap:wrap}
+.ch-q .k{flex:none}
+
+/* method rows */
+.m{display:grid;grid-template-columns:minmax(0,11.5rem) minmax(0,1fr);gap:.3rem 1.3rem;padding-block:1rem;border-top:1px solid var(--line)}
+.m:first-of-type{border-top:0}
+.m-name{font-family:var(--f-display);font-weight:600;font-size:1.04rem;line-height:1.3;display:block}
+.m-src{display:block;font:400 .72rem/1.5 var(--f-mono);color:var(--muted);margin-top:.25rem}
+.m-body{display:grid;gap:.3rem;min-width:0}
+.m-body p{margin:0}
+.k{font:600 .68rem/1 var(--f-mono);letter-spacing:.05em;color:var(--accent);margin-right:.35rem;white-space:nowrap}
+.methods{margin:.6rem 0 0}
+
+/* steps (실제 순서가 있는 계보) */
+ol.steps{list-style:none;margin:1rem 0 1.2rem;padding:0}
+ol.steps li{position:relative;padding:0 0 1rem 1.7rem}
+ol.steps li::before{content:"";position:absolute;left:.15rem;top:.5rem;width:.62rem;height:.62rem;border-radius:50%;background:var(--accent)}
+ol.steps li::after{content:"";position:absolute;left:.43rem;top:1.25rem;bottom:.05rem;width:2px;background:var(--line)}
+ol.steps li:last-child{padding-bottom:0}
+ol.steps li:last-child::after{display:none}
+.s-name{font-family:var(--f-display);font-weight:600}
+.s-src{font:400 .72rem/1 var(--f-mono);color:var(--muted);margin-left:.4rem}
+.s-why{display:block;font-size:.9rem;color:var(--muted)}
+.s-body{display:block}
+
+/* notes */
+.note{border-radius:8px;padding:.85rem 1rem;margin:1.2rem 0;display:grid;gap:.35rem}
+.note p,.note ul{margin:0}
+.note ul{padding-left:1.1rem;display:grid;gap:.25rem}
+.note .tag{font:600 .7rem/1 var(--f-mono);letter-spacing:.07em;text-transform:uppercase}
+.note.rl{background:var(--rl-soft)}
+.note.rl .tag{color:var(--rl)}
+.note.trap{background:var(--trap-soft)}
+.note.trap .tag{color:var(--trap)}
+.note.next{border:1px dashed var(--line)}
+.note.next .tag{color:var(--accent)}
+.legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;margin:1rem 0}
+.legend .note{margin:0}
+
+/* tables */
+.tbl{overflow-x:auto;margin:1rem 0 1.2rem;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:36rem;font-size:.88rem;line-height:1.55}
+th,td{text-align:left;vertical-align:top;padding:.55rem .7rem;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{font:600 .68rem/1.3 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+td:first-child{font-weight:600}
+td .m-src{display:inline;margin:0}
+
+/* split */
+.split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin:1rem 0}
+.split>div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem}
+.split h3{margin:0 0 .3rem;font-size:1.02rem}
+.split p{margin:0;font-size:.94rem}
+
+/* glossary */
+.gloss{display:grid;grid-template-columns:minmax(0,11rem) minmax(0,1fr);margin:.4rem 0 0}
+.gloss dt,.gloss dd{padding-block:.6rem;border-top:1px solid var(--line);margin:0}
+.gloss dt{font-weight:600;padding-right:1rem;line-height:1.45}
+.gloss dt small{display:block;font:400 .72rem/1.4 var(--f-mono);color:var(--muted);margin-top:.15rem}
+.gloss dd{min-width:0}
+.rlx{display:block;font-size:.9rem;color:var(--rl);margin-top:.15rem}
+.rlx::before{content:"RL ";font:600 .66rem/1 var(--f-mono);letter-spacing:.05em}
+
+/* self check */
+.quiz{display:grid;gap:.5rem;margin-top:1.4rem}
+.quiz-h{font:600 .72rem/1 var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 .2rem}
+details.q{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.7rem .95rem}
+details.q summary{cursor:pointer;list-style:none;display:flex;gap:.6rem;align-items:baseline}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary .typ{font:600 .66rem/1 var(--f-mono);color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:.25rem .35rem;flex:none}
+details.q summary .qs{flex:1;min-width:0}
+details.q summary::after{content:"정답";font:500 .7rem/1 var(--f-mono);color:var(--muted);flex:none}
+details.q[open] summary::after{content:"접기"}
+.ans{margin:.55rem 0 0;padding-top:.55rem;border-top:1px solid var(--line);font-size:.94rem}
+.ans b{color:var(--ok)}
+.done{display:inline-flex;gap:.5rem;align-items:center;margin-top:1.3rem;font-size:.9rem;color:var(--muted);cursor:pointer}
+.done input{accent-color:var(--accent);width:1rem;height:1rem}
+
+/* code blocks */
+.pc{display:grid;gap:.45rem;padding-block:1rem;border-top:1px solid var(--line)}
+.pc:first-of-type{border-top:0}
+.pc-h{display:flex;gap:.6rem;align-items:baseline;flex-wrap:wrap}
+.pc-h .m-name{display:inline}
+.pc-h .m-src{display:inline;margin:0}
+.pc p{margin:0;font-size:.94rem}
+
+/* checklist */
+ol.check{margin:.8rem 0 0;padding-left:1.4rem;display:grid;gap:.45rem}
+ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
+.en{font-family:var(--f-body)}
+
+@media (max-width:1000px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:0;padding-top:0}
+  .rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);max-height:none;overflow-x:auto;overflow-y:hidden;padding-block:.6rem;border-bottom:1px solid var(--line)}
+  .rail ol{display:flex;gap:.3rem;width:max-content}
+  .rail .grp{display:none}
+  .rail a{border:1px solid var(--line);border-radius:999px;padding:.35rem .7rem;white-space:nowrap;background:var(--surface)}
+  .rail a .n{min-width:0}
+  main>section:first-child{border-top:0}
+}
+@media (max-width:820px){
+  .hero-grid{grid-template-columns:minmax(0,1fr);gap:1.8rem;padding-block:2.2rem 2rem}
+  .matrix{max-width:15rem;justify-self:start}
+  .legend{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  .m{grid-template-columns:minmax(0,1fr)}
+  .gloss{grid-template-columns:minmax(0,1fr)}
+  .gloss dd{border-top:0;padding-top:0}
+  .split{grid-template-columns:minmax(0,1fr)}
+  .ch-num{font-size:2.5rem}
+  h2{font-size:1.5rem}
+}
+</style>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">HYU 고급표현학습 · 2026-2학기 · L01–L07</p>
+      <h1>고급표현학습 한 바퀴</h1>
+      <p class="lede">세미나처럼 휙휙 지나간 7강(슬라이드 508장)을 처음부터 끝까지 한 줄기로 다시 훑는 페이지야. 논문 이름을 외우기 전에 <b>왜 다음 방법이 나왔는지</b>만 따라가면 돼.</p>
+      <p class="thesis">7강 전체를 꿰는 질문은 하나야. 사람이 label을 안 주면, 학습 <em>target</em>은 어디서 오나?</p>
+      <ul class="chips" aria-label="퀴즈 정보">
+        <li class="key">퀴즈 10/29(목)</li>
+        <li>20문제</li>
+        <li>T/F</li>
+        <li>MCQ</li>
+        <li>빈칸</li>
+        <li>pseudo code 9개</li>
+      </ul>
+    </div>
+    <figure class="matrix" aria-label="N by N similarity matrix 그림">
+      <div class="mx-top"><span>text / view 2 →</span><span>n = 8</span></div>
+      <div class="mx-body">
+        <span class="mx-side">image / view 1 →</span>
+        <div class="simgrid" id="simgrid"></div>
+      </div>
+      <figcaption>N×N similarity matrix. 대각선이 positive, 나머지는 전부 negative야. CLIP pseudo code의 <code>labels = np.arange(n)</code>이 바로 이 대각선이고 (L05 p.35), Barlow Twins는 feature 상관행렬을 이 모양(identity)으로 만들어 (L04 p.35–38).</figcaption>
+    </figure>
+    <script>
+    (function(){
+      var g=document.getElementById('simgrid'); if(!g) return;
+      var n=8, s=11;
+      for(var i=0;i<n;i++){ for(var j=0;j<n;j++){
+        var c=document.createElement('span'); c.className=(i===j)?'cell pos':'cell';
+        if(i!==j){ s=(s*9301+49297)%233280; c.style.opacity=(0.07+0.25*(s/233280)).toFixed(2); }
+        g.appendChild(c);
+      }}
+    })();
+    </script>
+  </div>
+</header>
+
+<div class="wrap shell">
+  <nav class="rail" aria-label="목차">
+    <ol>
+      <li class="grp">시작</li>
+      <li><a href="#how"><span class="n">00</span><span class="t">읽는 법</span></a></li>
+      <li><a href="#map"><span class="n">MAP</span><span class="t">큰 그림</span></a></li>
+      <li><a href="#terms"><span class="n">ABC</span><span class="t">용어 먼저</span></a></li>
+      <li class="grp">Self-supervised</li>
+      <li><a href="#l01"><span class="n">L01</span><span class="t">Introduction</span></a></li>
+      <li><a href="#l02"><span class="n">L02</span><span class="t">Self-Supervised</span></a></li>
+      <li><a href="#l03"><span class="n">L03</span><span class="t">Contrastive I</span></a></li>
+      <li><a href="#l04"><span class="n">L04</span><span class="t">Contrastive II</span></a></li>
+      <li><a href="#l05"><span class="n">L05</span><span class="t">Contrastive III</span></a></li>
+      <li class="grp">Semi-supervised</li>
+      <li><a href="#l06"><span class="n">L06</span><span class="t">Consistency</span></a></li>
+      <li><a href="#l07"><span class="n">L07</span><span class="t">Pseudo Label</span></a></li>
+      <li class="grp">정리</li>
+      <li><a href="#patterns"><span class="n">PAT</span><span class="t">공통 패턴</span></a></li>
+      <li><a href="#code"><span class="n">PC</span><span class="t">Pseudo code</span></a></li>
+      <li><a href="#bridge"><span class="n">PAI</span><span class="t">Physical AI 연결</span></a></li>
+      <li><a href="#last"><span class="n">D-1</span><span class="t">마지막 체크</span></a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+<!-- ============ 읽는 법 ============ -->
+<section id="how">
+  <h2>읽는 법</h2>
+  <p>강의마다 순서가 같아. <b>이 강의가 던지는 질문</b>, 그 질문에 답한 <b>방법들</b> (문제 · 핵심 · 이전과 차이), 그리고 <b>다음 강의로 넘어가는 이유</b>. 방법 옆의 <code>p.N</code>은 PDF 페이지라서, 헷갈리면 그 장만 열어보면 돼.</p>
+  <div class="legend">
+    <div class="note rl"><span class="tag">RL로 번역</span><p>네 분야 개념으로 바꿔 말한 거. 슬라이드 밖이라 시험엔 안 나와. 이해용이야.</p></div>
+    <div class="note trap"><span class="tag">시험 함정</span><p>슬라이드 문장을 살짝 비틀어서 T/F나 빈칸으로 내기 좋은 곳.</p></div>
+    <div class="note next"><span class="tag">다음으로</span><p>이 강의의 한계가 다음 강의의 질문이 되는 연결고리.</p></div>
+  </div>
+  <p>강의 끝마다 셀프 체크 3문제가 있어 (영어 지문, 눌러야 답이 보임). 다 읽은 강의는 "다 봤음"에 체크해 둬. 이 브라우저에만 저장돼.</p>
+</section>
+
+<!-- ============ 큰 그림 ============ -->
+<section id="map">
+  <h2>큰 그림: target은 어디서 오나</h2>
+  <p>supervised learning에선 사람이 target(label)을 줘. 이 수업은 그 사람 손을 하나씩 빼 보는 방법들의 모음이야. 아래 표를 위에서 아래로 읽으면 거의 수업 순서랑 같아.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>target은 여기서 옴</th><th>방식 · 대표 방법</th><th>강의</th></tr></thead>
+      <tbody>
+        <tr><td>사람이 단 label</td><td>Supervised pretraining (ImageNet)</td><td>L01–L02</td></tr>
+        <tr><td>내가 가한 변환 자체 (회전 각도, 패치 위치, 지운 픽셀, 지운 색)</td><td>Pretext task · RotNet, Jigsaw, Colorization</td><td>L02</td></tr>
+        <tr><td>같은 이미지의 다른 view = positive, 나머지 = negative</td><td>Contrastive · InfoNCE, SimCLR, MoCo</td><td>L03–L05</td></tr>
+        <tr><td>천천히 따라오는 EMA teacher의 출력</td><td>Self-distillation · BYOL, DINO</td><td>L04</td></tr>
+        <tr><td>두 view의 feature 상관행렬을 identity로</td><td>Redundancy reduction · Barlow Twins</td><td>L04</td></tr>
+        <tr><td>cluster 번호 · prototype code</td><td>Clustering · DeepCluster, SwAV</td><td>L05</td></tr>
+        <tr><td>짝지어진 caption (언어)</td><td>CLIP, X-CLR(soft target), SynCLR</td><td>L03–L05</td></tr>
+        <tr><td>같은 class label (다시 사람)</td><td>SupCon</td><td>L05</td></tr>
+        <tr><td>perturbation을 준 예측끼리 서로</td><td>Consistency · Π-model, Mean Teacher, UDA</td><td>L06</td></tr>
+        <tr><td>모델 자신의 confident한 예측 → hard label</td><td>Pseudo label · Pseudo-Label, FixMatch</td><td>L07</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="split">
+    <div><h3>L01–L05 · Self-supervised</h3><p>label이 <b>하나도 없어</b>. 목표는 좋은 encoder를 만드는 거고, 평가는 linear probing으로 해.</p></div>
+    <div><h3>L06–L07 · Semi-supervised</h3><p>label <b>조금</b> + unlabeled <b>많이</b>. 목표는 그 task를 잘 푸는 모델이야. 식은 <span class="math">L = L<sub>s</sub> + μ(t)·L<sub>u</sub></span>.</p></div>
+  </div>
+  <div class="note trap"><span class="tag">시험 함정</span><p>self-supervised와 semi-supervised 둘 다 "SSL"로 줄여 쓰는 경우가 많아. 지문에 labeled data 얘기가 같이 나오면 semi-supervised야.</p></div>
+
+  <h3>7강을 한 줄씩</h3>
+  <ol class="steps">
+    <li><span class="s-name">L01</span><span class="s-src">좋은 representation이 뭔데?</span><span class="s-body">쓸데없는 건 버리고(compression) 안 보이는 걸 맞히는(prediction) 표현.</span></li>
+    <li><span class="s-name">L02</span><span class="s-src">label 없이 supervision을 만들 수 있나?</span><span class="s-body">data를 일부러 망가뜨리고 원래대로 맞히게 하는 pretext task. 근데 사람이 하나하나 설계해야 하고 일반성이 약해.</span></li>
+    <li><span class="s-name">L03</span><span class="s-src">"같은 건 가깝게, 다른 건 멀게"를 loss로 쓰면?</span><span class="s-body">contrastive loss 계보가 InfoNCE로 모여.</span></li>
+    <li><span class="s-name">L04</span><span class="s-src">실제로 잘 돌리려면? negative 없이도 될까?</span><span class="s-body">SimCLR(negative 많이) vs BYOL · Barlow Twins · DINO(negative 없이).</span></li>
+    <li><span class="s-name">L05</span><span class="s-src">negative를 싸게 많이 + 다른 supervision은?</span><span class="s-body">MoCo(queue), SwAV(cluster), CLIP(언어), SupCon(label).</span></li>
+    <li><span class="s-name">L06</span><span class="s-src">label이 조금 있으면? ① consistency</span><span class="s-body">Π-model → Temporal Ensembling → Mean Teacher, 그다음 perturbation과 teacher 개선.</span></li>
+    <li><span class="s-name">L07</span><span class="s-src">② pseudo label</span><span class="s-body">틀린 label 문제(confirmation bias)를 줄이는 방법들 → FixMatch → threshold 개선.</span></li>
+  </ol>
+</section>
+
+<!-- ============ 용어 ============ -->
+<section id="terms">
+  <h2>용어 먼저 깔기</h2>
+  <p>교수님이 "다들 알지?" 하고 넘어간 단어들이야. 여기만 잡혀도 세미나 슬라이드가 읽혀. 보라색 줄은 RL 쪽 대응 개념.</p>
+
+  <h3>모델 부품</h3>
+  <dl class="gloss">
+    <dt>Encoder <i>f</i> · backbone<small>L01 p.12</small></dt>
+    <dd>입력 x를 벡터 z로 바꾸는 본체 네트워크 (ResNet, ViT). 슬라이드 표기는 <span class="math">z = f(x)</span>.<span class="rlx">observation encoder. pixel → latent state.</span></dd>
+    <dt>Representation · embedding · feature<small>L01 p.11</small></dt>
+    <dd>그 결과 벡터 z. 좋은 z는 쓸모 있는 정보는 남기고 배경·조명·노이즈 같은 건 버린 것.</dd>
+    <dt>Projection head <i>g</i><small>L04 p.23–25</small></dt>
+    <dd>encoder 뒤에 붙는 작은 MLP. loss는 <span class="math">z = g(h)</span>에서 계산하고, 학습이 끝나면 g는 버리고 h를 써 (SimCLR "throw away g").</dd>
+    <dt>Predictor<small>L04 p.30</small></dt>
+    <dd>BYOL에서 online 쪽에만 붙는 작은 MLP. 두 branch를 비대칭으로 만드는 장치야.</dd>
+    <dt>Prototype · code<small>L05 p.26–30</small></dt>
+    <dd>prototype은 학습되는 cluster 중심 벡터. feature를 prototype에 배정한 결과가 code (SwAV).</dd>
+    <dt>CLS token · patch token<small>L04 p.55–67</small></dt>
+    <dd>ViT에서 이미지 전체를 대표하는 토큰 vs 패치 하나하나의 토큰. image-level vs patch-level(dense) feature (DINOv2).</dd>
+  </dl>
+
+  <h3>학습 · 평가 설정</h3>
+  <dl class="gloss">
+    <dt>Pretext task<small>L02 p.16, p.20</small></dt>
+    <dd>진짜 목적이 아니라 encoder를 훈련시키려고 만든 가짜 과제 (회전 맞히기 등). label은 data에서 자동으로 나와.<span class="rlx">auxiliary task (본 목적은 아니지만 encoder를 키우는 보조 과제).</span></dd>
+    <dt>Downstream task<small>L02 p.16</small></dt>
+    <dd>진짜 하고 싶은 일 (분류, detection, segmentation). 보통 label이 적어.</dd>
+    <dt>Linear probing<small>L02 p.18</small></dt>
+    <dd>encoder를 얼려 놓고 linear classifier 하나만 학습해서 representation 품질을 재는 것. fine-tuning은 encoder까지 다시 학습.</dd>
+    <dt>Zero-shot<small>L05 p.33</small></dt>
+    <dd>그 task용 학습 없이 바로 푸는 것. CLIP은 "a photo of a {class}" 같은 text prompt랑 비교해서 분류해.</dd>
+    <dt>Augmentation · view</dt>
+    <dd>같은 이미지를 crop, color jitter 등으로 바꾼 버전 하나가 view. 같은 이미지에서 나온 두 view가 positive pair.</dd>
+    <dt>Collapse</dt>
+    <dd>모든 입력이 같은 벡터로 뭉개지는 것. loss는 낮은데 쓸모가 없어. negative 없는 방법(BYOL, Barlow Twins, DINO)은 각자 이걸 막는 장치가 있어.</dd>
+  </dl>
+
+  <h3>Contrastive</h3>
+  <dl class="gloss">
+    <dt>Anchor(query) · positive · negative<small>L03 p.31</small></dt>
+    <dd>기준 샘플, 가까워야 할 샘플, 멀어져야 할 샘플.</dd>
+    <dt>Hard · false negative<small>L03 p.14 · L04 p.7</small></dt>
+    <dd>hard negative = anchor와 가까운데 다른 class라서 배울 거리가 많은 것. false negative = negative로 뽑혔는데 사실 같은 class인 것.</dd>
+    <dt>Temperature τ</dt>
+    <dd>softmax에 넣기 전에 similarity를 τ로 나눠. 작을수록 분포가 뾰족해져서 어려운 negative에 집중해.<span class="rlx">Boltzmann(softmax) policy의 temperature와 같은 역할.</span></dd>
+    <dt>InfoNCE · NT-Xent<small>L03 p.23</small></dt>
+    <dd>N개 후보 중에서 positive를 맞히는 N-way softmax cross-entropy. 사실상 이 수업의 기본 loss야.</dd>
+    <dt>Memory bank · queue · dictionary<small>L05 p.4</small></dt>
+    <dd>이전 step에서 계산해 둔 embedding을 negative로 재활용하는 저장소.<span class="rlx">replay buffer처럼 "조금 오래된 데이터를 재사용"하는 trade-off.</span></dd>
+  </dl>
+
+  <h3>Teacher – student</h3>
+  <dl class="gloss">
+    <dt>Student · teacher<small>= online·target, query·key</small></dt>
+    <dd>같은 구조의 네트워크 두 개. gradient는 student만 받고, teacher는 student를 천천히 따라가. 방법마다 이름만 달라.</dd>
+    <dt>EMA · momentum update</dt>
+    <dd><span class="math">θ<sub>t</sub> ← m·θ<sub>t</sub> + (1−m)·θ<sub>s</sub></span>, m은 0.99–0.999 정도.<span class="rlx">target network의 Polyak(soft) update와 같은 식. SAC의 τ = 0.005는 m = 0.995인 셈.</span></dd>
+    <dt>Stop-gradient · <code>detach</code></dt>
+    <dd>target 쪽으로는 gradient를 안 흘려.<span class="rlx">TD target <span class="math">r + γQ<sub>target</sub></span>에 gradient를 안 흘리는 semi-gradient와 같은 이유. 움직이는 target을 쫓다가 무너지지 않게.</span></dd>
+    <dt>Distillation</dt>
+    <dd>teacher의 출력(보통 확률 분포)을 student가 따라 하게 학습하는 것.</dd>
+    <dt>Centering · sharpening<small>L04 p.40</small></dt>
+    <dd>DINO teacher 출력에서 평균(center)을 빼고, 낮은 temperature로 뾰족하게 만드는 것. collapse를 막아.</dd>
+  </dl>
+
+  <h3>Semi-supervised</h3>
+  <dl class="gloss">
+    <dt>목표식<small>L06 p.8–10</small></dt>
+    <dd><span class="math">L = L<sub>s</sub> + μ(t)·L<sub>u</sub></span>. labeled에는 보통 supervised loss, unlabeled에는 L<sub>u</sub>. μ(t)는 시간이 갈수록 <b>커져</b>.</dd>
+    <dt>Consistency regularization<small>L06 p.15</small></dt>
+    <dd>입력이나 모델에 perturbation을 줘도 예측은 같아야 한다는 loss.</dd>
+    <dt>Pseudo label<small>L07 p.4</small></dt>
+    <dd>모델이 confident하게 맞힌 예측을 정답처럼 써먹는 것.</dd>
+    <dt>Confidence threshold τ<small>L07 p.42–48</small></dt>
+    <dd>max 확률이 τ를 넘는 예측만 pseudo label로 써 (FixMatch). temperature τ와 기호만 같아.</dd>
+    <dt>Weak · strong augmentation</dt>
+    <dd>flip-and-shift 수준 vs RandAugment, CTAugment처럼 세게.</dd>
+    <dt>Confirmation bias<small>L07 p.20</small></dt>
+    <dd>틀린 pseudo label을 다시 배워서 오류가 쌓이는 것.<span class="rlx">자기 추정치로 target을 만드는 bootstrapping에서 오차가 누적되는 것 (overestimation bias)과 같은 계열.</span></dd>
+    <dt>Sharpening<small>L07 p.30–35</small></dt>
+    <dd><span class="math">p<sub>i</sub><sup>1/T</sup> / Σ<sub>j</sub> p<sub>j</sub><sup>1/T</sup></span>. T가 작을수록 확신이 높아져 (MixMatch).</dd>
+  </dl>
+
+  <div class="note trap"><span class="tag">시험 함정 · 기호 하나에 뜻 여러 개</span>
+    <ul>
+      <li>SimCLR · MoCo · DINO · X-CLR의 τ, <code>t</code>: softmax temperature (나눔). <b>CLIP만</b> <code>* np.exp(t)</code>로 곱해 (learned).</li>
+      <li>BYOL의 τ: EMA 계수. temperature 아님.</li>
+      <li>FixMatch의 τ: confidence threshold.</li>
+      <li>DINO 코드의 <code>l</code>: 숫자 1이 아니라 소문자 L (teacher momentum).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ L01 ============ -->
+<section id="l01">
+  <div class="ch-head"><span class="ch-num">L01</span><h2>Introduction</h2><p class="ch-meta">24p · W1</p></div>
+  <p class="ch-q"><span class="k">질문</span>좋은 representation이 뭔데?</p>
+  <p>수업 전체의 정의를 까는 강의야. 뒤 강의들의 함정이 여기 정의 문장에서 꽤 나와.</p>
+  <div class="methods">
+    <div class="m"><div><span class="m-name">AI가 배워 온 것</span><span class="m-src">p.7</span></div><div class="m-body">
+      <p>Rules → Patterns → Features → Representations → World Knowledge.</p>
+      <p><span class="k">핵심</span>사람이 넣는 지식은 줄고, data에서 배우는 것의 추상성·일반성은 커져. 이 수업은 4단계 Representations.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Representation</span><span class="m-src">p.9–13</span></div><div class="m-body">
+      <p><span class="k">정의</span>"a transformation of raw data into a form that makes downstream tasks easier", <span class="math">z = f(x)</span>.</p>
+      <p><span class="k">포인트</span>같은 사진도 Color Histogram / CNN feature / CLIP embedding처럼 여러 표현이 가능해.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Feature engineering → feature learning</span><span class="m-src">p.14–17</span></div><div class="m-body">
+      <p><span class="k">문제</span>SIFT · HOG · SURF는 사람이 설계하고, task마다 새로 만들어야 해.</p>
+      <p><span class="k">핵심</span>CNN이 edge → texture → object part를 스스로 배우고, 한 번 배운 backbone을 detection·segmentation에 재사용. "Learn once, use everywhere."</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Compression</span><span class="m-src">p.18–19</span></div><div class="m-body">
+      <p><span class="k">핵심</span>essential characteristics만 남겨. 이점은 Less Memory, Invariance(nuisance 제거), Occam's Razor.</p>
+      <p><span class="k">문장</span>"Compression is not about losing information. It is about removing irrelevant information."</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Prediction</span><span class="m-src">p.20</span></div><div class="m-body">
+      <p><span class="k">핵심</span>관측 못 한 걸 추론해. Future (V-JEPA), Past, Missing data (MAE, inpainting).</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">좋은 representation = 교집합</span><span class="m-src">p.21–23</span></div><div class="m-body">
+      <p><span class="k">Compression</span>Autoencoding · <b>Contrastive</b> · Clustering</p>
+      <p><span class="k">Prediction</span>Future prediction · Imputation · Pretext tasks</p>
+      <p><span class="k">덤</span>Disentangled · Interpretable · Actionable · Transferable. 직접 목표가 아니라 결과로 따라오는 성질이야.</p>
+    </div></div>
+  </div>
+  <div class="note rl"><span class="tag">RL로 번역</span><p>네가 매일 쓰는 pixel → latent state encoder가 정확히 여기서 말하는 f야. p.22의 Actionable과 sample efficient가 RL 쪽에서 representation을 신경 쓰는 이유고, Prediction의 Future 쪽은 world model이랑 같은 줄기야.</p></div>
+  <div class="note trap"><span class="tag">시험 함정</span><ul>
+    <li>Contrastive는 Prediction이 아니라 <b>Compression</b> 쪽 (p.23). Pretext tasks는 Prediction 쪽.</li>
+    <li>"Compression = losing information"은 False.</li>
+  </ul></div>
+  <div class="note next"><span class="tag">다음으로</span><p>좋은 representation을 배우고 싶은데 label은 비싸. 그럼 label 없이 배울 수 있나? → L02</p></div>
+  <div class="quiz"><p class="quiz-h">셀프 체크</p>
+    <details class="q"><summary><span class="typ">T/F</span><span class="qs en">Compression in representation learning means losing information to save memory.</span></summary><p class="ans"><b>False.</b> 정보를 잃는 게 아니라 irrelevant 정보를 지우는 것 (p.19).</p></details>
+    <details class="q"><summary><span class="typ">MCQ</span><span class="qs en">On p.23, contrastive learning is grouped under: (A) Prediction (B) Compression (C) Imputation (D) Pretext tasks</span></summary><p class="ans"><b>(B) Compression.</b> invariance to viewing transformations를 얻는 쪽 (p.23).</p></details>
+    <details class="q"><summary><span class="typ">빈칸</span><span class="qs en">A representation is "a transformation of raw data into a form that makes ______ tasks easier."</span></summary><p class="ans"><b>downstream</b> (p.12)</p></details>
+  </div>
+  <label class="done"><input type="checkbox" id="done-l01" data-done="l01">다 봤음</label>
+</section>
+
+<!-- ============ L02 ============ -->
+<section id="l02">
+  <div class="ch-head"><span class="ch-num">L02</span><h2>Self-Supervised Learning</h2><p class="ch-meta">80p</p></div>
+  <p class="ch-q"><span class="k">질문</span>label 없이 supervision을 만들 수 있나?</p>
+  <p>답은 "data를 일부러 망가뜨리고, 원래대로 맞히게 하자"야. 회전 각도를 맞히려면 물체가 뭔지 알아야 하니까 encoder가 똑똑해진다는 논리.</p>
+  <div class="methods">
+    <div class="m"><div><span class="m-name">Why SSL</span><span class="m-src">p.3–10</span></div><div class="m-body">
+      <p><span class="k">문제</span>label이 비싸 (ImageNet 14M장 = 22 human years). hashtag·GPS 같은 semi-automatic label은 noisy하고, video·long tail·의료 같은 새 domain은 label 달기가 더 어려워.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">정의</span><span class="m-src">p.11–17, p.20</span></div><div class="m-body">
+      <p><span class="k">핵심</span>"obtain labels from the data itself", "predict part of the data from other parts". pretext task로 encoder를 학습하고 downstream task로 transfer.</p>
+      <p><span class="k">차이</span>unsupervised(clustering, PCA)와 달리 data에서 자동으로 만든 명시적 예측 target이 있어.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">평가</span><span class="m-src">p.18, p.46, p.48</span></div><div class="m-body">
+      <p><span class="k">핵심</span>pretext 성능이 아니라 <b>downstream 성능</b>으로 평가해. frozen feature 위에 shallow(linear) head만 학습.</p>
+    </div></div>
+  </div>
+
+  <h3>Hand-crafted pretext 5종</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>과제</th><th>뭘 맞히나</th><th>포인트</th></tr></thead>
+      <tbody>
+        <tr><td>Relative Position<br><span class="m-src">Doersch, ICCV 2015 · p.21–23</span></td><td>가운데 patch 기준 이웃 patch의 위치 (8-way)</td><td>local 공간 관계. gap·jitter로 shortcut 차단</td></tr>
+        <tr><td>Context Encoders (Inpainting)<br><span class="m-src">Pathak, CVPR 2016 · p.24–28</span></td><td>지운 영역의 픽셀</td><td>L2만 쓰면 blurry → L2 + adversarial</td></tr>
+        <tr><td>Jigsaw<br><span class="m-src">Noroozi &amp; Favaro, ECCV 2016 · p.29–33</span></td><td>3×3 조각의 순열 번호</td><td>9! = 362,880 대신 Hamming distance가 최대인 64개 순열만 class로. global 공간 구조</td></tr>
+        <tr><td>Colorization<br><span class="m-src">Zhang, ECCV 2016 · p.34–39</span></td><td>흑백(L)에서 색(ab)</td><td>regression은 색을 평균 내서 탁해짐 → 313-class classification</td></tr>
+        <tr><td>RotNet<br><span class="m-src">Gidaris, ICLR 2018 · p.40–43</span></td><td>0° / 90° / 180° / 270° 중 뭘 돌렸나</td><td>가장 단순. 돌린 각도가 곧 label</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="methods">
+    <div class="m"><div><span class="m-name">Pretext의 한계</span><span class="m-src">p.44–49, p.55</span></div><div class="m-body">
+      <p><span class="k">문제 1</span>과제를 하나하나 고안하는 게 tedious해.</p>
+      <p><span class="k">문제 2</span>뒤쪽 layer가 그 과제에 특화돼서 general하지 않아 (Jigsaw로 학습하면 linear probe가 res4에서 최고, res5에서 떨어짐).</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">CDJP · Multiple pretext</span><span class="m-src">Kim, WACV 2018 · p.50–53</span></div><div class="m-body">
+      <p><span class="k">핵심</span>망가진 조각으로 jigsaw + inpainting + colorization을 한 네트워크에서 동시에. shared backbone + task별 head.</p>
+      <p><span class="k">한계</span>여전히 사람이 고른 과제 묶음에 묶여 있어.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">더 일반적인 pretext로</span><span class="m-src">p.54–56</span></div><div class="m-body">
+      <p><span class="k">전환</span>"변환을 맞혀라" 대신 "변환된 이미지들은 <b>같은 object</b>니까 가깝게, 다른 이미지는 멀게". 이게 contrastive learning의 출발점.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Space-Time Cubic Puzzles</span><span class="m-src">Kim, Cho, Kweon, AAAI 2019 · p.57–66</span></div><div class="m-body">
+      <p><span class="k">핵심</span>video를 2×2×4로 나누고, 공간(2×2×1) 또는 시간(1×1×4) 방향으로 cube 4개를 뽑아 섞은 뒤 원래 순서를 맞혀 (4! × 2 = 48 class). 3D CNN tower 4개, weight 공유.</p>
+      <p><span class="k">차이</span>image jigsaw를 시공간으로 확장. 공간·시간을 같이 배우는 게 따로 배우는 것보다 나아.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">AVTS</span><span class="m-src">Korbar, NeurIPS 2018 · p.67–70</span></div><div class="m-body">
+      <p><span class="k">핵심</span>video와 audio가 시간상 맞는지(in-sync) 아닌지(out-of-sync) 판별. contrastive loss로 두 stream을 같이 학습.</p>
+      <p><span class="k">포인트</span>negative 구성이 핵심이고, curriculum (easy negative 먼저 → hard negative 섞기)이 제일 좋아.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Invariance vs Equivariance</span><span class="m-src">p.71–75</span></div><div class="m-body">
+      <p><span class="k">Invariance</span><span class="math">f(t(x)) = f(x)</span>. 변환해도 표현이 안 변해.</p>
+      <p><span class="k">Equivariance</span><span class="math">f(t(x)) = φ(t, f(x))</span>. 표현이 예측 가능하게 변해.</p>
+      <p><span class="k">포인트</span>분류엔 invariance가 좋지만 detection은 위치 정보, 꽃 분류는 색 정보가 필요해. pretext가 어떤 정보를 남길지를 정해.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">STL</span><span class="m-src">Yu, NeurIPS 2024 · p.76–79</span></div><div class="m-body">
+      <p><span class="k">핵심</span>loss 3개. 같은 이미지·다른 변환 (invariant), <b>다른 이미지·같은 변환</b> (transformation representation 학습), 학습한 변환을 적용해서 예측 (equivariant).</p>
+      <p><span class="k">차이</span>변환 label(parameter) 없이 변환 표현을 배워.</p>
+    </div></div>
+  </div>
+  <div class="note rl"><span class="tag">RL로 번역</span><p>pretext task는 RL의 auxiliary task랑 같은 발상이야 (본 목적은 아니지만 encoder를 키우는 보조 과제). 엣지 연속성이나 색 통계로 jigsaw를 풀어 버리는 shortcut은 reward hacking이랑 비슷한 냄새가 나. 그리고 invariance vs equivariance는 로봇에서 특히 중요해. grasp하려면 물체의 위치·방향이 필요한데, crop·flip에 무조건 invariant하게 배우면 그 정보가 날아가.</p></div>
+  <div class="note trap"><span class="tag">시험 함정</span><ul>
+    <li>Colorization은 regression이 아니라 <b>classification</b> (313 bins).</li>
+    <li>Jigsaw는 9! 전부가 아니라 <b>64개</b> 순열 (pairwise Hamming distance 최대).</li>
+    <li>Inpainting에서 L2만 쓰면 blurry, adversarial만 쓰면 선명하지만 context와 안 맞아.</li>
+    <li>SSL 평가는 pretext 정확도가 아니라 downstream 성능.</li>
+  </ul></div>
+  <div class="note next"><span class="tag">다음으로</span><p>pretext는 사람이 일일이 설계해야 하고 마지막 layer가 그 과제에 특화돼. 그래서 "같은 건 가깝게, 다른 건 멀게"라는 일반 원리로 가. → L03</p></div>
+  <div class="quiz"><p class="quiz-h">셀프 체크</p>
+    <details class="q"><summary><span class="typ">T/F</span><span class="qs en">SSL methods are mainly judged by their accuracy on the pretext task.</span></summary><p class="ans"><b>False.</b> frozen feature + shallow(linear) head로 본 downstream 성능 (p.18, p.46).</p></details>
+    <details class="q"><summary><span class="typ">빈칸</span><span class="qs en">Colorization predicts the ab channels with ______ over 313 color bins, because regression averages plausible colors.</span></summary><p class="ans"><b>classification</b> (p.37–38)</p></details>
+    <details class="q"><summary><span class="typ">빈칸</span><span class="qs en">Equivariance: f(t(x)) = ______.</span></summary><p class="ans"><b>φ(t, f(x))</b>. invariance면 f(x) (p.75).</p></details>
+  </div>
+  <label class="done"><input type="checkbox" id="done-l02" data-done="l02">다 봤음</label>
+</section>
+
+<!-- ============ L03 ============ -->
+<section id="l03">
+  <div class="ch-head"><span class="ch-num">L03</span><h2>Contrastive Learning I</h2><p class="ch-meta">74p</p></div>
+  <p class="ch-q"><span class="k">질문</span>"같은 건 가깝게, 다른 건 멀게"를 loss로 어떻게 쓰나?</p>
+  <p>슬라이드 문장 그대로 "Representation Learning = Learning Similarity" (p.5). 과제를 설계하지 말고 similarity 자체를 supervision으로 쓰자는 거야. 비교하려면 두 입력이 같은 공간에 있어야 하니까 <b>weight를 공유하는 Siamese network</b>를 써 (p.8).</p>
+
+  <h3>Loss 계보: pair에서 InfoNCE까지</h3>
+  <ol class="steps">
+    <li><span class="s-name">Contrastive loss</span><span class="s-src">Chopra 2005 · p.11</span><span class="s-body">pair 단위. positive는 거리 0으로, negative는 margin ε 밖으로.</span><span class="s-why">한계: 이미 margin 밖인 negative는 gradient 0, 상대 순서는 강제 안 함.</span></li>
+    <li><span class="s-name">Triplet loss</span><span class="s-src">FaceNet 2015 · p.12–13</span><span class="s-body">anchor·positive·negative를 상대 비교. "positive가 negative보다 margin만큼 가까워라".</span><span class="s-why">한계: N³ 조합 폭발, 대부분 easy triplet → hard negative mining 필요 (p.14).</span></li>
+    <li><span class="s-name">Lifted Structured</span><span class="s-src">Song · p.15–16</span><span class="s-body">batch 안의 모든 pair 사용. hardest negative를 고르는 max를 log-sum-exp로 부드럽게.</span><span class="s-why">Max = sparse gradient, Sum = uniform, LSE = dense &amp; focused (soft hard negative mining).</span></li>
+    <li><span class="s-name">N-pair loss</span><span class="s-src">Sohn, NeurIPS 2016 · p.17–20</span><span class="s-body">positive 1개 vs negative <b>N−1개</b>를 동시에. = N-way softmax cross-entropy.</span></li>
+    <li><span class="s-name">NCE</span><span class="s-src">Gutmann 2010 · p.21–22</span><span class="s-body">positive vs negative를 data vs noise로 보고 <b>이진</b> 분류 (sigmoid, binary CE).</span></li>
+    <li><span class="s-name">InfoNCE</span><span class="s-src">Oord 2018, CPC · p.23–28</span><span class="s-body">N개 중 positive 하나 고르기 (<b>categorical</b> CE). 최적 f ∝ p(x|c)/p(x) (density ratio) → mutual information을 키워.</span></li>
+    <li><span class="s-name">Soft-NN loss</span><span class="s-src">p.29</span><span class="s-body">positive를 여러 개로 (같은 class 이웃 전부). label이 필요해.</span></li>
+  </ol>
+
+  <div class="methods">
+    <div class="m"><div><span class="m-name">Modern setup</span><span class="m-src">p.31–32</span></div><div class="m-body">
+      <p>anchor, positive = 같은 이미지의 다른 augmentation, negative = batch 안의 다른 이미지. L2-normalize + cosine similarity, temperature τ를 넣은 InfoNCE (NT-Xent).</p>
+      <p><span class="k">label 있으면</span>같은 class가 positive.</p>
+    </div></div>
+  </div>
+
+  <h3>최근 논문 3편: views · features · relationships (p.73)</h3>
+  <div class="methods">
+    <div class="m"><div><span class="m-name">GenView</span><span class="m-src">Li, ECCV 2024 · p.33–45</span></div><div class="m-body">
+      <p><span class="k">문제</span>손으로 만든 view의 한계. 세게 crop하면 물체가 사라지고(false positive pair), 약하게 하면 두 view가 거의 똑같아(limited diversity).</p>
+      <p><span class="k">핵심</span>생성 모델(Stable unCLIP)로 positive view를 만들고, foreground 비율에 따라 noise 양을 조절. 좋은 pair(foreground 비슷, background 다름)에 loss 가중치를 더 줘.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">MCL</span><span class="m-src">Zhang, ECCV 2024 · p.46–61</span></div><div class="m-body">
+      <p><span class="k">문제</span>feature suppression. 가장 쉬운 구별 feature(예: 색)만 배우면 loss가 이미 만족돼서 shape 같은 정보를 버려.</p>
+      <p><span class="k">핵심</span>Train → K-means → 같은 cluster 안에서 negative 선택 → 반복 → feature concat. stage마다 이전 shortcut을 막아 (색 → texture → shape).</p>
+      <p><span class="k">차이</span>hard negative mining과 달리 "지금 가까운 것"이 아니라 "이전 stage의 같은 cluster"에서 negative를 뽑아.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">X-CLR</span><span class="m-src">Sobal, ICLR 2025 · p.62–72 · code p.67</span></div><div class="m-body">
+      <p><span class="k">문제</span>target이 binary라서 다른 개, 고양이, 피아노가 똑같이 negative 취급돼.</p>
+      <p><span class="k">핵심</span>frozen text encoder로 caption끼리의 similarity를 구해서 그걸 soft target graph로. image similarity graph를 거기에 CE로 맞춰.</p>
+      <p><span class="k">차이</span>SSL graph = 두 view만 연결, SupCon = 같은 class(binary), X-CLR = 정도가 다른 similarity.</p>
+    </div></div>
+  </div>
+  <div class="note rl"><span class="tag">RL로 번역</span><p>LSE는 "부드러운 max"라서 soft Q-learning·SAC의 soft value <span class="math">V = α·log Σ exp(Q/α)</span>랑 같은 모양이야. max 대신 쓰면 gradient가 모든 항에 퍼지되 큰 항에 더 몰려. 그리고 InfoNCE를 처음 낸 CPC 논문엔 RL 실험(DeepMind Lab auxiliary loss)도 있었어. 나중에 CURL(L05)까지 이어지는 loss가 바로 이거야.</p></div>
+  <div class="note trap"><span class="tag">시험 함정</span><ul>
+    <li>NCE = <b>binary</b> (sigmoid), InfoNCE = <b>categorical</b> (softmax). 바꿔치기 단골.</li>
+    <li>N-pair = 1 positive vs N−1 negatives (1 vs 1 아님).</li>
+    <li>Contrastive loss = 절대 목표, Triplet = 상대 순서.</li>
+    <li>MCL ≠ hard negative mining. X-CLR에서 τ<sub>s</sub>가 크면 graph가 더 soft.</li>
+  </ul></div>
+  <div class="note next"><span class="tag">다음으로</span><p>loss는 정했어. 그럼 실제로 잘 돌리려면 뭐가 필요하고, negative가 꼭 있어야 할까? → L04</p></div>
+  <div class="quiz"><p class="quiz-h">셀프 체크</p>
+    <details class="q"><summary><span class="typ">MCQ</span><span class="qs en">Which loss solves a binary data-vs-noise classification? (A) InfoNCE (B) NCE (C) N-pair (D) Triplet</span></summary><p class="ans"><b>(B) NCE.</b> logistic regression, sigmoid + binary CE (p.21–22).</p></details>
+    <details class="q"><summary><span class="typ">T/F</span><span class="qs en">N-pair loss compares one positive with one negative at a time.</span></summary><p class="ans"><b>False.</b> 1 positive vs N−1 negatives (p.17).</p></details>
+    <details class="q"><summary><span class="typ">빈칸</span><span class="qs en">In X-CLR, the target similarity graph is built from a frozen ______ encoder.</span></summary><p class="ans"><b>text</b> (caption similarity, p.65–67)</p></details>
+  </div>
+  <label class="done"><input type="checkbox" id="done-l03" data-done="l03">다 봤음</label>
+</section>
+
+<!-- ============ L04 ============ -->
+<section id="l04">
+  <div class="ch-head"><span class="ch-num">L04</span><h2>Contrastive Learning II</h2><p class="ch-meta">72p</p></div>
+  <p class="ch-q"><span class="k">질문</span>잘 돌리는 재료는 뭐고, negative 없이도 될까?</p>
+  <div class="methods">
+    <div class="m"><div><span class="m-name">재료 3개</span><span class="m-src">p.4–6</span></div><div class="m-body">
+      <p><b>heavy augmentation</b> (positive 담당), <b>large batch</b> (negative의 양·다양성), <b>hard negative</b> (negative의 질). hard negative는 label 없이는 찾기 어려워서 큰 batch나 memory bank로 확률을 올려.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Debiased Contrastive</span><span class="m-src">Chuang 2020 · p.7–11</span></div><div class="m-body">
+      <p><span class="k">문제</span>random으로 뽑은 negative에 같은 class(false negative)가 섞여 성능이 크게 떨어져.</p>
+      <p><span class="k">핵심</span>label 없이 진짜 negative 분포를 추정: <span class="math">p<sup>−</sup> = (p − η<sup>+</sup>p<sup>+</sup>) / η<sup>−</sup></span>. random 분포에서 positive 성분을 빼.</p>
+    </div></div>
+  </div>
+
+  <h3>Augmentation 계열</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>방법</th><th>한 줄</th><th>짝꿍과 차이</th></tr></thead>
+      <tbody>
+        <tr><td>AutoAugment<br><span class="m-src">CVPR 2019 · p.15</span></td><td>RL controller로 validation accuracy가 최대인 augmentation policy를 탐색</td><td>fixed policy, 탐색 비쌈</td></tr>
+        <tr><td>RandAugment<br><span class="m-src">2019 · p.16</span></td><td>랜덤 선택 + N(개수), M(전역 강도) 두 개만</td><td>탐색 공간이 아주 작아짐</td></tr>
+        <tr><td>PBA<br><span class="m-src">ICML 2019 · p.17</span></td><td>population-based training으로 학습 중에 policy를 진화</td><td>fixed policy 대신 schedule</td></tr>
+        <tr><td>UDA<br><span class="m-src">NeurIPS 2020 · p.18</span></td><td>unlabeled에 augmentation, 원본과 예측이 같도록 KL</td><td>consistency regularization (L06에서 다시)</td></tr>
+        <tr><td>Mixup<br><span class="m-src">ICLR 2018 · p.19</span></td><td>두 이미지 전체를 픽셀 단위 가중합</td><td>global-level</td></tr>
+        <tr><td>CutMix<br><span class="m-src">ICCV 2019 · p.20</span></td><td>패치를 잘라 붙이고 label은 면적비</td><td>region-level, 진짜 픽셀로 채움</td></tr>
+        <tr><td>MoCHi<br><span class="m-src">NeurIPS 2020 · p.21</span></td><td>hardest negative끼리, query와 hard negative를 섞어 더 어려운 negative 합성</td><td>pixel이 아니라 <b>feature 공간</b>에서 섞음</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>대표 프레임워크 4개</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th></th><th>SimCLR</th><th>BYOL</th><th>Barlow Twins</th><th>DINO</th></tr></thead>
+      <tbody>
+        <tr><td>출처</td><td>ICML 2020 · p.23–29</td><td>NeurIPS 2020 · p.30–34</td><td>ICML 2021 · p.35–38</td><td>ICCV 2021 · p.39–44</td></tr>
+        <tr><td>negative</td><td>있음. batch 안 2N−2개</td><td>없음</td><td>없음</td><td>없음</td></tr>
+        <tr><td>두 branch</td><td>같은 encoder</td><td>online(+predictor) / EMA target</td><td>같은 encoder</td><td>student / EMA teacher</td></tr>
+        <tr><td>loss</td><td>InfoNCE (NT-Xent)</td><td>normalized MSE</td><td>cross-correlation → identity</td><td>softmax 분포 간 CE</td></tr>
+        <tr><td>collapse 방지</td><td>negative가 밀어냄</td><td>predictor + EMA + stop-gradient</td><td>off-diagonal → 0</td><td>teacher centering + sharpening</td></tr>
+        <tr><td>한 줄</td><td>두 view 당기고 나머지 밀기, 큰 batch 필수</td><td>negative 없이 EMA target을 예측</td><td>feature 차원끼리 상관 = I</td><td>학생이 EMA 선생의 분포를 따라감</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="methods">
+    <div class="m"><div><span class="m-name">SimCLR 디테일</span><span class="m-src">p.23–29 · code p.25</span></div><div class="m-body">
+      <p>N장 → view 2N개. projection head 출력 <span class="math">z = g(h)</span>에서 loss를 걸고, 끝나면 <b>g는 버리고 h</b>를 써. memory bank 없이 batch 안 negative만 쓰니까 batch가 커야 해 (TPU).</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Barlow Twins 디테일</span><span class="m-src">p.35–38</span></div><div class="m-body">
+      <p>상관행렬은 <b>batch 방향</b>으로 계산한 D×D. 대각선 → 1 (invariance), 비대각 → 0 (redundancy reduction). batch size에 robust.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">SynCLR</span><span class="m-src">Tian, CVPR 2024 · p.45–54</span></div><div class="m-body">
+      <p><span class="k">핵심</span>Llama-2가 caption을 만들고 text-to-image 모델이 caption당 4장 생성. 같은 caption에서 나온 이미지들 = positive set (multi-positive loss). 진짜 이미지 없이 학습.</p>
+      <p><span class="k">차이</span>SimCLR은 image identity를 보존, SynCLR은 caption 수준 의미를 보존.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">DINOv2</span><span class="m-src">Oquab, TMLR 2024 · p.55–67</span></div><div class="m-body">
+      <p><span class="k">핵심</span>DINO + iBOT(patch-level masked) + KoLeo(feature 퍼뜨리기) + curated data(LVD-142M) + scaling(ViT-g를 작은 모델로 distill).</p>
+      <p><span class="k">차이</span>새 loss 하나가 아니라 통합 시스템. 이미지만으로(label·caption 없이) 학습한 범용 frozen feature.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">DINOv3 · Gram anchoring</span><span class="m-src">p.68–70</span></div><div class="m-body">
+      <p><span class="k">문제</span>오래 학습하면 global feature는 좋아지는데 dense(patch) feature가 망가져.</p>
+      <p><span class="k">핵심</span>patch feature가 깨끗하던 예전 checkpoint의 patch similarity 구조(Gram matrix <span class="math">XX<sup>⊤</sup></span>)를 유지하게 붙잡아. feature 자체가 아니라 유사도 구조를 맞춰.</p>
+    </div></div>
+  </div>
+  <div class="note rl"><span class="tag">RL로 번역</span><p>BYOL의 "bootstrap"은 TD learning의 bootstrap과 같은 뜻이야. 정답 대신 천천히 움직이는 target network의 출력을 target으로 써. DQN에서 target을 천천히 움직여야 안정적인 것과 같은 직관이고, stop-gradient도 semi-gradient TD랑 같은 이유. AutoAugment는 아예 RL(controller, reward = validation accuracy)로 augmentation을 찾아. SynCLR·GenView는 diffusion/text-to-image 생성 모델을 view 생성기로 써. 네 쪽 generative model이 여기선 데이터 공장이야.</p></div>
+  <div class="note trap"><span class="tag">시험 함정</span><ul>
+    <li>BYOL: negative <b>없음</b>, loss는 <b>MSE</b>. DINO: loss는 <b>CE</b>, centering은 <b>teacher에만</b>.</li>
+    <li>SimCLR: negative 2N−2개, 학습 후 g를 버림 (f를 버리는 게 아님).</li>
+    <li>Barlow Twins: sample끼리가 아니라 feature 차원끼리 비교.</li>
+    <li>SynCLR positive = 같은 caption. DINOv2 = 이미지만 (caption 안 씀).</li>
+  </ul></div>
+  <div class="note next"><span class="tag">다음으로</span><p>SimCLR은 negative를 batch에서만 가져와서 batch가 커야 해. batch를 안 키우고 negative를 많이 구할 순 없을까? negative 말고 cluster·언어·label로 supervision을 줄 순 없을까? → L05</p></div>
+  <div class="quiz"><p class="quiz-h">셀프 체크</p>
+    <details class="q"><summary><span class="typ">T/F</span><span class="qs en">BYOL needs many negative samples, so it requires a large batch size.</span></summary><p class="ans"><b>False.</b> negative 없이 EMA target을 예측해 (p.30–34).</p></details>
+    <details class="q"><summary><span class="typ">빈칸</span><span class="qs en">Barlow Twins pushes the cross-correlation matrix of the two views toward the ______ matrix.</span></summary><p class="ans"><b>identity</b> (p.35–38)</p></details>
+    <details class="q"><summary><span class="typ">MCQ</span><span class="qs en">Which method trains a student to match an EMA teacher's softmax distribution with cross-entropy? (A) BYOL (B) DINO (C) Barlow Twins (D) SimCLR</span></summary><p class="ans"><b>(B) DINO</b> (p.39–44). BYOL은 MSE로 feature를 맞춰.</p></details>
+  </div>
+  <label class="done"><input type="checkbox" id="done-l04" data-done="l04">다 봤음</label>
+</section>
+
+<!-- ============ L05 ============ -->
+<section id="l05">
+  <div class="ch-head"><span class="ch-num">L05</span><h2>Contrastive Learning III</h2><p class="ch-meta">76p</p></div>
+  <p class="ch-q"><span class="k">질문</span>negative를 싸게 많이 구하려면? negative 말고 다른 supervision은?</p>
+
+  <h3>negative 창고 짓기</h3>
+  <div class="methods">
+    <div class="m"><div><span class="m-name">Memory bank</span><span class="m-src">p.4</span></div><div class="m-body">
+      <p>예전에 계산한 embedding을 저장해서 negative로 재활용. mini-batch negative는 <b>적지만 fresh</b>, memory bank negative는 <b>많지만 조금 stale</b>.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Instance Discrimination</span><span class="m-src">Wu, CVPR 2018 · p.5–9</span></div><div class="m-body">
+      <p><span class="k">핵심</span>이미지 한 장 = class 하나. classifier weight 대신 bank에 저장한 feature를 쓰는 non-parametric softmax, NCE로 근사.</p>
+      <p><span class="k">한계</span>bank feature가 옛날 encoder로 만든 거라 stale해.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">MoCo</span><span class="m-src">He, CVPR 2020 · p.10–15 · code p.12</span></div><div class="m-body">
+      <p><span class="k">질문</span>"Can we keep a large dictionary while reducing feature staleness?" (p.9)</p>
+      <p><span class="k">핵심</span>bank 대신 <b>FIFO queue</b> + key를 만드는 <b>momentum encoder</b> <span class="math">θ<sub>k</sub> ← mθ<sub>k</sub> + (1−m)θ<sub>q</sub></span>. 크고(large) 일관된(consistent) dictionary.</p>
+      <p><span class="k">차이</span>gradient는 query encoder로만 흘러. key 개수가 batch size랑 분리돼.</p>
+    </div></div>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>p.14 비교</th><th>End-to-end (SimCLR)</th><th>Memory bank</th><th>MoCo</th></tr></thead>
+      <tbody>
+        <tr><td>key 만드는 쪽</td><td>현재 encoder (backprop)</td><td>저장된 feature</td><td>momentum encoder</td></tr>
+        <tr><td>negative 출처</td><td>mini-batch</td><td>memory bank</td><td>FIFO queue</td></tr>
+        <tr><td>dictionary</td><td>작음 (batch에 묶임)</td><td>큼</td><td>큼</td></tr>
+        <tr><td>key 상태</td><td>fresh</td><td>stale</td><td><b>consistent</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="methods">
+    <div class="m"><div><span class="m-name">MoCo v2</span><span class="m-src">Chen 2020 · p.16–19</span></div><div class="m-body">
+      <p>MoCo + SimCLR의 레시피 (MLP projection head, 더 센 augmentation). 새 구조가 아니야. batch 256으로 SimCLR(8192)을 이김.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">CURL</span><span class="m-src">Srinivas 2020 · p.20–21</span></div><div class="m-body">
+      <p><span class="k">문제</span>pixel 관측으로 하는 RL은 sample-inefficient해.</p>
+      <p><span class="k">핵심</span>replay buffer의 observation에 MoCo식 contrastive (random crop pair, query + momentum key encoder)를 붙이고, 그 representation 위에서 RL을 <b>동시에</b> 학습.</p>
+    </div></div>
+  </div>
+
+  <h3>negative 말고 다른 신호</h3>
+  <div class="methods">
+    <div class="m"><div><span class="m-name">DeepCluster</span><span class="m-src">Caron, ECCV 2018 · p.23–25</span></div><div class="m-body">
+      <p><span class="k">핵심</span>현재 feature를 k-means로 묶고 cluster 번호를 pseudo label 삼아 분류 학습, 반복. "Alternate between clustering and classification."</p>
+      <p><span class="k">차이</span>positive/negative pair를 아예 안 만들어. clustering은 offline (dataset 전체).</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">SwAV</span><span class="m-src">Caron, NeurIPS 2020 · p.26–30</span></div><div class="m-body">
+      <p><span class="k">핵심</span>학습 가능한 prototype K개로 view마다 code(cluster 배정)를 online으로 계산하고, <b>한 view의 code를 다른 view로 예측</b> (swapped prediction).</p>
+      <p><span class="k">차이</span>Feature↔Feature가 아니라 <b>Feature↔Prototype</b>. 명시적 negative 없음, offline clustering 없음.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">CLIP</span><span class="m-src">Radford 2021 · p.32–37 · code p.35</span></div><div class="m-body">
+      <p><span class="k">핵심</span>image encoder와 text encoder를 같이 학습해서 짝지어진 (image, caption)을 shared space에 정렬. N×N 행렬에서 <b>양방향(symmetric)</b> contrastive loss.</p>
+      <p><span class="k">추론</span>"a photo of a {class}" prompt들과 비교해서 zero-shot 분류.</p>
+      <p><span class="k">포인트</span>contrastive가 caption 예측보다 약 4× data-efficient (p.36).</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">SupCon</span><span class="m-src">Khosla, NeurIPS 2020 · p.38–42</span></div><div class="m-body">
+      <p><span class="k">핵심</span>label을 써서 같은 class 전부를 positive로. positive마다 InfoNCE를 계산해서 평균.</p>
+      <p><span class="k">결과</span>CE보다 정확도는 조금 나은 정도지만, 더 robust하고(ImageNet-C) hyperparameter에 덜 민감해.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">NNCLR → All4One</span><span class="m-src">Estepa, ICCV 2023 · p.43–53</span></div><div class="m-body">
+      <p><span class="k">질문</span>"Can the memory bank provide more than negatives?"</p>
+      <p><span class="k">핵심</span>NNCLR은 support set의 nearest neighbor 하나를 positive로. All4One은 이웃 K개를 작은 Transformer(self-attention)로 centroid 하나로 요약. loss 3개 = Neighbor · Centroid · Feature contrast (Barlow Twins식).</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">PAPN</span><span class="m-src">Tan, ICCV 2025 · p.54–64</span></div><div class="m-body">
+      <p><span class="k">문제</span>fine-grained data에선 강한 augmentation이 얕은 stage feature를 망가뜨려.</p>
+      <p><span class="k">핵심</span>SPA = 얕은 stage엔 약한 aug, 깊은 stage엔 강한 aug. PHP = prototype으로 part feature를 뽑아서 whole feature와 같이 contrast.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">SCL-RHE</span><span class="m-src">Long, ECCV 2024 · p.65–75</span></div><div class="m-body">
+      <p><span class="k">문제</span>SupCon에서 사람의 label 실수는 대부분 <b>false positive</b>가 되고, 그게 similarity 높은 easy positive처럼 보여.</p>
+      <p><span class="k">핵심</span>similarity가 <b>높은</b> positive는 가중치를 <b>낮게</b> → hard positive를 강조.</p>
+    </div></div>
+  </div>
+  <div class="note rl"><span class="tag">RL로 번역</span><p>CURL은 이 수업에 직접 나오는 RL 논문이야 (SAC 위에 contrastive auxiliary loss). MoCo의 m = 0.999 momentum update는 SAC target network의 soft update랑 같은 식이고, queue는 "조금 오래됐지만 천천히 변하는 encoder로 만든 key라서 일관됨"이라는 점에서 off-policy replay buffer의 staleness trade-off랑 닮았어.</p></div>
+  <div class="note trap"><span class="tag">시험 함정</span><ul>
+    <li>MoCo: <code>k.detach()</code> → gradient는 <b>query</b> encoder로만. key encoder는 momentum으로만 갱신.</li>
+    <li>MoCo <code>labels = zeros(N)</code> ↔ CLIP <code>labels = np.arange(n)</code>. 바꿔치기 단골.</li>
+    <li>MoCo v2 = 새 architecture가 아니라 MLP head + 센 aug.</li>
+    <li>DeepCluster = offline, SwAV = online. SwAV는 명시적 negative 없음.</li>
+    <li>SCL-RHE: similarity 높은 positive → 가중치 <b>낮게</b>.</li>
+  </ul></div>
+  <div class="note next"><span class="tag">다음으로</span><p>여기까지는 label이 아예 없거나(self-supervised) 다 있는(SupCon) 경우야. 현실은 label 조금 + unlabeled 많이. → L06</p></div>
+  <div class="quiz"><p class="quiz-h">셀프 체크</p>
+    <details class="q"><summary><span class="typ">빈칸</span><span class="qs en">In MoCo, the key encoder is updated by a ______ update, not by back-propagation.</span></summary><p class="ans"><b>momentum</b> (EMA, p.11–12)</p></details>
+    <details class="q"><summary><span class="typ">T/F</span><span class="qs en">In the CLIP pseudo code, labels = np.zeros(n).</span></summary><p class="ans"><b>False.</b> <code>np.arange(n)</code> (대각선). <code>zeros(N)</code>은 MoCo (p.35, p.12).</p></details>
+    <details class="q"><summary><span class="typ">MCQ</span><span class="qs en">SwAV compares: (A) Feature ↔ Feature (B) Feature ↔ Prototype (C) Image ↔ Text (D) Query ↔ Queue</span></summary><p class="ans"><b>(B)</b> (p.30)</p></details>
+  </div>
+  <label class="done"><input type="checkbox" id="done-l05" data-done="l05">다 봤음</label>
+</section>
+
+<!-- ============ L06 ============ -->
+<section id="l06">
+  <div class="ch-head"><span class="ch-num">L06</span><h2>Semi-Supervised Learning I</h2><p class="ch-meta">76p · consistency</p></div>
+  <p class="ch-q"><span class="k">질문</span>label이 조금 있을 때 unlabeled를 어떻게 써먹나? ① consistency</p>
+  <div class="methods">
+    <div class="m"><div><span class="m-name">label 부족 해법 4개</span><span class="m-src">p.4–7</span></div><div class="m-body">
+      <p>(1) pre-training + fine-tuning, (2) active learning (다음에 label 달 샘플 고르기), (3) pre-training + dataset auto-generation, (4) <b>semi-supervised</b> = labeled와 unlabeled를 <b>같이</b> 학습. (1)은 2단계 순차라는 게 차이.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">목표식</span><span class="m-src">p.8–10</span></div><div class="m-body">
+      <p><span class="math">L = L<sub>s</sub> + μ(t)·L<sub>u</sub></span>, μ(t)는 시간이 갈수록 커져 (초반 예측은 못 믿으니까). 핵심 질문은 L<sub>u</sub>를 어떻게 만드냐: <b>consistency</b> (L06) 또는 <b>pseudo label</b> (L07).</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">가정 H1–H4</span><span class="m-src">p.11–14</span></div><div class="m-body">
+      <p>H1 Smoothness (가까우면 예측도 비슷) · H2 Cluster (같은 cluster = 같은 label) · H3 Low-density separation (boundary는 <b>밀도 낮은</b> 곳) · H4 Manifold (data는 <b>저차원</b> manifold 위).</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Consistency regularization</span><span class="m-src">p.15–16</span></div><div class="m-body">
+      <p><span class="math">L<sub>u</sub> = D(f(x), f(A(x)))</span>. perturbation은 data augmentation이나 dropout 같은 model stochasticity에서 와. H1을 loss로 만든 거야.</p>
+    </div></div>
+  </div>
+
+  <h3>target을 어디서 얻나: Π → TE → Mean Teacher</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th></th><th>Π-model<br><span class="m-src">p.17–18 · code p.18</span></th><th>Temporal Ensembling<br><span class="m-src">Laine, ICLR 2017 · p.19–22 · code p.20</span></th><th>Mean Teacher<br><span class="m-src">Tarvainen · p.23–29</span></th></tr></thead>
+      <tbody>
+        <tr><td>target</td><td>같은 net에 다른 noise로 한 번 더 forward</td><td>그 샘플의 과거 예측 EMA</td><td>EMA teacher의 예측</td></tr>
+        <tr><td>EMA 대상</td><td>없음</td><td><b>predictions</b> (N×C 저장)</td><td><b>weights</b></td></tr>
+        <tr><td>갱신 시점</td><td>매 step</td><td>epoch 끝 + bias correction</td><td>매 iteration</td></tr>
+        <tr><td>forward</td><td>2회</td><td>1회</td><td>student 1 + teacher 1</td></tr>
+        <tr><td>약점</td><td>비용 2배</td><td>메모리, 느린 갱신, scale 어려움</td><td>teacher가 student를 너무 닮아감 (뒤에서)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted">Mean Teacher 실전 팁 (p.23–29): input augmentation 필수, β는 초반 0.99 → 후반 0.999, consistency loss는 MSE가 KL보다 나아.</p>
+
+  <h3>perturbation을 어떻게 주나</h3>
+  <ol class="steps">
+    <li><span class="s-name">Noisy samples as targets</span><span class="s-src">p.30–31</span><span class="s-body">같은 모델로, 원본과 strong augmentation 버전의 예측을 같게.</span><span class="s-why">Π-model은 네트워크 안의 noise, 이건 입력 augmentation.</span></li>
+    <li><span class="s-name">Adversarial Training</span><span class="s-src">Goodfellow, ICLR 2015 · p.32–33</span><span class="s-body">모델이 제일 헷갈리는 방향(worst-case)으로 noise를 넣고도 <b>정답(GT)</b>을 맞히게. FGSM <span class="math">r ≈ ε·sign(g)</span>.</span><span class="s-why">supervised, 목적은 robustness.</span></li>
+    <li><span class="s-name">VAT</span><span class="s-src">Miyato, TPAMI 2018 · p.34–35</span><span class="s-body">GT 대신 <b>모델 자신의 예측</b>을 target으로 ("virtual"). unlabeled에도 쓸 수 있어.</span><span class="s-why">목적은 local smoothness. random 방향(RPT)이 아니라 가장 adversarial한 방향만.</span></li>
+    <li><span class="s-name">ICT</span><span class="s-src">Verma · p.36–38</span><span class="s-body">unlabeled 두 장을 MixUp. student의 섞인 입력 예측 = Mean Teacher 예측을 섞은 것. "mixed inputs → mixed predictions".</span><span class="s-why">MixUp 샘플은 boundary 근처라 low-density separation과 맞아.</span></li>
+    <li><span class="s-name">UDA</span><span class="s-src">Xie, NeurIPS 2020 · p.39–42</span><span class="s-body">작은 noise 대신 label을 보존하는 센 의미적 augmentation(RandAugment). 이것만으로 VAT·ICT를 이겨.</span><span class="s-why">"How we perturb the input matters more than simply adding perturbations."</span></li>
+  </ol>
+
+  <h3>teacher 고치기</h3>
+  <div class="methods">
+    <div class="m"><div><span class="m-name">PS-MT</span><span class="m-src">Liu, CVPR 2022 · p.43–54</span></div><div class="m-body">
+      <p><span class="k">문제</span>perturbation을 세게 주고 싶은데, teacher가 틀리면 student가 그 오류를 그대로 배워.</p>
+      <p><span class="k">핵심</span>mean teacher 2개의 ensemble로 target을 만들고 (epoch마다 하나만 갱신), student엔 센 perturbation (input CutMix, feature T-VAT), loss는 MSE 대신 더 엄격한 Conf-CE.</p>
+      <p><span class="k">포인트</span>T-VAT은 <b>teacher</b>가 adversarial 방향을 찾아. CutMix는 teacher 예측 <b>이후</b>에 적용.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Dual Teacher</span><span class="m-src">Na, NeurIPS 2023 · p.55–65</span></div><div class="m-body">
+      <p><span class="k">문제</span>EMA teacher가 student를 점점 닮아가서(coupling) 새 정보가 없고 오류도 물려받아.</p>
+      <p><span class="k">핵심</span>임시 teacher 2개가 epoch마다 <b>교대</b>. active teacher만 target을 만들고 갱신돼. ensemble보다 switching이 나아.</p>
+      <p><span class="k">문장</span>"A teacher should be stable, but it should not become identical to the student."</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">S⁴Former</span><span class="m-src">Hu, CVPR 2024 · p.66–74</span></div><div class="m-body">
+      <p><span class="k">핵심</span>ViT 구조에 맞춘 perturbation 3단: Input = PatchShuffle, Feature = PASA, Output = NCR. 단일 효과는 PatchShuffle이 제일 커.</p>
+    </div></div>
+  </div>
+  <div class="note rl"><span class="tag">RL로 번역</span><p>Mean Teacher의 <span class="math">θ′ ← βθ′ + (1−β)θ</span>는 target network soft update 그대로고, β를 0.99 → 0.999로 키우는 것도 "초반엔 빨리 따라가고 나중엔 안정적으로"라는 같은 직관이야. consistency regularization은 DrQ·RAD가 pixel RL에서 하는 것(augmentation을 줘도 Q·policy가 같게)과 같은 발상이고, sim2real의 domain randomization도 "겉모습이 바뀌어도 행동은 같아야 한다"는 점에서 친척이야. Dual Teacher의 coupling은 "자기 자신으로 자기 target을 만들 때 생기는 bias"라서, Double DQN이 estimator를 분리하는 이유랑 통해.</p></div>
+  <div class="note trap"><span class="tag">시험 함정</span><ul>
+    <li>TE = <b>prediction</b> EMA, epoch 끝. Mean Teacher = <b>weight</b> EMA, 매 iteration.</li>
+    <li>μ(t)는 <b>증가</b>. H3 boundary는 <b>low</b>-density, H4는 <b>low</b>-dimensional manifold.</li>
+    <li>AT = GT label, VAT = 모델 예측 ("virtual").</li>
+    <li>Mean Teacher: teacher는 EMA로만 갱신 (backprop 없음), MSE &gt; KL.</li>
+  </ul></div>
+  <div class="note next"><span class="tag">다음으로</span><p>consistency는 "두 예측을 같게"야. 더 직접적으로 "confident한 예측을 아예 정답으로 쓰자"는 게 pseudo labeling. → L07</p></div>
+  <div class="quiz"><p class="quiz-h">셀프 체크</p>
+    <details class="q"><summary><span class="typ">빈칸</span><span class="qs en">Temporal Ensembling keeps an EMA of ______, while Mean Teacher keeps an EMA of ______.</span></summary><p class="ans"><b>predictions / weights</b> (p.19–25)</p></details>
+    <details class="q"><summary><span class="typ">T/F</span><span class="qs en">Under the low-density separation assumption, decision boundaries should pass through high-density regions.</span></summary><p class="ans"><b>False.</b> low-density regions (p.11–14).</p></details>
+    <details class="q"><summary><span class="typ">MCQ</span><span class="qs en">"Virtual" in VAT means: (A) synthetic images (B) the model's own predictions replace ground-truth labels (C) a virtual teacher network (D) random perturbations</span></summary><p class="ans"><b>(B)</b> (p.34–35)</p></details>
+  </div>
+  <label class="done"><input type="checkbox" id="done-l06" data-done="l06">다 봤음</label>
+</section>
+
+<!-- ============ L07 ============ -->
+<section id="l07">
+  <div class="ch-head"><span class="ch-num">L07</span><h2>Semi-Supervised Learning II</h2><p class="ch-meta">106p · pseudo labeling</p></div>
+  <p class="ch-q"><span class="k">질문</span>② confident한 예측을 정답으로 쓰자. 근데 틀리면?</p>
+
+  <h3>기본기</h3>
+  <ol class="steps">
+    <li><span class="s-name">Pseudo-Label &amp; Entropy Minimization</span><span class="s-src">Lee, ICML 2013 · p.4–9</span><span class="s-body">confident한 예측을 hard label로 바꿔서 labeled와 같이 학습. pseudo labeling = entropy regularization의 <b>hard-label 근사</b>.</span><span class="s-why">entropy를 줄이면 boundary가 low-density로 이동.</span></li>
+    <li><span class="s-name">Label Propagation</span><span class="s-src">Iscen, CVPR 2019 · p.10–14 · code p.11</span><span class="s-body">feature 공간에 kNN graph를 만들고 labeled에서 unlabeled로 label을 퍼뜨려(diffusion). 자기 softmax가 아니라 <b>이웃 관계</b>에서 label이 나와.</span><span class="s-why">confidence-based → similarity-based. 대신 graph 비용이 크고 feature 질에 의존.</span></li>
+    <li><span class="s-name">Self-training · Noisy Student</span><span class="s-src">Xie, CVPR 2020 · p.15–19</span><span class="s-body">teacher가 pseudo label → student 학습 → student가 다음 teacher, 반복. student는 teacher와 같거나 더 크고, <b>student에만</b> noise (RandAugment, Dropout, Stochastic Depth).</span></li>
+  </ol>
+
+  <h3>틀린 pseudo label 다루기</h3>
+  <div class="methods">
+    <div class="m"><div><span class="m-name">Confirmation bias</span><span class="m-src">Arazo, IJCNN 2020 · p.20–23</span></div><div class="m-body">
+      <p><span class="k">문제</span>불완전한 teacher의 틀린 label을 student가 따라 하면서 오류가 쌓여.</p>
+      <p><span class="k">핵심</span>틀린 label을 외우기 어렵게 regularize: soft label MixUp, labeled data oversampling (mini-batch마다 최소 개수), strong augmentation, dropout.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Meta Pseudo Labels</span><span class="m-src">Pham, CVPR 2021 · p.24–27</span></div><div class="m-body">
+      <p><span class="k">핵심</span>teacher를 고정하지 말고 <b>teacher를 학습</b>. bi-level: student는 teacher의 pseudo label로 학습하고, teacher는 그 student의 <b>labeled data loss</b>가 낮아지는 방향으로 갱신.</p>
+      <p><span class="k">차이</span>Arazo는 student를 regularize, Meta PL은 student의 feedback으로 teacher를 고쳐.</p>
+    </div></div>
+  </div>
+
+  <h3>둘 다 쓰기: MixMatch → ReMixMatch → FixMatch</h3>
+  <p>pseudo labeling + consistency를 합치는 거야 (p.28–29). 한 view로 target을 만들고 다른 view가 그걸 맞히게.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th></th><th>MixMatch<br><span class="m-src">NeurIPS 2019 · p.30–35</span></th><th>ReMixMatch<br><span class="m-src">2020 · p.36–41</span></th><th>FixMatch<br><span class="m-src">p.42–48</span></th></tr></thead>
+      <tbody>
+        <tr><td>pseudo label</td><td>K개 aug 예측 <b>평균 → sharpen</b></td><td>weak anchor 예측 + distribution alignment → sharpen</td><td>weak aug 예측, max ≥ τ면 one-hot</td></tr>
+        <tr><td>학습하는 입력</td><td>MixUp한 샘플</td><td>여러 strong aug (augmentation anchoring)</td><td>strong aug</td></tr>
+        <tr><td>unlabeled loss</td><td><b>L2</b></td><td>(슬라이드 강조 X)</td><td>CE</td></tr>
+        <tr><td>새로 넣은 것</td><td>여러 아이디어를 하나로 통합</td><td>DA, AA, rotation loss</td><td>뺌. sharpening·MixUp 없음</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted">FixMatch 한 줄: "Predict on an easy example, learn from a difficult one." threshold가 sharpening보다 효과적이야.</p>
+
+  <div class="methods">
+    <div class="m"><div><span class="m-name">DivideMix</span><span class="m-src">Li · p.49–55 · code p.54</span></div><div class="m-body">
+      <p><span class="k">문제</span>labeled data에 noisy label이 섞여 있어.</p>
+      <p><span class="k">핵심</span>샘플별 training loss에 2-component <b>GMM</b> → loss 낮으면 clean, 높으면 noisy. noisy는 <b>label만</b> 버리고 unlabeled로 써서 MixMatch. 네트워크 2개가 <b>서로의</b> 분할을 써 (co-divide).</p>
+      <p><span class="k">차이</span>새 학습 알고리즘이 아니라 MixMatch용 labeled/unlabeled를 만드는 방법 + co-refinement + co-guessing.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Pre-training + SSL</span><span class="m-src">Zoph · SimCLRv2, NeurIPS 2020 · p.56–63</span></div><div class="m-body">
+      <p><span class="k">Zoph</span>pre-training의 이득은 augmentation이 세지고 label이 많아질수록 줄어. self-training은 그래도 효과가 있어. 둘은 <b>보완 관계</b>.</p>
+      <p><span class="k">SimCLRv2</span>(1) self-supervised pre-training (큰 모델) → (2) supervised fine-tuning → (3) unlabeled로 self-training / distillation (soft label).</p>
+    </div></div>
+  </div>
+
+  <h3>threshold 3부작 (p.105)</h3>
+  <ol class="steps">
+    <li><span class="s-name">FreeMatch</span><span class="s-src">Wang · p.64–75</span><span class="s-body">FixMatch의 고정 τ 대신 <b>self-adaptive threshold</b>. 전역 threshold = unlabeled 평균 confidence의 EMA (1/C에서 시작해서 올라감), class별로 조절. SAF로 예측이 몇 class에 몰리는 걸 막아.</span><span class="s-why">어떤 pseudo label을 고를까?</span></li>
+    <li><span class="s-name">AllMatch</span><span class="s-src">Wu, IJCAI 2024 · p.76–91</span><span class="s-body">버리던 low-confidence 샘플도 top-5 정확도는 거의 100%. class별 threshold는 <b>classifier weight norm</b>으로, BCC로 후보 class vs negative class 이진 구분을 strong view에도 강제해서 <b>모든</b> 샘플을 써.</span><span class="s-why">안 고른 샘플은 어떻게 할까?</span></li>
+    <li><span class="s-name">IFMatch</span><span class="s-src">Wu &amp; Cui, ECCV 2024 · p.92–104</span><span class="s-body">통과한 샘플이 다 같은 strong aug를 받는데, 쉬운 샘플은 loss가 거의 0이야. image perturbation에 <b>feature perturbation</b>을 더하고, strong aug 뒤에도 confident한 쉬운 샘플엔 추가 perturbation (CBI). plug-in.</span><span class="s-why">모든 pseudo label이 같은 perturbation을 받아야 할까?</span></li>
+  </ol>
+  <div class="note rl"><span class="tag">RL로 번역</span><p>pseudo labeling은 자기 예측으로 자기 target을 만드는 bootstrapping이야. confirmation bias는 Q-learning에서 자기 추정치로 target을 만들 때 오차가 쌓이는 문제랑 같은 모양이고, 해법도 닮았어. DivideMix가 두 network의 분할을 서로 바꿔 쓰는 건 Double DQN·TD3 twin critic처럼 "다른 estimator로 내 target을 견제"하는 발상이야. Meta Pseudo Labels는 student가 labeled data에서 얼마나 좋아졌는지가 teacher한테 reward처럼 돌아가는 구조고, FixMatch의 weak → strong은 DrQ처럼 "쉬운 view에서 target, 어려운 view에서 학습", FreeMatch의 올라가는 threshold는 curriculum이야.</p></div>
+  <div class="note trap"><span class="tag">시험 함정</span><ul>
+    <li>Noisy Student: noise는 <b>student에만</b>, student ≥ teacher.</li>
+    <li>MixMatch: <b>평균 먼저, 그다음 sharpen</b>. unlabeled는 <b>L2</b>.</li>
+    <li>FixMatch: sharpening·MixUp 없음. weak에서 label, strong에서 학습.</li>
+    <li>DivideMix: noisy 샘플은 <b>label만</b> 버림. 분할은 <b>상대</b> network가 해줌. loss 낮으면 clean. (slide엔 ICML 2020인데 실제론 ICLR 2020 → 시험은 slide 표기로)</li>
+    <li>SimCLRv2 순서: pre-train → fine-tune → distill.</li>
+  </ul></div>
+  <div class="quiz"><p class="quiz-h">셀프 체크</p>
+    <details class="q"><summary><span class="typ">빈칸</span><span class="qs en">FixMatch: the pseudo label comes from a ______-augmented image, and the model is trained to predict it on a ______-augmented image.</span></summary><p class="ans"><b>weakly / strongly</b> (p.42–48)</p></details>
+    <details class="q"><summary><span class="typ">T/F</span><span class="qs en">In DivideMix, each network divides its own training data into clean and noisy sets for itself.</span></summary><p class="ans"><b>False.</b> θ<sup>(1)</sup>의 loss로 만든 분할은 θ<sup>(2)</sup>가 써 (co-divide, p.51–54).</p></details>
+    <details class="q"><summary><span class="typ">빈칸</span><span class="qs en">FreeMatch's global threshold starts at ______ and rises as the model becomes more confident.</span></summary><p class="ans"><b>1/C</b> (C = class 수, p.64–75)</p></details>
+  </div>
+  <label class="done"><input type="checkbox" id="done-l07" data-done="l07">다 봤음</label>
+</section>
+
+<!-- ============ 공통 패턴 ============ -->
+<section id="patterns">
+  <h2>공통 패턴: 7강에 계속 나오는 부품</h2>
+  <p>논문은 30개가 넘지만 부품은 몇 개 안 돼. 이 표 두 개가 잡히면 "이건 어느 방법?" 문제가 거의 풀려.</p>
+
+  <h3>EMA: 뭘 천천히 따라가게 하나</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>방법</th><th>EMA 대상</th><th>식 (슬라이드 기호)</th><th>언제</th></tr></thead>
+      <tbody>
+        <tr><td>MoCo <span class="m-src">L05 p.12</span></td><td>key encoder weights</td><td><code>f_k = m*f_k + (1-m)*f_q</code></td><td>매 step</td></tr>
+        <tr><td>BYOL <span class="m-src">L04 p.30</span></td><td>target weights ξ</td><td><span class="math">ξ ← τξ + (1−τ)θ</span></td><td>매 step</td></tr>
+        <tr><td>DINO <span class="m-src">L04 p.40</span></td><td>teacher weights <b>+ center C</b></td><td><code>gt = l*gt + (1-l)*gs</code> / <code>C = m*C + (1-m)*mean</code></td><td>매 step</td></tr>
+        <tr><td>Mean Teacher <span class="m-src">L06 p.23–25</span></td><td>teacher weights</td><td><span class="math">θ′ ← βθ′ + (1−β)θ</span></td><td>매 iteration</td></tr>
+        <tr><td>Temporal Ensembling <span class="m-src">L06 p.20</span></td><td><b>predictions</b> (weight 아님)</td><td><span class="math">Z ← αZ + (1−α)z</span>, <span class="math">z̃ = Z/(1−α<sup>t</sup>)</span></td><td>epoch 끝</td></tr>
+        <tr><td>FreeMatch <span class="m-src">L07 p.64–75</span></td><td>평균 confidence → threshold</td><td>1/C에서 시작</td><td>매 step</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>방향은 항상 <b>느린 쪽 ← 빠른 쪽</b>. gradient는 빠른 쪽(student · online · query)만 받고, 느린 쪽엔 stop-gradient. RL의 target network랑 구조가 똑같아.</p>
+
+  <h3>Loss: 누가 뭘 쓰나</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>loss</th><th>쓰는 방법</th></tr></thead>
+      <tbody>
+        <tr><td>InfoNCE (positive 하나 맞히기)</td><td>N-pair · CPC (L03), SimCLR (L04), MoCo · CLIP · SupCon (L05)</td></tr>
+        <tr><td>분포 간 CE (soft target)</td><td>X-CLR (L03), DINO (L04), SwAV code 예측 (L05)</td></tr>
+        <tr><td>MSE / L2</td><td>BYOL (normalized, L04), Π-model · TE · Mean Teacher (L06), MixMatch unlabeled (L07)</td></tr>
+        <tr><td>KL</td><td>UDA (L04 p.18, L06 p.39–42)</td></tr>
+        <tr><td>hard pseudo label CE</td><td>DeepCluster (L05), Pseudo-Label · FixMatch (L07)</td></tr>
+        <tr><td>상관행렬 → identity</td><td>Barlow Twins (L04), All4One의 feature contrast (L05)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><b>양방향(symmetric)</b>: SimCLR, CLIP, DINO (<code>H(t1,s2) + H(t2,s1)</code>), BYOL. <b>MoCo만 한 방향</b> (query → key).</p>
+</section>
+
+<!-- ============ Pseudo code ============ -->
+<section id="code">
+  <h2>Pseudo code 9개: 핵심 줄만</h2>
+  <p>교수님이 깊게 안 다뤘으니까 구현 디테일보다 <b>core idea가 박힌 줄</b>이 나올 거야. 방법마다 이 줄만 알아도 "이 코드는 어느 방법?"이랑 "이 줄의 역할은?"은 풀려. 전체 정리는 repo의 <code>exam/pseudocode.md</code>에 있어.</p>
+
+  <h3>InfoNCE 가족</h3>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">SimCLR</span><span class="m-src">Alg.1 · L04 p.25</span></div>
+    <pre><code>draw two augmentation functions t∼T, t′∼T
+ℓ(i,j) = −log exp(s_ij/τ) / Σ_{k≠i} exp(s_ik/τ)
+<span class="hl">L = 1/(2N) Σ_k [ℓ(2k−1, 2k) + ℓ(2k, 2k−1)]</span>
+return encoder f(·), and <span class="hl">throw away g(·)</span></code></pre>
+    <p>같은 이미지 두 view가 positive, 나머지 2N−2개가 negative. 양방향으로 평균.</p>
+  </div>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">MoCo</span><span class="m-src">Alg.1 · L05 p.12</span></div>
+    <pre><code><span class="hl">k = k.detach()</span>                      # no gradient to keys
+l_neg = mm(q.view(N,C), queue.view(C,K))
+<span class="hl">labels = zeros(N)</span>                   # positive = 0번째 칸
+<span class="hl">f_k.params = m*f_k.params + (1-m)*f_q.params</span>
+enqueue(queue, k); dequeue(queue)</code></pre>
+    <p>momentum encoder + FIFO queue. enqueue/dequeue는 update 다음이고, dequeue는 가장 오래된 batch.</p>
+  </div>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">CLIP</span><span class="m-src">L05 p.35</span></div>
+    <pre><code>I_e = l2_normalize(np.dot(I_f, W_i), axis=1)
+<span class="hl">logits = np.dot(I_e, T_e.T) * np.exp(t)</span>
+<span class="hl">labels = np.arange(n)</span>
+loss = <span class="hl">(loss_i + loss_t)/2</span></code></pre>
+    <p>n×n 행렬의 대각선이 positive, 행 방향·열 방향 CE를 평균 (symmetric). temperature는 곱해.</p>
+  </div>
+
+  <h3>Soft target · self-distillation</h3>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">X-CLR</span><span class="m-src">L03 p.67</span></div>
+    <pre><code>txt_emb  = <span class="hl">txt_enc(captions).detach()</span>     # frozen
+<span class="hl">tgt_sims = softmax(txt_emb @ txt_emb.T / tao_s, dim=1)</span>
+img_sims = softmax(img_emb @ img_emb.T / tao,   dim=1)
+return CE(tgt_sims, img_sims, dim=1).mean()</code></pre>
+    <p>InfoNCE의 one-hot 정답을 text similarity의 soft graph로 바꿈.</p>
+  </div>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">DINO</span><span class="m-src">L04 p.40</span></div>
+    <pre><code>s1, s2 = gs(x1), gs(x2)              # student
+t1, t2 = gt(x1), gt(x2)              # teacher
+loss = <span class="hl">H(t1, s2)/2 + H(t2, s1)/2</span>      # 교차 view
+<span class="hl">gt.params = l*gt.params + (1-l)*gs.params</span>
+<span class="hl">C = m*C + (1-m)*cat([t1, t2]).mean(dim=0)</span>
+# H 안: <span class="hl">t = t.detach()</span>; t = softmax(<span class="hl">(t - C) / tpt</span>)</code></pre>
+    <p>student가 EMA teacher의 centered + sharpened 분포를 다른 view에서 CE로 따라가. centering은 teacher 쪽에만.</p>
+  </div>
+
+  <h3>Consistency</h3>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">Π-model</span><span class="m-src">Alg.1 · L06 p.18</span></div>
+    <pre><code>z_i ← f_θ(g(x_i))
+<span class="hl">z̃_i ← f_θ(g(x_i))</span>    ▷ again, with different dropout and augmentation
+loss ← −(1/|B|) Σ_{i∈B∩L} log z_i[y_i]
+       + <span class="hl">w(t) (1/(C|B|)) Σ_{i∈B} ‖z_i − z̃_i‖²</span></code></pre>
+    <p>똑같아 보이는 두 줄이 다른 이유는 stochastic이라서. forward 2회, MSE는 batch 전체(labeled + unlabeled)에.</p>
+  </div>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">Temporal Ensembling</span><span class="m-src">Alg.2 · L06 p.20</span></div>
+    <pre><code>(epoch 끝)
+<span class="hl">Z ← αZ + (1 − α)z</span>       ▷ accumulate ensemble predictions
+<span class="hl">z̃ ← Z / (1 − α^t)</span>       ▷ bias correction</code></pre>
+    <p>target = 샘플별 과거 예측의 EMA. forward 1회, 대신 N×C 메모리와 epoch당 1번 갱신.</p>
+  </div>
+
+  <h3>Pseudo label</h3>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">Label Propagation</span><span class="m-src">Alg.1 · L07 p.11</span></div>
+    <pre><code>v_i ← φ_θ(x_i)                      ▷ extract descriptors
+a_ij ← affinity (kNN)  ;  W ← A + Aᵀ
+𝒲 ← D^{−1/2} W D^{−1/2}
+<span class="hl">Z ← solve (I − α𝒲)Z = Y with CG</span>  ▷ diffusion
+ŷ_i ← argmax_j ẑ_ij  ;  <span class="hl">ω_i ← certainty of ŷ_i</span></code></pre>
+    <p>pseudo label이 자기 softmax가 아니라 graph diffusion에서 나와. 불확실한 건 버리지 않고 ω<sub>i</sub>로 가중.</p>
+  </div>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">DivideMix</span><span class="m-src">Alg.1 · L07 p.54</span></div>
+    <pre><code><span class="hl">𝒲^(2) = GMM(𝒳, 𝒴, θ^(1))</span>    // θ^(1)의 loss로 θ^(2)용 clean 확률   (co-divide)
+labeled ← w_i ≥ τ  ;  unlabeled ← w_i &lt; τ
+<span class="hl">ȳ_b = w_b y_b + (1 − w_b) p_b</span>          (co-refinement, clean 쪽)
+<span class="hl">q̄_b = 1/(2M) Σ_m (p(û; θ^(1)) + p(û; θ^(2)))</span>   (co-guessing, noisy 쪽)
+ℒ_𝒳, ℒ_𝒰 = MixMatch(𝒳̂, 𝒰̂)</code></pre>
+    <p>noisy label 문제를 SSL로 바꿔 풀어. 두 network가 서로에게 데이터를 나눠줘서 confirmation bias를 줄여.</p>
+  </div>
+  <div class="note trap"><span class="tag">준-알고리즘도 기억</span><p>BYOL 단계 (L04 p.32: predictor + EMA target + normalized MSE), DeepCluster process (L05 p.24: k-means ↔ classification 교대). 코드 박스는 아니지만 "어느 방법?"으로 나올 수 있어.</p></div>
+  <div class="quiz"><p class="quiz-h">셀프 체크 · 코드</p>
+    <details class="q"><summary><span class="typ">MCQ</span><span class="qs en">Which method's pseudo code contains <code>labels = zeros(N)</code>? (A) CLIP (B) SimCLR (C) MoCo (D) DINO</span></summary><p class="ans"><b>(C) MoCo.</b> positive logit을 0번째 column에 붙여서 (L05 p.12).</p></details>
+    <details class="q"><summary><span class="typ">빈칸</span><span class="qs en">In DINO, the teacher output is centered and sharpened: <code>softmax((t - ____) / tpt)</code>.</span></summary><p class="ans"><b>C</b> (center, teacher output 평균의 EMA, L04 p.40)</p></details>
+    <details class="q"><summary><span class="typ">T/F</span><span class="qs en">In Temporal Ensembling, Z is an exponential moving average of the network weights.</span></summary><p class="ans"><b>False.</b> network <b>predictions</b>의 EMA. weight EMA는 Mean Teacher (L06 p.20).</p></details>
+  </div>
+</section>
+
+<!-- ============ Physical AI ============ -->
+<section id="bridge">
+  <h2>이게 Physical AI로 어떻게 이어지나</h2>
+  <p class="offscope">슬라이드 밖 · 시험 범위 아님 · 동기 부여용</p>
+  <div class="methods">
+    <div class="m"><div><span class="m-name">VLA의 눈</span><span class="m-src">L04 · L05</span></div><div class="m-body">
+      <p>OpenVLA는 DINOv2(L04) feature와 SigLIP(CLIP 계열, L05) feature를 합쳐서 vision encoder로 써. π0도 PaliGemma(SigLIP vision encoder) 위에 flow matching action expert를 얹은 구조야. 네가 다루는 action head 바로 앞단이 이 수업 내용이야.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">SigLIP = NCE vs InfoNCE</span><span class="m-src">L03 p.21–23</span></div><div class="m-body">
+      <p>CLIP은 N×N 행렬을 한 줄씩 softmax(InfoNCE, categorical)로 보는데, SigLIP은 칸마다 독립 sigmoid(이진 분류)로 바꿨어. L03의 "NCE = binary, InfoNCE = categorical" 구분이 그대로 실전 모델의 차이가 돼.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">로봇용 representation</span><span class="m-src">L01–L03</span></div><div class="m-body">
+      <p>R3M (Ego4D 영상으로 time-contrastive + language alignment), MVP (MAE식 masked pretraining → motor control), VIP (사람 영상으로 goal-conditioned value를 배우는데 형태가 time-contrastive). L01의 prediction, L02의 pretext, L03의 contrastive가 섞여 있어.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">World model</span><span class="m-src">L01 p.20</span></div><div class="m-body">
+      <p>L01에서 future prediction 예시로 나온 V-JEPA의 후속 V-JEPA 2는 action-conditioned 버전으로 로봇 planning까지 가.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">Pixel RL</span><span class="m-src">L05 p.20–21</span></div><div class="m-body">
+      <p>CURL 이후 RAD · DrQ가 "contrastive 없이 augmentation만 잘 줘도 된다"를 보여줬어. L04 · L06의 augmentation / consistency 얘기 그대로야.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">용어 충돌 주의</span><span class="m-src">teacher – student</span></div><div class="m-body">
+      <p>로봇 쪽 teacher–student는 보통 privileged 정보를 가진 teacher를 student로 distill하는 거야 (RMA, Learning by Cheating). 이 수업의 teacher는 대부분 <b>student의 EMA 복사본</b>이야 (BYOL, DINO, Mean Teacher). 시험장에서 네 직관이 오히려 헷갈리게 만들 수 있으니 조심해.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ 마지막 체크 ============ -->
+<section id="last">
+  <h2>마지막 체크: 이 12줄은 영어로 바로 나와야 해</h2>
+  <ol class="check en">
+    <li>MoCo: the key encoder is a <b>momentum</b> encoder; gradients flow only through the <b>query</b> encoder.</li>
+    <li>SimCLR: <b>2N−2</b> in-batch negatives; after training, <b>throw away g</b> and use f.</li>
+    <li>BYOL: <b>no negatives</b>; online network with a <b>predictor</b>, EMA target, <b>MSE</b>.</li>
+    <li>DINO: student matches the EMA teacher's <b>centered + sharpened</b> softmax with <b>cross-entropy</b>.</li>
+    <li>Barlow Twins: cross-correlation matrix → <b>identity</b> (invariance + redundancy reduction).</li>
+    <li>CLIP: symmetric loss over an N×N matrix, <code>labels = np.arange(n)</code>, <b>zero-shot</b> via text prompts.</li>
+    <li>SwAV: <b>swapped prediction</b> of codes; Feature ↔ <b>Prototype</b>.</li>
+    <li>Temporal Ensembling = EMA of <b>predictions</b>; Mean Teacher = EMA of <b>weights</b>.</li>
+    <li>VAT: "virtual" = the model's own prediction instead of the ground-truth label.</li>
+    <li>MixMatch: average over K augmentations → <b>sharpen</b> → MixUp; <b>L2</b> loss for unlabeled data.</li>
+    <li>FixMatch: <b>weak</b> → confidence threshold → <b>strong</b>, cross-entropy; no sharpening, no MixUp.</li>
+    <li>DivideMix: GMM on per-sample loss; each network uses the <b>other</b> network's clean/noisy division.</li>
+  </ol>
+  <h3>다음 할 일</h3>
+  <p>이 페이지로 흐름을 잡았으면 repo에서 이 순서로 가면 돼.</p>
+  <ol class="check">
+    <li><code>exam/pseudocode.md</code>의 "한눈에 보기" + 함정 Top 12</li>
+    <li><code>exam/mock_quiz_4.md</code>, <code>exam/mock_quiz_5.md</code> 풀기 (빈칸 · pseudo code 포함 새 형식)</li>
+    <li>틀린 건 답 옆의 <code>← pool:</code> 표시를 따라 <code>exam/_parts/</code> pool에서 비슷한 문제 더 풀기</li>
+    <li>개념이 흔들리면 <code>exam/core_ideas.md</code>에서 그 방법만 다시 보기</li>
+  </ol>
+</section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  var KEY='arl-flow-done-v1';
+  var state={};
+  try{ state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ state={}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  function mark(id){
+    var a=document.querySelector('.rail a[href="#'+id+'"]');
+    if(a){ a.classList.toggle('is-done', !!state[id]); }
+  }
+  var boxes=document.querySelectorAll('input[data-done]');
+  for(var i=0;i<boxes.length;i++){
+    (function(cb){
+      var id=cb.getAttribute('data-done');
+      cb.checked=!!state[id]; mark(id);
+      cb.addEventListener('change', function(){ state[id]=cb.checked; save(); mark(id); });
+    })(boxes[i]);
+  }
+  if('IntersectionObserver' in window){
+    var links={};
+    var as=document.querySelectorAll('.rail a');
+    for(var j=0;j<as.length;j++){ links[as[j].getAttribute('href').slice(1)]=as[j]; }
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          for(var k in links){ links[k].removeAttribute('aria-current'); }
+          var l=links[en.target.id]; if(l){ l.setAttribute('aria-current','true'); }
+        }
+      });
+    },{rootMargin:'-35% 0px -60% 0px'});
+    document.querySelectorAll('main>section[id]').forEach(function(s){ io.observe(s); });
+  }
+})();
+</script>

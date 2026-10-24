@@ -1,0 +1,77 @@
+<figure class="viz" id="viz-l05-momentum">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">momentum encoder가 key를 일관되게 만드는 이유</p><span class="illus">illustrative</span></div>
+  <style>#viz-l05-momentum .mm-wrap{display:grid;grid-template-columns:450fr 240fr;gap:.5rem;align-items:end}@media (max-width:600px){#viz-l05-momentum .mm-wrap{grid-template-columns:minmax(0,1fr)}}</style>
+  <div class="mm-wrap">
+  <svg viewBox="0 0 450 322" role="img" aria-label="1-D parameter trajectory of query encoder and its EMA key encoder">
+    <text class="t t-m" x="56" y="18">encoder 파라미터 θ (1-D, 임의 단위)</text>
+    <line class="ax" x1="56" y1="30" x2="56" y2="250"/><line class="ax" x1="56" y1="250" x2="436" y2="250"/>
+    <text class="t t-m mono" x="436" y="272" text-anchor="end">training step →</text>
+    <rect class="f-line" style="fill-opacity:.55" data-band x="316" y="30" width="120" height="220"/>
+    <text class="t t-m" data-bandlab x="436" y="22" text-anchor="end">queue 구간</text>
+    <polyline class="ln-acc" stroke-width="1.4" data-q points=""/>
+    <polyline class="ln-ink" stroke-width="2.6" data-k points=""/>
+    <g data-bankpts></g><g data-qpts></g>
+    <text class="t t-acc b" x="62" y="52" >θ<tspan dy="3" font-size="10">q</tspan></text>
+    <text class="t b" x="90" y="52">θ<tspan dy="3" font-size="10">k</tspan> (EMA)</text>
+    <text class="t mono" x="56" y="312">f_k.params = m*f_k.params + (1-m)*f_q.params</text>
+  </svg>
+  <svg viewBox="0 0 240 322" role="img" aria-label="Spread of keys in a memory bank versus a queue">
+    <text class="t t-m" x="120" y="18" text-anchor="middle">key를 만든 encoder 상태</text>
+    <rect class="f-surf" x="12" y="30" width="108" height="220" rx="6" style="stroke:var(--line)"/>
+    <rect class="f-surf" x="132" y="30" width="100" height="220" rx="6" style="stroke:var(--line)"/>
+    <g data-strips></g>
+    <text class="t t-trap b" x="66" y="272" text-anchor="middle">bank keys</text>
+    <text class="t t-ok b" x="182" y="272" text-anchor="middle">queue keys</text>
+    <text class="t t-m" x="66" y="290" text-anchor="middle" data-sb></text>
+    <text class="t t-m" x="182" y="290" text-anchor="middle" data-sq></text>
+  </svg>
+  </div>
+  <div class="viz-ctrl"><span>momentum m</span>
+    <button type="button" data-m="0.9" aria-pressed="false">0.9</button>
+    <button type="button" data-m="0.99" aria-pressed="true">0.99</button>
+    <button type="button" data-m="0.999" aria-pressed="false">0.999</button></div>
+  <figcaption>얇은 선 θ<sub>q</sub>는 매 step 흔들리면서 움직이는 query encoder, 굵은 선 θ<sub>k</sub>는 그걸 EMA로 따라가는 key encoder야. <b>m이 클수록 θ<sub>k</sub>가 느리고 매끈해져</b> (그림은 300 step뿐이라 0.999는 거의 안 움직여 보여). 오른쪽 점들의 y축은 <b>"key를 만든 encoder의 상태"</b>야: memory bank는 과거 여러 시점의 θ<sub>q</sub>라 넓게 퍼지고(inconsistent), queue는 천천히 변하는 θ<sub>k</sub>의 최근 구간이라 좁게 모여(consistent). 데이터는 지어낸 개념 그림이야. (L05 p.11–12)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l05-momentum'); if(!root) return;
+    var NS='http://www.w3.org/2000/svg', N=300, W=40;
+    var seed=7; function rnd(){ seed=(seed*1664525+1013904223)%4294967296; return seed/4294967296; }
+    var q=[], nz=0, i;
+    for(i=0;i<=N;i++){ nz=0.6*nz+(rnd()-0.5)*0.8; q.push(1.5*i/N+nz); }
+    var bankSteps=[]; for(i=0;i<W;i++) bankSteps.push(Math.floor(rnd()*(N-W)));
+    var jit=[]; for(i=0;i<W;i++) jit.push([rnd(),rnd()]);
+    var lo=Math.min.apply(null,q)-0.15, hi=Math.max.apply(null,q)+0.15;
+    function X(t){ return 56+380*t/N; }
+    function Y(v){ return 250-220*(v-lo)/(hi-lo); }
+    var pq=root.querySelector('[data-q]'), pk=root.querySelector('[data-k]');
+    var gb=root.querySelector('[data-bankpts]'), gq=root.querySelector('[data-qpts]'), gs=root.querySelector('[data-strips]');
+    var sb=root.querySelector('[data-sb]'), sq=root.querySelector('[data-sq]');
+    var band=root.querySelector('[data-band]'), bandlab=root.querySelector('[data-bandlab]');
+    band.setAttribute('x',X(N-W)); band.setAttribute('width',X(N)-X(N-W)); 
+    pq.setAttribute('points',q.map(function(v,t){return X(t).toFixed(1)+','+Y(v).toFixed(1);}).join(' '));
+    function circ(g,cx,cy,sty){ var c=document.createElementNS(NS,'circle'); c.setAttribute('cx',cx.toFixed(1)); c.setAttribute('cy',cy.toFixed(1)); c.setAttribute('r',3); c.setAttribute('style',sty); g.appendChild(c); }
+    function rng(g,x,a,b,cls){ var p=document.createElementNS(NS,'path'); p.setAttribute('class',cls); p.setAttribute('stroke-width',2); p.setAttribute('d','M'+(x-4)+','+a+' L'+(x+4)+','+a+' M'+x+','+a+' L'+x+','+b+' M'+(x-4)+','+b+' L'+(x+4)+','+b); g.appendChild(p); }
+    function draw(){
+      var m=parseFloat(root.querySelector('[aria-pressed=true]').getAttribute('data-m')), k=[q[0]], t;
+      for(t=1;t<=N;t++) k.push(m*k[t-1]+(1-m)*q[t]);
+      pk.setAttribute('points',k.map(function(v,t){return X(t).toFixed(1)+','+Y(v).toFixed(1);}).join(' '));
+      gb.innerHTML=''; gq.innerHTML=''; gs.innerHTML='';
+      var bmin=1e9,bmax=-1e9,qmin=1e9,qmax=-1e9,j,y;
+      for(j=0;j<W;j++){
+        t=bankSteps[j]; y=Y(q[t]); bmin=Math.min(bmin,y); bmax=Math.max(bmax,y);
+        circ(gb,X(t),y,'fill:var(--surface);stroke:var(--trap);stroke-width:1.5');
+        circ(gs,38+jit[j][0]*60,y,'fill:var(--trap);fill-opacity:.7');
+        t=N-W+j; y=Y(k[t]); qmin=Math.min(qmin,y); qmax=Math.max(qmax,y);
+        circ(gq,X(t),y,'fill:var(--ok);stroke:var(--surface);stroke-width:1');
+        circ(gs,160+jit[j][1]*60,y,'fill:var(--ok);fill-opacity:.8');
+      }
+      rng(gs,24,bmin,bmax,'ln-trap'); rng(gs,144,qmin,qmax,'ln-ok');
+      sb.textContent='spread 큼'; sq.textContent=(qmax-qmin)<(bmax-bmin)*0.5?'spread 작음':'spread 중간';
+      var bs=root.querySelectorAll('[data-m]'); for(j=0;j<bs.length;j++) bs[j].setAttribute('aria-pressed', bs[j].getAttribute('data-m')==String(m)?'true':'false');
+    }
+    var btns=root.querySelectorAll('[data-m]');
+    for(i=0;i<btns.length;i++) btns[i].addEventListener('click',function(){ for(var j=0;j<btns.length;j++) btns[j].setAttribute('aria-pressed','false'); this.setAttribute('aria-pressed','true'); draw(); });
+    draw();
+  })();
+  </script>
+</figure>

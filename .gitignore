@@ -2,3 +2,8 @@ lectures/_pages/
 __pycache__/
 .vscode/
 *.tmp
+
+# flow.html build previews
+exam/_flow/preview/
+exam/_flow/shots/
+exam/_flow/work/

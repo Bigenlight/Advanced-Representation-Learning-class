@@ -1,0 +1,82 @@
+<figure class="viz" id="viz-l05-clip">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">CLIP의 n×n 행렬: row와 column을 각각 softmax하는 symmetric loss</p><span class="illus">illustrative</span></div>
+  <div class="viz-scroll">
+  <svg viewBox="0 0 700 392" role="img" aria-label="5 by 5 image-text logits matrix; selected row or column softmax shown as bars">
+    <text class="t t-m mono" x="200" y="22" text-anchor="middle">logits = I_e · T_eᵀ · exp(t)</text>
+    <g data-heads></g>
+    <g data-cells></g>
+    <text class="t t-ok b" x="22" y="356">labels = np.arange(n)</text>
+    <text class="t t-m" x="22" y="376">diagonal = positive, 나머지 n−1개 = negative</text>
+    <text class="t b" x="400" y="26" data-title></text>
+    <g data-bars></g>
+    <text class="t mono" x="400" y="256" data-ce></text>
+    <text class="t t-m" x="400" y="284" data-note></text>
+    <text class="t mono" x="400" y="318">row 방향 CE 평균 = <tspan data-li>–</tspan></text>
+    <text class="t mono" x="400" y="340">column 방향 CE 평균 = <tspan data-lt>–</tspan></text>
+    <text class="t mono b" x="400" y="362">loss = (row + col)/2 = <tspan data-lo>–</tspan></text>
+  </svg>
+  </div>
+  <div class="viz-ctrl">
+    <button type="button" data-mode="row" aria-pressed="true">row 보기 (image → text)</button>
+    <button type="button" data-mode="col" aria-pressed="false">column 보기 (text → image)</button>
+    <label for="viz-l05-clip-idx">index <input type="range" id="viz-l05-clip-idx" min="1" max="5" step="1" value="2"></label><output data-out>2</output>
+  </div>
+  <figcaption>행렬의 칸 (i, j) = 이미지 i와 text j의 scaled cosine similarity야. 이미지 i 하나를 고정하고 <b>row</b>를 softmax하면 "정답 text는 어느 것?" 문제가 되고(image→text), text j를 고정하고 <b>column</b>을 softmax하면 반대 방향(text→image)이 돼. 정답은 항상 diagonal(<code>labels = np.arange(n)</code>)이고 loss는 두 방향 CE의 평균이야. 칸을 눌러도 선택돼. 슬라이드 코드는 <code>loss_i</code>(axis=0), <code>loss_t</code>(axis=1)로 쓰는데 axis가 어느 방향인지는 정의가 없어서 해석이 갈려. 시험엔 '두 방향 CE 평균 = symmetric'만 확실히 기억해. (N=5 예시) 숫자는 지어낸 개념 그림이야. (L05 p.33, p.35)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l05-clip'); if(!root) return;
+    var NS='http://www.w3.org/2000/svg', n=5, S=[
+      [4.2,1.1,0.4,1.8,0.2],
+      [0.9,3.9,0.6,3.5,1.0],
+      [0.3,0.7,4.4,0.5,1.2],
+      [1.6,2.2,0.8,4.0,0.3],
+      [0.5,1.0,1.4,0.6,3.8]];
+    var mode='row', idx=1, X0=64, Y0=60, C=54, SUB='₁₂₃₄₅';
+    var inp=root.querySelector('input'), out=root.querySelector('[data-out]');
+    var gh=root.querySelector('[data-heads]'), gc=root.querySelector('[data-cells]'), gb=root.querySelector('[data-bars]');
+    function el(tag,attrs,parent,txt){ var e=document.createElementNS(NS,tag); for(var k in attrs) e.setAttribute(k,attrs[k]); if(txt!==undefined) e.textContent=txt; parent.appendChild(e); return e; }
+    function sm(v){ var m=Math.max.apply(null,v), e=v.map(function(x){return Math.exp(x-m);}), s=e.reduce(function(a,b){return a+b;},0); return e.map(function(x){return x/s;}); }
+    function col(j){ return S.map(function(r){return r[j];}); }
+    function lossAvg(isRow){ var s=0,i; for(i=0;i<n;i++){ var p=sm(isRow?S[i]:col(i)); s+=-Math.log(p[i]); } return s/n; }
+    function draw(){
+      gh.innerHTML=''; gc.innerHTML=''; gb.innerHTML='';
+      var i,j,isRow=(mode==='row');
+      for(i=0;i<n;i++){
+        el('rect',{'class':'box-data',x:6,y:Y0+i*C+14,width:46,height:26},gh);
+        el('text',{'class':'t mono'+((isRow&&i===idx)?' b t-acc':''),x:29,y:Y0+i*C+32,'text-anchor':'middle'},gh,'img'+SUB[i]);
+        el('rect',{'class':'box-data',x:X0+i*C+3,y:Y0-34,width:48,height:26},gh);
+        el('text',{'class':'t mono'+((!isRow&&i===idx)?' b t-acc':''),x:X0+i*C+27,y:Y0-16,'text-anchor':'middle'},gh,'txt'+SUB[i]);
+      }
+      for(i=0;i<n;i++) for(j=0;j<n;j++){
+        var on=isRow?(i===idx):(j===idx), v=S[i][j];
+        var g=el('g',{'data-i':i,'data-j':j,style:'cursor:pointer'},gc);
+        el('rect',{x:X0+j*C+2,y:Y0+i*C+2,width:C-4,height:C-4,rx:4,'class':'f-surf',style:'stroke:var(--line)'},g);
+        el('rect',{x:X0+j*C+2,y:Y0+i*C+2,width:C-4,height:C-4,rx:4,style:'fill:var(--accent);fill-opacity:'+(0.08+0.55*v/4.5).toFixed(2)},g);
+        if(on) el('rect',{x:X0+j*C+2,y:Y0+i*C+2,width:C-4,height:C-4,rx:4,style:'fill:none;stroke:var(--trap);stroke-width:2.5'},g);
+        if(i===j) el('rect',{x:X0+j*C+6,y:Y0+i*C+6,width:C-12,height:C-12,rx:3,style:'fill:none;stroke:var(--ok);stroke-width:1.5;stroke-dasharray:4 3'},g);
+        el('text',{'class':'t mono',x:X0+j*C+C/2,y:Y0+i*C+C/2+5,'text-anchor':'middle'},g,v.toFixed(1));
+        g.addEventListener('click',(function(a,b){return function(){ idx=(mode==='row')?a:b; sync(); draw(); };})(i,j));
+      }
+      var v=isRow?S[idx]:col(idx), p=sm(v), L=-Math.log(p[idx]);
+      root.querySelector('[data-title]').textContent=isRow?('img'+SUB[idx]+' 고정 → 5개 text 위 softmax (image→text)'):('txt'+SUB[idx]+' 고정 → 5개 image 위 softmax (text→image)');
+      for(j=0;j<n;j++){
+        var y=64+j*36, ok=(j===idx);
+        el('text',{'class':'t mono'+(ok?' t-ok b':' t-m'),x:400,y:y+16},gb,(isRow?'txt':'img')+SUB[j]+(ok?' ✓':''));
+        el('rect',{x:470,y:y+2,width:Math.max(2,p[j]*180),height:20,rx:3,style:'fill:var('+(ok?'--ok':'--muted')+');fill-opacity:'+(ok?'.9':'.45')},gb);
+        el('text',{'class':'t mono',x:474+p[j]*180,y:y+17},gb,p[j].toFixed(2));
+      }
+      root.querySelector('[data-ce]').textContent='CE = −log p(정답 '+(isRow?'txt':'img')+SUB[idx]+') = '+L.toFixed(2);
+      root.querySelector('[data-note]').textContent='';
+      var li=lossAvg(true), lt=lossAvg(false);
+      root.querySelector('[data-li]').textContent=li.toFixed(3);
+      root.querySelector('[data-lt]').textContent=lt.toFixed(3);
+      root.querySelector('[data-lo]').textContent=((li+lt)/2).toFixed(3);
+    }
+    function sync(){ inp.value=idx+1; out.textContent=idx+1; var b=root.querySelectorAll('[data-mode]'),k; for(k=0;k<b.length;k++) b[k].setAttribute('aria-pressed',b[k].getAttribute('data-mode')===mode?'true':'false'); }
+    inp.addEventListener('input',function(){ idx=parseInt(inp.value,10)-1; out.textContent=idx+1; draw(); });
+    var bs=root.querySelectorAll('[data-mode]');
+    for(var k=0;k<bs.length;k++) bs[k].addEventListener('click',function(){ mode=this.getAttribute('data-mode'); sync(); draw(); });
+    sync(); draw();
+  })();
+  </script>
+</figure>

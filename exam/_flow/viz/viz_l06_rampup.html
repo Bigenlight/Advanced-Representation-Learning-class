@@ -1,0 +1,13 @@
+<figure class="viz" id="viz-l06-rampup">
+  <div class="viz-head"><span class="viz-tag">개념 그래프</span><p class="viz-title">μ(t): unsupervised 항 가중치는 시간이 갈수록 커진다</p><span class="illus">illustrative</span></div>
+  <svg viewBox="0 0 640 290" role="img" aria-label="Example ramp-up curve of unsupervised loss weight">
+    <line class="ax" x1="60" y1="200" x2="610" y2="200"/><line class="ax" x1="60" y1="20" x2="60" y2="200"/>
+    <text class="t t-m mono" x="54" y="207" text-anchor="end" style="font-size:17px">0</text><text class="t t-m mono" x="54" y="36" text-anchor="end" style="font-size:17px">max</text>
+    <text class="t t-m mono" x="610" y="228" text-anchor="end" style="font-size:17px">epoch t</text>
+    <polyline class="ln-trap" stroke-width="3" points="60.0,198.9 70.8,198.6 81.6,198.3 92.4,198.0 103.2,197.5 114.0,197.0 124.8,196.5 135.6,195.8 146.4,195.0 157.2,194.1 168.0,193.1 178.8,191.9 189.6,190.5 200.4,189.0 211.2,187.3 222.0,185.3 232.8,183.2 243.6,180.7 254.4,178.1 265.2,175.1 276.0,171.9 286.8,168.4 297.6,164.6 308.4,160.4 319.2,156.0 330.0,151.3 340.8,146.3 351.6,141.0 362.4,135.4 373.2,129.6 384.0,123.6 394.8,117.4 405.6,111.1 416.4,104.6 427.2,98.1 438.0,91.6 448.8,85.1 459.6,78.8 470.4,72.5 481.2,66.5 492.0,60.8 502.8,55.4 513.6,50.4 524.4,45.9 535.2,41.8 546.0,38.3 556.8,35.4 567.6,33.0 578.4,31.4 589.2,30.3 600.0,30.0"/>
+    <text class="t t-m" x="76" y="100" style="font-size:19px">초반: 예측 못 믿음 → L_u 작게</text>
+    <text class="t t-trap b mono" x="610" y="168" text-anchor="end" style="font-size:18px">μ(t) (= Π-model 코드의 w(t))</text>
+    <text class="t b mono" x="60" y="270" style="font-size:20px">L = L_s + μ(t) · L_u</text>
+  </svg>
+  <figcaption>슬라이드에는 "increasing in time"이라고만 나와. 곡선 모양은 <b>예시</b>(Gaussian 형태 ramp-up)일 뿐이야. 요점: 초반 예측은 부정확하니 unsupervised consistency 항을 작게 시작해서 키워. 이 가중치를 p.10에선 μ(t), Π-model 코드(p.18)에선 w(t)라고 써. (L06 p.10, p.18)</figcaption>
+</figure>

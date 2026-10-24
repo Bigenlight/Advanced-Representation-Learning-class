@@ -1,0 +1,6 @@
+[
+  {"slot": "map-steps01", "file": "viz_map_timeline.html"},
+  {"slot": "terms-dl03", "file": "viz_terms_temperature.html"},
+  {"slot": "patterns-tbl01", "file": "viz_patterns_ema.html"},
+  {"slot": "patterns-tbl02", "file": "viz_patterns_lossmap.html"}
+]

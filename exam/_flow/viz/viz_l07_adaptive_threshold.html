@@ -1,0 +1,59 @@
+<figure class="viz" id="viz-l07-thr">
+  <div class="viz-head"><span class="viz-tag">개념 그래프</span><p class="viz-title">고정 τ(FixMatch) vs self-adaptive τ_t(FreeMatch)</p><span class="illus">illustrative</span></div>
+  <div class="viz-scroll">
+  <svg viewBox="0 0 660 470" role="img" aria-label="Top: fixed threshold 0.95 versus FreeMatch global threshold rising from 1/C. Bottom: fraction of unlabeled samples passing the threshold.">
+    <text class="t b" x="60" y="20">① threshold</text>
+    <text class="t b" x="60" y="262">② 통과하는 unlabeled 비율 (τ_t가 오르며 점점 selective해짐)</text>
+    <!-- panel 1: y 36..216 (value 0..1) -->
+    <g data-grid></g>
+    <line class="ax" x1="60" y1="216" x2="630" y2="216"/><line class="ax" x1="60" y1="36" x2="60" y2="216"/>
+    <line class="ax" x1="60" y1="426" x2="630" y2="426"/><line class="ax" x1="60" y1="276" x2="60" y2="426"/>
+    <text class="t t-m mono" x="54" y="40" text-anchor="end">1</text><text class="t t-m mono" x="54" y="220" text-anchor="end">0</text>
+    <text class="t t-m mono" x="54" y="280" text-anchor="end">1</text><text class="t t-m mono" x="54" y="430" text-anchor="end">0</text>
+    <text class="t t-m mono" x="630" y="450" text-anchor="end">training progress →</text>
+    <polyline class="ln-m dash" stroke-width="1.8" data-conf points=""/>
+    <polyline class="ln-trap" stroke-width="2.5" data-fix points=""/>
+    <polyline class="ln-acc" stroke-width="2.5" data-free points=""/>
+    <polyline class="ln-trap" stroke-width="2.5" data-pfix points=""/>
+    <polyline class="ln-acc" stroke-width="2.5" data-pfree points=""/>
+    <line class="ln-ink" stroke-width="1" data-cur x1="60" x2="60" y1="36" y2="216" stroke-dasharray="2 3"/><line class="ln-ink" stroke-width="1" data-cur x1="60" x2="60" y1="276" y2="426" stroke-dasharray="2 3"/>
+    <text class="t t-trap b" x="626" y="150" text-anchor="end">FixMatch  τ = 0.95 (고정)</text>
+    <text class="t t-acc b" x="626" y="170" text-anchor="end">FreeMatch  τ_t (EMA of avg. confidence)</text>
+    <text class="t t-m" x="626" y="190" text-anchor="end">- - 평균 confidence</text>
+    <text class="t t-acc mono" x="64" y="236">↑ τ₀ = 1/C</text>
+    <text class="t mono" x="626" y="300" text-anchor="end" data-ro1></text>
+    <text class="t mono" x="626" y="320" text-anchor="end" data-ro2></text>
+  </svg>
+  </div>
+  <div class="viz-ctrl"><label for="viz-l07-thr-t">training progress <input type="range" id="viz-l07-thr-t" min="0" max="100" step="1" value="12"></label><output data-out>12%</output></div>
+  <figcaption>FixMatch는 τ가 처음부터 끝까지 같아서, 초반(confidence가 낮을 때)엔 거의 모든 unlabeled를 버려. FreeMatch는 <code>τ₀ = 1/C</code>에서 시작해 평균 confidence의 EMA를 따라 올라가니까 초반에도 통과 비율이 높아. FreeMatch의 통과 비율이 뒤로 갈수록 줄어드는 건 나빠진 게 아니라, 모델이 confident해지면서 τ_t도 올라가 더 selective해지는 거야 (양보다 질). 곡선 모양은 개념 그림이고 실제 수치가 아냐. class별 보정(local threshold)은 생략. (L07 p.64–75)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l07-thr'); if(!root) return;
+    var N=100, C=10, X0=60, W=570;
+    var conf=[],tau=[],pf=[],pr=[],i,v;
+    function L(z){return 1/(1+Math.exp(-z));}
+    for(i=0;i<=N;i++){ conf.push(0.1+0.8*(1-Math.exp(-i/28))); }
+    v=1/C; for(i=0;i<=N;i++){ if(i>0) v=0.9*v+0.1*conf[i]; tau.push(v); }
+    for(i=0;i<=N;i++){ pf.push(1-L((0.95-conf[i])/0.07)); pr.push(1-L((tau[i]-conf[i])/0.07)); }
+    function X(i){return X0+W*i/N;}
+    function pts(a,y0,h){return a.map(function(y,i){return X(i).toFixed(1)+','+(y0-h*y).toFixed(1);}).join(' ');}
+    function set(sel,p){root.querySelector(sel).setAttribute('points',p);}
+    set('[data-conf]',pts(conf,216,180)); set('[data-free]',pts(tau,216,180));
+    set('[data-fix]',pts(conf.map(function(){return 0.95;}),216,180));
+    set('[data-pfix]',pts(pf,426,150)); set('[data-pfree]',pts(pr,426,150));
+    var g=root.querySelector('[data-grid]'), ns='http://www.w3.org/2000/svg';
+    [0.5].forEach(function(y){[216-180*y,426-150*y].forEach(function(yy){var l=document.createElementNS(ns,'line');l.setAttribute('class','grid');l.setAttribute('x1',X0);l.setAttribute('x2',X0+W);l.setAttribute('y1',yy);l.setAttribute('y2',yy);g.appendChild(l);});});
+    var inp=root.querySelector('input'), out=root.querySelector('[data-out]'), cur=root.querySelectorAll('[data-cur]');
+    function draw(){
+      var k=parseInt(inp.value,10); out.textContent=k+'%';
+      cur.forEach(function(c){c.setAttribute('x1',X(k));c.setAttribute('x2',X(k));});
+      root.querySelector('[data-ro1]').textContent='FixMatch 통과 ≈ '+Math.round(100*pf[k])+'%';
+      root.querySelector('[data-ro2]').textContent='FreeMatch 통과 ≈ '+Math.round(100*pr[k])+'%';
+      root.querySelector('[data-ro1]').setAttribute('class','t mono t-trap');
+      root.querySelector('[data-ro2]').setAttribute('class','t mono t-acc');
+    }
+    inp.addEventListener('input',draw); draw();
+  })();
+  </script>
+</figure>

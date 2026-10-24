@@ -65,7 +65,7 @@ How is the key encoder updated in MoCo?
 (D) By copying the query encoder weights at every iteration
 
 ### 15. [T/F] `[L06]`
-Active learning selects the most valuable unlabeled samples to be labeled next, helping us act smartly with a limited budget.
+Active learning selects the most valuable unlabeled samples to be collected next, helping us act smartly with a limited budget.
 
 ### 16. [T/F] `[L06]`
 In the SSL objective $\mathcal L = \mathcal L_s + \mu(t)\mathcal L_u$, the unsupervised loss weight $\mu(t)$ is decreasing in time.
@@ -123,7 +123,7 @@ Which of the following is NOT one of the methods proposed by Arazo et al. to red
 
 **14.** `[L05]` (C) — key encoder는 query encoder의 momentum(EMA)으로만 갱신, key로는 gradient 안 흐름. (B)는 query/key 뒤바꾼 함정 (p.11–12)
 
-**15.** `[L06]` True — 슬라이드 원문 그대로. (p.5)
+**15.** `[L06]` True — 슬라이드 원문 그대로 ("Select most valuable unlabeled samples to be collected next / Helps us act smartly with a limited budget"). (p.5)
 
 **16.** `[L06]` False — $\mu(t)$는 **increasing** in time (초반 예측이 부정확하니 점점 키움). (p.10)
 

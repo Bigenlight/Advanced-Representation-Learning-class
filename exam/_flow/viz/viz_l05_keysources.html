@@ -1,0 +1,117 @@
+<figure class="viz" id="viz-l05-keysources">
+  <div class="viz-head"><span class="viz-tag">구조 비교</span><p class="viz-title">key와 negative는 어디서 오나: End-to-end vs Memory bank vs MoCo</p></div>
+  <div class="viz-scroll">
+  <svg viewBox="0 0 680 376" role="img" aria-label="Three panels comparing where keys and negatives come from in end-to-end, memory bank, and MoCo">
+  <defs>
+<marker id="viz-l05-keysources-ar-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ink)"/></marker>
+<marker id="viz-l05-keysources-ar-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--accent)"/></marker>
+<marker id="viz-l05-keysources-ar-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ok)"/></marker>
+<marker id="viz-l05-keysources-ar-m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--muted)"/></marker>
+</defs>
+<rect class="grid" x="6" y="8" width="216" height="360" rx="10"/>
+<text class="t b" x="114" y="32" text-anchor="middle">MoCo</text>
+<rect class="box-data" x="16" y="56" width="32" height="20"/>
+<text class="t t-m" x="32" y="71" text-anchor="middle">x<tspan dy="3" font-size="10">q</tspan></text>
+<path class="ln-ink" stroke-width="1.6" d="M48,66 L72,66" marker-end="url(#viz-l05-keysources-ar-ink)"/>
+<rect class="box-train" x="72" y="46" width="80" height="36" rx="6"/>
+<text class="t b" x="112" y="69" text-anchor="middle">f<tspan dy="3" font-size="10">q</tspan></text>
+<rect class="box-data" x="16" y="125" width="32" height="20"/>
+<text class="t t-m" x="32" y="140" text-anchor="middle">x<tspan dy="3" font-size="10">k</tspan></text>
+<text class="t t-m b" x="16" y="119" text-anchor="start">key k<tspan dy="-4" font-size="10">+</tspan></text>
+<path class="ln-ink" stroke-width="1.6" d="M48,135 L72,135" marker-end="url(#viz-l05-keysources-ar-ink)"/>
+<rect class="box-ema" x="72" y="116" width="80" height="36" rx="6"/>
+<text class="t b" x="112" y="139" text-anchor="middle">f<tspan dy="3" font-size="10">k</tspan></text>
+<path class="ln-m dash" stroke-width="1.6" d="M112,82 L112,114" marker-end="url(#viz-l05-keysources-ar-m)"/>
+<text class="t t-m b" x="120" y="102" text-anchor="start">EMA</text>
+<text class="t t-m" x="16" y="172" text-anchor="start">momentum encoder</text>
+<text class="t t-m b" x="16" y="196" text-anchor="start">negatives: FIFO queue</text>
+<text class="t t-m" x="36" y="208" text-anchor="start">◂ dequeue</text>
+<text class="t t-m" x="186" y="208" text-anchor="end">enqueue ◂</text>
+<rect  class="box" style="fill:var(--muted);fill-opacity:0.140" x="36" y="214" width="17" height="28" rx="3"/>
+<rect  class="box" style="fill:var(--muted);fill-opacity:0.165" x="55" y="214" width="17" height="28" rx="3"/>
+<rect  class="box" style="fill:var(--muted);fill-opacity:0.190" x="74" y="214" width="17" height="28" rx="3"/>
+<rect  class="box" style="fill:var(--muted);fill-opacity:0.215" x="93" y="214" width="17" height="28" rx="3"/>
+<rect  class="box" style="fill:var(--muted);fill-opacity:0.240" x="112" y="214" width="17" height="28" rx="3"/>
+<rect  class="box" style="fill:var(--muted);fill-opacity:0.265" x="131" y="214" width="17" height="28" rx="3"/>
+<rect  class="box" style="fill:var(--muted);fill-opacity:0.290" x="150" y="214" width="17" height="28" rx="3"/>
+<rect  class="box" style="fill:var(--muted);fill-opacity:0.315" x="169" y="214" width="17" height="28" rx="3"/>
+<text class="t t-m" x="36" y="258" text-anchor="start">oldest</text>
+<text class="t t-m" x="186" y="258" text-anchor="end">newest</text>
+<text class="t t-m" x="36" y="282" text-anchor="start">dictionary 큼 (queue 길이 K)</text>
+<rect class="box-loss" x="20" y="296" width="174" height="34" rx="8"/>
+<text class="t b" x="107" y="318" text-anchor="middle">InfoNCE</text>
+<path class="ln-m" stroke-width="1.6" d="M28,244 L28,294" marker-end="url(#viz-l05-keysources-ar-m)"/>
+<path class="ln-ok" stroke-width="1.6" d="M152,134 L204,134 L204,307 L196,307" marker-end="url(#viz-l05-keysources-ar-ok)"/>
+<path class="ln-acc" stroke-width="1.6" d="M152,64 L214,64 L214,322 L196,322" marker-end="url(#viz-l05-keysources-ar-acc)"/>
+<path class="ln-trap" stroke-width="2" d="M197,186 L211,174"/>
+<text class="t t-trap mono" x="194" y="176" text-anchor="end">sg</text>
+<path class="ln-ok" stroke-width="1.6" d="M204,228 L189,228" marker-end="url(#viz-l05-keysources-ar-ok)"/>
+<rect class="f-bg" style="stroke:var(--accent);stroke-width:1.5" x="44" y="338" width="140" height="22" rx="11"/>
+<text class="t t-acc b" x="114" y="354" text-anchor="middle">consistent</text>
+<rect class="grid" x="232" y="8" width="216" height="360" rx="10"/>
+<text class="t b" x="340" y="32" text-anchor="middle">End-to-end (SimCLR)</text>
+<rect class="box-data" x="242" y="56" width="32" height="20"/>
+<text class="t t-m" x="258" y="71" text-anchor="middle">x<tspan dy="3" font-size="10">q</tspan></text>
+<path class="ln-ink" stroke-width="1.6" d="M274,66 L298,66" marker-end="url(#viz-l05-keysources-ar-ink)"/>
+<rect class="box-train" x="298" y="46" width="80" height="36" rx="6"/>
+<text class="t b" x="338" y="69" text-anchor="middle">f<tspan dy="3" font-size="10">q</tspan></text>
+<rect class="box-data" x="242" y="125" width="32" height="20"/>
+<text class="t t-m" x="258" y="140" text-anchor="middle">x<tspan dy="3" font-size="10">k</tspan></text>
+<text class="t t-m b" x="242" y="119" text-anchor="start">key k<tspan dy="-4" font-size="10">+</tspan></text>
+<path class="ln-ink" stroke-width="1.6" d="M274,135 L298,135" marker-end="url(#viz-l05-keysources-ar-ink)"/>
+<rect class="box-train" x="298" y="116" width="80" height="36" rx="6"/>
+<text class="t b" x="338" y="139" text-anchor="middle">f<tspan dy="3" font-size="10">k</tspan></text>
+<text class="t t-m" x="242" y="172" text-anchor="start">f_q와 같거나 별도, backprop</text>
+<text class="t t-m b" x="242" y="196" text-anchor="start">negatives: mini-batch</text>
+<rect class="box-train" x="262" y="214" width="24" height="28" rx="3"/>
+<rect class="box-train" x="290" y="214" width="24" height="28" rx="3"/>
+<rect class="box-train" x="318" y="214" width="24" height="28" rx="3"/>
+<rect class="box-train" x="346" y="214" width="24" height="28" rx="3"/>
+<rect class="box-train" x="374" y="214" width="24" height="28" rx="3"/>
+<text class="t t-m" x="262" y="266" text-anchor="start">dictionary 작음</text>
+<text class="t t-m" x="262" y="282" text-anchor="start">(batch에 묶임)</text>
+<rect class="box-loss" x="246" y="296" width="174" height="34" rx="8"/>
+<text class="t b" x="333" y="318" text-anchor="middle">InfoNCE</text>
+<path class="ln-m" stroke-width="1.6" d="M254,244 L254,294" marker-end="url(#viz-l05-keysources-ar-m)"/>
+<path class="ln-ok" stroke-width="1.6" d="M378,134 L430,134 L430,307 L422,307" marker-end="url(#viz-l05-keysources-ar-ok)"/>
+<path class="ln-acc" stroke-width="1.6" d="M378,64 L440,64 L440,322 L422,322" marker-end="url(#viz-l05-keysources-ar-acc)"/>
+<rect class="f-bg" style="stroke:var(--ok);stroke-width:1.5" x="270" y="338" width="140" height="22" rx="11"/>
+<text class="t t-ok b" x="340" y="354" text-anchor="middle">fresh</text>
+<rect class="grid" x="458" y="8" width="216" height="360" rx="10"/>
+<text class="t b" x="566" y="32" text-anchor="middle">Memory bank</text>
+<rect class="box-data" x="468" y="56" width="32" height="20"/>
+<text class="t t-m" x="484" y="71" text-anchor="middle">x<tspan dy="3" font-size="10">q</tspan></text>
+<path class="ln-ink" stroke-width="1.6" d="M500,66 L524,66" marker-end="url(#viz-l05-keysources-ar-ink)"/>
+<rect class="box-train" x="524" y="46" width="80" height="36" rx="6"/>
+<text class="t b" x="564" y="69" text-anchor="middle">f<tspan dy="3" font-size="10">q</tspan></text>
+<rect class="box-data" x="468" y="125" width="32" height="20"/>
+<text class="t t-m" x="484" y="140" text-anchor="middle">idx</text>
+<text class="t t-m b" x="468" y="119" text-anchor="start">key k<tspan dy="-4" font-size="10">+</tspan></text>
+<path class="ln-ink" stroke-width="1.6" d="M500,135 L524,135" marker-end="url(#viz-l05-keysources-ar-ink)"/>
+<rect class="box" x="524" y="116" width="80" height="36" rx="6"/>
+<text class="t mono" x="564" y="139" text-anchor="middle">bank[i]</text>
+<path class="ln-m" stroke-width="1.6" d="M564,82 L564,114" marker-end="url(#viz-l05-keysources-ar-m)"/>
+<text class="t t-m" x="572" y="102" text-anchor="start">저장</text>
+<text class="t t-m" x="468" y="172" text-anchor="start">idx로 샘플 (encoder 안 거침)</text>
+<text class="t t-m b" x="468" y="196" text-anchor="start">negatives: memory bank</text>
+<rect class="box" style="fill:var(--accent);fill-opacity:0.35" x="488" y="214" width="17" height="28" rx="3"/>
+<rect class="box" style="fill:var(--trap);fill-opacity:0.2" x="507" y="214" width="17" height="28" rx="3"/>
+<rect class="box" style="fill:var(--rl);fill-opacity:0.5" x="526" y="214" width="17" height="28" rx="3"/>
+<rect class="box" style="fill:var(--ok);fill-opacity:0.28" x="545" y="214" width="17" height="28" rx="3"/>
+<rect class="box" style="fill:var(--accent);fill-opacity:0.45" x="564" y="214" width="17" height="28" rx="3"/>
+<rect class="box" style="fill:var(--trap);fill-opacity:0.22" x="583" y="214" width="17" height="28" rx="3"/>
+<rect class="box" style="fill:var(--rl);fill-opacity:0.4" x="602" y="214" width="17" height="28" rx="3"/>
+<rect class="box" style="fill:var(--ok);fill-opacity:0.3" x="621" y="214" width="17" height="28" rx="3"/>
+<text class="t t-m" x="488" y="266" text-anchor="start">dictionary 큼</text>
+<text class="t t-m" x="488" y="282" text-anchor="start">(색 = 쓴 시점의 encoder)</text>
+<rect class="box-loss" x="472" y="296" width="174" height="34" rx="8"/>
+<text class="t b" x="559" y="318" text-anchor="middle">InfoNCE</text>
+<path class="ln-m" stroke-width="1.6" d="M480,244 L480,294" marker-end="url(#viz-l05-keysources-ar-m)"/>
+<path class="ln-ok" stroke-width="1.6" d="M604,134 L656,134 L656,307 L648,307" marker-end="url(#viz-l05-keysources-ar-ok)"/>
+<path class="ln-acc" stroke-width="1.6" d="M604,64 L666,64 L666,322 L648,322" marker-end="url(#viz-l05-keysources-ar-acc)"/>
+<rect class="f-bg" style="stroke:var(--trap);stroke-width:1.5" x="496" y="338" width="140" height="22" rx="11"/>
+<text class="t t-trap b" x="566" y="354" text-anchor="middle">stale</text>
+  </svg>
+  </div>
+  <figcaption>세 칸 다 query는 <code>f_q</code>(accent 실선)로 만들고, 다른 건 <b>key와 negative의 출처</b>야. 맨 앞 MoCo는 <b>점선 박스 <code>f_k</code> = EMA로만 갱신</b>되는 momentum encoder가 key를 만들고, 그 key를 FIFO queue에 넣고 빼서 크면서도 consistent해. 그 아래 End-to-end는 현재 encoder라 fresh하지만 negative가 batch 크기에 묶이고, Memory bank는 저장된 값을 재활용해서 크지만 색이 제각각인 것처럼 과거 여러 encoder가 쓴 값이라 stale해. (p.14 표 순서는 End-to-end, Memory bank, MoCo인데 여기선 MoCo를 맨 앞에 뒀어.) 왼쪽 위 <code>//</code> <code>sg</code>는 key로 gradient가 안 간다는 표시고, key는 loss로도 가고 queue 오른쪽 끝(newest)으로 enqueue도 돼. End-to-end는 p.13이 encoder를 q/k 둘로 그리고 p.14는 "current encoder"라 적어서 "같거나 별도"로 썼어. (L05 p.13–14, p.11–12)</figcaption>
+</figure>

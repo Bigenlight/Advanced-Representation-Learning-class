@@ -1,0 +1,56 @@
+<figure class="viz" id="viz-patterns-lossmap">
+  <div class="viz-head"><span class="viz-tag">구조 비교</span><p class="viz-title">loss 지도: target의 모양 × negative를 쓰나</p></div>
+  <div class="viz-scroll">
+<svg viewBox="0 0 720 394" role="img" aria-label="Loss map: target type by whether negatives are used">
+<text class="t b" x="202.0" y="24" text-anchor="middle">hard index</text><text class="t t-m mono" x="202.0" y="44" text-anchor="middle">one-hot CE</text>
+<text class="t b" x="350.0" y="24" text-anchor="middle">soft distribution</text><text class="t t-m mono" x="350.0" y="44" text-anchor="middle">CE / KL</text>
+<text class="t b" x="498.0" y="24" text-anchor="middle">regression vector</text><text class="t t-m mono" x="498.0" y="44" text-anchor="middle">MSE / L2</text>
+<text class="t b" x="646.0" y="24" text-anchor="middle">matrix</text><text class="t t-m mono" x="646.0" y="44" text-anchor="middle">correlation → I</text>
+
+<line class="grid" x1="8" y1="58" x2="720" y2="58"/>
+<text class="t b" x="12" y="127">negative</text>
+<text class="t b" x="12" y="144">사용 O</text>
+<line class="grid" x1="128" y1="58" x2="128" y2="208"/>
+<circle class="f-acc" cx="142" cy="76" r="5"/><text class="t" x="154" y="80">N-pair</text>
+<circle class="f-acc" cx="142" cy="97" r="5"/><text class="t" x="154" y="101">CPC (InfoNCE)</text>
+<circle class="f-ok" cx="142" cy="118" r="5"/><text class="t" x="154" y="122">SimCLR</text>
+<circle class="f-rl" cx="142" cy="139" r="5"/><text class="t" x="154" y="143">MoCo</text>
+<circle class="f-rl" cx="142" cy="160" r="5"/><text class="t" x="154" y="164">CLIP</text>
+<circle class="f-rl" cx="142" cy="181" r="5"/><text class="t" x="154" y="185">SupCon*</text>
+<line class="grid" x1="276" y1="58" x2="276" y2="208"/>
+<circle class="f-acc" cx="290" cy="76" r="5"/><text class="t" x="302" y="80">X-CLR</text>
+<line class="grid" x1="424" y1="58" x2="424" y2="208"/>
+<text class="t t-m" x="498.0" y="137.0" text-anchor="middle">—</text>
+<line class="grid" x1="572" y1="58" x2="572" y2="208"/>
+<text class="t t-m" x="646.0" y="137.0" text-anchor="middle">—</text>
+
+<line class="grid" x1="8" y1="208" x2="720" y2="208"/>
+<text class="t b" x="12" y="269">negative</text>
+<text class="t b" x="12" y="286">사용 X</text>
+<line class="grid" x1="128" y1="208" x2="128" y2="342"/>
+<circle class="f-rl" cx="142" cy="226" r="5"/><text class="t" x="154" y="230">DeepCluster</text>
+<circle class="f-bg" cx="142" cy="247" r="5" style="stroke:var(--ink);stroke-width:1.6"/><text class="t" x="154" y="251">Pseudo-Label</text>
+<circle class="f-bg" cx="142" cy="268" r="5" style="stroke:var(--ink);stroke-width:1.6"/><text class="t" x="154" y="272">FixMatch</text>
+<line class="grid" x1="276" y1="208" x2="276" y2="342"/>
+<circle class="f-ok" cx="290" cy="226" r="5"/><text class="t" x="302" y="230">DINO</text>
+<circle class="f-rl" cx="290" cy="247" r="5"/><text class="t" x="302" y="251">SwAV</text>
+<circle class="f-trap" cx="290" cy="268" r="5"/><text class="t" x="302" y="272">UDA</text>
+<line class="grid" x1="424" y1="208" x2="424" y2="342"/>
+<circle class="f-ok" cx="438" cy="226" r="5"/><text class="t" x="450" y="230">BYOL</text>
+<circle class="f-trap" cx="438" cy="247" r="5"/><text class="t" x="450" y="251">Pi-model</text>
+<circle class="f-trap" cx="438" cy="268" r="5"/><text class="t" x="450" y="272">Temp. Ens.</text>
+<circle class="f-trap" cx="438" cy="289" r="5"/><text class="t" x="450" y="293">Mean Teacher</text>
+<circle class="f-bg" cx="438" cy="310" r="5" style="stroke:var(--ink);stroke-width:1.6"/><text class="t" x="450" y="314">MixMatch</text>
+<line class="grid" x1="572" y1="208" x2="572" y2="342"/>
+<circle class="f-ok" cx="586" cy="226" r="5"/><text class="t" x="598" y="230">Barlow Twins</text>
+<line class="grid" x1="8" y1="342" x2="720" y2="342"/><line class="grid" x1="720" y1="58" x2="720" y2="342"/>
+<text class="t t-m" x="12" y="376">lecture</text>
+<circle class="f-acc" cx="81" cy="372" r="5"/><text class="t mono" x="91" y="376">L03</text>
+<circle class="f-ok" cx="151" cy="372" r="5"/><text class="t mono" x="161" y="376">L04</text>
+<circle class="f-rl" cx="221" cy="372" r="5"/><text class="t mono" x="231" y="376">L05</text>
+<circle class="f-trap" cx="291" cy="372" r="5"/><text class="t mono" x="301" y="376">L06</text>
+<circle class="f-bg" cx="361" cy="372" r="5" style="stroke:var(--ink);stroke-width:1.6"/><text class="t mono" x="371" y="376">L07</text>
+</svg>
+  </div>
+  <figcaption>가로 = loss가 맞히려는 target의 모양, 세로 = negative를 직접 쓰는지. negative를 쓰는 방법은 거의 전부 <b>InfoNCE(positive index 하나 맞히기)</b> 칸에 몰려 있고, X-CLR만 그 target을 soft 분포로 바꿨어 (L03 p.62–72). negative 없는 쪽은 <b>soft 분포(DINO · SwAV)</b>, <b>회귀(BYOL · consistency 계열)</b>, <b>행렬(Barlow Twins)</b>, <b>hard pseudo label(DeepCluster · Pseudo-Label (Lee 2013) · FixMatch)</b>로 갈려서, 이 칸 하나만 기억해도 "이건 어느 방법?"이 좁혀져. 위 loss 표를 한 장으로 다시 그린 거야. <br>* SupCon은 positive가 여러 개(multi-positive)라 "index 하나"는 대략적인 표현이야. All4One의 feature contrast(행렬)는 neighbour · centroid contrast랑 섞인 방법이라 이 지도에선 뺐어.</figcaption>
+</figure>

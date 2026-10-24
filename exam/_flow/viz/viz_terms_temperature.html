@@ -1,0 +1,43 @@
+<figure class="viz" id="viz-terms-temp">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">temperature τ가 softmax를 어떻게 바꾸나</p><span class="illus">illustrative</span></div>
+  <div class="viz-scroll"><svg viewBox="0 0 640 300" role="img" aria-label="Softmax probabilities of one positive and seven negatives for a chosen temperature">
+    <line class="grid" x1="56" y1="77.5" x2="624" y2="77.5"/>
+    <line class="grid" x1="56" y1="135" x2="624" y2="135"/>
+    <line class="grid" x1="56" y1="192.5" x2="624" y2="192.5"/>
+    <line class="ax" x1="56" y1="20" x2="56" y2="250"/>
+    <line class="ax" x1="56" y1="250" x2="624" y2="250"/>
+    <text class="t t-m mono" x="50" y="254" text-anchor="end">0</text>
+    <text class="t t-m mono" x="50" y="196" text-anchor="end">.25</text>
+    <text class="t t-m mono" x="50" y="139" text-anchor="end">.5</text>
+    <text class="t t-m mono" x="50" y="81" text-anchor="end">.75</text>
+    <g data-bars></g>
+    <text class="t t-m" x="30" y="288">s</text>
+  </svg></div>
+  <div class="viz-ctrl"><label for="viz-terms-temp-t">τ <input type="range" id="viz-terms-temp-t" min="0.05" max="2" step="0.01" value="0.5"></label><output data-out>0.50</output><span class="t-trap" style="font:600 .8rem var(--f-mono)" data-loss></span></div>
+  <figcaption>anchor 하나에 positive 1개 + negative 7개. 아래 숫자가 고정된 similarity s이고, 막대는 <code>softmax(s/τ)</code>야. τ를 줄이면 <b>제일 큰 s 쪽으로 분포가 뾰족해지고</b> (positive는 더 확실해지고, anchor와 가까운 hard negative neg1이 나머지 negative보다 큰 몫을 가져가), τ를 키우면 8개가 거의 균등해져 (loss = −log p(positive)). SimCLR · MoCo · DINO · X-CLR은 <code>s/τ</code>로 나누고, <b>CLIP만</b> <code>logits * exp(t)</code>로 곱해 (learned, exp(t) = 1/τ). 개념 그림이고 similarity 값은 지어낸 거야. (L03 p.29 Soft-NN · p.68 X-CLR · L05 p.35 CLIP)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-terms-temp'); if(!root) return;
+    var inp=root.querySelector('input'), out=root.querySelector('[data-out]'), g=root.querySelector('[data-bars]'), lo=root.querySelector('[data-loss]');
+    var S=[0.7,0.55,0.4,0.3,0.15,0.0,-0.2,-0.5], NS='http://www.w3.org/2000/svg';
+    var names=['pos','neg1','neg2','neg3','neg4','neg5','neg6','neg7'];
+    function el(n,a,txt){ var e=document.createElementNS(NS,n); for(var k in a) e.setAttribute(k,a[k]); if(txt!==undefined) e.textContent=txt; return e; }
+    function draw(){
+      var tau=parseFloat(inp.value), ex=[], z=0, i;
+      var mx=Math.max.apply(null,S);
+      for(i=0;i<8;i++){ ex[i]=Math.exp((S[i]-mx)/tau); z+=ex[i]; }
+      while(g.firstChild) g.removeChild(g.firstChild);
+      for(i=0;i<8;i++){
+        var p=ex[i]/z, x=64+i*70, h=p*230, y=250-h;
+        g.appendChild(el('rect',{x:x,y:y.toFixed(1),width:48,height:Math.max(h,0.5).toFixed(1),'class':i===0?'f-ok':'f-acc'}));
+        g.appendChild(el('text',{'class':'t mono b',x:x+24,y:(y-5).toFixed(1),'text-anchor':'middle'},p.toFixed(2)));
+        g.appendChild(el('text',{'class':'t '+(i===0?'t-ok b':''),x:x+24,y:268,'text-anchor':'middle'},names[i]));
+        g.appendChild(el('text',{'class':'t t-m mono',x:x+24,y:288,'text-anchor':'middle'},(S[i]>=0?'+':'')+S[i].toFixed(2)));
+      }
+      out.textContent=tau.toFixed(2);
+      lo.textContent='loss = '+(-Math.log(ex[0]/z)).toFixed(2);
+    }
+    inp.addEventListener('input',draw); draw();
+  })();
+  </script>
+</figure>

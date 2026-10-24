@@ -1,0 +1,86 @@
+<figure class="viz" id="viz-l07-sharp">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">Sharpening(MixMatch) vs confidence threshold(FixMatch)</p><span class="illus">illustrative</span></div>
+  <style>#viz-l07-sharp svg{max-width:420px;margin:0 auto}</style>
+  <svg viewBox="0 0 340 470" role="img" aria-label="Bar chart of a 6-class prediction before and after sharpening or thresholding">
+    <text class="t b" x="20" y="20">입력 prediction p</text>
+    <text class="t b" x="20" y="256" data-rtitle>Sharpen(p, T)</text>
+    <line class="ax" x1="20" y1="170" x2="320" y2="170"/><line class="ax" x1="20" y1="410" x2="320" y2="410"/>
+    <line class="ln-trap dash" stroke-width="1.5" data-tline x1="20" x2="320" y1="0" y2="0" hidden/>
+    <text class="t t-trap mono" data-ttxt x="320" y="0" text-anchor="end" hidden></text>
+    <g data-lbars></g><g data-rbars></g>
+    <text class="t t-m mono" x="170" y="212" text-anchor="middle" data-lent></text>
+    <text class="t t-m mono" x="170" y="452" text-anchor="middle" data-rent></text>
+    <text class="t t-trap b" x="170" y="330" text-anchor="middle" data-drop hidden>discarded</text>
+    <text class="t t-m" x="170" y="352" text-anchor="middle" data-drop2 hidden>mask = 0 → loss 없음</text>
+  </svg>
+  <div class="viz-ctrl">
+    <span>방법</span>
+    <button type="button" data-mode="sharp" aria-pressed="true">Sharpen (MixMatch)</button>
+    <button type="button" data-mode="thr" aria-pressed="false">Threshold (FixMatch)</button>
+  </div>
+  <div class="viz-ctrl">
+    <span>예측 예시</span>
+    <button type="button" data-s="0" aria-pressed="true">A 애매</button>
+    <button type="button" data-s="1" aria-pressed="false">B 꽤 확신</button>
+    <button type="button" data-s="2" aria-pressed="false">C 거의 확신</button>
+  </div>
+  <div class="viz-ctrl">
+    <label for="viz-l07-sharp-T" data-lT>temperature T <input type="range" id="viz-l07-sharp-T" min="0.1" max="1.5" step="0.05" value="0.5"></label>
+    <label for="viz-l07-sharp-tau" data-ltau hidden>threshold τ <input type="range" id="viz-l07-sharp-tau" min="0.3" max="0.99" step="0.01" value="0.7"></label>
+    <output data-out>0.50</output>
+  </div>
+  <figcaption>Sharpen은 <code>p_i^{1/T} / Σ_j p_j^{1/T}</code>라서 T가 작을수록 entropy가 줄지만 <b>soft한 분포</b>고 모든 샘플이 loss에 들어가 (T=1이면 그대로, T→0이면 one-hot에 가까워져). Threshold는 max가 τ 넘는 샘플만 <b>hard one-hot</b>으로 쓰고 나머지는 버려. FixMatch는 sharpening 없이 threshold만으로 더 좋았어. 예측값은 개념용 가짜 값. (L07 p.32, p.42–48)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l07-sharp'); if(!root) return;
+    var S=[[.30,.26,.18,.12,.08,.06],[.52,.20,.12,.08,.05,.03],[.86,.06,.03,.02,.02,.01]];
+    var NS='http://www.w3.org/2000/svg', mode='sharp', si=0;
+    var T=root.querySelector('#viz-l07-sharp-T'), TA=root.querySelector('#viz-l07-sharp-tau'), out=root.querySelector('[data-out]');
+    var LB=root.querySelector('[data-lbars]'), RB=root.querySelector('[data-rbars]');
+    function sh(e,v){ if(v) e.setAttribute('hidden',''); else e.removeAttribute('hidden'); }
+    function H(p){var h=0;p.forEach(function(x){if(x>0)h-=x*Math.log(x)/Math.LN2;});return h;}
+    function bars(g,x0,p,cls,vcls,base){
+      g.textContent='';
+      p.forEach(function(v,i){
+        var x=x0+8+i*46, h=130*v, r=document.createElementNS(NS,'rect');
+        r.setAttribute('x',x);r.setAttribute('y',base-h);r.setAttribute('width',30);r.setAttribute('height',Math.max(h,0));r.setAttribute('class',cls);g.appendChild(r);
+        var t=document.createElementNS(NS,'text');t.setAttribute('class','t mono '+vcls);t.setAttribute('x',x+15);t.setAttribute('y',base-h-5);t.setAttribute('text-anchor','middle');t.setAttribute('style','font-size:13px');t.textContent=v.toFixed(2);g.appendChild(t);
+        var c=document.createElementNS(NS,'text');c.setAttribute('class','t t-m mono');c.setAttribute('x',x+15);c.setAttribute('y',base+18);c.setAttribute('text-anchor','middle');c.textContent='c'+(i+1);g.appendChild(c);
+      });
+    }
+    function draw(){
+      var p=S[si], q, tl=root.querySelector('[data-tline]'), tt=root.querySelector('[data-ttxt]');
+      var d1=root.querySelector('[data-drop]'), d2=root.querySelector('[data-drop2]');
+      if(mode==='sharp'){
+        var t=parseFloat(T.value); out.textContent='T = '+t.toFixed(2);
+        var e=p.map(function(x){return Math.pow(x,1/t);}), s=e.reduce(function(a,b){return a+b;},0);
+        q=e.map(function(x){return x/s;});
+        root.querySelector('[data-rtitle]').textContent='Sharpen(p, T)  T = '+t.toFixed(2);
+        sh(tl,1);sh(tt,1);sh(d1,1);sh(d2,1);
+        bars(RB,20,q,'f-acc','t-acc',410);
+        root.querySelector('[data-rent]').textContent='H = '+H(q).toFixed(2)+' bits';
+      } else {
+        var tau=parseFloat(TA.value); out.textContent='τ = '+tau.toFixed(2);
+        var mx=Math.max.apply(null,p), k=p.indexOf(mx), keep=mx>=tau;
+        q=p.map(function(_,i){return keep&&i===k?1:0;});
+        root.querySelector('[data-rtitle]').textContent='max p ≥ τ ? → '+(keep?'one-hot':'discard');
+        var y=170-130*tau; tl.setAttribute('y1',y);tl.setAttribute('y2',y);sh(tl,0);
+        tt.setAttribute('y',y-5);tt.textContent='τ='+tau.toFixed(2);sh(tt,0);
+        sh(d1,keep);sh(d2,keep);
+        if(keep){bars(RB,20,q,'f-ok','t-ok',410);root.querySelector('[data-rent]').textContent='H = 0 (one-hot)';}
+        else{RB.textContent='';root.querySelector('[data-rent]').textContent='(loss에 안 들어감)';}
+      }
+      bars(LB,20,p,'f-m','t-m',170);
+      root.querySelector('[data-lent]').textContent='H = '+H(p).toFixed(2)+' bits (max 2.58)';
+    }
+    root.querySelectorAll('[data-mode]').forEach(function(b){b.addEventListener('click',function(){
+      mode=b.getAttribute('data-mode');
+      root.querySelectorAll('[data-mode]').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+      root.querySelector('[data-lT]').hidden=mode!=='sharp'; root.querySelector('[data-ltau]').hidden=mode!=='thr'; draw();});});
+    root.querySelectorAll('[data-s]').forEach(function(b){b.addEventListener('click',function(){
+      si=parseInt(b.getAttribute('data-s'),10);
+      root.querySelectorAll('[data-s]').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');}); draw();});});
+    T.addEventListener('input',draw); TA.addEventListener('input',draw); draw();
+  })();
+  </script>
+</figure>

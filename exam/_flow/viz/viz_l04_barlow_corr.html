@@ -1,0 +1,44 @@
+<figure class="viz" id="viz-l04-barlow-corr">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">Barlow Twins: D×D cross-correlation이 identity가 되어 가는 과정</p><span class="illus">illustrative</span></div>
+  <svg viewBox="0 0 640 348" role="img" aria-label="cross-correlation matrix heatmap moving towards identity">
+    <text class="t b" x="150" y="18" text-anchor="middle">target: I</text>
+    <text class="t b" x="470" y="18" text-anchor="middle">C (학습 중)</text>
+    <g data-target></g><g data-c></g>
+    <text class="t t-m mono" x="150" y="310" text-anchor="middle" style="font-size:12px">행·열 = feature 차원 i, j</text>
+    <text class="t t-m mono" x="470" y="310" text-anchor="middle" style="font-size:12px" data-stat></text>
+    <line class="ln-m dash" stroke-width="1.5" x1="320" y1="34" x2="320" y2="290"/>
+    <rect class="f-acc" x="20" y="326" width="12" height="12" rx="2"/><text class="t" x="38" y="337" style="font-size:12px">대각선 → 1  invariance</text>
+    <rect class="f-trap" x="230" y="326" width="12" height="12" rx="2" style="opacity:.55"/><text class="t" x="248" y="337" style="font-size:12px">비대각 → 0  redundancy reduction</text>
+    <text class="t t-m mono" x="620" y="337" text-anchor="end" style="font-size:12px">C_ij = batch 방향 상관</text>
+  </svg>
+  <div class="viz-ctrl"><label for="viz-l04-barlow-corr-p">training progress <input type="range" id="viz-l04-barlow-corr-p" min="0" max="1" step="0.01" value="0.25"></label><output data-out>0.25</output></div>
+  <figcaption>C는 두 view의 embedding을 <b>batch 방향</b>으로 계산한 D×D cross-correlation이야 (sample×sample이 아니라 feature×feature, L04 p.35). 대각선(accent)을 1로 올리는 게 <b>invariance term</b>, 비대각(갈색)을 0으로 누르는 게 <b>redundancy reduction term</b>. 값은 개념용이고 실제 학습 결과가 아니야. 진행도가 0일 땐 차원끼리 많이 겹쳐 있어. (개념 그림, L04 p.35–38)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l04-barlow-corr'); if(!root) return;
+    var D=8, cs=32, gt=root.querySelector('[data-target]'), gc=root.querySelector('[data-c]'), inp=root.querySelector('input'), out=root.querySelector('[data-out]'), st=root.querySelector('[data-stat]');
+    // fixed pseudo-random init (illustrative): diag ~0.35-0.6, off-diag in [-0.6,0.6]
+    var init=[]; for(var i=0;i<D;i++){init.push([]);for(var j=0;j<D;j++){ var r=Math.sin((i*8+j+1)*12.9898)*43758.5453; r=r-Math.floor(r); init[i].push(i===j?0.35+0.25*r:(r-0.5)*1.2); }}
+    function cell(x,y,v,diag){
+      var a=Math.min(1,Math.abs(v));
+      var cls=diag?'f-acc':'f-trap', op=diag?(0.1+0.9*Math.max(0,v)):(0.08+0.7*a);
+      return '<rect class="'+cls+'" x="'+x+'" y="'+y+'" width="'+cs+'" height="'+cs+'" style="opacity:'+op.toFixed(2)+';stroke:var(--bg);stroke-width:1"/>';
+    }
+    function frame(x,y){ return '<rect x="'+x+'" y="'+y+'" width="'+(D*cs)+'" height="'+(D*cs)+'" style="fill:none;stroke:var(--muted);stroke-width:1"/>'; }
+    function num(x,y,v,diag){ return diag?'<text class="t mono" x="'+(x+cs/2)+'" y="'+(y+cs/2+4)+'" text-anchor="middle" style="font-size:11px;fill:var(--ink)">'+v.toFixed(1)+'</text>':''; }
+    function draw(){
+      var p=parseFloat(inp.value); out.textContent=p.toFixed(2);
+      var tx=22,ty=34,cx=342,cy=34,h='',t='',sd=0,so=0;
+      for(var i=0;i<D;i++)for(var j=0;j<D;j++){
+        var diag=i===j, v=diag?init[i][j]+(1-init[i][j])*p:init[i][j]*(1-p);
+        t+=cell(tx+j*cs,ty+i*cs,diag?1:0,diag);
+        h+=cell(cx+j*cs,cy+i*cs,v,diag)+num(cx+j*cs,cy+i*cs,v,diag);
+        if(diag) sd+=Math.pow(1-v,2); else so+=v*v;
+      }
+      gt.innerHTML=t+frame(tx,ty); gc.innerHTML=h+frame(cx,cy);
+      st.textContent='Σ(1−C_ii)² = '+sd.toFixed(2)+'  ·  ΣC_ij² = '+so.toFixed(2);
+    }
+    inp.addEventListener('input',draw); draw();
+  })();
+  </script>
+</figure>

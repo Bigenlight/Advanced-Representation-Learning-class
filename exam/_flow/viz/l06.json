@@ -1,0 +1,22 @@
+[
+ {
+  "slot": "l06-m02-x",
+  "file": "viz_l06_rampup.html"
+ },
+ {
+  "slot": "l06-m03-h1-h4",
+  "file": "viz_l06_lowdensity.html"
+ },
+ {
+  "slot": "l06-tbl01",
+  "file": "viz_l06_compare.html"
+ },
+ {
+  "slot": "l06-tbl01",
+  "file": "viz_l06_te_bias.html"
+ },
+ {
+  "slot": "l06-steps01",
+  "file": "viz_l06_perturb.html"
+ }
+]
