@@ -10,7 +10,7 @@
 | `notes/` | 강의별 정식 노트 `NN_topic.md` |
 | `notes/_drafts/` | 페이지 청크별 초안 (멀티에이전트 산출물, 검증 완료) |
 | `assets/lectureNN/` | 노트용 슬라이드 그림 |
-| `exam/` | 시험 대비 — **`flow.html` (7강 한 바퀴 학습 페이지: 처음 배우는 사람 눈높이로 용어·수식을 풀어 씀 + 슬라이드 그림 + 개념 그래프·인터랙티브, 브라우저로 열기 / 소스는 `_flow/`, 본문 원본은 `_flow/base.html`)**, `core_ideas.md` (01–07 core idea 치트시트), **`pseudocode.md` (pseudo code 9개 총정리)**, `mock_quiz_1~3.md` (T/F·MCQ 20문제), **`mock_quiz_4~5.md` (빈칸·pseudo code 포함 새 형식)**, `_parts/` (강의별 pool: T/F·MCQ 139 + 빈칸 84, `pc_1~4` pseudo code pool 59 — 전부 Opus 독립 검수) |
+| `exam/` | 시험 대비 — **`flow.html` (7강 한 바퀴 학습 페이지: 처음 배우는 사람 눈높이로 용어·수식을 풀어 씀 + 슬라이드 그림 + 개념 그래프·인터랙티브, 브라우저로 열기 / 소스는 `_flow/`, 본문 원본은 `_flow/base.html`)**, **`flow.pdf` (같은 내용 A4 PDF, 접힌 슬라이드 그림·정답 전부 펼침, 목차 북마크 / `python3 -I exam/_flow/pdf.py`로 재생성)**, `core_ideas.md` (01–07 core idea 치트시트), **`pseudocode.md` (pseudo code 9개 총정리)**, `mock_quiz_1~3.md` (T/F·MCQ 20문제), **`mock_quiz_4~5.md` (빈칸·pseudo code 포함 새 형식)**, `_parts/` (강의별 pool: T/F·MCQ 139 + 빈칸 84, `pc_1~4` pseudo code pool 59 — 전부 Opus 독립 검수) |
 
 ## 진도 표
 
