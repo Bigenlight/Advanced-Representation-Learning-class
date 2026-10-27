@@ -4,6 +4,7 @@
 
 ### 1. [T/F] `[L01]`
 To a computer, an image is initially just a matrix of numbers.
+> True
 
 ### 2. [MCQ] `[L01]`
 Which of the following best describes a representation, according to the lecture?
@@ -11,12 +12,15 @@ Which of the following best describes a representation, according to the lecture
 (B) A set of hand-crafted rules that maps inputs to outputs
 (C) A lossless copy of the raw pixel values stored in a smaller file format
 (D) The final classifier output (e.g., the label "Dog")
+> A
 
 ### 3. [T/F] `[L02]`
 Self-supervised learning obtains "labels" from the data itself by using a "semi-automatic" process, for example by predicting part of the data from other parts.
+> True
 
 ### 4. [T/F] `[L02]`
 A self-supervised learning method is mainly judged by how accurately it solves its pretext task.
+> False
 
 ### 5. [MCQ] `[L02]`
 According to the SSL paradigm, which statement correctly describes the **downstream task**?
@@ -24,12 +28,15 @@ According to the SSL paradigm, which statement correctly describes the **downstr
 (B) It is the task used to generate pseudo labels automatically.
 (C) It is the application you care about, and its dataset is small and labeled.
 (D) It is always trained on a larger dataset than the pretext task.
+> C
 
 ### 6. [T/F] `[L03]`
 In a Siamese network, the two inputs are processed by the same network with shared weights, so that both images are mapped into the same embedding space.
+> True
 
 ### 7. [T/F] `[L03]`
 A key strength of the contrastive loss (Chopra et al., 2005) is that it explicitly enforces the relative ordering between positive and negative distances.
+> False?
 
 ### 8. [MCQ] `[L03]`
 Which of the following is NOT listed as a problem of the triplet loss?
@@ -37,12 +44,16 @@ Which of the following is NOT listed as a problem of the triplet loss?
 (B) It requires a pretrained generative model to create positive samples.
 (C) Easy triplets dominate, so most triplets are useless.
 (D) Randomly chosen negatives often already satisfy the margin, so selecting hard negatives is crucial.
+> A?
 
 ### 9. [T/F] `[L04]`
 Debiased contrastive loss estimates the true negative distribution as (random sampling distribution − positive contribution) divided by the probability of observing a different class.
+> ?
 
 ### 10. [T/F] `[L04]`
 In DINO, the teacher is trained by backpropagation to match the student's output distribution, and the student is updated as an EMA of the teacher.
+> ?
+
 
 ### 11. [MCQ] `[L04]`
 Why does a large batch size help contrastive methods based on InfoNCE such as SimCLR?
