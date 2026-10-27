@@ -74,12 +74,15 @@ How is the key encoder updated in MoCo?
 (B) $\theta_q \leftarrow m\theta_q + (1-m)\theta_k$
 (C) $\theta_k \leftarrow m\theta_k + (1-m)\theta_q$
 (D) By copying the query encoder weights at every iteration
+>
 
 ### 15. [T/F] `[L06]`
 Active learning selects the most valuable unlabeled samples to be collected next, helping us act smartly with a limited budget.
+>
 
 ### 16. [T/F] `[L06]`
 In the SSL objective $\mathcal L = \mathcal L_s + \mu(t)\mathcal L_u$, the unsupervised loss weight $\mu(t)$ is decreasing in time.
+> 
 
 ### 17. [MCQ] `[L06]`
 The statement "Small perturbations should not change the label" belongs to which SSL hypothesis?
@@ -87,12 +90,15 @@ The statement "Small perturbations should not change the label" belongs to which
 (B) Smoothness assumption
 (C) Low-density separation
 (D) Manifold assumption
+>
 
 ### 18. [T/F] `[L07]`
 Pseudo labeling can be viewed as the hard-label approximation of entropy regularization.
+>
 
 ### 19. [T/F] `[L07]`
 Minimizing prediction entropy on unlabeled data moves the decision boundary toward high-density regions of the data.
+>
 
 ### 20. [MCQ] `[L07]`
 Which of the following is NOT one of the methods proposed by Arazo et al. to reduce confirmation bias?
@@ -100,6 +106,7 @@ Which of the following is NOT one of the methods proposed by Arazo et al. to red
 (B) Oversampling labeled data
 (C) Dropout regularization
 (D) Updating the teacher based on how much the student improves
+>
 
 ---
 
