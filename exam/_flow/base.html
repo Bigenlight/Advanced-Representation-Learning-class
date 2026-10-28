@@ -45,6 +45,9 @@ pre{margin:0;background:var(--code-bg);border-radius:8px;padding:.85rem 1rem;ove
 pre code{background:none;padding:0;font-size:inherit;word-break:normal}
 .hl{color:var(--accent);font-weight:600}
 .math{font-family:var(--f-mono);font-size:.88em;white-space:nowrap}
+@media (max-width:600px){.m-body .math,.steps .math{white-space:normal}}
+#last>h3::before{display:none}
+@media (max-width:640px){main>section>h3{font-size:1.18rem}}
 .wrap{max-width:74rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
 /* hero */
@@ -84,6 +87,12 @@ main>section{padding-block:2.6rem;border-top:1px solid var(--line);scroll-margin
 main>section:first-child{border-top:0}
 h2{font-family:var(--f-display);font-weight:700;font-size:1.75rem;line-height:1.2;letter-spacing:-.01em;margin:0 0 .7rem;text-wrap:balance}
 h3{font-family:var(--f-display);font-weight:600;font-size:1.15rem;line-height:1.3;margin:1.8rem 0 .5rem;text-wrap:balance}
+/* 파트(h3) = 번호 배지 + accent 밑줄 · 카드/계보 단계 = 파트-번호 (L01–L07) */
+main>section{counter-reset:part}
+main>section>h3{counter-increment:part;counter-reset:item;display:flex;align-items:center;gap:.6rem;font-size:1.32rem;font-weight:700;margin:2.7rem 0 .9rem;padding-bottom:.5rem;border-bottom:2px solid var(--accent)}
+main>section>h3::before{content:counter(part);flex:none;display:inline-grid;place-items:center;min-width:1.8rem;height:1.8rem;padding:0 .4rem;border-radius:7px;background:var(--accent);color:var(--bg);font:700 .92rem/1 var(--f-mono)}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07) .methods>.m>div:first-child::before{counter-increment:item;content:counter(part) "-" counter(item);display:block;width:max-content;margin-bottom:.4rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent)}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07) .steps>li>.s-name::before{counter-increment:item;content:counter(part) "-" counter(item);display:inline-block;margin-right:.45rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent);vertical-align:.12em}
 p{margin:0 0 .9rem}
 .muted{color:var(--muted)}
 .offscope{display:inline-block;font:600 .74rem/1 var(--f-mono);letter-spacing:.04em;color:var(--rl);border:1px solid var(--rl);border-radius:999px;padding:.4rem .6rem;margin:0 0 1rem}
@@ -303,7 +312,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
   </ol>
 
   <h3>강의 하나는 이렇게 생겼어</h3>
-  <p>강의마다 순서가 같아. <b>이 강의가 던지는 질문</b> → 그 질문에 답한 <b>방법들</b> → <b>다음 강의로 넘어가는 이유</b>. 방법마다 이름과 슬라이드 페이지가 붙어 있고, 설명은 작은 라벨로 나뉘어 있어. 자주 쓰는 라벨은 이래.</p>
+  <p>강의마다 순서가 같아. <b>이 강의가 던지는 질문</b> → 그 질문에 답한 <b>방법들</b> → <b>다음 강의로 넘어가는 이유</b>. 방법마다 이름과 슬라이드 페이지가 붙어 있고, 설명은 작은 라벨로 나뉘어 있어. 강의 안은 다시 <b>파트</b>로 나뉘어: 제목 앞 파란 네모 숫자가 파트 번호고, 방법 카드·계보 단계 위의 <code>2-3</code>은 "2번 파트의 3번째"라는 뜻이야. 자주 쓰는 라벨은 이래.</p>
   <ul>
     <li><span class="k">한 줄</span>이 방법이 하는 일을 일상어로.</li>
     <li><span class="k">문제</span>이전 방법의 어떤 불편함 때문에 나왔나.</li>
@@ -388,6 +397,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
     <li><span class="s-name">L06</span><span class="s-src">label이 조금 있으면? ① consistency</span><span class="s-body"><b>Π-model → Temporal Ensembling → Mean Teacher, 그다음 perturbation과 teacher 개선.</b><br>여기부터 semi-supervised야. <span class="math">L = L<sub>s</sub> + μ(t)·L<sub>u</sub></span>에서 <span class="math">L<sub>u</sub></span>를 만드는 첫 번째 방법이 consistency regularization이야. 같은 입력을 다르게 흔들어(perturbation) 넣어도 예측이 같아야 한다는 거지.<br>계보는 비교 대상이 되는 예측(target)을 안정시키는 쪽으로 가.<br>Π-model: 한 step에서 두 번 forward해서 두 예측을 맞춰.<br>Temporal Ensembling: sample별 예측을 epoch마다 EMA로 평균해서 target으로 써 (prediction EMA).<br>Mean Teacher: 모델 weight를 EMA로 평균한 teacher의 예측을 target으로 써 (weight EMA).</span><span class="s-why">그다음엔 perturbation을 어떻게 줄지(VAT, ICT, UDA)와, 최근 teacher–student 확장(PS-MT, Dual Teacher, S⁴Former).</span></li>
     <li><span class="s-name">L07</span><span class="s-src">② pseudo label</span><span class="s-body"><b>틀린 label 문제(confirmation bias)를 줄이는 방법들 → FixMatch → threshold 개선.</b><br><span class="math">L<sub>u</sub></span>를 만드는 두 번째 방법: 확신 있는 예측을 정답(pseudo label)으로 굳혀서 학습해.<br>위험은 틀린 pseudo label이야. 틀린 정답으로 학습하면 모델이 그 실수를 더 확신하게 되고, 그게 다시 정답으로 쓰이면서 오류가 스스로 강화돼. 이게 <a href="#t-confirmation-bias">confirmation bias</a>야.<br>이걸 줄이는 장치(soft label MixUp, Meta Pseudo Labels)를 보고, pseudo label을 consistency와 합친 MixMatch · ReMixMatch를 거쳐 FixMatch로 가. FixMatch는 weak augmentation(살짝 변형) 예측이 threshold τ를 넘으면 pseudo label로 만들고, 같은 사진의 strong augmentation(세게 변형) 예측이 그걸 맞히게 해.<br>그 뒤엔 두 네트워크가 서로 깨끗한 데이터를 골라 주는 DivideMix도 나와.</span><span class="s-why">FixMatch 이후엔 고정 threshold와 perturbation을 다듬어: FreeMatch(threshold를 스스로 조절) → AllMatch(낮은 confidence 샘플도 활용) → IFMatch(feature-level perturbation 추가, 샘플별 강도 조절).</span></li>
   </ol>
+<!--slot:map-in01-->
   <!--slot:map-steps01-->
 </section>
 
@@ -592,6 +602,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
     <dd>softmax에 넣기 전에 similarity(또는 logit)를 나누는 숫자야: <span class="math">softmax(s/τ)</span>. 분포가 얼마나 뾰족할지 정하는 손잡이야.
       <p>τ가 작으면 값 차이가 커져서 분포가 뾰족해져. 제일 큰 값이 거의 다 가져가니까, negative 중엔 anchor와 가까운 hard negative에 집중하게 돼. τ가 크면 차이가 줄어서 분포가 평평해져.</p>
       <p><span class="k">예</span>점수 [2, 1, 0]: τ = 1이면 약 [0.67, 0.24, 0.09], τ = 0.5면 약 [0.87, 0.12, 0.02], τ = 2면 약 [0.51, 0.31, 0.19].</p>
+<!--slot:terms-in01-->
       <p><span class="k">왜</span>cosine similarity는 [−1, 1]로 좁아서 그대로 softmax하면 너무 평평해. τ로 나눠서 차이를 키워 줘 (L03 p.31). DINO는 teacher에 낮은 temperature를 써서 teacher 분포를 뾰족하게 만들어 (sharpening, L04 p.40). CLIP은 τ를 사람이 정하지 않고 학습해 (<code>* np.exp(t)</code>, L05 p.35).</p>
       <span class="rlx">Boltzmann(softmax) policy의 temperature와 같은 역할이야. τ → 0이면 greedy, τ → ∞면 uniform.</span></dd>
 
@@ -713,6 +724,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
   <!--slot:l01-intro-->
   <p>수업 전체의 정의를 까는 강의야. 뒤 강의들의 함정이 여기 정의 문장에서 꽤 나와.</p>
   <p>L02–L07은 대부분 "좋은 representation을 label 없이, 또는 적은 label로 어떻게 배우나"에 대한 서로 다른 답이야. 그 "좋은"의 기준을 여기서 정해.</p>
+  <h3>Representation이 뭔가: 5단계 흐름 · 정의 · feature learning</h3>
   <div class="methods">
     <div class="m"><div><span class="m-name">AI가 배워 온 것</span><span class="m-src">p.7</span></div><div class="m-body">
       <p>Rules → Patterns → Features → Representations → World Knowledge.</p>
@@ -724,6 +736,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>Representations</b>: "Learn useful representations that generalize across tasks". object·scene·semantic(의미) 수준의 <a href="#t-embedding">embedding</a>(data를 나타내는 숫자 벡터)이고, 다른 task에 옮겨 써도(transfer) 잘 통해.</li>
         <li><b>World Knowledge</b>: 여러 modality(이미지·텍스트·소리 같은 data 종류)에 걸친 objects, relations, events, concepts.</li>
       </ol>
+<!--slot:l01-in01-->
       <p><span class="k">핵심</span>사람이 넣는 지식은 줄고, data에서 배우는 것의 추상성·일반성은 커져. 이 수업은 4단계 Representations.</p>
       <p><span class="k">시험 포인트</span>순서, 그리고 3단계(낮은~중간 수준 특징)와 4단계(task 간 transfer되는 의미 embedding)의 차이. 평소엔 representation·feature·embedding을 거의 같은 뜻으로 섞어 쓰지만, 이 5단계에서는 Features와 Representations가 다른 단계야.</p>
     </div></div>
@@ -751,6 +764,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>CNN Feature</b> ("Captures hierarchical visual features"): edge부터 물체 부분까지 층층이 뽑은 벡터 (e.g., 2048-D).</li>
         <li><b>CLIP Embedding</b> ("Aligns image with text semantics"): 이미지와 문장("A dog" …)을 같은 공간에 놓아서 비슷한 정도를 잴 수 있어.</li>
       </ul>
+<!--slot:l01-in02-->
       <div class="note easy"><span class="tag">비유</span><p>representation은 지도 같은 거야. 지도는 실제 땅(raw data)에서 도로·지명처럼 쓸모 있는 것만 남겨서 길 찾기(downstream task)를 쉽게 해 줘. 같은 땅을 도로 지도·등고선 지도·위성 사진으로 그릴 수 있듯이, 같은 사진도 여러 representation이 가능해 (p.13). 이 수업이 찾는 건 한 장으로 여러 목적에 두루 쓰이는 지도야 (p.17 general-purpose representation).</p></div>
     </div></div>
     <!--slot:l01-m02-representation-->
@@ -779,10 +793,15 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li>Segmentation: 픽셀마다 무엇인지 칠하기 (예: Mask R-CNN<span class="fn">(R-CNN = <b>R</b>egions with <b>CNN</b> features)</span>)</li>
         <li>Tracking: 여러 frame에서 같은 물체 따라가기 (예: DeepSORT)</li>
       </ul>
+<!--slot:l01-in03-->
       <p><span class="k">남은 숙제</span>p.16 pretraining 칸의 "Large-scale supervision" = label이 대량으로 필요해. 이게 L02로 넘어가는 고리야.</p>
       <div class="note rl"><span class="tag">RL로 번역</span><p>tile coding처럼 사람이 state feature를 설계해 넣던 게 feature engineering, DQN이 pixel에서 CNN으로 state 표현을 알아서 배운 게 feature learning이야.</p></div>
     </div></div>
     <!--slot:l01-m03-feature-engineering-feat-->
+  </div>
+
+  <h3>좋은 representation = compression ∩ prediction</h3>
+  <div class="methods">
     <div class="m"><div><span class="m-name">Compression</span><span class="m-src">p.18–19</span></div><div class="m-body">
       <p><span class="k">먼저</span>p.18의 좋은 representation 조건 3개: <b>Compress information</b> · <b>Support prediction</b> · <b>Generalize across tasks</b>. 앞 두 개가 이 블록과 다음 블록이고, 세 번째는 p.21 교집합에 다시 나와.</p>
       <p><span class="k">한 줄</span>"Captures just the essential characteristics of the data." (p.19)</p>
@@ -812,6 +831,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
     <div class="m"><div><span class="m-name">좋은 representation = 교집합</span><span class="m-src">p.21–23</span></div><div class="m-body">
       <p><span class="k">한 줄</span>좋은 representation은 Compression과 Prediction을 둘 다 갖춘 것 (p.21 제목 "Good Representations = Compression + Prediction").</p>
       <p>교집합 = Better Representations: Generalize better · Transfer across tasks · Support decision making · More sample efficient (적은 data로도 잘 배움).</p>
+<!--slot:l01-in04-->
       <div class="note easy"><span class="tag">왜?</span><p>슬라이드는 "둘 다 갖추면 Better Representations"라는 결론만 줘 (p.21). 이유를 풀면 이래 (해석, 슬라이드 밖). 버리기(compression)만 목표로 두면 "뭐가 irrelevant인지" 정해 줄 기준이 없어. 극단적으로는 모든 입력에 같은 <span class="math">z</span>를 내도 "변환에 안 흔들린다"는 조건을 만족해 버려. 이게 <a href="#t-collapse">collapse</a>(붕괴)고, 막는 장치는 L04에서 나와. 반대로 맞히기(prediction)만 두면, 특히 pixel을 그대로 맞히는 예측이면 배경 질감·노이즈 같은 irrelevant한 디테일까지 담으려 해. 그래서 prediction은 "뭘 남길지", compression은 "뭘 버릴지"를 서로 잡아 줘. 헷갈리지 말 것: p.19의 compression은 irrelevant 정보만 지우는 거라 정보를 "잃는" 게 아니야. 여기서 말한 위험은 기준 없이 버리기만 할 때 얘기야.</p></div>
       <p><span class="k">6종 분류</span>p.23 "Types of Representation Learners". 괄호 안이 슬라이드 원문 한 줄 요약이야.</p>
       <p><span class="k">Compression</span>Autoencoding · <b>Contrastive</b> · Clustering</p>
@@ -826,6 +846,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>Imputation</b> ("Predict missing data"): 빠지거나 가려진 부분 채우기 (inpainting).</li>
         <li><b>Pretext tasks</b> ("Predict abstract properties of your data"): encoder를 훈련시키려고 만든 연습 문제(<a href="#t-pretext">pretext task</a>). 예: 사진 회전 각도 맞히기 (L02).</li>
       </ul>
+<!--slot:l01-in05-->
       <p><span class="k">덤</span>Disentangled · Interpretable · Actionable · Transferable. 직접 목표가 아니라 결과로 따라오는 성질이야 (p.22 "Good representations often exhibit additional desirable properties").</p>
       <ul>
         <li><b>Disentangled</b>: 변하는 요인(Identity, Pose, Lighting, Background)이 <span class="math">z</span>의 서로 다른 부분에 따로 담겨. 그림 예시는 VAE<span class="fn">(<b>V</b>ariational <b>A</b>uto<b>e</b>ncoder)</span> · β-VAE(autoencoder 계열 생성 모델).</li>
@@ -863,6 +884,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
   <p>supervision은 "이게 정답이야"라고 알려 주는 학습 신호야. 보통은 사람이 붙인 <a href="#t-label">label</a>(예: "이 사진은 고양이")이 그 역할을 해.</p>
   <p>답은 "data를 일부러 망가뜨리고, 원래대로 맞히게 하자"야. 망가뜨린 건 우리니까 정답은 공짜로 알아. 회전 각도를 맞히려면 물체가 뭔지 알아야 하니까 <a href="#t-encoder">encoder</a>(이미지를 feature 벡터로 바꾸는 network, 예: CNN)가 똑똑해진다는 논리.</p>
   <div class="note easy"><span class="tag">예시로 보면</span><p>고양이 사진을 90° 돌려 넣고 "몇 도 돌렸게?"라고 물어. 정답은 우리가 돌렸으니 이미 알아. 그런데 맞히려면 "고양이는 귀가 위, 발이 아래"를 알아야 해. 이 지식이 encoder에 쌓이고, 나중에 진짜 하고 싶은 일(분류, detection 등)에 그 encoder를 재활용해.</p></div>
+  <h3>SSL 기본: 왜 · 정의 · 평가</h3>
   <div class="methods">
     <div class="m"><div><span class="m-name">Why SSL</span><span class="m-src">p.3–10</span></div><div class="m-body">
       <p><span class="k">배경</span>ImageNet으로 <a href="#t-supervised">supervised</a>(사람이 단 정답으로 학습) pre-train한 CNN의 중간 feature는 detection·segmentation 같은 다른 task에도 잘 통해 (p.4–5). 문제는 그 label을 모으는 단계야.</p>
@@ -904,6 +926,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
   <div class="methods">
     <div class="m"><div><span class="m-name">Relative Position</span><span class="m-src">Doersch, ICCV 2015 · p.21–23</span><small class="m-full"><span class="pt">Unsupervised Visual Representation Learning by Context Prediction</span></small></div><div class="m-body">
       <p><span class="k">맞히는 것</span>가운데 patch(작은 정사각형 조각)와 주변 8칸 중 한 칸의 patch를 주고, 이웃이 몇 번 자리인지 맞혀 (<b>8-way classification</b>). X = (가운데, 이웃), Y = 자리 번호.</p>
+<!--slot:l02-in01-->
       <p><span class="k">왜 돼?</span>귀 patch가 얼굴 위쪽이라는 걸 알려면 "이건 귀, 이건 얼굴"을 알아봐야 해. 물체 part 사이의 <b>local</b> 공간 관계를 배워. 두 patch는 weight를 공유하는 두 tower(같은 CNN을 복사해 둔 줄기, patch를 하나씩 따로 처리)에 따로 들어가니까 patch 하나만 보고도 feature를 만들어야 해 (p.22).</p>
       <p><span class="k">꼼수</span>patch가 딱 붙어 있으면 경계의 선이 이어져서 의미 없이도 맞혀. patch 사이에 틈(gap)을 두고 위치를 흔들어(jitter) 막아 (논문 기준).</p>
     </div></div>
@@ -911,17 +934,21 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
       <p><span class="k">맞히는 것</span>이미지 가운데를 지우고 주변(context)만 보고 지운 영역의 <b>픽셀</b>을 그려 내 (inpainting = 구멍 메우기). 그러려면 object parts, scene structure, semantic context를 알아야 해 (p.24).</p>
       <p><span class="k">차이</span>Relative Position은 정답이 번호(classification)고, 여기선 픽셀 자체야 (pixel-level reconstruction).</p>
       <p><span class="k">loss</span><span class="math">L<sub>rec</sub>(x) = ‖ M̂ ⊙ (x − F((1 − M̂) ⊙ x)) ‖<sub>2</sub><sup>2</sup></span> (p.25). <span class="math">M̂</span>는 구멍 자리만 1인 mask, <span class="math">⊙</span>는 같은 위치끼리 곱하기, <span class="math">F</span>는 구멍 난 입력 <span class="math">(1 − M̂) ⊙ x</span>를 채우는 encoder-decoder야. 앞의 <span class="math">M̂ ⊙</span> 때문에 오차 제곱을 <b>구멍 안에서만</b> 재. 보이는 곳까지 재면 그냥 복사하면 되거든.</p>
+<!--slot:l02-in02-->
       <p><span class="k">문제</span>L2만 쓰면 그럴듯한 답들의 평균을 그려서 blurry(흐릿)해져. 꼼수(shortcut)가 아니라 L2 loss 자체의 한계야. 그래서 adversarial loss(진짜 사진과 채운 사진을 구별하는 discriminator <span class="math">D</span>를 속이게 하는 GAN<span class="fn">(<b>G</b>enerative <b>A</b>dversarial <b>N</b>etwork)</span>식 loss, <span class="math">L<sub>adv</sub></span>, p.26)를 더해. 둘을 합쳐야 선명하면서 맥락에도 맞아 (p.27).</p>
     </div></div>
     <div class="m"><div><span class="m-name">Jigsaw</span><span class="m-src">Noroozi &amp; Favaro, ECCV 2016 · p.29–33</span><small class="m-full"><span class="pt">Unsupervised Learning of Visual Representations by Solving Jigsaw Puzzles</span></small></div><div class="m-body">
       <p><span class="k">맞히는 것</span>이미지를 3×3 = 9조각(tile)으로 섞고 <b>어떤 순서(permutation)로 섞었는지</b> 번호를 맞혀. 조각이 뭔지 + 전체 배치를 알아야 하니 <b>global</b> 공간 구조를 배워.</p>
       <p><span class="k">어떻게</span>순서는 9! = 362,880가지라 class로 쓰기엔 너무 많아. 그래서 "Select a subset of 64 permutations that maximize pairwise Hamming distance" (p.30). Hamming distance는 두 순서에서 자리가 다른 칸 수야 (123456789 vs 213456789 → 2). 서로 많이 다른 순서만 남겨야 class끼리 안 헷갈려.</p>
+<!--slot:l02-in03-->
       <p><span class="k">꼼수</span>"The network may solve the puzzle using low-level cues instead of semantics." edge continuity나 색·밝기 분포로 풀 수 있어. 막는 법: multiple puzzle configurations per image, random gaps, random crop, spatial jitter, color jitter, grayscale (p.31). 이 장치를 빼면 jigsaw 정확도는 오르는데 detection은 떨어져 (p.33).</p>
     </div></div>
     <div class="m"><div><span class="m-name">Colorization</span><span class="m-src">Zhang, ECCV 2016 · p.34–39</span><small class="m-full"><span class="pt">Colorful Image Colorization</span></small></div><div class="m-body">
       <p><span class="k">맞히는 것</span>흑백에서 색을 맞혀. Lab 색공간에서 <span class="math">L</span>(밝기 = 흑백 사진)을 넣고 <span class="math">ab</span>(색 두 축)를 출력해 (p.35). "Color prediction requires semantic understanding." 잔디인지 알아야 초록으로 칠해.</p>
       <p><span class="k">문제</span>"Multiple colors can be plausible. Regression averages them." (p.37) 흑백 자동차는 빨강도 파랑도 그럴듯해. regression(L2)은 이럴 때 평균색이 오차가 가장 작아서, 탁한 회색빛으로 도망가.</p>
+<!--slot:l02-in04-->
       <p><span class="k">해결</span><span class="math">ab</span> 공간을 <b>313 color classes</b>로 나눠 pixel마다 <b>classification</b>해. 확률 분포를 내니까 "빨강일 수도 파랑일 수도"를 평균으로 뭉개지 않고 표현해.</p>
+<!--slot:l02-in05-->
       <p><span class="k">수식</span><span class="math">L<sub>cl</sub>(Ẑ, Z) = − Σ<sub>h,w</sub> v(Z<sub>h,w</sub>) Σ<sub>q</sub> Z<sub>h,w,q</sub> log Ẑ<sub>h,w,q</sub></span> (p.37). pixel <span class="math">(h, w)</span>마다 313칸 <span class="math">q</span>에 대한 <a href="#t-cross-entropy">cross-entropy</a>야. <span class="math">Ẑ</span>는 예측 확률, <span class="math">Z</span>는 정답 색의 칸 분포, <span class="math">v(·)</span>는 pixel별 weight (슬라이드엔 정의 없음).</p>
     </div></div>
     <div class="m"><div><span class="m-name">RotNet</span><span class="m-src">Gidaris, ICLR 2018 · p.40–43</span><small class="m-full"><span class="pt">Unsupervised Representation Learning by Predicting Image Rotations</span></small></div><div class="m-body">
@@ -946,6 +973,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
   </div>
   <!--slot:l02-tbl01-->
 
+  <h3>Pretext 한계 넘기: 여러 pretext · contrastive 쪽으로 · video · audio</h3>
   <div class="methods">
     <div class="m"><div><span class="m-name">Pretext의 한계</span><span class="m-src">p.44–49, p.55</span></div><div class="m-body">
       <p><span class="k">문제 1</span>과제를 하나하나 고안하는 게 tedious해 (p.46). 어떤 과제가 좋은 feature를 줄지도 미리 몰라. pre-training 과제와 transfer 과제가 "aligned"이길 <b>바랄</b> 뿐이야 ("The Hope of Generalization", p.47).</p>
@@ -966,6 +994,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
     <div class="m"><div><span class="m-name">Space-Time Cubic Puzzles</span><span class="m-src">Kim, Cho, Kweon, AAAI 2019 · p.57–66</span><small class="m-full"><span class="pt">Self-Supervised Video Representation Learning with Space-Time Cubic Puzzles</span></small></div><div class="m-body">
       <p><span class="k">문제</span>video는 이미지에 없는 temporal order, motion을 줘. frame 두 장만으론 공을 던지는지 받는지 몰라 (p.58).</p>
       <p><span class="k">핵심</span>video를 2×2×4로 나누고, 공간(2×2×1) 또는 시간(1×1×4) 방향으로 cube 4개를 뽑아 섞은 뒤 원래 순서를 맞혀 (4! × 2 orientations = 48 class). 3D CNN tower 4개, weight 공유.</p>
+<!--slot:l02-in06-->
       <ul>
         <li>cube = 가로×세로 영역을 몇 frame 동안 잘라 낸 짧은 동영상 덩어리.</li>
         <li>Spatial = 같은 시간 구간의 네 위치 ("Where was each cube located?"), Temporal = 같은 위치의 네 시간 구간 ("When did each cube occur?") (p.59–60).</li>
@@ -973,6 +1002,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li>3D CNN은 시간 축까지 convolution해서 움직임을 직접 봐. tower 4개는 맨 끝에서만 합쳐지고, "Each tower does not know whether the puzzle is spatial or temporal." 그래서 둘 다에 쓸 feature를 배워.</li>
         <li>꼼수(p.63): chromatic aberration, matching cube boundaries, low-level image statistics. 막는 법: channel replication(색 채널 하나를 복사해 색 어긋남 제거), spatio-temporal jittering(큰 cube 안에서 위치를 흔들어 잘라 경계를 어긋나게), upside-down classification.</li>
       </ul>
+<!--slot:l02-in07-->
       <p><span class="k">차이</span>image jigsaw를 시공간으로 확장. 공간·시간을 같이 배우는 게 따로 배우는 것보다 나아 (p.64).</p>
     </div></div>
     <!--slot:l02-m07-space-time-cubic-puzzles-->
@@ -985,14 +1015,22 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>super hard</b>: 같은 영상의 <b>바로 옆, 살짝 겹치는</b> 구간 audio. 소리가 거의 같아서 제일 어려워.</li>
         <li><b>easy</b>: 다른 영상의 audio (p.70 표엔 이름만 있고, 정의는 논문 기준).</li>
       </ul>
+<!--slot:l02-in08-->
       <p><span class="k">포인트</span>negative 구성이 핵심이고, curriculum (easy negative 먼저 → hard negative 섞기)이 제일 좋아. 처음부터 hard를 섞으면 오히려 떨어지고, easy만으로 50 epoch 학습한 뒤 easy 75% + hard 25%로 이어 가면 최고야 (p.70). "A good pretext task depends not only on the labels, but also on how positive and negative examples are constructed."</p>
+<!--slot:l02-in09-->
     </div></div>
     <!--slot:l02-m08-avts-->
+  </div>
+
+  <h3>Invariance vs Equivariance</h3>
+  <div class="methods">
     <div class="m"><div><span class="m-name">Invariance vs Equivariance</span><span class="m-src">p.71–75</span></div><div class="m-body">
       <p><span class="k">문제</span>"A pretext task determines what information is preserved in the representation." (p.72) 요즘 SSL은 crop·color jitter(색·밝기를 무작위로 흔드는 변환)·flip·blur 같은 <a href="#t-augmentation">augmentation</a>(같은 사진의 변형본)을 쓰고 "trained to ignore these transformations". 그런데 늘 무시하는 게 좋을까? (p.73)</p>
       <p><span class="k">Invariance</span><span class="math">f(t(x)) = f(x)</span>. 변환해도 표현이 안 변해. (<span class="math">x</span> 입력, <span class="math">t</span> 변환, <span class="math">f</span> encoder) 무슨 변환을 했는지는 feature에서 지워져.</p>
       <p><span class="k">Equivariance</span><span class="math">f(t(x)) = φ(t, f(x))</span>. 표현이 예측 가능하게 변해. <span class="math">φ(t, ·)</span>는 feature 공간에서 "t에 해당하는 이동 규칙"이라, <span class="math">f(x)</span>와 <span class="math">t</span>만 알면 변환본의 feature가 나와. 변환 정보가 정리된 채로 남는 거야. invariance는 φ가 아무것도 안 바꾸는(identity) 특수한 경우야.</p>
+<!--slot:l02-in10-->
       <div class="note easy"><span class="tag">비유</span><p>사진을 90° 돌리면 invariant feature는 "고양이"라고만 말하고 각도는 몰라. equivariant feature는 "고양이, 90° 돌아감"을 같이 담아서, 더 돌리면 feature도 정해진 규칙대로 따라 움직여.</p></div>
+<!--slot:l02-in11-->
       <p><span class="k">포인트</span>분류엔 invariance가 좋지만 detection은 위치 정보, 꽃 분류는 색 정보가 필요해. pretext가 어떤 정보를 남길지를 정해 (p.74). crop·flip에 invariant하면 "Where is the object?"에 필요한 위치가, color jitter에 invariant하면 "What color is the flower?"에 필요한 색이 사라져.</p>
     </div></div>
     <!--slot:l02-m09-invariance-vs-equivarian-->
@@ -1003,6 +1041,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>Blue</b> <span class="math">L<sub>trans</sub>(x, x′, t) = L(y<sub>t</sub><sup>x</sup>, y<sub>t</sub><sup>x′</sup>)</span>: "Same transformation on different images → Learn transformation representations". 고양이 x와 자동차 x′에 같은 변환 t를 걸고, 각자에서 뽑은 변환 표현 <span class="math">y<sub>t</sub></span>(transformation head <span class="math">f<sub>T</sub></span>, 즉 변환 정보만 뽑는 작은 network가 뽑음)를 가깝게 해. 공통점이 "같은 변환"뿐이라 <span class="math">y<sub>t</sub></span>엔 변환 정보만 남아.</li>
         <li><b>Green</b> <span class="math">L<sub>equi</sub>(x, x′, t) = L(φ(y<sub>t</sub><sup>x′</sup>, f(x)), f(t(x)))</span>: "Apply the learned transformation → Predict the transformed representation". x′에서 뽑은 변환 표현으로 f(x)를 옮겨 f(t(x))를 맞혀. 이게 equivariance야.</li>
       </ul>
+<!--slot:l02-in12-->
       <p><span class="k">차이</span>변환 label(parameter) 없이 변환 표현을 배워. 그래도 crop과 color 변환이 갈라지고 비슷한 color 변환끼리 모이는 구조가 생겨 (p.77–78). "Preserving transformation information improves localization and generalization." (p.79)</p>
     </div></div>
     <!--slot:l02-m10-stl-->
@@ -1054,6 +1093,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
   </ul>
   <p>원하는 건 부등식 하나야 (p.9): <span class="math">score(f(x), f(x<sup>+</sup>)) ≫ score(f(x), f(x<sup>−</sup>))</span>. "anchor–positive 점수가 anchor–negative 점수보다 훨씬 커라". score 함수는 미리 정해 두고, 학습하는 건 encoder <i>f</i>뿐이야. 이 부등식을 미분 가능한 loss로 바꾸는 방법이 여러 개라서, 그게 다음 절의 loss 계보가 돼.</p>
   <p><b>Siamese network</b> (p.8). 두 입력을 비교하려면 둘이 같은 좌표계에 있어야 해. 그래서 <b>weight를 공유하는 똑같은 네트워크</b>에 두 입력을 각각 통과시켜: <span class="math">z<sub>1</sub> = f(x<sub>1</sub>), z<sub>2</sub> = f(x<sub>2</sub>)</span>. 슬라이드 표현은 "Same Network + Shared Weights", "Both images are mapped into the same embedding space". 같은 사람 얼굴이면 <span class="math">d(z<sub>1</sub>, z<sub>2</sub>)</span>를 줄이고, 다른 사람이면 늘려. weight가 다르면 두 벡터가 서로 다른 좌표계에 놓여서 거리를 재는 의미가 없어.</p>
+<!--slot:l03-in01-->
   <p><b>label이 있든 없든 쓸 수 있어</b> ("Can be applied to both supervised and unsupervised settings", p.9). 달라지는 건 positive를 정하는 법뿐이야. <a href="#t-label">label</a>(사람이 단 정답)이 있으면 같은 class가 positive야. label이 없으면 같은 이미지를 <a href="#t-augmentation">augmentation</a>(자르기, 색 바꾸기 같은 변형)한 버전끼리 positive야 (p.32).</p>
   <div class="note easy"><span class="tag">예시로 보면</span><p>학습 전엔 고양이, 잘라낸 고양이, 강아지의 embedding이 아무렇게나 흩어져 있어. 학습은 encoder를 조금씩 고쳐서 "고양이–잘라낸 고양이"는 붙이고 "고양이–강아지"는 떼어 놓는 거야. 이걸 수많은 사진에 반복하면 비슷한 것끼리 모인 embedding space가 생겨.</p></div>
   <p><b>"가깝게·멀게"를 loss로 쓰는 법.</b> loss는 학습이 <b>줄이는</b> 값이야. 그러니까</p>
@@ -1074,10 +1114,12 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
       <span class="s-why">한계 (p.11): ① "considers only pairs": 한 번에 상대 하나만 봐. ② "Many negatives become inactive": 이미 margin 밖인 negative는 loss·gradient가 0이야. ③ "Does not explicitly enforce relative ordering": positive는 0으로, negative는 ε 이상으로라는 <b>따로따로의 절대 목표</b>만 있고, "positive가 negative보다 가까워야 한다"는 상대 순서는 강제 안 해.</span></li>
     <li><span class="s-name">Triplet loss</span><span class="s-src">FaceNet 2015 · p.12–13</span><small class="m-full"><span class="pt">FaceNet: A Unified Embedding for Face Recognition and Clustering (CVPR 2015)</span></small>
       <span class="s-body">anchor·positive·negative를 상대 비교. "positive가 negative보다 margin만큼 가까워라". 세 개를 한 묶음(triplet)으로 봐. FaceNet이 같은 사람의 다른 pose·각도 얼굴을 알아보려고 썼어 (p.12 "Enforces relative similarity", "Focuses on ranking relationships").</span>
+<!--slot:l03-in02-->
       <span class="s-body"><span class="k">수식</span><span class="math">L<sub>triplet</sub> = Σ max(0, d<sub>ap</sub> − d<sub>an</sub> + ε)</span></span>
       <span class="s-body"><span class="k">기호</span><span class="math">d<sub>ap</sub> = ‖f(x) − f(x<sup>+</sup>)‖<sub>2</sub><sup>2</sup></span>는 anchor–positive 거리 제곱, <span class="math">d<sub>an</sub> = ‖f(x) − f(x<sup>−</sup>)‖<sub>2</sub><sup>2</sup></span>는 anchor–negative 거리 제곱이야. margin ε는 두 거리 사이에 필요한 <b>최소 격차</b>야 ("minimum offset", p.13).</span>
       <span class="s-body"><span class="k">읽는 법</span><span class="math">d<sub>an</sub> − d<sub>ap</sub> ≥ ε</span>면 괄호 안이 0 이하라 loss 0, gradient 0 (이미 만족). 위반하면 d<sub>ap</sub>는 줄이고 d<sub>an</sub>은 키우는 쪽으로 gradient가 나와. 상대 격차만 보니까 contrastive loss처럼 positive를 꼭 한 점에 모을 필요가 없어.</span>
       <span class="s-body"><span class="k">toy</span><span class="math">d<sub>ap</sub> = 0.5, ε = 1</span>일 때 d<sub>an</sub> = 0.9면 loss = 0.6 (위반), d<sub>an</sub> = 1.6이면 loss = 0 (만족).</span>
+<!--slot:l03-in03-->
       <span class="s-why">한계 (p.13–14): ① Triplet explosion: 샘플 N개면 triplet이 N³개라 다 못 써. ② Most triplets are useless: 대부분 이미 만족한 easy triplet(loss 0)이라 계산 낭비야. 그래서 <a href="#t-hard-negative">hard negative</a>(embedding은 anchor와 가까운데 class는 다른 샘플)를 골라 쓰는 hard negative mining이 필요해. 모델이 헷갈리는 샘플이라 학습 신호가 강해 (p.14 "Hard negatives provide stronger learning signals").</span></li>
     <li><span class="s-name">Lifted Structured</span><span class="s-src">Song · p.15–16</span><small class="m-full"><span class="pt">Deep Metric Learning via Lifted Structured Feature Embedding (CVPR 2016)</span></small>
       <span class="s-body">batch 안의 모든 pair 사용. hardest negative를 고르는 max를 log-sum-exp로 부드럽게. mini-batch를 돌리면 샘플끼리 거리가 어차피 다 계산돼. 몇 개만 쓰지 말고 전부(all pairwise edges) 쓰자는 거야 (p.15).</span>
@@ -1088,7 +1130,8 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
       <span class="s-body"><b>Max</b> <span class="math">max<sub>i</sub> s<sub>i</sub></span>: hardest 하나만 gradient를 받고 나머지는 0 → sparse.</span>
       <span class="s-body"><b>Sum(Average)</b> <span class="math">(1/N)Σ<sub>i</sub> s<sub>i</sub></span>: 모두 1/N씩 똑같이 받아 → hard에 집중을 못 해 ("Not focused on hard negatives").</span>
       <span class="s-body"><b>LSE</b> <span class="math">log Σ<sub>i</sub> e<sup>s<sub>i</sub></sup></span>: s<sub>j</sub>로 미분하면 <span class="math">e<sup>s<sub>j</sub></sup> / Σ<sub>i</sub> e<sup>s<sub>i</sub></sup></span>, 즉 softmax 가중치야 → 모두 받되(dense) 어려울수록 지수적으로 더 받아(focused).</span>
-      <span class="s-why">Max = sparse gradient, Sum = uniform, LSE = dense &amp; focused (soft hard negative mining). takeaway: "log-sum-exp is a smooth approximation of max".</span></li>
+      <span class="s-why">Max = sparse gradient, Sum = uniform, LSE = dense &amp; focused (soft hard negative mining). takeaway: "log-sum-exp is a smooth approximation of max".</span>
+<!--slot:l03-in04--></li>
     <li><span class="s-name">N-pair loss</span><span class="s-src">Sohn, NeurIPS 2016 · p.17–20</span><small class="m-full"><span class="pt">Improved Deep Metric Learning with Multi-class N-pair Loss Objective</span></small>
       <span class="s-body">positive 1개 vs negative <b>N−1개</b>를 동시에. = N-way softmax cross-entropy.</span>
       <span class="s-body"><span class="k">왜 나왔나</span>(p.17) Lifted도 결국 pair 기반이라 1 positive ↔ 1 negative 비교고, 비교 수는 O(N²)로 늘어. 그래서 "Can we compare one positive against all negatives simultaneously?" → triplet을 negative 여러 개로 일반화했어 (p.18). 입력은 anchor 1 + positive 1 + negative N−1 = (N+1)-tuplet이야.</span>
@@ -1117,6 +1160,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
   </ol>
   <!--slot:l03-steps01-->
 
+  <h3>지금의 표준 틀: Modern setup</h3>
   <div class="methods">
     <div class="m"><div><span class="m-name">Modern setup</span><span class="m-src">p.31–32</span></div><div class="m-body">
       <p><span class="k">한 줄</span>요즘 contrastive learning(L04의 SimCLR 등)이 공통으로 쓰는 틀이야.</p>
@@ -1130,6 +1174,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>Similarity</b>: 보통 cosine <span class="math">s(a, b) = z<sub>a</sub><sup>⊤</sup>z<sub>b</sub> / (‖z<sub>a</sub>‖‖z<sub>b</sub>‖)</span>, 값은 −1~1.</li>
         <li><b>Contrastive loss</b>: positive는 당기고 negative는 밀어.</li>
       </ol>
+<!--slot:l03-in05-->
       <p><span class="k">수식</span><span class="math">L = −log[exp(s(z, z<sup>+</sup>)/τ) /</span> <span class="math">(exp(s(z, z<sup>+</sup>)/τ)</span> <span class="math">+ Σ<sub>i=1</sub><sup>N</sup> exp(s(z, z<sub>i</sub><sup>−</sup>)/τ))]</span>. z는 anchor embedding, z<sup>+</sup>는 positive, z<sub>i</sub><sup>−</sup>는 i번째 negative야. N-pair 식에 "÷τ"만 더한 모양이야. 여기선 negative를 N개로 셌고, N-pair·InfoNCE는 후보 전체를 N개(negative N−1개)로 셌어. 세는 방식만 다르고 구조는 같아. 이 loss를 부르는 이름이 NT-Xent(Normalized Temperature-scaled cross-entropy: L2-normalize한 cosine + τ + cross-entropy)야. L04 SimCLR에서 다시 나와.</p>
       <div class="note easy"><span class="tag">예시로 보면</span><p>batch에 사진 4장이 있어. 사진마다 augmentation을 두 번 하면 view가 8개야. view 하나를 anchor로 잡으면, 같은 사진에서 나온 짝 view 1개가 positive, 다른 사진 3장에서 나온 view 6개가 negative야. InfoNCE는 "후보 7개 중에 내 짝이 누구야?"를 맞히는 7지선다 분류가 돼.</p><p>cosine similarity가 positive 0.8, 제일 헷갈리는 negative 0.7, 나머지 0.4, 0.3, 0.1, −0.1, −0.3이라고 해 보자 (설명용 숫자). 계산 순서는 similarity ÷ τ = logit → softmax로 7개 확률 → loss = −log(positive 확률).</p><ul><li>τ = 1: logit이 그대로라 확률이 positive 0.23, hard negative 0.20으로 거의 비슷해. loss ≈ 1.49.</li><li>τ = 0.1: logit이 10배(8, 7, 4, …)가 돼서 positive 0.72, hard negative 0.26, 나머지는 거의 0이야. loss ≈ 0.33.</li></ul></div>
       <p><span class="k">τ (temperature)</span><a href="#t-temperature">temperature</a>는 similarity를 τ로 나눈 뒤 softmax에 넣어. cosine은 −1~1이라 그대로 넣으면 확률이 너무 평평해. τ가 작을수록 점수 차이가 확대돼서 분포가 뾰족해져. 이 τ가 하는 일은 두 가지로 나눠 봐야 해.</p>
@@ -1137,6 +1182,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>loss 값</b>: positive가 이미 1등 점수일 때는 τ가 작을수록 loss 값 자체가 <b>작아져</b> (예시에서 1.49 → 0.33). "τ를 줄이면 loss가 커진다"가 아니야.</li>
         <li><b>gradient 배분</b>: negative j가 받는 gradient는 그 softmax 확률 p<sub>j</sub>에 비례해. τ가 작으면 negative들 사이에서 hard negative 몫이 커져 (예시에서 negative 확률 합 중 hard negative 비중: τ = 1이면 0.26, τ = 0.1이면 0.93). 그래서 작은 τ = hard negative에 집중. LSE의 "dense &amp; focused"와 같은 논리야. τ가 크면 몫이 고르게 퍼져서 Sum(평균)처럼 굴어.</li>
       </ul>
+<!--slot:l03-in06-->
       <p><span class="k">label 있으면</span>같은 class가 positive. 그래서 anchor 하나에 positive가 여러 개일 수 있어 (Soft-NN, 나중 L05의 SupCon(supervised contrastive: label로 같은 class를 positive로 쓰는 방법)). label이 없을 땐 어떤 augmentation을 쓰느냐가 "무엇이 바뀌어도 같은 걸로 볼지"를 정해 (p.32).</p>
       <p><span class="k">p.32 조건</span>positive pair 분포 p<sub>pos</sub>는 둘을 만족해. <b>Symmetry</b> <span class="math">p<sub>pos</sub>(x, x<sup>+</sup>) = p<sub>pos</sub>(x<sup>+</sup>, x)</span>: 누가 anchor고 누가 positive인지 순서가 상관없어. <b>Matching marginal</b> <span class="math">∫ p<sub>pos</sub>(x, x<sup>+</sup>) dx<sup>+</sup> = p<sub>data</sub>(x)</span>: positive를 뽑는 방식이 원래 데이터 분포를 비틀지 않아.</p>
       <p><span class="k">조심</span>"batch의 다른 이미지 = negative" 규칙이라, 같은 class의 다른 사진(다른 고양이)도 negative로 밀려나. 이게 false negative야. 뒤의 X-CLR과 L04에서 다시 나와.</p>
@@ -1164,12 +1210,14 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li>평소 augmentation view <span class="math">P<sub>i</sub></span>와 생성 view <span class="math">P<sub>i</sub><sup>+</sup></span>를 positive pair로 SSL(self-supervised learning) loss를 걸어. loss 종류는 상관없어 ("various loss functions can be used", p.41).</li>
         <li>별도의 frozen encoder가 pair 품질을 매겨 (p.42): <span class="math">q<sub>i</sub> = s<sub>i</sub><sup>f</sup> − s<sub>i</sub><sup>b</sup></span>, <span class="math">w<sub>i</sub> = softmax(q<sub>i</sub>)</span>, 그리고 loss에 w<sub>i</sub>를 곱해. s<sup>f</sup>는 두 view의 foreground끼리 유사도, s<sup>b</sup>는 background끼리 유사도야.</li>
       </ol>
+<!--slot:l03-in07-->
       <p><span class="k">왜 돼?</span>좋은 pair 조건이 "Similar foreground, Different background"야 (p.42). foreground가 비슷하면 같은 물체라 의미가 지켜졌고, background가 다르면 배울 변화가 있어. 그래서 q가 크면 좋은 pair야. 생성하다 물체가 바뀌면 s<sup>f</sup>가 떨어지고, 배경이 그대로면 s<sup>b</sup>가 높아서, 둘 다 q가 낮아져 가중치가 줄어.</p>
     </div></div>
     <!--slot:l03-m02-genview-->
     <div class="m"><div><span class="m-name">MCL</span><span class="m-src">Zhang, ECCV 2024 · p.46–61</span><small class="m-full"><span class="ab"><b>M</b>ultistage <b>C</b>ontrastive <b>L</b>earning</span><span class="pt">Learning the Unlearned: Mitigating Feature Suppression in Contrastive Learning</span></small></div><div class="m-body">
       <p><span class="k">한 줄</span>학습을 여러 stage로 나눠서, 앞 stage가 이미 써먹은 쉬운 단서로는 구분이 안 되게 negative를 골라 주는 방법. 그러면 묻혀 있던 feature를 차례로 배워.</p>
       <p><span class="k">문제</span>feature suppression. 가장 쉬운 구별 feature(예: 색)만 배우면 loss가 이미 만족돼서 shape 같은 정보를 버려. 정의 (p.49): "useful information present in the input is lost in the representation". 예 (p.48): SimCLR는 색·texture가 같고 모양이 다른 두 그림을 similarity 0.935로 거의 같다고 봐. CLIP도 방향만 다른 두 토끼를 0.933으로 봐.</p>
+<!--slot:l03-in08-->
       <p><span class="k">왜 생겨?</span>(p.50) anchor와 positive는 빨간 줄무늬 원, negative는 파란 사각형이라고 해 봐. 색만 봐도 구분돼서 objective가 이미 만족돼. 그러니 texture나 shape를 더 배울 이유가 없어: "The model learns the easiest discriminative feature". 이런 쉬운 지름길 단서를 shortcut이라고 해.</p>
       <p><span class="k">핵심</span>Train → K-means → 같은 cluster 안에서 negative 선택 → 반복 → feature concat. stage마다 이전 shortcut을 막아 (색 → texture → shape).</p>
       <ol>
@@ -1179,6 +1227,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>Repeat</b>: stage 2는 색도 같고 texture도 같은 그룹에서 negative를 뽑아 → 남은 단서는 shape.</li>
         <li><b>Concatenate</b>: stage별 representation을 이어 붙여 <span class="math">Z = [Z<sub>0</sub>, Z<sub>1</sub>, …, Z<sub>N−1</sub>]</span>. "Each stage removes the shortcut used in previous stages", 그리고 concat이 모든 stage에서 배운 feature를 보존해.</li>
       </ol>
+<!--slot:l03-in09-->
       <p><span class="k">차이</span>hard negative mining과 달리 "지금 가까운 것"이 아니라 "이전 stage의 같은 cluster"에서 negative를 뽑아. 목적도 달라 (p.56). hard negative mining은 어려운 샘플 찾기고, MCL은 "prevent the reuse of previously learned features"(이미 배운 feature를 또 쓰지 못하게 막기)야.</p>
     </div></div>
     <!--slot:l03-m03-mcl-->
@@ -1187,6 +1236,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
       <p><span class="k">문제</span>target이 binary라서 다른 개, 고양이, 피아노가 똑같이 negative 취급돼. 슬라이드 질문: "Should another dog, a cat, and a piano be treated as equally negative?" (p.64). InfoNCE의 정답은 positive 칸만 1인 <a href="#t-one-hot">one-hot</a>이라, 의미상 가까운 다른 개도 피아노와 똑같이 target 0, 즉 "완전히 남"으로 취급돼 (p.64 "Treated equally"). 게다가 softmax에서는 가까운 negative일수록 gradient 몫이 크니까, 다른 개의 embedding이 피아노보다 가까우면 오히려 더 세게 밀려나.</p>
       <p><span class="k">핵심</span>frozen text encoder로 caption끼리의 similarity를 구해서 그걸 soft target graph로. image similarity graph를 거기에 CE로 맞춰 (p.67 "Match the learned graph to the target graph").</p>
       <p>여기서 graph는 batch 샘플끼리의 similarity 행렬이야. (i, j) 칸 = "샘플 j가 샘플 i에게 얼마나 positive인가". caption(사진에 붙은 설명 문장)이나 class 이름 문장("a photo of a Maltese dog")을 고정된(fixed) text encoder에 넣고, 그 similarity로 target graph를 만들어 (p.66).</p>
+<!--slot:l03-in10-->
       <p><span class="k">수식</span><span class="math">L<sub>X-CLR</sub> = (1/2N<sub>b</sub>) Σ<sub>i</sub> H(s<sub>i</sub>, p<sub>i</sub>)</span> (p.67)</p>
       <ul>
         <li><span class="math">s<sub>i,j</sub> = softmax<sub>j</sub>(G<sub>i,j</sub> / τ<sub>s</sub>)</span>, <span class="math">G<sub>i,j</sub> = sim(f<sub>text</sub>(c<sub>i</sub>), f<sub>text</sub>(c<sub>j</sub>))</span>: caption c끼리의 text similarity를 softmax한 <b>target</b> 분포.</li>
@@ -1205,6 +1255,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
       <p><span class="k">두 τ</span>(p.68) τ는 image 쪽의 보통 contrastive temperature야. τ<sub>s</sub>는 target graph를 얼마나 soft하게 만들지 정해. τ<sub>s</sub>가 낮으면 가장 강한 positive에 집중해서 표준 contrastive learning과 비슷해. 높으면 관련 샘플에 weight가 더 가서 graph가 softer해져. 그래도 "The graph should preserve the true positive while including soft positives".</p>
       <p><span class="k">주의</span>X-CLR의 τ<sub>s</sub>(코드 <code>tao_s</code>)는 <b>target graph(text) 쪽</b> temperature야. L04 DINO의 τ<sub>s</sub>(<code>tps</code>)는 <b>student 쪽</b>이고 teacher 쪽은 τ<sub>t</sub>(<code>tpt</code>)라서, 아래첨자 s의 뜻이 반대야.</p>
       <p><span class="k">차이</span>SSL graph = 두 view만 연결, SupCon = 같은 class(binary), X-CLR = 정도가 다른 similarity (p.65).</p>
+<!--slot:l03-in11-->
     </div></div>
     <!--slot:l03-m04-x-clr-->
   </div>
@@ -1239,6 +1290,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
   <!--slot:l04-intro-->
   <p>L03 복습부터. <b>contrastive learning</b>은 "비슷한 건 가깝게, 다른 건 멀게" 놓이도록 representation을 배우는 방법이야. label이 있으면 같은 class끼리 positive로 묶을 수도 있지만(L03 p.32), L04가 다루는 건 label 없는 <a href="#t-supervised">self-supervised</a> 쪽이야. 사진 한 장을 두 번 다르게 변형하면 둘은 "같은 사진에서 나온 짝"이니까, <a href="#t-embedding">embedding</a>(encoder가 사진을 바꿔 놓은 숫자 벡터) 공간에서 가깝게 당겨. 다른 사진은 멀리 밀어내. 기준 샘플이 <a href="#t-anchor">anchor</a>, 당길 짝이 <b>positive</b>, 밀어낼 샘플이 <b>negative</b>야.</p>
   <p>L04는 두 질문을 따라가. (1) 이걸 잘 돌리려면 뭐가 필요하지? (2) negative 없이도 학습이 될까? 끝에서는 positive를 생성 모델로 만드는 SynCLR, DINO를 범용 backbone으로 키운 DINOv2/v3까지 가.</p>
+  <h3>잘 돌리는 재료 · false negative</h3>
   <div class="methods">
     <div class="m"><div><span class="m-name">재료 3개</span><span class="m-src">p.4–6</span></div><div class="m-body">
       <p><span class="k">한 줄</span>positive는 잘 만들고, negative는 많이, 그리고 좋은 걸로 줘야 해.</p>
@@ -1314,6 +1366,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
       </tbody>
     </table>
   </div>
+<!--slot:l04-in11-->
   <!--slot:l04-tbl02-->
   <div class="methods">
     <div class="m"><div><span class="m-name">SimCLR 디테일</span><span class="m-src">p.23–29 · code p.25</span><small class="m-full"><span class="ab"><b>Sim</b>ple framework for <b>C</b>ontrastive <b>L</b>earning of visual <b>R</b>epresentations</span><span class="pt">A Simple Framework for Contrastive Learning of Visual Representations (ICML 2020)</span></small></div><div class="m-body">
@@ -1327,6 +1380,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li>InfoNCE로 학습. SimCLR는 이 loss를 NT-Xent(Normalized Temperature-scaled cross-entropy: cosine으로 정규화 + τ로 나눔 + cross-entropy)라고 불러. 두 view가 번갈아 anchor가 되니까 2N개 loss를 평균해: <span class="math">L = (1/2N) Σ<sub>k</sub> [ℓ(2k−1, 2k) + ℓ(2k, 2k−1)]</span>.</li>
         <li>끝나면 <b>g는 버리고 h</b>(즉 f)를 써.</li>
       </ol>
+<!--slot:l04-in01-->
       <p><span class="math">ℓ(i,j) = −log [ e<sup>s<sub>i,j</sub>/τ</sup> / Σ<sub>k≠i</sub> e<sup>s<sub>i,k</sub>/τ</sup> ]</span></p>
       <ul>
         <li>분자: anchor i와 positive j의 유사도. 클수록 loss가 줄어.</li>
@@ -1347,6 +1401,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>target (ξ)</b>: f<sub>ξ</sub> → g<sub>ξ</sub>, predictor 없음. 출력에 sg(stop-gradient)가 붙어 gradient가 안 흘러가고(backprop 없음), 대신 <b>EMA로만 갱신</b>돼: <span class="math">ξ ← τξ + (1−τ)θ</span>.</li>
         <li>여기 τ는 temperature가 아니라 <b>EMA 계수</b>(momentum)야. 1에 가까울수록 target이 천천히 움직여 (예: τ = 0.99면 한 step에 1%만 online 쪽으로, 숫자는 설명용).</li>
       </ul>
+<!--slot:l04-in02-->
       <p><span class="k">loss</span>view v는 online, v′는 target에 넣어. online 예측 <span class="math">q<sub>θ</sub>(z<sub>θ</sub>)</span>와 target 출력 <span class="math">z′</span>를 길이 1로 정규화한 뒤 <a href="#t-mse">MSE</a>를 줄여 (p.32). 길이 1 벡터끼리 제곱 거리를 풀면 <span class="math">‖q̄ − z̄′‖² = 2 − 2·cos</span>(슬라이드엔 없는 식 정리)라 결국 방향 맞추기야. v, v′를 바꾼 loss도 더해 대칭으로 만들고 <b>θ만</b> 최적화해.</p>
       <p><span class="k">왜 돼?</span>슬라이드 근거는 "target이 안정적인 학습 목표를 준다"(p.31)이고, 세 장치의 역할은 직관으로 보면 이래.</p>
       <ol>
@@ -1368,7 +1423,9 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li>비대각 → 0 (<b>redundancy reduction term</b>): 다른 차원끼리는 상관이 없어야 해. 차원마다 다른 정보를 담고 중복하지 않아.</li>
         <li>λ: 두 항의 균형 가중치.</li>
       </ul>
+<!--slot:l04-in03-->
       <div class="note easy"><span class="tag">예시로 보면</span><p>D = 3이면 C는 3×3. C<sub>11</sub>은 "view A의 1번 차원"과 "view B의 1번 차원"이 batch에서 같이 오르내리는 정도야. encoder가 무너져 세 차원이 사실상 같은 값만 내면(1번이 오를 때 2·3번도 똑같이 오름), 대각선 C<sub>11</sub>, C<sub>22</sub>…는 1이라 첫째 항은 만점이야. 대신 C<sub>12</sub>, C<sub>13</sub>…도 1 가까이 커져서 둘째 항이 penalty를 줘. 그래서 negative 없이도 collapse가 막혀.</p></div>
+<!--slot:l04-in04-->
       <p><span class="k">차이</span>SimCLR은 <b>샘플끼리</b>(B×B), Barlow Twins는 <b>feature 차원끼리</b>(D×D) 비교해. negative·predictor·EMA가 다 없고 대칭이야. batch size에 robust (p.37).</p>
     </div></div>
     <!--slot:l04-m04-barlow-twins-->
@@ -1386,6 +1443,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li>loss는 view를 엇갈려: <code>H(t1, s2)/2 + H(t2, s1)/2</code>. <span class="math">H(P<sub>t</sub>, P<sub>s</sub>) = −Σ P<sub>t</sub> log P<sub>s</sub></span>, teacher 분포가 정답인 cross-entropy야.</li>
         <li>center도 EMA: <code>C = m*C + (1-m)*cat([t1, t2]).mean(dim=0)</code>. C는 parameter가 아니라 <b>teacher 출력</b> 평균이야. 그래서 EMA가 두 개(teacher 가중치, center).</li>
       </ol>
+<!--slot:l04-in05-->
       <div class="note easy"><span class="tag">예시로 보면</span><p>negative 없이 무너지는 방향은 둘이야 (K = 4, 숫자는 설명용).</p>
         <ul>
           <li><b>한 차원 독점</b>: teacher가 어떤 사진에도 (3, 1, 1, 1) 비슷한 logit을 내면 softmax는 늘 (0.71, 0.10, 0.10, 0.10). 모든 사진이 1번으로 몰려. centering이 늘 높은 1번 차원의 평균을 빼서 이 공짜 우위를 없애.</li>
@@ -1393,12 +1451,19 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         </ul>
         <p>centering만 하면 평평해지고, sharpening만 하면 한 차원이 독점해. 그래서 같이 써. 이 역할 분담은 논문 쪽 설명이고, 슬라이드엔 주석 <code># center + sharpen</code>뿐이야.</p>
       </div>
+<!--slot:l04-in06-->
       <p><span class="k">차이</span>p.41: BYOL은 feature matching(MSE) + predictor, DINO는 distribution matching(CE) + softmax probability. 둘 다 EMA teacher, no labels. DINO엔 predictor가 없어.</p>
       <p><span class="k">결과</span>label 없이 학습한 ViT의 <a href="#t-cls-token">[CLS] token</a>(이미지 전체를 요약하는 token) attention이 물체 모양을 따라가 (p.42). 시키지 않았는데 생긴 성질이라 emergent property야. 많은 현대 SSL(self-supervised learning, iBOT · DINOv2)의 기반 (p.44).</p>
+<!--slot:l04-in07-->
     </div></div>
+  </div>
+
+  <h3>최근 확장: 생성한 positive · DINO를 foundation model로</h3>
+  <div class="methods">
     <div class="m"><div><span class="m-name">SynCLR</span><span class="m-src">Tian, CVPR 2024 · p.45–54</span><small class="m-full"><span class="pt">Learning Vision from Models Rivals Learning Vision from Data</span></small></div><div class="m-body">
       <p><span class="k">문제</span>augmentation은 crop·색 바꾸기 같은 픽셀 수준 변형이라 자세·배경 같은 큰 변화를 못 줘. "positive를 augmentation 말고 생성하면?" (p.47)</p>
       <p><span class="k">핵심</span>Llama-2(대형 언어 모델)가 caption을 만들고 text-to-image 모델이 caption당 4장 생성. 같은 caption에서 나온 이미지들 = positive set (multi-positive loss). 진짜 이미지 없이 학습.</p>
+<!--slot:l04-in08-->
       <ol>
         <li>caption (p.49): 예시 3개를 context로 주면 새 caption이 나오고, 그걸 다시 context에 넣어 반복 → 다양성↑.</li>
         <li>이미지 (p.50): caption 하나에 서로 다른 random noise로 시작하고, CFG<span class="fn">(<b>C</b>lassifier-<b>F</b>ree <b>G</b>uidance)</span> scale(caption을 따르는 세기)을 낮춰 다양하게. 150M caption × 4 = 600M 장.</li>
@@ -1424,6 +1489,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>Curated data</b> (p.58): 웹 이미지 1.2B → 중복 제거 → curated 데이터와 비슷한 것만 retrieval → 142M.</li>
         <li><b>Scaling</b> (p.65): 큰 ViT-g teacher를 학습하고 freeze한 뒤 작은 ViT로 distill.</li>
       </ul>
+<!--slot:l04-in09-->
       <p><span class="k">차이</span>새 loss 하나가 아니라 통합 시스템. 이미지만으로(label·caption 없이) 학습한 범용 frozen feature. 교훈: SSL objective만으론 부족하고, 데이터 품질·patch-level·안정적 학습·distillation이 필요해 (p.67).</p>
     </div></div>
     <!--slot:l04-m06-dinov2-->
@@ -1437,6 +1503,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><span class="math">‖·‖<sub>F</sub><sup>2</sup></span>: 칸별 차이를 제곱해서 다 더한 값.</li>
       </ul>
       <p><span class="k">왜 Gram?</span>feature 값을 그대로 맞추면 예전 모델에 통째로 묶여서 global이 더 좋아질 여지가 줄어. Gram은 "어느 patch끼리 비슷한가"라는 관계만 담아서, 관계는 지키고 feature는 자유롭게 둬. 이 이유는 논문 쪽 설명이고, 슬라이드는 "similarity 구조를 보존한다"(p.69)까지만 말해.</p>
+<!--slot:l04-in10-->
     </div></div>
     <!--slot:l04-m07-dinov3-gram-anchoring-->
   </div>
@@ -1503,6 +1570,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>NCE</b>(Noise Contrastive Estimation) (p.6): class 전부를 계산하는 대신 negative를 일부만 뽑아서 근사해 ("samples only some negatives"). 문제를 "이 (feature v, ID i) 쌍이 진짜 데이터에서 왔나, noise에서 왔나?"를 맞히는 문제로 바꾸는 거야 ("Given feature v and ID i, what is the probability that it originated from the actual data source?", p.8). 분모의 N개 합은 무작위 M개로 근사해 (Monte Carlo approximation, p.8).</li>
       </ol>
       <p>기호: <span class="math">v = f<sub>θ</sub>(x)</span>는 지금 encoder로 만든 현재 사진의 embedding(L2 norm한 128차원, p.6), <span class="math">v<sub>i</sub><sup>T</sup>v</span>는 bank의 i번 feature와의 내적(클수록 "i번 사진" 확률이 커짐), τ는 temperature.</p>
+<!--slot:l05-in01-->
       <p>positive 쪽 loss엔 <b>proximal</b> 항을 더해서 각 embedding이 이전 iteration 값에서 너무 벗어나지 않게 안정화해. 수렴하면 점점 사라지는 항이야 (p.8).</p>
       <p><span class="k">한계</span>bank feature가 옛날 encoder로 만든 거라 stale해서, 현재 query를 outdated feature와 비교하게 돼 (p.9). 장점(negative 많음, 계산 저렴)은 살리고 이 단점을 고친 게 MoCo야.</p>
     </div></div>
@@ -1528,14 +1596,17 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li>m이 클수록 key encoder가 천천히 변해 ("slowly progressing", p.11). 그래서 queue 안 key들은 몇 step 차이로 만들어졌어도 거의 같은 encoder 산물이라 consistent해. 반대로 m = 0이면 key encoder가 매 step query encoder를 그대로 복사해서 query encoder만큼 빨리 바뀌어. 그러면 queue 안 key들이 step마다 다른 encoder로 만들어져 consistent하지 않게 돼.</li>
         <li>이런 갱신이 <a href="#t-ema">EMA</a>(exponential moving average): 과거 값에 큰 가중치, 새 값에 작은 가중치를 주는 평균이야.</li>
       </ul>
+<!--slot:l05-in02-->
       <p><span class="k">loss</span>InfoNCE (p.11): <span class="math">L = −log [ exp(q·k<sup>+</sup>/τ) / Σ<sub>i</sub> exp(q·k<sub>i</sub>/τ) ]</span>. 분자(query와 positive key의 similarity)가 커지면 loss가 줄고(당기기), 분모의 negative similarity가 커지면 loss가 커져(밀기). 분모 Σ는 k⁺ 1개 + queue의 negative K개, 합쳐서 1+K개 key 전부야 (코드 <code>logits = cat([l_pos, l_neg])</code>가 이 1+K칸). 곧 "1+K개 후보 중 0번 칸(positive) 맞히기"라서 pseudo code가 <code>labels = zeros(N)</code>이야 (p.12).</p>
       <p><span class="k">gradient</span><b>query encoder로만</b> 흘러 ("Compute gradients and update the encoder only through the queries", p.11). 코드: <code>k = k.detach()</code>로 key를 gradient에서 떼고 → <code>update(f_q.params)</code>로 f<sub>q</sub>만 SGD → momentum 줄로 f<sub>k</sub> 갱신 → enqueue/dequeue (p.12). key에 backprop을 안 하니 key가 많아도 계산·메모리 부담이 작아. 순서 주의: enqueue는 loss와 update가 끝난 <b>뒤</b>라서, 이번 batch의 key는 이번 step에선 negative가 아니고 다음 step부터 negative로 쓰여.</p>
+<!--slot:l05-in03-->
       <p><span class="k">차이</span>SimCLR 대비 (p.11): running queue of keys를 negative로, gradient는 query로만, batch 크기와 key 수 분리, key encoder는 momentum으로 천천히.</p>
       <div class="note easy"><span class="tag">비유</span><p>필터 비유를 이어 가면: 앨범용 카메라(key encoder)는 필터를 아주 천천히만 바꾸고(momentum), 앨범엔 최근 사진만 남겨(queue). 그러면 사진은 여전히 많은데 색감이 거의 같아서 공정하게 비교할 수 있어.</p></div>
     </div></div>
     <!--slot:l05-m03-moco-->
   </div>
   <p>세 방식 비교 (p.14). 차이는 <b>key를 어디서 얻고, key encoder를 어떻게 갱신하나</b>야. <b>fresh</b>는 지금 encoder로 방금 계산함, <b>stale</b>은 여러 과거 encoder로 계산해 낡음, <b>consistent</b>는 최신은 아니어도 key들이 거의 같은 encoder로 만들어져 기준이 맞음(fresh와 다른 말). "MoCo is essentially a hybrid of end-to-end learning and memory banks": bank처럼 dictionary가 크고, momentum encoder로 key가 더 consistent해.</p>
+<!--slot:l05-in04-->
   <div class="tbl">
     <table>
       <thead><tr><th>p.14 비교</th><th>End-to-end (SimCLR)</th><th>Memory bank</th><th>MoCo</th></tr></thead>
@@ -1550,6 +1621,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
     </table>
   </div>
   <!--slot:l05-tbl01-->
+<!--slot:l05-in05-->
   <div class="methods">
     <div class="m"><div><span class="m-name">MoCo v2</span><span class="m-src">Chen 2020 · p.16–19</span><small class="m-full"><span class="pt">Improved Baselines with Momentum Contrastive Learning (arXiv 2020)</span></small></div><div class="m-body">
       <p><span class="k">한 줄</span>MoCo 구조는 그대로 두고 SimCLR(L04)의 레시피 두 개를 붙인 개선판: <a href="#t-mlp">MLP</a> <a href="#t-projection-head">projection head</a>(encoder 뒤에 붙여 loss를 거는 작은 비선형 network)와 더 센 data augmentation.</p>
@@ -1568,6 +1640,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>동시에</b> 그 representation으로 RL policy/value network도 학습 ("Simultaneously optimize").</li>
       </ol>
       <p><span class="k">차이</span>미리 학습하고 얼려 두는 게 아니라 RL loss와 함께 최적화하는 보조(auxiliary) 목표야. downstream(배운 representation을 실제로 쓰는 목표 task)이 이미지 분류가 아니라 RL 정책 학습이라는 점도 달라.</p>
+<!--slot:l05-in06-->
     </div></div>
     <!--slot:l05-m05-curl-->
   </div>
@@ -1586,6 +1659,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li>좋아진 feature로 다시 1번부터, 수렴할 때까지.</li>
       </ol>
       <p><span class="k">핵심</span>"Alternate between clustering and classification." (p.24) feature가 엉성해도 묶음을 맞히다 보면 feature가 나아지고, 나아진 feature로 다시 묶으면 묶음도 나아져.</p>
+<!--slot:l05-in07-->
       <p><span class="k">차이</span>positive/negative pair를 아예 안 만들어 (p.23). 비슷한 사진은 같은 label을 받으니 false negative도 피해. 대신 <b>offline</b>이야: mini-batch마다가 아니라 주기적으로 dataset 전체 feature를 다시 뽑아 k-means를 돌려서 무거워.</p>
       <p><span class="k">기여</span>(p.25) clustering 기반 SSL(self-supervised learning, label 없이 데이터 자체로 학습) 도입, pseudo-label learning을 contrastive의 대안으로 확립, SwAV·DINO에 영향.</p>
     </div></div>
@@ -1600,9 +1674,11 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>prediction</b> <span class="math">p</span>: feature와 prototype들의 similarity를 softmax한 확률 분포.</li>
       </ul>
       <p><span class="k">어떻게</span>두 view의 feature <span class="math">z<sub>1</sub>, z<sub>2</sub></span>를 같은 encoder로 뽑고, prototype과 비교해 code <span class="math">q<sub>1</sub>, q<sub>2</sub></span>를 mini-batch 안에서 그때그때 계산해 (<b>online</b> clustering, p.26). 그다음 <b>swap</b>: view 1의 prediction으로 view 2의 code를, view 2의 prediction으로 view 1의 code를 맞혀.</p>
+<!--slot:l05-in08-->
       <p><span class="k">loss</span>(p.27)<br><span class="math">L(z<sub>t</sub>, z<sub>s</sub>) = ℓ(z<sub>t</sub>, q<sub>s</sub>) + ℓ(z<sub>s</sub>, q<sub>t</sub>)</span><br><span class="math">ℓ(z<sub>t</sub>, q<sub>s</sub>) = −Σ<sub>k</sub> q<sub>s</sub><sup>(k)</sup> log p<sub>t</sub><sup>(k)</sup></span><br><span class="math">p<sub>t</sub><sup>(k)</sup> = exp(z<sub>t</sub><sup>T</sup>c<sub>k</sub>/τ) / Σ<sub>k'</sub> exp(z<sub>t</sub><sup>T</sup>c<sub>k'</sub>/τ)</span></p>
       <p>t, s는 같은 사진의 두 view 번호야 (DINO의 teacher / student t, s와는 무관해. SwAV엔 teacher / student 구조가 없어). <span class="math">p<sub>t</sub><sup>(k)</sup></span>는 view t가 prototype k에 속할 확률이고, <span class="math">ℓ(z<sub>t</sub>, q<sub>s</sub>)</span>는 view s의 code를 정답으로 둔 cross-entropy야. q<sub>s</sub>가 가리키는 prototype에 p<sub>t</sub>가 높은 확률을 줄수록 작아져. 두 방향을 더해서 대칭(symmetric)이야.</p>
       <p><span class="k">왜 swap?</span>자기 code를 자기가 맞히는 건 trivial(너무 쉬워서 배울 게 없음)해. 다른 view의 code를 맞혀야 "잘리거나 색이 달라도 같은 그룹"인 view-invariant feature를 배워.</p>
+<!--slot:l05-in09-->
       <p><span class="k">차이</span>contrastive는 <b>Feature ↔ Feature</b>, SwAV는 <b>Feature ↔ Prototype</b> (p.30). 샘플끼리 직접 비교하지 않으니 명시적 negative pair가 없고, offline clustering도 없어 (p.26). p.30 표의 나머지 짝: Positive/Negative pairs ↔ Prototype assignments, Similarity matching ↔ Swapped assignment prediction, Pairwise comparison ↔ Online clustering.</p>
       <p><span class="k">범위</span>시험은 "online code + 학습되는 prototype + swapped prediction"까지야. code를 실제로 어떻게 계산하는지는 슬라이드에 없어.</p>
     </div></div>
@@ -1618,14 +1694,17 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li>행 방향 CE("이 이미지에 맞는 텍스트는?")와 열 방향 CE("이 텍스트에 맞는 이미지는?")를 평균해. 그래서 <b>symmetric</b> contrastive loss야. 코드: <code>loss_i = cross_entropy_loss(logits, labels, axis=0)</code>, <code>loss_t = …(axis=1)</code> →<br><code>loss = (loss_i + loss_t)/2</code> (axis가 어느 방향인지는 슬라이드에 정의 없음).</li>
       </ol>
       <div class="note easy"><span class="tag">예시로 보면</span><p>n = 3: (강아지 사진, "a dog on grass"), (고양이 사진, "a sleeping cat"), (자동차 사진, "a red car"). 정답은 대각선 3칸이야. 강아지 사진 행에선 "a dog on grass" 칸이, "a sleeping cat" 열에선 고양이 사진 칸이 제일 높아야 해. 행마다, 열마다 3지선다를 푸는 셈이야.</p></div>
+<!--slot:l05-in11-->
       <p><span class="k">temperature</span><code>logits = np.dot(I_e, T_e.T) * np.exp(t)</code> (p.35). cosine에 <code>np.exp(t)</code>를 <b>곱해</b>. t는 <b>학습되는 파라미터</b>("learned temperature parameter")고, τ로 나누는 것과 같은 역할(<span class="math">exp(t) = 1/τ</span>)이야. exp라서 scale은 항상 양수. MoCo의 <code>logits/t</code>(나누기)와 헷갈리기 좋아.</p>
       <p><span class="k">추론</span><a href="#t-zero-shot">zero-shot</a>(그 task용 labeled 데이터로 추가 학습 없이 바로 푸는 것) 분류 (p.33): class 이름을 "A photo of a {object}." prompt로 만들어 text embedding → 이미지 embedding과 similarity가 가장 높은 prompt의 class를 답으로. 학습된 classifier 대신 text embedding이 classifier야 ("Classification is performed by image-text matching instead of a trained classifier"). class 목록이 바뀌면 텍스트만 바꾸면 돼.</p>
+<!--slot:l05-in10-->
       <p><span class="k">포인트</span>"맞는 쌍 vs 틀린 쌍"만 구별하는 contrastive가 caption 예측보다 약 <b>4× data-efficient</b>하고, 단어 순서를 무시하는 Bag-of-Words text encoder가 Transformer language model보다 나았어 (p.36). "The success of CLIP comes less from sophisticated language modeling and more from contrastive alignment between images and natural language." 학습 데이터는 400 million image–text pairs (p.37).</p>
     </div></div>
     <!--slot:l05-m08-clip-->
     <div class="m"><div><span class="m-name">SupCon</span><span class="m-src">Khosla, NeurIPS 2020 · p.38–42</span><small class="m-full"><span class="ab"><b>Sup</b>ervised <b>Con</b>trastive</span><span class="pt">Supervised Contrastive Learning</span></small></div><div class="m-body">
       <p><span class="k">한 줄</span>class label이 있을 때의 contrastive learning. 같은 class는 전부 positive로 당기고, 다른 class는 negative로 밀어.</p>
       <p><span class="k">문제</span>SimCLR·MoCo는 positive가 "같은 사진의 다른 view" 하나뿐이라 같은 class의 다른 사진도 negative로 밀어(false negative). label이 있으면 피할 수 있어.</p>
+<!--slot:l05-in12-->
       <p><span class="k">핵심</span>"Treats all samples from the same class as positive pairs." (p.38) p.40 요약: SimCLR의 InfoNCE를 그대로 쓰되, 같은 class 샘플 전부를 positive로 놓고 positive마다 InfoNCE를 계산해 평균해.</p>
       <p><span class="k">loss</span>(p.40) n개 (image, label)에 augmentation 두 번 → view 2n개.<br><span class="math">L<sub>supcon</sub> = −Σ<sub>i=1..2n</sub> 1/(2|N<sub>i</sub>|−1)</span><br><span class="math">&nbsp;&nbsp;· Σ<sub>j∈N(y<sub>i</sub>), j≠i</sub> log p<sub>ij</sub></span><br><span class="math">p<sub>ij</sub> = exp(z<sub>i</sub>·z<sub>j</sub>/τ)</span><br><span class="math">&nbsp;&nbsp;/ Σ<sub>k∈I, k≠i</sub> exp(z<sub>i</sub>·z<sub>k</sub>/τ)</span></p>
       <ul>
@@ -1638,6 +1717,10 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
       <p><span class="k">결과</span>CE(cross-entropy로 학습하는 보통 분류)보다 정확도는 "only by a small amount" 나아 (p.42). 대신 ImageNet-C(noise, blur, contrast 변화 같은 자연스러운 손상을 가한 ImageNet)에서 더 robust하고 hyperparameter 변화에 덜 민감해. "Contrastive objectives remain beneficial even with class labels." (p.41)</p>
     </div></div>
     <!--slot:l05-m09-supcon-->
+  </div>
+
+  <h3>넓히기: 이웃 · fine-grained · 틀린 label</h3>
+  <div class="methods">
     <div class="m"><div><span class="m-name">NNCLR → All4One</span><span class="m-src">Estepa, ICCV 2023 · p.43–53</span><small class="m-full"><span class="ab"><b>N</b>earest-<b>N</b>eighbor <b>C</b>ontrastive <b>L</b>earning of Visual <b>R</b>epresentations</span><span class="pt">With a Little Help from My Friends: Nearest-Neighbor Contrastive Learning of Visual Representations (NNCLR, ICCV 2021)</span><span class="pt">All4One: Symbiotic Neighbour Contrastive Learning via Self-Attention and Redundancy Reduction</span></small></div><div class="m-body">
       <p><span class="k">질문</span>"Can the memory bank provide more than negatives?" (p.43) 창고에서 <b>positive</b>도 꺼내자는 거야.</p>
       <p><span class="k">NNCLR</span>과거 embedding을 <b>support set</b>에 쌓아 두고, 첫 view와 가장 가까운 이웃(nearest neighbor) 1개를 두 번째 view의 positive로 써 ("The nearest neighbor replaces one augmented view in the positive pair", p.47). 같은 사진 변형본보다 다양한 positive를 얻지만, 고른 이웃이 다른 class면 신호가 오염돼.</p>
@@ -1650,6 +1733,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>Feature Contrast</b> (Barlow Twins식, L04): 두 view의 원래 feature Z로 cross-correlation 행렬(두 view에서 차원 i와 차원 j가 batch 전체에서 얼마나 같이 움직이는지 모은 D×D 표)을 만들어. 대각선 → 1(같은 차원은 view가 바뀌어도 일관), 비대각 → 0(차원끼리 중복 제거, redundancy reduction).</li>
       </ul>
       <p>"Neighbor losses compare samples. Feature contrast compares feature dimensions." (p.49)</p>
+<!--slot:l05-in13-->
     </div></div>
     <!--slot:l05-m10-nnclr-all4one-->
     <div class="m"><div><span class="m-name">PAPN</span><span class="m-src">Tan, ICCV 2025 · p.54–64</span><small class="m-full"><span class="ab"><b>P</b>rogressive <b>A</b>ugmentation <b>P</b>rototype-based <b>N</b>etwork</span><span class="pt">Prototype-based Contrastive Learning with Stage-wise Progressive Augmentation for Self-Supervised Fine-Grained Learning</span></small></div><div class="m-body">
@@ -1708,6 +1792,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
   <p>여기서부터 상황이 바뀌어. L02–L05에서 주로 본 self-supervised는 label이 <b>하나도 없는</b> 데이터로 쓸 만한 representation을 미리 배우는 게 목표였어. L06–L07의 <a href="#t-supervised"><b>semi-supervised</b></a>(반지도 학습)는 사람이 단 정답(<a href="#t-label">label</a>)이 있는 데이터(labeled)가 <b>조금</b>, label 없는 데이터(unlabeled)가 <b>많이</b> 있는 상황이야. 목표는 그 task(예: 사진 분류) 자체를 잘 푸는 모델이야.</p>
   <p>예를 들어 사진 10만 장을 모았는데 class를 달아 준 건 1천 장뿐이라고 해 봐. 1천 장만으로 학습하면 아까운 9만 9천 장이 놀아. 이 강의는 그 unlabeled를 학습에 끌어들이는 첫 번째 방법, <b>consistency regularization</b>을 다뤄.</p>
   <!--slot:l06-intro-->
+  <h3>문제 설정: 목표식 · 가정 · consistency</h3>
   <div class="methods">
     <div class="m"><div><span class="m-name">label 부족 해법 4개</span><span class="m-src">p.4–7</span></div><div class="m-body">
       <ol>
@@ -1729,12 +1814,14 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
       </ul>
       <p><span class="k">왜 키우나</span>L<sub>u</sub>의 비교 대상(target)은 결국 <b>모델 자신의 예측</b>에서 나와. 학습 초반 모델은 거의 랜덤이라 그 예측도 엉망이야. 이때 L<sub>u</sub>를 세게 주면 틀린 예측을 정답처럼 더 굳히게 돼.</p>
       <p>그래서 처음엔 labeled(L<sub>s</sub>)로 기본기를 잡고, 예측을 믿을 만해질수록 unlabeled 몫을 키워. Π-model 코드(p.18)에선 같은 가중치를 <span class="math">w(t)</span>라고 써.</p>
+<!--slot:l06-in02-->
       <p><span class="k">핵심 질문</span>"<span class="math">L<sub>u</sub></span>를 어떻게 만드나?"가 semi-supervised의 핵심 질문이야 (p.9). 답은 두 갈래야.</p>
       <ul>
         <li><a href="#t-consistency"><b>Consistency regularization</b></a> (이번 L06): 같은 사진을 두 가지로 변형(<a href="#t-augmentation">augmentation</a>)해서 넣고, 두 예측 확률 <span class="math">p<sub>1</sub>, p<sub>2</sub></span>가 <b>서로 같아지게</b> 해. "정답이 뭔지"는 정하지 않고 "두 예측끼리 일치"만 요구해.</li>
         <li><a href="#t-pseudo-label"><b>Pseudo label</b></a> (다음 L07): 예측 <span class="math">p</span>가 충분히 확신에 차 있으면(<span class="math">max(p) &gt; τ</span>, τ는 confidence <a href="#t-threshold">threshold</a>) 확률이 가장 높은 class를 <b>가짜 정답 ŷ</b>로 정해 버려. 그다음 labeled처럼 <span class="math">CE(ŷ, p)</span>로 학습해.</li>
       </ul>
       <p><span class="k">공통점</span>둘 다 사람이 단 label 없이, <b>모델 자신의 예측</b>에서 학습 신호를 만들어.</p>
+<!--slot:l06-in01-->
     </div></div>
     <!--slot:l06-m02-x-->
     <div class="m"><div><span class="m-name">가정 H1–H4</span><span class="m-src">p.11–14</span></div><div class="m-body">
@@ -1747,6 +1834,8 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>H4 Manifold</b>: "High-dimensional data lie on a <b>low-dimensional</b> manifold." 224×224 컬러 사진은 숫자 15만 개짜리 벡터지만, 진짜 사진들은 그 거대한 공간 속 얇은 <b>저차원 곡면</b>(manifold) 위에만 모여 있어. 비슷한 샘플은 이 곡면을 따라 이어져 있어.</li>
       </ul>
       <p><span class="k">연결</span>H1이 consistency regularization의 직접 근거야. H2와 H3는 같은 직관을 두 쪽에서 본 거야 (H2는 "한 cluster = 한 label", H3는 "boundary는 빈 곳에"). 뒤에 나오는 ICT가 H3와 맞물려.</p>
+<!--slot:l06-in03-->
+<!--slot:l06-in04-->
     </div></div>
     <!--slot:l06-m03-h1-h4-->
     <div class="m"><div><span class="m-name">Consistency regularization</span><span class="m-src">p.15–16</span></div><div class="m-body">
@@ -1780,6 +1869,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><span class="math">θ</span>를 업데이트해 (예: Adam).</li>
       </ol>
       <p><span class="k">식</span><span class="math">L<sub>u</sub><sup>Π</sup> = Σ<sub>x∈D</sub> MSE(f<sub>θ</sub>(x), f′<sub>θ</sub>(x))</span> (p.17). <span class="math">f<sub>θ</sub></span>와 <span class="math">f′<sub>θ</sub></span>는 <b>같은 파라미터 θ</b>에 다른 랜덤 noise를 준 거야. 파라미터가 다른 두 모델이 아니야. 여기 D는 거리가 아니라 dataset 전체(labeled + unlabeled)야. 슬라이드에선 필기체 D로 구분해.</p>
+<!--slot:l06-in05-->
       <p>코드의 loss 두 항을 풀면 이래.</p>
       <ul>
         <li><span class="math">−(1/|B|) Σ<sub>i∈B∩L</sub> log z<sub>i</sub>[y<sub>i</sub>]</span>: supervised CE야. <span class="math">B∩L</span>은 이번 minibatch 중 label 있는 샘플만. <span class="math">z<sub>i</sub>[y<sub>i</sub>]</span>는 정답 class에 준 확률이라, 1에 가까울수록 loss가 작아.</li>
@@ -1790,6 +1880,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
       <p><span class="k">한 줄</span>두 번째 forward 대신, 그 샘플에 대해 <b>예전 epoch들에서 냈던 예측의 평균</b>을 target으로 써.</p>
       <p><span class="k">문제</span>Π-model은 입력마다 forward를 2번 해서 계산 비용이 커 (p.19).</p>
       <p><span class="k">핵심</span>"use the historical predictions of the same sample as the consistency target". 샘플마다 예측의 <a href="#t-ema">EMA</a>(exponential moving average)를 저장해 두고 그걸 target으로 써. EMA는 "기존 평균은 많이, 새 값은 조금" 섞어서 천천히 따라가는 평균이야.</p>
+<!--slot:l06-in06-->
       <p><span class="k">어떻게</span>(Algorithm 2, p.20)</p>
       <ol>
         <li>처음에 <span class="math">Z ← 0<sub>[N×C]</sub></span>, <span class="math">z̃ ← 0<sub>[N×C]</sub></span>로 표를 만들어. N은 전체 학습 샘플 수, C는 class 수야. 샘플 하나마다 예측 벡터 한 줄씩이야.</li>
@@ -1798,6 +1889,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li>이어서 <span class="math">z̃ ← Z / (1 − α<sup>t</sup>)</span>: <b>bias correction</b>으로 다음 epoch의 target을 만들어. t는 epoch 번호야.</li>
       </ol>
       <p><span class="k">bias correction</span>Z는 0에서 시작하니까 초반엔 값이 0 쪽으로 쏠려(bias). 예측이 매 epoch 똑같이 z라고 하면 <span class="math">Z<sub>t</sub> = (1−α<sup>t</sup>)·z</span>가 돼. 그래서 <span class="math">1−α<sup>t</sup></span>로 나누면 정확히 z로 돌아와. t가 커지면 <span class="math">α<sup>t</sup> → 0</span>이라 보정은 저절로 사라져.</p>
+<!--slot:l06-in07-->
       <div class="note easy"><span class="tag">예시로 보면</span><p>α = 0.9이고 한 샘플의 예측이 계속 0.8이라고 하자. epoch 1 끝: Z = 0.9×0 + 0.1×0.8 = 0.08. 진짜 값 0.8의 1/10밖에 안 돼. 1 − 0.9<sup>1</sup> = 0.1로 나누면 0.8이야. epoch 2 끝: Z = 0.9×0.08 + 0.1×0.8 = 0.152. 1 − 0.9<sup>2</sup> = 0.19로 나누면 다시 0.8이야.</p></div>
       <p><span class="k">왜 돼?</span>epoch마다 예측은 서로 다른 augmentation, dropout, weight에서 나왔어. 이걸 평균 내면 여러 모델을 합친 ensemble 같은 효과가 나서, 한 번 뽑은 noisy한 예측보다 안정적이야 ("More stable target than Π-model", p.22).</p>
       <p><span class="k">장단점</span>(p.22) 장점: forward 1번, Π보다 안정적인 target, 낮은 계산 비용. 한계: 샘플마다 EMA를 들고 있어서 N×C 메모리가 들고, target이 <b>epoch당 한 번만</b> 갱신돼서 큰 dataset으로 키우기 어려워.</p>
@@ -1811,6 +1903,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>teacher</b> (weight <span class="math">θ′</span>): target 예측을 만들어 주는 모델이야. 따로 학습한 큰 모델이 아니라 <b>student weight의 EMA</b>야. backprop은 안 받고 EMA로만 갱신돼 ("No backpropagation", p.24).</li>
       </ul>
       <p><span class="k">식</span><span class="math">θ′ ← βθ′ + (1−β)θ</span> (p.23). β는 EMA decay야. β = 0.99면 매 step teacher가 자기 값을 99% 유지하고 student 쪽으로 1%만 다가가. 이걸 반복하면 teacher는 최근 여러 step student weight의 평균이 돼.</p>
+<!--slot:l06-in08-->
       <p><span class="k">어떻게</span>(p.24) iteration 하나는 이렇게 돌아.</p>
       <ol>
         <li>같은 입력에 서로 다른 perturbation(η, η′)을 줘서 student와 teacher에 각각 넣어.</li>
@@ -1838,6 +1931,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
     </table>
   </div>
   <!--slot:l06-tbl01-->
+<!--slot:l06-in09-->
   <p><span class="k">Mean Teacher 실전 팁</span>(p.23–29, 주로 p.28)</p>
   <ul>
     <li><b>input augmentation은 필수</b>야 (random flip, Gaussian noise). dropout은 <b>student에만</b> 걸고, teacher엔 필요 없어.</li>
@@ -1849,14 +1943,17 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
   <p>앞의 세 방법은 target 쪽을 고쳤어. 이번엔 반대쪽, <b>입력을 어떻게 흔드나</b>를 고쳐. 흐름은 "network 안 noise(dropout) → 입력에 센 augmentation → 가장 나쁜 방향(adversarial) → 두 입력 섞기(MixUp) → 질 좋은 의미적 augmentation"이야.</p>
   <ol class="steps">
     <li><span class="s-name">Noisy samples as targets</span><span class="s-src">p.30–31</span><span class="s-body">같은 모델로, 원본과 strong augmentation 버전의 예측을 같게.</span><span class="s-body"><span class="k">쉽게</span>unlabeled 사진에 <b>센 augmentation</b>(strong augmentation)을 줘. 사진이면 mixup, RandAugment, 글이면 back-translation(다른 언어로 번역했다 되돌리기) 같은 거야.</span><span class="s-why">Π-model과 차이 (p.31): 슬라이드는 Π의 perturbation을 network 안의 stochastic noise(dropout)로 보고, 여기선 입력에 주는 <b>센</b> augmentation을 써. Π도 g(x)로 가벼운 augmentation은 하지만 주인공이 다르다는 뜻이야. Mean Teacher와 차이: EMA teacher를 두지 않고, 같은 모델 하나로 원본과 변형본을 맞춰 (self-consistency).</span></li>
-    <li><span class="s-name">Adversarial Training</span><span class="s-src">Goodfellow, ICLR 2015 · p.32–33</span><small class="m-full"><span class="pt">Explaining and Harnessing Adversarial Examples</span></small><span class="s-body">모델이 제일 헷갈리는 방향(worst-case)으로 noise를 넣고도 <b>정답(GT)</b>을 맞히게. FGSM(Fast Gradient Sign Method) <span class="math">r ≈ ε·sign(g)</span>.</span><span class="s-body"><span class="k">쉽게</span>adversarial perturbation은 "모델 예측을 <b>가장 크게</b> 바꾸는 방향으로 준 아주 작은 noise"야. 사람 눈엔 안 보이는 noise만 더해도 panda 사진을 99.3% 확신으로 gibbon이라고 틀려 (p.32).</span><span class="s-body"><span class="k">식</span>크기 제한 <span class="math">‖r‖ ≤ ε</span> 안에서 정답과 예측의 차이 D를 가장 키우는 r을 찾아 (<span class="math">r<sub>adv</sub> = argmax D</span>). 실제론 gradient로 근사해. <span class="math">g = ∇<sub>r</sub>D</span>는 D가 가장 빨리 커지는 방향이고, <span class="math">ε·sign(g)</span>는 입력의 각 원소를 그 방향(+/−)으로 ε씩 미는 거야 (FGSM).</span><span class="s-why">target은 GT label이라 supervised야. 목적은 robustness (공격에 버티기).</span></li>
-    <li><span class="s-name">VAT</span><span class="s-src">Miyato, TPAMI 2018 · p.34–35</span><small class="m-full"><span class="ab"><b>V</b>irtual <b>A</b>dversarial <b>T</b>raining</span><span class="pt">Virtual Adversarial Training: A Regularization Method for Supervised and Semi-Supervised Learning</span></small><span class="s-body">GT 대신 <b>모델 자신의 예측</b>을 target으로 ("virtual"). unlabeled에도 쓸 수 있어.</span><span class="s-body"><span class="k">쉽게</span>AT는 정답 label이 있어야 해서 unlabeled엔 못 써. VAT는 정답 자리에 "지금 모델이 x에 내는 예측"을 넣어. 가짜(virtual) label인 셈이야. 그러면 "x에서의 예측과, 최악의 방향으로 살짝 민 x + r에서의 예측이 같아야 한다"가 돼. label이 필요 없으니 labeled와 unlabeled 둘 다에 걸어.</span><span class="s-body"><span class="k">식</span><span class="math">L<sub>u</sub><sup>VAT</sup> = D[p<sub>θ̂</sub>(y|x),</span> <span class="math">p<sub>θ</sub>(y|x + r<sub>vadv</sub>)]</span>. <span class="math">p<sub>θ̂</sub>(y|x)</span>는 현재 모델의 예측(target)이야. θ̂(theta hat)은 값은 지금 θ와 같지만 target 쪽이라서 고정된 상수로 취급한다는 표시야. 그래서 gradient는 x + r 쪽 예측(θ)으로만 흘러 (슬라이드엔 "use current model prediction"만 있고, 상수 취급은 노트 기반 설명이야). 그리고 <span class="math">r<sub>vadv</sub></span>는 이 D를 가장 키우는 방향이야.</span><span class="s-why">목적은 local smoothness (x 근처에서 예측이 매끄럽게). random 방향으로 흔드는 RPT(Random Perturbation Training, 비교용 방법)가 아니라 가장 adversarial한 방향만 눌러서 regularization이 훨씬 효과적이야 (p.35). (슬라이드 밖 직관) 랜덤 방향은 대부분 모델이 이미 잘 버티는 방향이라 그래.</span></li>
-    <li><span class="s-name">ICT</span><span class="s-src">Verma · p.36–38</span><small class="m-full"><span class="ab"><b>I</b>nterpolation <b>C</b>onsistency <b>T</b>raining</span><span class="pt">Interpolation Consistency Training for Semi-Supervised Learning (Neural Networks 2022)</span></small><span class="s-body">unlabeled 두 장을 MixUp. student의 섞인 입력 예측 = Mean Teacher 예측을 섞은 것. "mixed inputs → mixed predictions".</span><span class="s-body"><span class="k">쉽게</span>MixUp은 두 사진을 비율 λ로 겹쳐 한 장을 만드는 augmentation이야: <span class="math">mixup<sub>λ</sub>(x<sub>i</sub>, x<sub>j</sub>) = λx<sub>i</sub> + (1−λ)x<sub>j</sub></span>, <span class="math">λ ~ Beta(α, α)</span> (Beta 분포는 0–1 사이 값을 뽑는 분포라, λ가 섞는 비율이 돼). 여기 α는 MixUp 파라미터라 TE의 α와 다른 거야. 원래 MixUp은 label도 같은 비율로 섞어서 labeled에만 쓸 수 있어. ICT는 label 대신 <b>teacher 예측을 섞어서</b> unlabeled에도 써. teacher(θ′)는 섞기 <b>전</b> 원본 두 장을 보고, student(θ)는 섞은 사진을 봐.</span><span class="s-body"><span class="k">예시</span>teacher가 고양이 사진에 [고양이 0.9, 개 0.1], 개 사진에 [0.2, 0.8]을 냈다고 하자. λ = 0.7로 섞은 사진의 target은 0.7×[0.9, 0.1] + 0.3×[0.2, 0.8] = [0.69, 0.31]이야. student는 섞인 사진에 이 값을 내야 해.</span><span class="s-why">MixUp 샘플은 boundary 근처라 low-density separation과 맞아. cluster 사이 빈 곳에서 예측이 부드럽게 바뀌도록 강제하니까, boundary가 cluster를 가르지 않고 그 사이로 가게 돼.</span></li>
+    <li><span class="s-name">Adversarial Training</span><span class="s-src">Goodfellow, ICLR 2015 · p.32–33</span><small class="m-full"><span class="pt">Explaining and Harnessing Adversarial Examples</span></small><span class="s-body">모델이 제일 헷갈리는 방향(worst-case)으로 noise를 넣고도 <b>정답(GT)</b>을 맞히게. FGSM(Fast Gradient Sign Method) <span class="math">r ≈ ε·sign(g)</span>.</span><span class="s-body"><span class="k">쉽게</span>adversarial perturbation은 "모델 예측을 <b>가장 크게</b> 바꾸는 방향으로 준 아주 작은 noise"야. 사람 눈엔 안 보이는 noise만 더해도 panda 사진을 99.3% 확신으로 gibbon이라고 틀려 (p.32).</span><span class="s-body"><span class="k">식</span>크기 제한 <span class="math">‖r‖ ≤ ε</span> 안에서 정답과 예측의 차이 D를 가장 키우는 r을 찾아 (<span class="math">r<sub>adv</sub> = argmax D</span>). 실제론 gradient로 근사해. <span class="math">g = ∇<sub>r</sub>D</span>는 D가 가장 빨리 커지는 방향이고, <span class="math">ε·sign(g)</span>는 입력의 각 원소를 그 방향(+/−)으로 ε씩 미는 거야 (FGSM).</span><span class="s-why">target은 GT label이라 supervised야. 목적은 robustness (공격에 버티기).</span>
+<!--slot:l06-in10--></li>
+    <li><span class="s-name">VAT</span><span class="s-src">Miyato, TPAMI 2018 · p.34–35</span><small class="m-full"><span class="ab"><b>V</b>irtual <b>A</b>dversarial <b>T</b>raining</span><span class="pt">Virtual Adversarial Training: A Regularization Method for Supervised and Semi-Supervised Learning</span></small><span class="s-body">GT 대신 <b>모델 자신의 예측</b>을 target으로 ("virtual"). unlabeled에도 쓸 수 있어.</span><span class="s-body"><span class="k">쉽게</span>AT는 정답 label이 있어야 해서 unlabeled엔 못 써. VAT는 정답 자리에 "지금 모델이 x에 내는 예측"을 넣어. 가짜(virtual) label인 셈이야. 그러면 "x에서의 예측과, 최악의 방향으로 살짝 민 x + r에서의 예측이 같아야 한다"가 돼. label이 필요 없으니 labeled와 unlabeled 둘 다에 걸어.</span><span class="s-body"><span class="k">식</span><span class="math">L<sub>u</sub><sup>VAT</sup> = D[p<sub>θ̂</sub>(y|x),</span> <span class="math">p<sub>θ</sub>(y|x + r<sub>vadv</sub>)]</span>. <span class="math">p<sub>θ̂</sub>(y|x)</span>는 현재 모델의 예측(target)이야. θ̂(theta hat)은 값은 지금 θ와 같지만 target 쪽이라서 고정된 상수로 취급한다는 표시야. 그래서 gradient는 x + r 쪽 예측(θ)으로만 흘러 (슬라이드엔 "use current model prediction"만 있고, 상수 취급은 노트 기반 설명이야). 그리고 <span class="math">r<sub>vadv</sub></span>는 이 D를 가장 키우는 방향이야.</span><span class="s-why">목적은 local smoothness (x 근처에서 예측이 매끄럽게). random 방향으로 흔드는 RPT(Random Perturbation Training, 비교용 방법)가 아니라 가장 adversarial한 방향만 눌러서 regularization이 훨씬 효과적이야 (p.35). (슬라이드 밖 직관) 랜덤 방향은 대부분 모델이 이미 잘 버티는 방향이라 그래.</span>
+<!--slot:l06-in11--></li>
+    <li><span class="s-name">ICT</span><span class="s-src">Verma · p.36–38</span><small class="m-full"><span class="ab"><b>I</b>nterpolation <b>C</b>onsistency <b>T</b>raining</span><span class="pt">Interpolation Consistency Training for Semi-Supervised Learning (Neural Networks 2022)</span></small><span class="s-body">unlabeled 두 장을 MixUp. student의 섞인 입력 예측 = Mean Teacher 예측을 섞은 것. "mixed inputs → mixed predictions".</span><span class="s-body"><span class="k">쉽게</span>MixUp은 두 사진을 비율 λ로 겹쳐 한 장을 만드는 augmentation이야: <span class="math">mixup<sub>λ</sub>(x<sub>i</sub>, x<sub>j</sub>) = λx<sub>i</sub> + (1−λ)x<sub>j</sub></span>, <span class="math">λ ~ Beta(α, α)</span> (Beta 분포는 0–1 사이 값을 뽑는 분포라, λ가 섞는 비율이 돼). 여기 α는 MixUp 파라미터라 TE의 α와 다른 거야. 원래 MixUp은 label도 같은 비율로 섞어서 labeled에만 쓸 수 있어. ICT는 label 대신 <b>teacher 예측을 섞어서</b> unlabeled에도 써. teacher(θ′)는 섞기 <b>전</b> 원본 두 장을 보고, student(θ)는 섞은 사진을 봐.</span><span class="s-body"><span class="k">예시</span>teacher가 고양이 사진에 [고양이 0.9, 개 0.1], 개 사진에 [0.2, 0.8]을 냈다고 하자. λ = 0.7로 섞은 사진의 target은 0.7×[0.9, 0.1] + 0.3×[0.2, 0.8] = [0.69, 0.31]이야. student는 섞인 사진에 이 값을 내야 해.</span><span class="s-why">MixUp 샘플은 boundary 근처라 low-density separation과 맞아. cluster 사이 빈 곳에서 예측이 부드럽게 바뀌도록 강제하니까, boundary가 cluster를 가르지 않고 그 사이로 가게 돼.</span>
+<!--slot:l06-in12--></li>
     <li><span class="s-name">UDA</span><span class="s-src">Xie, NeurIPS 2020 · p.39–42</span><small class="m-full"><span class="ab"><b>U</b>nsupervised <b>D</b>ata <b>A</b>ugmentation</span><span class="pt">Unsupervised Data Augmentation for Consistency Training</span></small><span class="s-body">작은 noise 대신 label을 보존하는 센 의미적 augmentation(RandAugment). 이것만으로 VAT·ICT를 이겨.</span><span class="s-body"><span class="k">쉽게</span>VAT의 noise는 눈에 안 보일 만큼 작아서 입력 바로 근처만 매끄럽게 만들어. UDA는 회전, 이동, 색, 밝기, 대비처럼 <b>눈에 보이게 크지만 class는 그대로인</b> 변형(RandAugment)을 주고 <span class="math">p(y|x) ≈ p(y|Aug(x))</span>를 요구해. RandAugment는 변형 목록에서 몇 개를 랜덤으로 골라 적용하는 방식이야. (L04 augmentation 표의 그 UDA야. 두 예측의 거리 D로 KL을 써, L04 p.18.)</span><span class="s-body"><span class="k">좋은 augmentation</span>(p.40) label-preserving(변형해도 class 유지), diverse(다양함), realistic(실제로 있을 법한 사진), task-relevant(task에 맞는 변형. 예: 숫자 6을 180도 돌리면 9라서 숫자 인식엔 회전을 조심).</span><span class="s-why">"How we perturb the input matters more than simply adding perturbations."</span></li>
   </ol>
   <!--slot:l06-steps01-->
 
-  <h3>teacher 고치기</h3>
+  <h3>segmentation 3편: teacher–student 다듬기</h3>
   <p>마지막 세 논문은 모두 <b>semi-supervised semantic segmentation</b>이야. segmentation은 사진의 <b>pixel마다</b> class를 맞히는 task라서 label 달기가 특히 비싸. 셋 다 Mean Teacher(EMA teacher + student) 뼈대는 그대로 두고 약점을 하나씩 고쳐 (p.75).</p>
   <ul>
     <li><b>PS-MT</b>: teacher target을 어떻게 더 믿을 만하게 만들까?</li>
@@ -1882,6 +1979,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li>두 teacher가 이 feature로 예측하고, 그 예측을 가장 크게 바꾸는 방향 <span class="math">r<sub>adv</sub></span>를 찾아 (<span class="math">‖r<sub>adv</sub>‖<sub>2</sub> ≤ ε</span>).</li>
         <li>그 perturbation을 <b>student feature</b>에 더하고, student는 그래도 teacher target을 유지하도록 학습해. "Teachers find the perturbation. The student learns from it."</li>
       </ol>
+<!--slot:l06-in13-->
       <p><span class="k">CutMix after prediction</span>(p.51) 섞은 사진을 teacher가 보면 잘린 경계 때문에 예측에 흔적(mixing artifacts)이 생겨. 그래서 teacher는 원본 두 장을 <b>각각 먼저 예측</b>하고 그 예측을 같은 mask로 섞어 target을 만들어. 섞인 사진은 student만 봐 (ICT와 같은 구조).</p>
       <p><span class="k">④ Conf-CE</span>(p.48) MSE는 teacher가 틀려도 덜 끌려가서 안전하지만, 수렴할 즈음 gradient가 작아서 가르치는 힘이 약해 (weak supervision). teacher를 정확하게 만들었으니 pixel마다 가중치 <span class="math">c(ω)</span>(슬라이드엔 정의가 없고, 이름 Conf-CE로 보아 teacher confidence)를 곱한 더 센 CE를 써. "More accurate teachers allow stronger cross-entropy supervision." Mean Teacher(p.28)는 MSE를 골랐는데 여기선 CE로 간다는 게 포인트야. ablation(구성요소를 하나씩 더하거나 빼 보며 각자의 효과를 재는 실험)에서 제일 큰 단일 향상도 Conf-CE였어 (p.52).</p>
     </div></div>
@@ -1896,6 +1994,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>Dual Teacher</b>: student 1 + <b>임시(temporary)</b> teacher 2. 한 번에 한 teacher만 가르쳐. teacher는 EMA라 따로 학습할 필요가 없어서, 두 번째 student 없이 다양성을 얻어 ("Dual Teacher introduces diversity without training a second student").</li>
       </ul>
       <p><span class="k">핵심</span>임시 teacher 2개가 epoch마다 <b>교대</b>. active teacher만 target을 만들고 갱신돼.</p>
+<!--slot:l06-in14-->
       <p><span class="k">어떻게</span>(p.59–61)</p>
       <ol>
         <li>epoch 1은 Teacher 1, epoch 2는 Teacher 2가 active. active teacher는 weak aug 사진으로 pixel 단위 target을 만들고, student는 strong aug 사진으로 그걸 맞혀 (pixel별 CE).</li>
@@ -1911,6 +2010,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
       <p><span class="k">한 줄</span>ViT(Vision Transformer) 구조에 맞춰 input, feature, output 세 군데에 regularization을 걸어.</p>
       <p><span class="k">문제</span>(p.68) 대부분의 consistency 방법은 <b>입력 사진</b>만 흔들어. 그런데 ViT는 사진을 작은 조각(patch)으로 잘라 token처럼 나열해서 처리해. 그래서 self-attention(각 patch가 다른 patch를 얼마나 참고할지 정해 정보를 섞는 연산)과 출력 분포도 regularization을 걸 자리야.</p>
       <p><span class="k">핵심</span>ViT 구조에 맞춘 perturbation 3단: Input = PatchShuffle, Feature = PASA, Output = NCR. 단일 효과는 PatchShuffle이 제일 커 (p.73).</p>
+<!--slot:l06-in15-->
       <ul>
         <li><b>Input: PatchShuffle</b> (p.70). 사진을 L×L patch로 나누고, 이웃 patch를 M×M <b>block</b>으로 묶어. encoder에 넣기 전에 block 순서를 섞고, decoder 전에 feature 순서를 원래대로 되돌려 (segmentation은 pixel 위치가 맞아야 pseudo label과 비교할 수 있어서). block 안의 가까운 patch끼리는 그대로고 전체 배치만 바뀌어. "The student must preserve the same semantics even when the global patch layout changes."</li>
         <li><b>Feature: PASA</b> (Patch-Adaptive Self-Attention, p.71). teacher가 patch마다 confidence(얼마나 확신하나)를 매겨. 확신 높은 patch는 원래 attention 그대로 두고, 확신 낮은 patch에만 attention을 추가로 조절해. 그러면 불확실한 영역끼리 더 강하게 주고받아. "PASA perturbs attention where the teacher is uncertain."</li>
@@ -1964,9 +2064,12 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
 
   <h3>기본기</h3>
   <ol class="steps">
-    <li><span class="s-name">Pseudo-Label &amp; Entropy Minimization</span><span class="s-src">Lee, ICML 2013 · p.4–9</span><small class="m-full"><span class="pt">Pseudo-Label: The Simple and Efficient Semi-Supervised Learning Method for Deep Neural Networks (ICML 2013 Workshop)</span><span class="pt">Semi-supervised Learning by Entropy Minimization (NIPS 2004)</span></small><span class="s-body">confident한 예측을 hard label로 바꿔서 labeled와 같이 학습. pseudo labeling = entropy regularization의 <b>hard-label 근사</b>.</span><span class="s-body"><span class="k">entropy</span><a href="#t-entropy"><span class="math">H(p) = −Σ<sub>c</sub> p<sub>c</sub> log p<sub>c</sub></span></a> (p<sub>c</sub> = class c의 예측 확률). 확률이 고르게 퍼질수록(애매) 크고, 한 class에 몰릴수록(확신) 0에 가까워. 예: 3-class 균등이면 H = ln 3 ≈ 1.09로 최대, Dog 하나에 거의 몰리면 0.09 (p.5). 식에 정답 y가 없어서 unlabeled에도 계산돼.</span><span class="s-body"><span class="k">왜 돼?</span>entropy regularization은 unlabeled 예측의 entropy를 줄이는 항이야. boundary 근처 점은 두 class 확률이 비슷해서 entropy가 커. 모든 점의 entropy를 낮추려면 boundary 근처에 점이 없어야 하니까 boundary가 low-density로 밀려나 (p.6). 움직이는 건 데이터가 아니라 boundary야.</span><span class="s-body"><span class="k">연결</span>충분히 confident하면 [0.96, 0.03, 0.01](p.7 예시, 첫 칸이 1등 class)을 <span class="math">y* = argmax p(y|x)</span>로 바꿔 (p.7). one-hot target으로 <span class="math">−log p<sub>y*</sub></span>를 줄이면 p<sub>y*</sub> → 1이 돼서 entropy도 같이 줄어. entropy regularization은 <b>soft</b> 분포 전체에, pseudo labeling은 argmax로 굳힌 <b>hard</b> target에 거는 거라 "hard-label 근사"야.</span><span class="s-why">entropy를 줄이면 boundary가 low-density로 이동. MNIST에서 pseudo label을 쓰면 class cluster가 더 잘 갈라져 (p.8–9).</span></li>
-    <li><span class="s-name">Label Propagation</span><span class="s-src">Iscen, CVPR 2019 · p.10–14 · code p.11</span><small class="m-full"><span class="pt">Label Propagation for Deep Semi-supervised Learning</span></small><span class="s-body">feature 공간에 kNN graph를 만들고 labeled에서 unlabeled로 label을 퍼뜨려(diffusion). 자기 softmax가 아니라 <b>이웃 관계</b>에서 label이 나와. 쉽게 말해 비슷한 샘플끼리 선으로 잇고 label을 물감 번지듯 퍼뜨리는 거야. Pseudo-Label은 샘플을 <b>하나씩 따로</b> 보지만, 이건 주변 샘플을 봐 (p.13).</span><span class="s-body"><span class="k">어떻게</span>(1) labeled만으로 학습해서 쓸 만한 feature extractor <span class="math">φ<sub>θ</sub></span>를 만들어.<br>(2) 모든 샘플의 feature를 뽑고, 각 점을 가장 가까운 k개 이웃(kNN)과만 이어 affinity(유사도) 행렬 A를 만들어. 가까울수록 값이 크고, <span class="math">W = A + A<sup>⊤</sup></span>로 대칭화한 뒤 정규화해서 𝒲를 얻어.<br>(3) diffusion <span class="math">(I − α𝒲)Z = Y</span>를 CG(conjugate gradient)로 풀어. Y = labeled 행만 one-hot, unlabeled 행은 0인 시작 label 표. Z = 퍼진 뒤 각 샘플의 class별 점수. α가 클수록 멀리 퍼져.<br>(4) Z의 argmax를 pseudo label로, certainty <span class="math">ω<sub>i</sub></span>를 weight로 써서 확신 낮은 label은 약하게 반영. 전체 데이터로 1 epoch 학습 → 좋아진 feature로 graph를 다시 만들어 반복 (p.10–11).</span><span class="s-why">confidence-based → similarity-based. 대신 graph 비용이 크고 feature 질에 의존 (feature가 나쁘면 틀린 label도 graph 타고 퍼져, p.14).</span></li>
-    <li><span class="s-name">Self-training · Noisy Student</span><span class="s-src">Xie, CVPR 2020 · p.15–19</span><small class="m-full"><span class="pt">Self-training with Noisy Student improves ImageNet classification</span></small><span class="s-body"><span class="k">용어</span><a href="#t-student-teacher">teacher</a> = pseudo label을 만들어 주는 모델, student = 그걸 보고 배우는 모델. teacher는 이전 모델이나 EMA 모델인 경우가 많아 (p.15). self-training은 labeled로 학습 → unlabeled 예측 → high-confidence 예측을 labeled set에 추가 → 반복이고, student가 다음 round의 teacher가 돼 (p.16).</span><span class="s-body"><span class="k">Noisy Student</span>teacher가 pseudo label → student 학습 → student가 다음 teacher, 반복. student는 teacher와 같거나 더 크고, <b>student에만</b> noise (RandAugment = 입력을 무작위로 세게 변형, Dropout = 뉴런 일부 끄기, Stochastic Depth = layer 일부 건너뛰기). teacher는 noise 없이 깨끗하게 예측해.</span><span class="s-body"><span class="k">왜 돼?</span>noise가 없으면 student는 teacher를 그대로 베끼고 끝나. 흔들린 조건에서도 같은 답을 내야 하니까 더 robust한 boundary를 배워서 teacher보다 나아져 (p.17). 보통의 knowledge <a href="#t-distillation">distillation</a>(큰 teacher → 작은 student로 압축)과 크기 방향이 반대야. p.19: larger student &gt; teacher, <b>soft</b> pseudo label &gt; hard, strong augmentation이 도움.</span></li>
+    <li><span class="s-name">Pseudo-Label &amp; Entropy Minimization</span><span class="s-src">Lee, ICML 2013 · p.4–9</span><small class="m-full"><span class="pt">Pseudo-Label: The Simple and Efficient Semi-Supervised Learning Method for Deep Neural Networks (ICML 2013 Workshop)</span><span class="pt">Semi-supervised Learning by Entropy Minimization (NIPS 2004)</span></small><span class="s-body">confident한 예측을 hard label로 바꿔서 labeled와 같이 학습. pseudo labeling = entropy regularization의 <b>hard-label 근사</b>.</span><span class="s-body"><span class="k">entropy</span><a href="#t-entropy"><span class="math">H(p) = −Σ<sub>c</sub> p<sub>c</sub> log p<sub>c</sub></span></a> (p<sub>c</sub> = class c의 예측 확률). 확률이 고르게 퍼질수록(애매) 크고, 한 class에 몰릴수록(확신) 0에 가까워. 예: 3-class 균등이면 H = ln 3 ≈ 1.09로 최대, Dog 하나에 거의 몰리면 0.09 (p.5). 식에 정답 y가 없어서 unlabeled에도 계산돼.</span><span class="s-body"><span class="k">왜 돼?</span>entropy regularization은 unlabeled 예측의 entropy를 줄이는 항이야. boundary 근처 점은 두 class 확률이 비슷해서 entropy가 커. 모든 점의 entropy를 낮추려면 boundary 근처에 점이 없어야 하니까 boundary가 low-density로 밀려나 (p.6). 움직이는 건 데이터가 아니라 boundary야.</span><span class="s-body"><span class="k">연결</span>충분히 confident하면 [0.96, 0.03, 0.01](p.7 예시, 첫 칸이 1등 class)을 <span class="math">y* = argmax p(y|x)</span>로 바꿔 (p.7). one-hot target으로 <span class="math">−log p<sub>y*</sub></span>를 줄이면 p<sub>y*</sub> → 1이 돼서 entropy도 같이 줄어. entropy regularization은 <b>soft</b> 분포 전체에, pseudo labeling은 argmax로 굳힌 <b>hard</b> target에 거는 거라 "hard-label 근사"야.</span><span class="s-why">entropy를 줄이면 boundary가 low-density로 이동. MNIST에서 pseudo label을 쓰면 class cluster가 더 잘 갈라져 (p.8–9).</span>
+<!--slot:l07-in01--></li>
+    <li><span class="s-name">Label Propagation</span><span class="s-src">Iscen, CVPR 2019 · p.10–14 · code p.11</span><small class="m-full"><span class="pt">Label Propagation for Deep Semi-supervised Learning</span></small><span class="s-body">feature 공간에 kNN graph를 만들고 labeled에서 unlabeled로 label을 퍼뜨려(diffusion). 자기 softmax가 아니라 <b>이웃 관계</b>에서 label이 나와. 쉽게 말해 비슷한 샘플끼리 선으로 잇고 label을 물감 번지듯 퍼뜨리는 거야. Pseudo-Label은 샘플을 <b>하나씩 따로</b> 보지만, 이건 주변 샘플을 봐 (p.13).</span><span class="s-body"><span class="k">어떻게</span>(1) labeled만으로 학습해서 쓸 만한 feature extractor <span class="math">φ<sub>θ</sub></span>를 만들어.<br>(2) 모든 샘플의 feature를 뽑고, 각 점을 가장 가까운 k개 이웃(kNN)과만 이어 affinity(유사도) 행렬 A를 만들어. 가까울수록 값이 크고, <span class="math">W = A + A<sup>⊤</sup></span>로 대칭화한 뒤 정규화해서 𝒲를 얻어.<br>(3) diffusion <span class="math">(I − α𝒲)Z = Y</span>를 CG(conjugate gradient)로 풀어. Y = labeled 행만 one-hot, unlabeled 행은 0인 시작 label 표. Z = 퍼진 뒤 각 샘플의 class별 점수. α가 클수록 멀리 퍼져.<br>(4) Z의 argmax를 pseudo label로, certainty <span class="math">ω<sub>i</sub></span>를 weight로 써서 확신 낮은 label은 약하게 반영. 전체 데이터로 1 epoch 학습 → 좋아진 feature로 graph를 다시 만들어 반복 (p.10–11).</span><span class="s-why">confidence-based → similarity-based. 대신 graph 비용이 크고 feature 질에 의존 (feature가 나쁘면 틀린 label도 graph 타고 퍼져, p.14).</span>
+<!--slot:l07-in02--></li>
+    <li><span class="s-name">Self-training · Noisy Student</span><span class="s-src">Xie, CVPR 2020 · p.15–19</span><small class="m-full"><span class="pt">Self-training with Noisy Student improves ImageNet classification</span></small><span class="s-body"><span class="k">용어</span><a href="#t-student-teacher">teacher</a> = pseudo label을 만들어 주는 모델, student = 그걸 보고 배우는 모델. teacher는 이전 모델이나 EMA 모델인 경우가 많아 (p.15). self-training은 labeled로 학습 → unlabeled 예측 → high-confidence 예측을 labeled set에 추가 → 반복이고, student가 다음 round의 teacher가 돼 (p.16).</span><span class="s-body"><span class="k">Noisy Student</span>teacher가 pseudo label → student 학습 → student가 다음 teacher, 반복. student는 teacher와 같거나 더 크고, <b>student에만</b> noise (RandAugment = 입력을 무작위로 세게 변형, Dropout = 뉴런 일부 끄기, Stochastic Depth = layer 일부 건너뛰기). teacher는 noise 없이 깨끗하게 예측해.</span><span class="s-body"><span class="k">왜 돼?</span>noise가 없으면 student는 teacher를 그대로 베끼고 끝나. 흔들린 조건에서도 같은 답을 내야 하니까 더 robust한 boundary를 배워서 teacher보다 나아져 (p.17). 보통의 knowledge <a href="#t-distillation">distillation</a>(큰 teacher → 작은 student로 압축)과 크기 방향이 반대야. p.19: larger student &gt; teacher, <b>soft</b> pseudo label &gt; hard, strong augmentation이 도움.</span>
+<!--slot:l07-in03--></li>
   </ol>
   <!--slot:l07-steps01-->
 
@@ -1991,11 +2094,12 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
       </ol>
       <p><span class="k">왜 돼?</span>θ<sub>S</sub><sup>PL</sup>이 θ<sub>T</sub>의 함수라 student의 labeled loss에서 teacher까지 gradient가 흘러. 채점 기준이 자기 pseudo label이 아니라 ground truth라서 "자기 label로 자기 평가" 순환이 끊겨.</p>
       <p><span class="k">차이</span>Arazo는 student를 regularize, Meta PL은 student의 feedback으로 teacher를 고쳐.</p>
+<!--slot:l07-in04-->
     </div></div>
     <!--slot:l07-m02-meta-pseudo-labels-->
   </div>
 
-  <h3>둘 다 쓰기: MixMatch → ReMixMatch → FixMatch</h3>
+  <h3>둘 다 쓰기: MixMatch → ReMixMatch → FixMatch · DivideMix</h3>
   <p>pseudo labeling + consistency를 합치는 거야 (p.28–29). 한 view로 target을 만들고 다른 view가 그걸 맞히게. view = 같은 이미지에 <a href="#t-augmentation">augmentation</a>(자르기, 뒤집기, 색 바꾸기)을 다르게 준 버전. 예측을 다듬어 target을 만드는 부분이 pseudo labeling(H3 low-density: boundary는 빈 곳에), 다른 view가 같은 답을 내게 하는 부분이 consistency(H1 smoothness: 살짝 바뀐 입력엔 같은 예측)야.</p>
   <div class="methods">
     <div class="m"><div><span class="m-name">MixMatch</span><span class="m-src">Berthelot, NeurIPS 2019 · p.30–35</span><small class="m-full"><span class="pt">MixMatch: A Holistic Approach to Semi-Supervised Learning</span></small></div><div class="m-body">
@@ -2007,6 +2111,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>Loss</b>: labeled엔 label과 예측 사이 loss D(슬라이드엔 기호만, 논문에선 cross-entropy), unlabeled엔 guessed label과 예측의 <b>L2</b>(squared error) (p.33).</li>
       </ol>
       <p><span class="k">예시로 보면</span>p = (0.6, 0.4), T = 0.5면 1/T = 2니까 각 값을 제곱해서 (0.36, 0.16), 합으로 나누면 (0.69, 0.31). T = 1이면 그대로, T → 0이면 one-hot에 가까워져. 뾰족해져도 여전히 soft label이고 버리는 샘플은 없어.</p>
+<!--slot:l07-in05-->
       <p><span class="k">시험</span>ablation(부품을 하나씩 빼 보는 실험)에서 가장 크게 무너지는 건 MixUp 제거야 (p.35).</p>
     </div></div>
     <div class="m"><div><span class="m-name">ReMixMatch</span><span class="m-src">2020 · p.36–41</span><small class="m-full"><span class="pt">ReMixMatch: Semi-Supervised Learning with Distribution Alignment and Augmentation Anchoring (ICLR 2020)</span></small></div><div class="m-body">
@@ -2027,6 +2132,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
       </ol>
       <p><span class="k">수식</span><span class="math">L<sub>u</sub> = (1/μB) Σ<sub>b</sub></span> <span class="math">1[max(ŷ<sub>b</sub>) ≥ τ]</span> <span class="math">· CE(ŷ<sub>b</sub>, p<sub>θ</sub>(y | A<sub>strong</sub>(u<sub>b</sub>)))</span> (p.46). <span class="math">1[·]</span>는 조건이 맞으면 1, 아니면 0인 <b>confidence mask</b>. 슬라이드 식의 max(ŷ<sub>b</sub>)는 one-hot으로 바꾸기 전 weak 예측 q<sub>b</sub>의 max, 즉 confidence야 (용어집의 q와 같은 것). <a href="#t-threshold">τ</a>는 confidence threshold고 temperature가 아니야 (학습 내내 0.95 고정, p.67). μB는 unlabeled batch 크기야 (B = labeled batch 크기, μ = unlabeled가 그 몇 배인지. 맨 위 목표식의 가중치 μ(t)와는 <b>다른 기호</b>). 그래서 통과 못 한 샘플도 분모에 들어가.</p>
       <p><span class="k">예시로 보면</span>unlabeled 4장의 weak confidence가 0.98, 0.70, 0.96, 0.40이고 τ = 0.95면 1번, 3번만 strong view에서 CE를 받아. 2번, 4번은 loss 0이라 <span class="math">L<sub>u</sub> = (CE<sub>1</sub> + CE<sub>3</sub>) / 4</span>야. 분모는 통과한 2가 아니라 μB = 4.</p>
+<!--slot:l07-in06-->
       <p><span class="k">왜 돼?</span>weak 예측은 정확해서 믿을 만한 target, strong view는 어려워서 맞히려면 robust해져야 해. threshold가 애매한 예측을 걸러서 틀린 label을 줄여. 별도 teacher나 EMA 없이 <b>같은 모델</b>이 weak에서 label을 만들고 strong에서 배워.</p>
     </div></div>
   </div>
@@ -2043,6 +2149,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
   </div>
   <!--slot:l07-tbl01-->
   <p class="muted">FixMatch 한 줄: "Predict on an easy example, learn from a difficult one." threshold가 sharpening보다 효과적이야. 애매한 예측을 걸러내고 나면 sharpening의 추가 이득은 거의 없어 (p.48).</p>
+<!--slot:l07-in07-->
 
   <div class="methods">
     <div class="m"><div><span class="m-name">DivideMix</span><span class="m-src">Li · p.49–55 · code p.54</span><small class="m-full"><span class="pt">DivideMix: Learning with Noisy Labels as Semi-supervised Learning (ICLR 2020)</span></small></div><div class="m-body">
@@ -2055,13 +2162,20 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
         <li><b>MixMatch</b>: clean 샘플은 <b>co-refinement</b> <span class="math">ȳ<sub>b</sub> = w<sub>b</sub>y<sub>b</sub> + (1−w<sub>b</sub>)p<sub>b</sub></span> (원래 label을 상대 network가 준 clean 확률 w<sub>b</sub>만큼만 믿고 나머지는 자기 예측 p<sub>b</sub>로), noisy 샘플은 <b>co-guessing</b> (두 network 예측 평균). 둘 다 sharpen (p.54, code line 17–18 / line 20).</li>
       </ol>
       <p><span class="k">왜 둘?</span>자기 판단으로 자기를 학습하면 초기 오판이 강화돼. 두 network가 다른 관점에서 판단하니까 서로의 실수를 걸러줘 (p.51). A, B는 대등한 동료지 EMA teacher–student(Mean Teacher)가 아니야.</p>
+<!--slot:l07-in08-->
       <p><span class="k">차이</span>새 학습 알고리즘이 아니라 MixMatch용 labeled/unlabeled를 만드는 방법 + co-refinement + co-guessing.</p>
+<!--slot:l07-in09-->
     </div></div>
     <!--slot:l07-m03-dividemix-->
+  </div>
+
+  <h3>Pre-training과 같이 쓰기 (p.56–63)</h3>
+  <div class="methods">
     <div class="m"><div><span class="m-name">Pre-training + SSL</span><span class="m-src">Zoph · SimCLRv2, NeurIPS 2020 · p.56–63</span><small class="m-full"><span class="pt">Rethinking Pre-training and Self-training</span><span class="pt">Big Self-Supervised Models are Strong Semi-Supervised Learners</span></small></div><div class="m-body">
       <p><span class="k">용어</span>pre-training = 본 학습 전에 큰 데이터(label 없이도)로 먼저 학습해 두기. <a href="#t-fine-tuning">fine-tuning</a> = 그걸 적은 labeled로 목표 task에 맞게 더 학습하기. pre-training과 SSL(여기 SSL = semi-supervised learning: labeled 조금 + unlabeled 많이를 같이 학습)은 서로 대신하는 관계가 아니라 같이 써 (p.56: "SSL is not a replacement for pre-training"). p.56 정리: self-supervised pre-training + semi-supervised fine-tuning.</p>
       <p><span class="k">Zoph</span>pre-training의 이득은 augmentation이 세지고 label이 많아질수록 줄어 (label이 <b>부족할 때</b> 가장 도움). self-training은 그래도 효과가 있어. 둘은 <b>보완 관계</b>. 대신 self-training은 계산이 비싸 (p.57–58).</p>
       <p><span class="k">SimCLRv2</span>(1) self-supervised pre-training (큰 모델, task와 무관한 범용 feature) → (2) supervised fine-tuning (적은 label로 task에 맞추기) → (3) unlabeled로 self-training / distillation (soft label): fine-tuned 모델이 teacher, task-specific student(더 작아도 돼)가 그 예측 분포를 따라 해 (p.59–61).</p>
+<!--slot:l07-in10-->
       <p><span class="k">수식</span><span class="math">L<sub>distill</sub> = −(1−α) Σ log p<sub>θ<sub>S</sub></sub>(y<sub>i</sub>|x<sub>i</sub>)</span> <span class="math">− α Σ<sub>u</sub> Σ<sub>c</sub> p<sub>θ<sub>T</sub></sub>(c|u; T) log p<sub>θ<sub>S</sub></sub>(c|u; T)</span> (p.61). 앞은 labeled CE, 뒤는 unlabeled에서 teacher(θ<sub>T</sub>, 슬라이드 기호 θ̂<sub>T</sub>)의 <b>soft</b> 분포를 target으로 한 student(θ<sub>S</sub>)의 CE. α = 두 항 비중, T = temperature (아래첨자 T = teacher, 세미콜론 뒤 T = temperature. 같은 글자라 헷갈리기 쉬워).</p>
       <p><span class="k">차이</span>FixMatch는 hard label + threshold, SimCLRv2 self-training은 soft label + temperature (threshold 없음).</p>
     </div></div>
@@ -2071,9 +2185,13 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
   <h3>threshold 3부작 (p.105)</h3>
   <p>FixMatch 이후 남은 질문 셋: threshold는 고정이어야 하나? 버린 샘플은 쓸모없나? 통과한 샘플은 다 같은 perturbation을 받아야 하나? 셋 다 FixMatch 구조(weak로 pseudo label, strong에 학습) 위에서 답해.</p>
   <ol class="steps">
-    <li><span class="s-name">FreeMatch</span><span class="s-src">Wang · p.64–75</span><small class="m-full"><span class="pt">FreeMatch: Self-adaptive Thresholding for Semi-supervised Learning (ICLR 2023)</span></small><span class="s-body">FixMatch의 고정 τ 대신 <b>self-adaptive threshold</b>(SAT, Self-Adaptive Thresholding): 모델이 자기 학습 상태를 보고 threshold를 정해. 여기에 SAF(Self-Adaptive Fairness)를 더해.</span><span class="s-body"><span class="k">문제</span>고정 τ는 학습 내내, 모든 class에 같아. 초반엔 confidence가 낮아서 높은 τ가 거의 다 버리고, class마다 배우는 속도도 달라 (p.66–67).</span><span class="s-body"><span class="k">global</span><span class="math">τ<sub>0</sub> = 1/C</span>, <span class="math">τ<sub>t</sub> = λτ<sub>t−1</sub></span> <span class="math">+ (1−λ)·(1/μB) Σ<sub>b</sub> max(q<sub>b</sub>)</span> (p.69). q<sub>b</sub> = weak view 예측, C = class 수. batch 평균 confidence를 <a href="#t-ema">EMA</a>(이전 값 λ + 새 값 1−λ로 섞어 부드럽게 따라가기)로 누적해. 1/C는 아무것도 모를 때(균등 예측)의 confidence라서 처음엔 거의 다 통과하고, 모델이 자신감이 붙으면 같이 올라가. weight EMA가 아니라 <b>threshold 값</b>의 EMA야.</span><span class="s-body"><span class="k">class별</span><span class="math">τ<sub>t</sub>(c) = MaxNorm(p̃<sub>t</sub>(c)) · τ<sub>t</sub></span> (p.70). p̃<sub>t</sub>(c) = class c 예측 확률의 EMA(그 class를 얼마나 배웠나), MaxNorm = 최댓값으로 나눠 최고 class를 1로. 쉬운 class는 τ<sub>t</sub>에 가깝게(높게), 어려운 class는 더 낮게 받아. 샘플은 <b>자기가 예측한 class</b>의 threshold로 판정해 (p.71).</span><span class="s-body"><span class="k">SAF</span>label이 아주 적으면 초반 예측이 몇 class에 쏠리고, 그 class가 pseudo label을 더 받아 더 강해져 (p.72). Self-Adaptive Fairness가 이 쏠림을 막아.</span><span class="s-why">어떤 pseudo label을 고를까?</span></li>
-    <li><span class="s-name">AllMatch</span><span class="s-src">Wu, IJCAI 2024 · p.76–91</span><small class="m-full"><span class="pt">AllMatch: Exploiting All Unlabeled Data for Semi-Supervised Learning</span></small><span class="s-body">버리던 low-confidence 샘플까지 <b>모든</b> 샘플을 쓰는 방법. class별 threshold는 <b>classifier weight norm</b>으로 정하고(CAT), BCC로 후보 class vs negative class 이진 구분을 strong view에도 강제해.</span><span class="s-body"><span class="k">문제</span>threshold 미달 샘플은 학습 신호가 0이야. 그런데 버린 샘플을 모아 보면 1등(top-1) 예측의 정답률은 낮아도, top-5 정확도는 거의 100%야 (p.78).</span><span class="s-body"><span class="k">CAT</span>(Class-Specific Adaptive Threshold) global은 FreeMatch와 같은 EMA. class별 보정은 <span class="math">τ<sub>t</sub>(c) = τ<sub>t</sub> · ‖W<sub>c</sub>‖ / max<sub>c</sub>‖W<sub>c</sub>‖</span> (p.82). W<sub>c</sub> = 마지막 분류층의 class c weight. weight norm이 크면 <a href="#t-logit">logit</a>이 커지고, confident한 샘플이 많은 class일수록 norm이 커서 학습 상태 지표가 돼. 어려운 class는 낮은 threshold.</span><span class="s-body"><span class="k">BCC</span>(Binary Classification Consistency) 상위 k<sub>i</sub>개 class를 candidate(후보), 나머지를 negative로 나눠서 b = [candidate 확률 합, negative 확률 합]인 이진 예측으로 바꿔. candidate는 <b>weak view</b>에서 정하고 strong view에도 <b>같은 분할</b>을 써서 두 b가 같아지게 학습 (p.83, 86). indicator가 없어서 <b>모든</b> 샘플에 걸려. k<sub>i</sub>는 confident하면 1, 애매할수록 크고, K(candidate 수 상한. MixMatch의 K와 다른 기호)를 넘지 않아 (전부 candidate면 정보 0, p.85).</span><span class="s-body"><span class="k">예시로 보면</span>weak 예측 [cat 0.40, dog 0.35, fox 0.15, 나머지 0.10]은 top-1이 미달이야. candidate가 {cat, dog, fox}면 b = [0.90, 0.10]이고, strong view도 이 셋의 합이 높아야 해. "정답은 몰라도 car나 ship은 아니다"를 배우는 거야. 애매한 샘플은 coarse but reliable supervision (p.86–87).</span><span class="s-why">안 고른 샘플은 어떻게 할까?</span></li>
-    <li><span class="s-name">IFMatch</span><span class="s-src">Wu &amp; Cui, ECCV 2024 · p.92–104</span><small class="m-full"><span class="pt">Image-Feature Weak-to-Strong Consistency: An Enhanced Paradigm for Semi-Supervised Learning</span></small><span class="s-body">image perturbation에 <b>feature perturbation</b>을 더하고, strong aug 뒤에도 confident한 쉬운 샘플엔 추가 perturbation (CBI, Confidence-Based Identification). plug-in.</span><span class="s-body"><span class="k">문제</span>threshold를 통과한 샘플은 다 같은 strong aug를 받는데, 난이도는 같지 않아. naive(쉬운) 샘플은 strong aug 뒤에도 잘 맞혀서 loss가 거의 0이라 배울 게 없고, challenging 샘플은 이미 어려워서 더 흔들면 쓸모 있는 정보가 망가질 수 있어. naive가 너무 많은 게 문제 (p.96).</span><span class="s-body"><span class="k">핵심</span>feature perturbation = 이미지 대신 network 중간 feature map을 흔드는 것. image perturbation을 <b>대체하지 않고 추가</b> (p.97). residual block <b>뒤</b>에 넣으면 strong, residual branch <b>안</b>에 넣으면 identity 연결이 완화해서 weak (p.98).</span><span class="s-body"><span class="k">구조</span>teacher branch(별도 network가 아니라 같은 모델·같은 parameter에 weak image를 넣은 갈래. FixMatch의 weak 쪽과 같아)가 pseudo label을 만들고(stop-gradient), 두 student branch가 같은 pseudo label을 맞혀 (p.100).<br><b>Branch I</b> = <b>weak image + strong feature</b>. 틀린 label이 특히 해로워서 높은 고정 threshold (p.103).<br><b>Branch II</b> = <b>strong image + 조건부 weak feature</b>. 기존 image-level consistency, base 방법(FlexMatch, SoftMatch, FreeMatch)의 dynamic threshold.</span><span class="s-body"><span class="k">CBI</span>strong image 뒤에도 pseudo label class 확률이 높으면 아직 "쉬움" → weak feature perturbation <b>추가</b>, 낮아졌으면 "어려움" → <b>안 줌</b> (p.102). strong image + strong feature를 한 branch에 다 넣으면 오히려 떨어져 (p.101). 새 pseudo label 생성법이 아니라 다른 thresholding 방법에 얹는 plug-in (p.104).</span><span class="s-why">모든 pseudo label이 같은 perturbation을 받아야 할까?</span></li>
+    <li><span class="s-name">FreeMatch</span><span class="s-src">Wang · p.64–75</span><small class="m-full"><span class="pt">FreeMatch: Self-adaptive Thresholding for Semi-supervised Learning (ICLR 2023)</span></small><span class="s-body">FixMatch의 고정 τ 대신 <b>self-adaptive threshold</b>(SAT, Self-Adaptive Thresholding): 모델이 자기 학습 상태를 보고 threshold를 정해. 여기에 SAF(Self-Adaptive Fairness)를 더해.</span><span class="s-body"><span class="k">문제</span>고정 τ는 학습 내내, 모든 class에 같아. 초반엔 confidence가 낮아서 높은 τ가 거의 다 버리고, class마다 배우는 속도도 달라 (p.66–67).</span><span class="s-body"><span class="k">global</span><span class="math">τ<sub>0</sub> = 1/C</span>, <span class="math">τ<sub>t</sub> = λτ<sub>t−1</sub></span> <span class="math">+ (1−λ)·(1/μB) Σ<sub>b</sub> max(q<sub>b</sub>)</span> (p.69). q<sub>b</sub> = weak view 예측, C = class 수. batch 평균 confidence를 <a href="#t-ema">EMA</a>(이전 값 λ + 새 값 1−λ로 섞어 부드럽게 따라가기)로 누적해. 1/C는 아무것도 모를 때(균등 예측)의 confidence라서 처음엔 거의 다 통과하고, 모델이 자신감이 붙으면 같이 올라가. weight EMA가 아니라 <b>threshold 값</b>의 EMA야.</span><span class="s-body"><span class="k">class별</span><span class="math">τ<sub>t</sub>(c) = MaxNorm(p̃<sub>t</sub>(c)) · τ<sub>t</sub></span> (p.70). p̃<sub>t</sub>(c) = class c 예측 확률의 EMA(그 class를 얼마나 배웠나), MaxNorm = 최댓값으로 나눠 최고 class를 1로. 쉬운 class는 τ<sub>t</sub>에 가깝게(높게), 어려운 class는 더 낮게 받아. 샘플은 <b>자기가 예측한 class</b>의 threshold로 판정해 (p.71).</span><span class="s-body"><span class="k">SAF</span>label이 아주 적으면 초반 예측이 몇 class에 쏠리고, 그 class가 pseudo label을 더 받아 더 강해져 (p.72). Self-Adaptive Fairness가 이 쏠림을 막아.</span><span class="s-why">어떤 pseudo label을 고를까?</span>
+<!--slot:l07-in11-->
+<!--slot:l07-in12--></li>
+    <li><span class="s-name">AllMatch</span><span class="s-src">Wu, IJCAI 2024 · p.76–91</span><small class="m-full"><span class="pt">AllMatch: Exploiting All Unlabeled Data for Semi-Supervised Learning</span></small><span class="s-body">버리던 low-confidence 샘플까지 <b>모든</b> 샘플을 쓰는 방법. class별 threshold는 <b>classifier weight norm</b>으로 정하고(CAT), BCC로 후보 class vs negative class 이진 구분을 strong view에도 강제해.</span><span class="s-body"><span class="k">문제</span>threshold 미달 샘플은 학습 신호가 0이야. 그런데 버린 샘플을 모아 보면 1등(top-1) 예측의 정답률은 낮아도, top-5 정확도는 거의 100%야 (p.78).</span><span class="s-body"><span class="k">CAT</span>(Class-Specific Adaptive Threshold) global은 FreeMatch와 같은 EMA. class별 보정은 <span class="math">τ<sub>t</sub>(c) = τ<sub>t</sub> · ‖W<sub>c</sub>‖ / max<sub>c</sub>‖W<sub>c</sub>‖</span> (p.82). W<sub>c</sub> = 마지막 분류층의 class c weight. weight norm이 크면 <a href="#t-logit">logit</a>이 커지고, confident한 샘플이 많은 class일수록 norm이 커서 학습 상태 지표가 돼. 어려운 class는 낮은 threshold.</span><span class="s-body"><span class="k">BCC</span>(Binary Classification Consistency) 상위 k<sub>i</sub>개 class를 candidate(후보), 나머지를 negative로 나눠서 b = [candidate 확률 합, negative 확률 합]인 이진 예측으로 바꿔. candidate는 <b>weak view</b>에서 정하고 strong view에도 <b>같은 분할</b>을 써서 두 b가 같아지게 학습 (p.83, 86). indicator가 없어서 <b>모든</b> 샘플에 걸려. k<sub>i</sub>는 confident하면 1, 애매할수록 크고, K(candidate 수 상한. MixMatch의 K와 다른 기호)를 넘지 않아 (전부 candidate면 정보 0, p.85).</span><span class="s-body"><span class="k">예시로 보면</span>weak 예측 [cat 0.40, dog 0.35, fox 0.15, 나머지 0.10]은 top-1이 미달이야. candidate가 {cat, dog, fox}면 b = [0.90, 0.10]이고, strong view도 이 셋의 합이 높아야 해. "정답은 몰라도 car나 ship은 아니다"를 배우는 거야. 애매한 샘플은 coarse but reliable supervision (p.86–87).</span><span class="s-why">안 고른 샘플은 어떻게 할까?</span>
+<!--slot:l07-in13--></li>
+    <li><span class="s-name">IFMatch</span><span class="s-src">Wu &amp; Cui, ECCV 2024 · p.92–104</span><small class="m-full"><span class="pt">Image-Feature Weak-to-Strong Consistency: An Enhanced Paradigm for Semi-Supervised Learning</span></small><span class="s-body">image perturbation에 <b>feature perturbation</b>을 더하고, strong aug 뒤에도 confident한 쉬운 샘플엔 추가 perturbation (CBI, Confidence-Based Identification). plug-in.</span><span class="s-body"><span class="k">문제</span>threshold를 통과한 샘플은 다 같은 strong aug를 받는데, 난이도는 같지 않아. naive(쉬운) 샘플은 strong aug 뒤에도 잘 맞혀서 loss가 거의 0이라 배울 게 없고, challenging 샘플은 이미 어려워서 더 흔들면 쓸모 있는 정보가 망가질 수 있어. naive가 너무 많은 게 문제 (p.96).</span><span class="s-body"><span class="k">핵심</span>feature perturbation = 이미지 대신 network 중간 feature map을 흔드는 것. image perturbation을 <b>대체하지 않고 추가</b> (p.97). residual block <b>뒤</b>에 넣으면 strong, residual branch <b>안</b>에 넣으면 identity 연결이 완화해서 weak (p.98).</span><span class="s-body"><span class="k">구조</span>teacher branch(별도 network가 아니라 같은 모델·같은 parameter에 weak image를 넣은 갈래. FixMatch의 weak 쪽과 같아)가 pseudo label을 만들고(stop-gradient), 두 student branch가 같은 pseudo label을 맞혀 (p.100).<br><b>Branch I</b> = <b>weak image + strong feature</b>. 틀린 label이 특히 해로워서 높은 고정 threshold (p.103).<br><b>Branch II</b> = <b>strong image + 조건부 weak feature</b>. 기존 image-level consistency, base 방법(FlexMatch, SoftMatch, FreeMatch)의 dynamic threshold.</span><span class="s-body"><span class="k">CBI</span>strong image 뒤에도 pseudo label class 확률이 높으면 아직 "쉬움" → weak feature perturbation <b>추가</b>, 낮아졌으면 "어려움" → <b>안 줌</b> (p.102). strong image + strong feature를 한 branch에 다 넣으면 오히려 떨어져 (p.101). 새 pseudo label 생성법이 아니라 다른 thresholding 방법에 얹는 plug-in (p.104).</span><span class="s-why">모든 pseudo label이 같은 perturbation을 받아야 할까?</span>
+<!--slot:l07-in14--></li>
   </ol>
   <!--slot:l07-steps02-->
   <!--slot:l07-end-->
@@ -2126,6 +2244,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
     <li><span class="math">m</span>: 0과 1 사이 계수. 1에 가까울수록 <b>느리고 안정적</b>이야.</li>
   </ul>
   <div class="note easy"><span class="tag">예시로 보면</span><p>m = 0.99면 매 step 새 값을 1%만 섞어. 그래서 slow는 대략 최근 100 step(= 1/(1−m))의 평균처럼 움직여. m = 0.999면 약 1000 step이야. (설명용 숫자야.)</p></div>
+<!--slot:patterns-in01-->
   <p>표에서 각 칸 두 번째 줄은 기호 풀이와 "왜 EMA를 쓰나"야. step(= iteration)은 mini-batch 하나로 update 한 번, epoch은 데이터 전체 한 바퀴야.</p>
   <div class="tbl">
     <table>
@@ -2176,6 +2295,7 @@ ol.check li::marker{font:600 .8rem var(--f-mono);color:var(--accent)}
     </table>
   </div>
   <!--slot:patterns-tbl02-->
+<!--slot:patterns-in02-->
   <p><b>양방향(symmetric)</b>은 "view 1로 view 2 맞히기"와 "view 2로 view 1 맞히기"를 둘 다 계산해서 더하는(평균 내는) 거야 (CLIP은 image → text, text → image): SimCLR, CLIP, DINO (<code>H(t1,s2)/2 + H(t2,s1)/2</code>), BYOL, SwAV (<span class="math">ℓ(z<sub>t</sub>, q<sub>s</sub>) + ℓ(z<sub>s</sub>, q<sub>t</sub>)</span>, L05 p.27: 두 view가 서로의 code를 예측). 이 다섯과 비교하면 <b>MoCo만 한 방향</b> (query → key)이야.</p>
   <div class="note trap"><span class="tag">시험 함정 · 패턴끼리 헷갈리기</span><ul>
     <li>TE = <b>prediction</b>의 EMA (epoch 끝), Mean Teacher = <b>weight</b>의 EMA (매 iteration), FreeMatch = <b>threshold</b>의 EMA.</li>

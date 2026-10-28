@@ -1,6 +1,18 @@
 [
- {"slot":"l03-steps01","file":"viz_l03_margin_losses.html"},
- {"slot":"l03-steps01","file":"viz_l03_max_sum_lse.html"},
- {"slot":"l03-m01-modern-setup","file":"viz_l03_infonce_tau.html"},
- {"slot":"l03-m04-x-clr","file":"viz_l03_xclr_graphs.html"}
+ {
+  "slot": "l03-in03",
+  "file": "viz_l03_margin_losses.html"
+ },
+ {
+  "slot": "l03-in04",
+  "file": "viz_l03_max_sum_lse.html"
+ },
+ {
+  "slot": "l03-in06",
+  "file": "viz_l03_infonce_tau.html"
+ },
+ {
+  "slot": "l03-in11",
+  "file": "viz_l03_xclr_graphs.html"
+ }
 ]

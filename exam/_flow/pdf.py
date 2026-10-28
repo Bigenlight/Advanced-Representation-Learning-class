@@ -25,6 +25,11 @@ h2,h3,.ch-head,.quiz-h,.pc-h,summary{break-after:avoid}
 .fig,.figrow,.viz,pre,details.q,.note,tr,.split>div,.pc,.matrix{break-inside:avoid}
 pre,.tbl,.viz-scroll{overflow:visible}
 pre{white-space:pre-wrap}
+/* 카드 본문 grid 는 인쇄 페이지 경계에서 그림이 위 글자를 덮는 Chrome 버그가 있어서 block 으로 */
+.m-body{display:block}
+.m-body>*{margin-top:0;margin-bottom:.3rem}
+.m-body>*:last-child{margin-bottom:0}
+.m-body .fig{margin:.55rem 0 .8rem}.m-body .viz{margin:.6rem 0 .85rem}.m-body .note{margin:.45rem 0}
 details.q summary::after{display:none}
 details.slide>summary,details.more>summary{cursor:default;color:var(--muted)}
 a.zoom{cursor:default}

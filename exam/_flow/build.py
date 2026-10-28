@@ -40,12 +40,17 @@ img{max-width:100%;height:auto}
 .local-note{font-size:.9rem;color:var(--muted);margin:0 0 1.2rem}
 /* slide figures */
 .fig{margin:1.1rem 0 1.3rem;display:grid;gap:.45rem;justify-items:center}
-.fig a.zoom{display:block;width:100%;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff;cursor:zoom-in}
+.fig a.zoom{display:block;width:100%;max-width:32.5rem;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff;cursor:zoom-in}
 .fig img{display:block;width:100%;height:auto}
 .fig figcaption{font-size:.86rem;color:var(--muted);line-height:1.6;justify-self:stretch}
 .fig .pg{font:500 .72rem/1 var(--f-mono);color:var(--muted);margin-left:.35rem;white-space:nowrap}
 .figrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem;margin:1.1rem 0 1.3rem}
 .figrow .fig{margin:0}
+/* inline: 설명하는 문단 바로 옆(카드 본문·계보 단계·용어 dd 안)에 들어간 그림·그래프 */
+.m-body .fig,.steps .fig,dd .fig{margin:.55rem 0 .8rem}
+.m-body .viz,.steps .viz,dd .viz{margin:.6rem 0 .85rem}
+.m-body .viz-scroll>svg,.steps .viz-scroll>svg,dd .viz-scroll>svg{min-width:28rem}
+.m-body details.slide,.steps details.slide,dd details.slide{margin:.1rem 0 .4rem}
 details.slide{margin:.2rem 0 0}
 details.slide summary{cursor:pointer;font:500 .8rem/1.4 var(--f-mono);color:var(--accent)}
 details.slide .fig{margin:.6rem 0 0}

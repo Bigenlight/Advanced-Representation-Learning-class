@@ -1,67 +1,66 @@
 [
-  {
-    "slot": "l04-tbl02",
-    "src": "assets/lecture04/p030_byol_arch.png",
-    "alt": "BYOL: online network (f_theta, g_theta, predictor q_theta) and target network (f_xi, g_xi) with stop-gradient",
-    "caption": "<b>BYOL</b>. 위 줄이 online, 아래 줄이 target이고, 왼쪽부터 view → representation(encoder) → projection(projector = projection head, SimCLR의 g와 같은 역할) → prediction 순서야. online에만 <b>predictor q<sub>θ</sub></b>가 있어. target 끝의 <code>//</code> 표시가 <code>sg</code>(stop-gradient)라서 target 쪽으로는 gradient가 안 흘러. 점선 loss는 q<sub>θ</sub>(z)와 sg(z′)를 비교해. target 파라미터 ξ는 학습이 아니라 θ의 <b>EMA</b>로만 갱신되고, negative는 없어. EMA 식은 <code>ξ ← τξ + (1−τ)θ</code>인데, 여기서 τ는 temperature가 아니라 <b>EMA 계수</b>야.",
-    "page": "L04 p.30",
-    "width": 680
-  },
-  {
-    "slot": "l04-tbl02",
-    "src": "assets/lecture04/p040_dino_diagram.png",
-    "alt": "DINO: student and teacher, teacher has centering and softmax with stop-gradient, EMA from student to teacher",
-    "caption": "<b>DINO</b>. 같은 x에서 만든 두 view가 왼쪽 student, 오른쪽 teacher로 들어가. <b>centering은 teacher 쪽에만</b> 있고 (softmax는 양쪽 다), <code>sg</code>(stop-gradient, <code>//</code> 표시)도 teacher 쪽에만 붙어. 가운데 <b>ema</b> 화살표는 student → teacher 방향이야. teacher가 student 가중치를 이동평균으로 따라간다는 뜻. loss는 teacher 분포 p<sub>2</sub>를 정답으로 둔 student 분포 p<sub>1</sub>의 cross-entropy (<code>-p2 log p1</code>). 그림은 한 방향만 그렸고, 코드는 두 view를 엇갈려 양방향으로 계산해.",
-    "page": "L04 p.40 (왼쪽 도식)",
-    "width": 420
-  },
-  {
-    "slot": "l04-tbl02",
-    "src": "assets/lecture04/p042_dino_attention.png",
-    "alt": "DINO self-attention maps of the CLS token on a ViT trained without labels",
-    "caption": "<b>DINO의 emergent property</b>. 사진 오른쪽 칸은 [CLS] token(이미지 전체를 요약하는 token)이 각 patch에 주는 attention을 밝기로 칠한 거야. label 없이 학습했는데 배경이 아니라 물체 모양(새, 칫솔, 기린, 배, 자전거 …)을 따라 켜져. 그래서 unsupervised object segmentation처럼 보여.",
-    "page": "L04 p.42",
-    "width": 700,
-    "fold": true
-  },
-  {
-    "slot": "l04-m03-simclr",
-    "src": "assets/lecture04/p023_simclr_framework.png",
-    "alt": "SimCLR framework: two augmentations t and t', encoder f, projection head g, maximize agreement",
-    "caption": "<b>SimCLR 구조</b>. 아래에서 위로 읽어. 같은 x에 augmentation <code>t, t'</code>을 따로 걸어 두 view → encoder <code>f</code>로 representation <code>h</code> → projection head <code>g</code>로 <code>z</code> → 맨 위에서 두 z의 agreement(유사도)를 contrastive loss로 최대화. loss는 <code>h</code>가 아니라 <b><code>z</code> 공간</b>에서 걸리고, 학습이 끝나면 g는 버리고 h를 써.",
-    "page": "L04 p.23–24",
-    "width": 460
-  },
-  {
-    "slot": "l04-m04-barlow-twins",
-    "src": "assets/lecture04/p036_barlow_matrix_goal.png",
-    "alt": "Barlow Twins cross-correlation matrix C and goal identity matrix",
-    "caption": "<b>C 행렬</b> 확대. 행은 view A의 feature 차원, 열은 view B의 feature 차원이야 (샘플×샘플이 아니라 차원×차원, D×D). 초록 대각선(same feature)은 1로, 노란 비대각선(different feature)은 0으로 만드는 게 <b>Goal: C ≈ I<sub>D</sub></b>야.",
-    "page": "L04 p.36",
-    "width": 420
-  },
-  {
-    "slot": "l04-m05-synclr",
-    "src": "assets/lecture04/p047_synclr_vs_simclr.png",
-    "alt": "SimCLR positive pair from augmentation vs SynCLR positive set from same caption with image generator",
-    "caption": "<b>SimCLR vs SynCLR</b>. SimCLR는 사진 한 장의 augmentation 둘이 positive pair야. SynCLR는 <b>같은 caption에서 생성한 이미지들</b>이 positive <b>set</b>이야. positive를 정하는 기준이 \"같은 사진(image identity)\"에서 <b>\"같은 caption(caption-level semantics)\"</b>으로 바뀐 거야.",
-    "page": "L04 p.47",
-    "width": 640
-  },
-  {
-    "slot": "l04-m06-dinov2",
-    "src": "assets/lecture04/p058_dinov2_curation.png",
-    "alt": "DINOv2 data curation pipeline: embedding, deduplication, retrieval from uncurated data to augmented curated data",
-    "caption": "<b>DINOv2 데이터 curation</b>. 왼쪽에서 오른쪽으로 읽어. 정리 안 된(uncurated) 웹 이미지를 embedding(벡터)으로 바꾸고 → 거의 같은 이미지를 지우고(<b>deduplication</b>, 빨간 X) → 잘 정리된(curated) 예시와 비슷한 것만 검색해 가져와(<b>retrieval</b>) LVD-142M을 만들어. 새 loss가 아니라 <b>데이터 품질이 scaling의 핵심</b>이라는 그림이야.",
-    "page": "L04 p.58",
-    "width": 720
-  },
-  {
-    "slot": "l04-m07-dinov3-gram-anchoring",
-    "src": "assets/lecture04/p070_gram_anchoring.png",
-    "alt": "DINOv3 patch similarity maps without and with Gram anchoring refinement loss",
-    "caption": "<b>Gram anchoring 효과</b>. 맨 위가 원본 사진이고, 아래 두 줄은 빨간 점(슬라이드 표현은 red cross, 기준 patch)과 나머지 patch의 유사도를 밝기로 칠한 map이야. 가운데 줄(w/o L<sub>HRef</sub>)은 유사도가 배경까지 번지고 noisy해. 아래 줄(w/ L<sub>HRef</sub>)은 같은 물체 부분에만 깨끗하게 모여. 오래 학습하면 dense feature가 망가지는 문제를 고친 거야. (L<sub>HRef</sub>는 p.70에 설명 없이 나오는 이름이고, p.69의 Gram anchoring loss 계열로 보면 돼.)",
-    "page": "L04 p.70",
-    "width": 640
-  }
+ {
+  "slot": "l04-in02",
+  "src": "assets/lecture04/p030_byol_arch.png",
+  "alt": "BYOL: online network (f_theta, g_theta, predictor q_theta) and target network (f_xi, g_xi) with stop-gradient",
+  "caption": "<b>BYOL</b>. 위 줄이 online, 아래 줄이 target이고, 왼쪽부터 view → representation(encoder) → projection(projector = projection head, SimCLR의 g와 같은 역할) → prediction 순서야. online에만 <b>predictor q<sub>θ</sub></b>가 있어. target 끝의 <code>//</code> 표시가 <code>sg</code>(stop-gradient)라서 target 쪽으로는 gradient가 안 흘러. 점선 loss는 q<sub>θ</sub>(z)와 sg(z′)를 비교해. target 파라미터 ξ는 학습이 아니라 θ의 <b>EMA</b>로만 갱신되고, negative는 없어. EMA 식은 <code>ξ ← τξ + (1−τ)θ</code>인데, 여기서 τ는 temperature가 아니라 <b>EMA 계수</b>야.",
+  "page": "L04 p.30",
+  "width": 500
+ },
+ {
+  "slot": "l04-in05",
+  "src": "assets/lecture04/p040_dino_diagram.png",
+  "alt": "DINO: student and teacher, teacher has centering and softmax with stop-gradient, EMA from student to teacher",
+  "caption": "<b>DINO</b>. 같은 x에서 만든 두 view가 왼쪽 student, 오른쪽 teacher로 들어가. <b>centering은 teacher 쪽에만</b> 있고 (softmax는 양쪽 다), <code>sg</code>(stop-gradient, <code>//</code> 표시)도 teacher 쪽에만 붙어. 가운데 <b>ema</b> 화살표는 student → teacher 방향이야. teacher가 student 가중치를 이동평균으로 따라간다는 뜻. loss는 teacher 분포 p<sub>2</sub>를 정답으로 둔 student 분포 p<sub>1</sub>의 cross-entropy (<code>-p2 log p1</code>). 그림은 한 방향만 그렸고, 코드는 두 view를 엇갈려 양방향으로 계산해.",
+  "page": "L04 p.40 (왼쪽 도식)",
+  "width": 280
+ },
+ {
+  "slot": "l04-in07",
+  "src": "assets/lecture04/p042_dino_attention.png",
+  "alt": "DINO self-attention maps of the CLS token on a ViT trained without labels",
+  "caption": "<b>DINO의 emergent property</b>. 사진 오른쪽 칸은 [CLS] token(이미지 전체를 요약하는 token)이 각 patch에 주는 attention을 밝기로 칠한 거야. label 없이 학습했는데 배경이 아니라 물체 모양(새, 칫솔, 기린, 배, 자전거 …)을 따라 켜져. 그래서 unsupervised object segmentation처럼 보여.",
+  "page": "L04 p.42",
+  "width": 520
+ },
+ {
+  "slot": "l04-in01",
+  "src": "assets/lecture04/p023_simclr_framework.png",
+  "alt": "SimCLR framework: two augmentations t and t', encoder f, projection head g, maximize agreement",
+  "caption": "<b>SimCLR 구조</b>. 아래에서 위로 읽어. 같은 x에 augmentation <code>t, t'</code>을 따로 걸어 두 view → encoder <code>f</code>로 representation <code>h</code> → projection head <code>g</code>로 <code>z</code> → 맨 위에서 두 z의 agreement(유사도)를 contrastive loss로 최대화. loss는 <code>h</code>가 아니라 <b><code>z</code> 공간</b>에서 걸리고, 학습이 끝나면 g는 버리고 h를 써.",
+  "page": "L04 p.23–24",
+  "width": 340
+ },
+ {
+  "slot": "l04-in03",
+  "src": "assets/lecture04/p036_barlow_matrix_goal.png",
+  "alt": "Barlow Twins cross-correlation matrix C and goal identity matrix",
+  "caption": "<b>C 행렬</b> 확대. 행은 view A의 feature 차원, 열은 view B의 feature 차원이야 (샘플×샘플이 아니라 차원×차원, D×D). 초록 대각선(same feature)은 1로, 노란 비대각선(different feature)은 0으로 만드는 게 <b>Goal: C ≈ I<sub>D</sub></b>야.",
+  "page": "L04 p.36",
+  "width": 240
+ },
+ {
+  "slot": "l04-in08",
+  "src": "assets/lecture04/p047_synclr_vs_simclr.png",
+  "alt": "SimCLR positive pair from augmentation vs SynCLR positive set from same caption with image generator",
+  "caption": "<b>SimCLR vs SynCLR</b>. SimCLR는 사진 한 장의 augmentation 둘이 positive pair야. SynCLR는 <b>같은 caption에서 생성한 이미지들</b>이 positive <b>set</b>이야. positive를 정하는 기준이 \"같은 사진(image identity)\"에서 <b>\"같은 caption(caption-level semantics)\"</b>으로 바뀐 거야.",
+  "page": "L04 p.47",
+  "width": 420
+ },
+ {
+  "slot": "l04-in09",
+  "src": "assets/lecture04/p058_dinov2_curation.png",
+  "alt": "DINOv2 data curation pipeline: embedding, deduplication, retrieval from uncurated data to augmented curated data",
+  "caption": "<b>DINOv2 데이터 curation</b>. 왼쪽에서 오른쪽으로 읽어. 정리 안 된(uncurated) 웹 이미지를 embedding(벡터)으로 바꾸고 → 거의 같은 이미지를 지우고(<b>deduplication</b>, 빨간 X) → 잘 정리된(curated) 예시와 비슷한 것만 검색해 가져와(<b>retrieval</b>) LVD-142M을 만들어. 새 loss가 아니라 <b>데이터 품질이 scaling의 핵심</b>이라는 그림이야.",
+  "page": "L04 p.58",
+  "width": 500
+ },
+ {
+  "slot": "l04-in10",
+  "src": "assets/lecture04/p070_gram_anchoring.png",
+  "alt": "DINOv3 patch similarity maps without and with Gram anchoring refinement loss",
+  "caption": "<b>Gram anchoring 효과</b>. 맨 위가 원본 사진이고, 아래 두 줄은 빨간 점(슬라이드 표현은 red cross, 기준 patch)과 나머지 patch의 유사도를 밝기로 칠한 map이야. 가운데 줄(w/o L<sub>HRef</sub>)은 유사도가 배경까지 번지고 noisy해. 아래 줄(w/ L<sub>HRef</sub>)은 같은 물체 부분에만 깨끗하게 모여. 오래 학습하면 dense feature가 망가지는 문제를 고친 거야. (L<sub>HRef</sub>는 p.70에 설명 없이 나오는 이름이고, p.69의 Gram anchoring loss 계열로 보면 돼.)",
+  "page": "L04 p.70",
+  "width": 420
+ }
 ]

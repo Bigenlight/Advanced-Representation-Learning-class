@@ -1,22 +1,22 @@
 [
  {
-  "slot": "l06-m02-x",
+  "slot": "l06-in02",
   "file": "viz_l06_rampup.html"
  },
  {
-  "slot": "l06-m03-h1-h4",
+  "slot": "l06-in04",
   "file": "viz_l06_lowdensity.html"
  },
  {
-  "slot": "l06-tbl01",
+  "slot": "l06-in09",
   "file": "viz_l06_compare.html"
  },
  {
-  "slot": "l06-tbl01",
+  "slot": "l06-in07",
   "file": "viz_l06_te_bias.html"
  },
  {
-  "slot": "l06-steps01",
+  "slot": "l06-in11",
   "file": "viz_l06_perturb.html"
  }
 ]

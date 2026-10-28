@@ -1,18 +1,18 @@
 [
  {
-  "slot": "l02-tbl01",
+  "slot": "l02-in04",
   "file": "viz_l02_colorization.html"
  },
  {
-  "slot": "l02-m07-space-time-cubic-puzzles",
+  "slot": "l02-in06",
   "file": "viz_l02_cubes.html"
  },
  {
-  "slot": "l02-m08-avts",
+  "slot": "l02-in09",
   "file": "viz_l02_avts.html"
  },
  {
-  "slot": "l02-m09-invariance-vs-equivarian",
+  "slot": "l02-in11",
   "file": "viz_l02_inveq.html"
  }
 ]
