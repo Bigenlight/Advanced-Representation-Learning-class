@@ -76,7 +76,7 @@ Going from Algorithm 1 (Π-model) to Algorithm 2 (Temporal Ensembling), what is 
 (D) $\tilde z_i$ is computed by a second forward pass on the original input without augmentation.
 
 ### 17. [Blank] `[L07]`
-(1) ______ bias: pseudo labels from an imperfect teacher can be incorrect, the student is trained to imitate them, and the student reinforces the teacher's mistakes. Arazo et al. reduce it with MixUp with soft labels, (2) ______ labeled data, strong data augmentation, and dropout.
+(1) ______ bias: pseudo labels from an imperfect teacher can be incorrect, the student is trained to imitate them, and the student reinforces the teacher's mistakes. It can be reduced with MixUp with soft labels, (2) ______ labeled data, strong data augmentation, and dropout.
 
 ### 18. [T/F] `[L07]`
 In ReMixMatch's Augmentation Anchoring, pseudo labels are generated from strongly augmented images and consistency is enforced on weakly augmented versions.
@@ -89,7 +89,7 @@ Which statement correctly describes FixMatch?
 (D) It uses a separate EMA teacher network to generate soft targets with temperature scaling
 
 ### 20. [Blank] `[L07·PC]`
-In DivideMix lines 7–8, samples with clean probability $w_i \ge \tau$ form the (1) ______ training set $\mathcal X_e^{(k)}$, while samples with $w_i < \tau$ form the (2) ______ training set $\mathcal U_e^{(k)}$.
+In DivideMix's co-divide step, samples with clean probability $w_i \ge \tau$ form the (1) ______ training set $\mathcal X_e^{(k)}$, while samples with $w_i < \tau$ form the (2) ______ training set $\mathcal U_e^{(k)}$.
 
 
 ---

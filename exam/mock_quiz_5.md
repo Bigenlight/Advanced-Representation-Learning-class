@@ -81,7 +81,7 @@ Mean Teacher replaces the EMA of predictions with an EMA of model (1) ______: $\
 At the end of each epoch, Temporal Ensembling constructs the targets as $\tilde z \leftarrow Z / ($(1) ______$)$. The comment says this step constructs target vectors by (2) ______.
 
 ### 17. [T/F] `[L07]`
-Zoph et al. found that self-training remains effective even with strong augmentation and abundant labeled data, whereas the benefit of pre-training diminishes as more labeled data become available.
+According to the lecture's key findings on combining pre-training with self-training, self-training remains effective even with strong augmentation and abundant labeled data, whereas the benefit of pre-training diminishes as more labeled data become available.
 
 ### 18. [MCQ] `[L07]`
 How does FreeMatch set its self-adaptive global threshold?
@@ -94,7 +94,7 @@ How does FreeMatch set its self-adaptive global threshold?
 Instead of combining many techniques, FixMatch relies on only three simple ideas: (1) ______ augmentation to generate a reliable pseudo label, a confidence (2) ______ to discard uncertain predictions, and strong augmentation to train the model to predict the same label.
 
 ### 20. [T/F] `[L07·PC]`
-In line 17 of DivideMix, $p_b$ is computed by averaging the predictions of both networks $\theta^{(1)}$ and $\theta^{(2)}$ over the $M$ augmentations of $x_b$.
+In DivideMix's label co-refinement for a clean (labeled) sample $x_b$, $p_b$ is computed by averaging the predictions of both networks $\theta^{(1)}$ and $\theta^{(2)}$ over the $M$ augmentations of $x_b$.
 
 
 ---
@@ -134,12 +134,12 @@ In line 17 of DivideMix, $p_b$ is computed by averaging the predictions of both 
 
 **16.** `[L06·PC]` (1) $1-\alpha^t$ (accept: 1 − α^t) (2) bias correction — $Z$가 $\mathbf 0$에서 시작해 초반 EMA가 0쪽으로 편향됨. 예측이 일정한 $z$면 $Z_t=(1-\alpha^t)z$라서 $1-\alpha^t$로 나누면 정확히 $z$ 복원 (Adam bias correction과 같은 원리). $t$ = epoch index. (p.20)  ← pool: `pc_3_consistency` Q5
 
-**17.** `[L07]` True — Key Findings 그대로 (p.58)  ← pool: `07_Semi_Supervised_Learning_II` Q10
+**17.** `[L07]` True — Key Findings 그대로 ("Combined with Powerful Pre-Training", Zoph et al. *Rethinking Pre-training and Self-training*). 저자 이름이 아니라 내용(pre-training 이득은 labeled data 많아질수록 감소, self-training은 strong aug·풍부한 label에서도 유효)으로 판단 (p.57–58)  ← pool: `07_Semi_Supervised_Learning_II` Q10
 
 **18.** `[L07]` (B) — $\tau_0=1/C$, average confidence의 EMA, confidence 오를수록 threshold 상승. (C)는 AllMatch의 local scaling 소재 (p.69, p.82)  ← pool: `07_Semi_Supervised_Learning_II` Q20
 
 **19.** `[L07]` (1) weak (accept: weakly) (2) threshold (accept: thresholding, $\tau$) — "Predict on an easy example, learn from a difficult one." weak = flip-and-shift, strong = RandAugment/CTAugment 등. sharpening·MixUp·DA 없이 단순. ablation: confidence thresholding > temperature sharpening, pseudo label은 반드시 weak에서 (strong에서 만들면 unreliable). **weak↔strong 뒤집은 함정** 주의. (p.43–45, p.48)  ← pool: `07_Semi_Supervised_Learning_II` F8
 
-**20.** `[L07·PC]` False — line 17 $p_b=\frac1M\sum_m p_{\text{model}}(\hat x_{b,m};\theta^{(k)})$ = **지금 학습 중인 network $\theta^{(k)}$ 하나**의 $M$-aug 평균. 두 net 평균은 **line 20 (co-guessing, $u_b$)** 에서만. co-refinement의 "co-"는 $w_b$가 **상대 net**에서 온다는 뜻 (line 18 주석 *"clean probability produced by the other network"*) (L07 p.54)  ← pool: `pc_4_pseudolabel` Q4
+**20.** `[L07·PC]` False — **Label Co-Refinement** = clean 샘플에 GT label과 *model's prediction*을 결합; **두 network 예측 평균은 Label Co-Guessing** (noisy/unlabeled 샘플의 pseudo label, "averaging the predictions from the two networks") (p.54). pseudo code로 보면 co-refinement는 line 17 $p_b=\frac1M\sum_m p_{\text{model}}(\hat x_{b,m};\theta^{(k)})$ = **지금 학습 중인 network $\theta^{(k)}$ 하나**의 $M$-aug 평균. 두 net 평균은 **line 20 (co-guessing, $u_b$)** 에서만. co-refinement의 "co-"는 $w_b$가 **상대 net**에서 온다는 뜻 (line 18 주석 *"clean probability produced by the other network"*) (L07 p.54)  ← pool: `pc_4_pseudolabel` Q4
 
 </details>

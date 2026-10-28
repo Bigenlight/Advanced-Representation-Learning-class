@@ -184,7 +184,7 @@ def fig_html(d, prefix):
     pg = d.get('page', '')
     pg_html = f'<span class="pg">{html.escape(str(pg))}</span>' if pg else ''
     return (f'<figure class="fig"><a class="zoom" href="{url}"{style}>'
-            f'<img src="{url}" alt="{html.escape(d.get("alt", ""), quote=True)}" loading="lazy"></a>'
+            f'<img src="{url}" alt="{html.escape(d.get("alt", ""), quote=True)}"></a>'
             f'<figcaption>{cap}{pg_html}</figcaption></figure>')
 
 
@@ -210,7 +210,7 @@ def slot_content(sid, figs, vizs, prefix):
         src, lab = CODE_SLIDES[sid]
         url = prefix + src
         parts.append(f'<details class="slide"><summary>슬라이드 원본 보기 ({lab})</summary>'
-                     f'<figure class="fig"><a class="zoom" href="{url}"><img src="{url}" alt="{lab} pseudo code slide" loading="lazy"></a></figure></details>')
+                     f'<figure class="fig"><a class="zoom" href="{url}"><img src="{url}" alt="{lab} pseudo code slide"></a></figure></details>')
     for d in vizs.get(sid, []):
         f = FLOW / 'viz' / d['file']
         if not f.exists():

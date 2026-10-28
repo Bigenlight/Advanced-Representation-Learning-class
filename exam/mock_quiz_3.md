@@ -86,8 +86,8 @@ The key contribution of MixMatch is proposing a single new component, rather tha
 ### 20. [MCQ] `[L07]`
 In ReMixMatch's Distribution Alignment, how is the prediction for an unlabeled sample adjusted?
 (A) It is replaced by a one-hot label if its maximum probability exceeds a fixed threshold
-(B) It is multiplied by the ratio of the estimated pseudo-label distribution to the labeled class distribution, then normalized
-(C) It is multiplied by the ratio of the labeled dataset's class distribution to the estimated class distribution of all pseudo labels, then normalized
+(B) It is rescaled to further boost classes that already appear too often in the pseudo labels and suppress rare classes
+(C) It is rescaled toward the labeled dataset's class distribution, suppressing over-represented classes and boosting under-represented classes
 (D) It is averaged with the prediction of a second network trained in parallel
 
 ---
@@ -133,6 +133,6 @@ In ReMixMatch's Distribution Alignment, how is the prediction for an unlabeled s
 
 **19.** `[L07]` False — "Rather than proposing a new component", 여러 SSL 기법을 **unify**한 holistic framework (p.30)
 
-**20.** `[L07]` (C) — yellow(labeled prior) / green(pseudo-label 분포) 비율로 rescale → 과대 class 억제, 과소 class 증폭 (p.37)
+**20.** `[L07]` (C) — pseudo label이 true class 분포를 안 따를 수 있어서, labeled dataset의 class 분포(target prior) 쪽으로 rescale → "suppresses over-represented classes and boosts under-represented classes". (B)는 방향을 뒤집은 함정, (A)는 FixMatch식 threshold (p.37)
 
 </details>
