@@ -126,12 +126,14 @@ main>section{padding-block:2.6rem;border-top:1px solid var(--line);scroll-margin
 main>section:first-child{border-top:0}
 h2{font-family:var(--f-display);font-weight:700;font-size:1.75rem;line-height:1.2;letter-spacing:-.01em;margin:0 0 .7rem;text-wrap:balance}
 h3{font-family:var(--f-display);font-weight:600;font-size:1.15rem;line-height:1.3;margin:1.8rem 0 .5rem;text-wrap:balance}
-/* 파트(h3) = 번호 배지 + accent 밑줄 · 카드/계보 단계 = 파트-번호 (L01–L07) */
+/* 파트(h3) = 번호 배지 + accent 밑줄 · 카드/계보 단계 = 단원-파트-번호 (L01–L07, --ch = 단원 번호) */
+#l01{--ch:"1"}#l02{--ch:"2"}#l03{--ch:"3"}#l04{--ch:"4"}#l05{--ch:"5"}#l06{--ch:"6"}#l07{--ch:"7"}
 main>section{counter-reset:part}
 main>section>h3{counter-increment:part;counter-reset:item;display:flex;align-items:center;gap:.6rem;font-size:1.32rem;font-weight:700;margin:2.7rem 0 .9rem;padding-bottom:.5rem;border-bottom:2px solid var(--accent)}
 main>section>h3::before{content:counter(part);flex:none;display:inline-grid;place-items:center;min-width:1.8rem;height:1.8rem;padding:0 .4rem;border-radius:7px;background:var(--accent);color:var(--bg);font:700 .92rem/1 var(--f-mono)}
-:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07) .methods>.m>div:first-child::before{counter-increment:item;content:counter(part) "-" counter(item);display:block;width:max-content;margin-bottom:.4rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent)}
-:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07) .steps>li>.s-name::before{counter-increment:item;content:counter(part) "-" counter(item);display:inline-block;margin-right:.45rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent);vertical-align:.12em}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07)>h3::before{content:var(--ch) "-" counter(part)}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07) .methods>.m>div:first-child::before{counter-increment:item;content:var(--ch) "-" counter(part) "-" counter(item);display:block;width:max-content;margin-bottom:.4rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent)}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07) .steps>li>.s-name::before{counter-increment:item;content:var(--ch) "-" counter(part) "-" counter(item);display:inline-block;margin-right:.45rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent);vertical-align:.12em}
 p{margin:0 0 .9rem}
 .muted{color:var(--muted)}
 .offscope{display:inline-block;font:600 .74rem/1 var(--f-mono);letter-spacing:.04em;color:var(--rl);border:1px solid var(--rl);border-radius:999px;padding:.4rem .6rem;margin:0 0 1rem}
@@ -436,25 +438,25 @@ details.more{margin:.4rem 0 1.2rem}
 <!-- ============ 한눈에 요약 ============ -->
 <section id="sum">
   <div class="ch-head"><span class="ch-num">SUM</span><h2>한눈에 요약</h2><p class="ch-meta">암기용 · L01–L07</p></div>
-  <p class="sum-use">단원 → 파트 → 카드 순서로 꼭 외울 것만 모았어. <b>번호나 이름을 누르면 그 상세 카드로 바로 가.</b> 돌아올 땐 단원 머리의 <b>↑ 요약</b>이나 브라우저 뒤로 가기. 주황 글씨는 시험 함정. pseudo code는 뒤쪽 <a href="#code">Pseudo code</a> 섹션에서 따로 봐.</p>
+  <p class="sum-use">단원 → 파트 → 카드 순서로 꼭 외울 것만 모았어. 번호는 <b>단원-파트-카드</b> (예: 4-3-2 = 4강 파트 3의 2번 카드). <b>번호나 이름을 누르면 그 상세 카드로 바로 가.</b> 돌아올 땐 단원 머리의 <b>↑ 요약</b>이나 브라우저 뒤로 가기. 주황 글씨는 시험 함정. pseudo code는 뒤쪽 <a href="#code">Pseudo code</a> 섹션에서 따로 봐.</p>
 <div class="sum-ch" id="sum-l01">
   <a class="sum-ch-h" href="#l01"><span class="sum-ch-n">L01</span><span class="sum-ch-t">Introduction</span></a>
   <p class="sum-ch-q"><span class="k">질문</span>좋은 representation이 뭔데?<span class="sum-a">→ <b>Compression</b>(irrelevant 제거) ∩ <b>Prediction</b>(unobserved 추론) = Better Representations</span></p>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l01-p1"><span class="sum-pn">1</span>Representation이 뭔가: 5단계 흐름 · 정의 · feature learning</a>
+    <a class="sum-part-h" href="#l01-p1"><span class="sum-pn">1-1</span>Representation이 뭔가: 5단계 흐름 · 정의 · feature learning</a>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l01-1-1"><span class="sum-no">1-1</span><b>AI가 배워 온 것</b></a><span class="sum-d">Rules → Patterns → <b>Features</b>(edge·texture) → <b>Representations</b>(task 간 transfer되는 embedding, 이 수업) → World Knowledge · 사람 지식↓ 일반성↑</span></li>
-      <li><a class="sum-k" href="#l01-1-2"><span class="sum-no">1-2</span><b>Representation</b></a><span class="sum-d"><span class="math">z = f(x)</span>: raw data를 <b>downstream task</b>가 쉬워지게 변환 · f = <b>encoder</b> · simpler, organized space · nuisance 버림 · 표현 여럿 (CLIP = image–text 정렬)</span><span class="sum-t">lower dimension은 <b>often</b>이지 always 아님</span></li>
-      <li><a class="sum-k" href="#l01-1-3"><span class="sum-no">1-3</span><b>Feature engineering → learning</b></a><span class="sum-d">hand-crafted(SIFT·HOG·SURF) 문제: Human-designed · Task-specific · Limited scalability → CNN이 스스로 학습 · <b>Learn once, use everywhere</b></span><span class="sum-t">large-scale supervision은 hand-crafted 문제 3개에 없음 (pretraining 쪽 → L02 동기)</span></li>
+      <li><a class="sum-k" href="#l01-1-1"><span class="sum-no">1-1-1</span><b>AI가 배워 온 것</b></a><span class="sum-d">Rules → Patterns → <b>Features</b>(edge·texture) → <b>Representations</b>(task 간 transfer되는 embedding, 이 수업) → World Knowledge · 사람 지식↓ 일반성↑</span></li>
+      <li><a class="sum-k" href="#l01-1-2"><span class="sum-no">1-1-2</span><b>Representation</b></a><span class="sum-d"><span class="math">z = f(x)</span>: raw data를 <b>downstream task</b>가 쉬워지게 변환 · f = <b>encoder</b> · simpler, organized space · nuisance 버림 · 표현 여럿 (CLIP = image–text 정렬)</span><span class="sum-t">lower dimension은 <b>often</b>이지 always 아님</span></li>
+      <li><a class="sum-k" href="#l01-1-3"><span class="sum-no">1-1-3</span><b>Feature engineering → learning</b></a><span class="sum-d">hand-crafted(SIFT·HOG·SURF) 문제: Human-designed · Task-specific · Limited scalability → CNN이 스스로 학습 · <b>Learn once, use everywhere</b></span><span class="sum-t">large-scale supervision은 hand-crafted 문제 3개에 없음 (pretraining 쪽 → L02 동기)</span></li>
     </ul>
   </div>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l01-p2"><span class="sum-pn">2</span>좋은 representation = compression ∩ prediction</a>
+    <a class="sum-part-h" href="#l01-p2"><span class="sum-pn">1-2</span>좋은 representation = compression ∩ prediction</a>
     <p class="sum-p1">조건 3개: Compress information · Support prediction · Generalize across tasks</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l01-2-1"><span class="sum-no">2-1</span><b>Compression</b></a><span class="sum-d">essential characteristics만 남김 · 이점: <b>Less Memory</b> · <b>Invariance</b>(nuisance 제거) · <b>Occam's Razor</b>(똑같이 유용하면 simpler)</span><span class="sum-t">"Compression = losing information"은 False. <b>irrelevant</b> 정보만 지워</span></li>
-      <li><a class="sum-k" href="#l01-2-2"><span class="sum-no">2-2</span><b>Prediction</b></a><span class="sum-d">inferring <b>unobserved</b> properties of the world · Future(V-JEPA) · Past(state estimation) · Missing data(MAE, inpainting)</span></li>
-      <li><a class="sum-k" href="#l01-2-3"><span class="sum-no">2-3</span><b>좋은 representation = 교집합</b></a><span class="sum-d">Compression ∩ Prediction → <b>Better Representations</b>: generalize better · transfer across tasks · decision making · sample efficient</span><span class="sum-t">Disentangled·Interpretable·Actionable·Transferable은 often consequences (직접 목표 X)</span></li>
+      <li><a class="sum-k" href="#l01-2-1"><span class="sum-no">1-2-1</span><b>Compression</b></a><span class="sum-d">essential characteristics만 남김 · 이점: <b>Less Memory</b> · <b>Invariance</b>(nuisance 제거) · <b>Occam's Razor</b>(똑같이 유용하면 simpler)</span><span class="sum-t">"Compression = losing information"은 False. <b>irrelevant</b> 정보만 지워</span></li>
+      <li><a class="sum-k" href="#l01-2-2"><span class="sum-no">1-2-2</span><b>Prediction</b></a><span class="sum-d">inferring <b>unobserved</b> properties of the world · Future(V-JEPA) · Past(state estimation) · Missing data(MAE, inpainting)</span></li>
+      <li><a class="sum-k" href="#l01-2-3"><span class="sum-no">1-2-3</span><b>좋은 representation = 교집합</b></a><span class="sum-d">Compression ∩ Prediction → <b>Better Representations</b>: generalize better · transfer across tasks · decision making · sample efficient</span><span class="sum-t">Disentangled·Interpretable·Actionable·Transferable은 often consequences (직접 목표 X)</span></li>
       <li class="sum-tbl"><a class="sum-k" href="#l01-p2"><span class="sum-no">표</span><b>6종 learner</b></a><span class="sum-d">Compression = Autoencoding · <b>Contrastive</b> · Clustering / Prediction = Future prediction · Imputation · <b>Pretext tasks</b></span><span class="sum-t">Contrastive는 Prediction 아니라 Compression (invariance to viewing transformations)</span></li>
     </ul>
   </div>
@@ -464,40 +466,40 @@ details.more{margin:.4rem 0 1.2rem}
   <a class="sum-ch-h" href="#l02"><span class="sum-ch-n">L02</span><span class="sum-ch-t">Self-Supervised Learning</span></a>
   <p class="sum-ch-q"><span class="k">질문</span>label 없이 supervision을 만들 수 있나?<span class="sum-a">→ 된다: data를 일부러 망가뜨리고 원래를 맞히는 <b>pretext task</b>로 label을 공짜로 만들어 encoder 학습 → downstream에 transfer</span></p>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l02-p1"><span class="sum-pn">1</span>SSL 기본: 왜 · 정의 · 평가</a>
+    <a class="sum-part-h" href="#l02-p1"><span class="sum-pn">2-1</span>SSL 기본: 왜 · 정의 · 평가</a>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l02-1-1"><span class="sum-no">1-1</span><b>Why SSL</b></a><span class="sum-d">label 비쌈 (ImageNet 14M장 = <b>22 human years</b>) · 대안 semi-automatic(hashtag·GPS) · video·<b>long tail</b>·새 domain은 label이 어려움</span></li>
-      <li><a class="sum-k" href="#l02-1-2"><span class="sum-no">1-2</span><b>정의</b></a><span class="sum-d">"semi-automatic"하게 <b>data 자체</b>에서 label · <b>pretext</b>: 자동 label + supervised loss(classification·regression) → <b>downstream</b>에 transfer</span></li>
-      <li><a class="sum-k" href="#l02-1-3"><span class="sum-no">1-3</span><b>평가</b></a><span class="sum-d">pretext 정확도 ✗ <b>downstream 성능</b> ○ · <b>frozen</b> encoder + shallow(linear) head만 학습 = linear probing</span></li>
+      <li><a class="sum-k" href="#l02-1-1"><span class="sum-no">2-1-1</span><b>Why SSL</b></a><span class="sum-d">label 비쌈 (ImageNet 14M장 = <b>22 human years</b>) · 대안 semi-automatic(hashtag·GPS) · video·<b>long tail</b>·새 domain은 label이 어려움</span></li>
+      <li><a class="sum-k" href="#l02-1-2"><span class="sum-no">2-1-2</span><b>정의</b></a><span class="sum-d">"semi-automatic"하게 <b>data 자체</b>에서 label · <b>pretext</b>: 자동 label + supervised loss(classification·regression) → <b>downstream</b>에 transfer</span></li>
+      <li><a class="sum-k" href="#l02-1-3"><span class="sum-no">2-1-3</span><b>평가</b></a><span class="sum-d">pretext 정확도 ✗ <b>downstream 성능</b> ○ · <b>frozen</b> encoder + shallow(linear) head만 학습 = linear probing</span></li>
     </ul>
   </div>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l02-p2"><span class="sum-pn">2</span>Hand-crafted pretext 5종</a>
+    <a class="sum-part-h" href="#l02-p2"><span class="sum-pn">2-2</span>Hand-crafted pretext 5종</a>
     <p class="sum-p1">틀: 이미지를 망가뜨리고 원래 정보를 맞히기 · 조건: 풀려면 semantic이 필요 + low-level <b>shortcut</b>(경계 연속·색 통계)으로 안 풀려야</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l02-2-1"><span class="sum-no">2-1</span><b>Relative Position</b></a><span class="sum-d">가운데 patch + 이웃 1개 → 이웃 자리 <b>8-way classification</b> · weight 공유 2-tower → <b>Local</b> Spatial Context</span></li>
-      <li><a class="sum-k" href="#l02-2-2"><span class="sum-no">2-2</span><b>Context Encoders</b></a><span class="sum-d">지운 영역의 <b>픽셀</b>을 주변 context로 복원 (inpainting) · <b>masked L2 + adversarial</b> → Context &amp; Object Parts</span><span class="sum-t">L2만 → blurry · adversarial만 → 선명하지만 context와 안 맞음 → 둘을 합침</span></li>
-      <li><a class="sum-k" href="#l02-2-3"><span class="sum-no">2-3</span><b>Jigsaw</b></a><span class="sum-d">3×3 tile 섞고 <b>permutation</b> 분류 · 9! = 362,880 대신 Hamming distance 최대인 <b>64개</b>만 class → <b>Global</b> Spatial Structure</span></li>
-      <li><a class="sum-k" href="#l02-2-4"><span class="sum-no">2-4</span><b>Colorization</b></a><span class="sum-d">L(흑백) → ab(색) 예측 · ab를 <b>313 color classes</b>로 나눠 pixel별 <b>classification</b>(cross-entropy) → Object Semantics</span><span class="sum-t">regression 아님: regression은 그럴듯한 색들을 평균 내서 탁해짐</span></li>
-      <li><a class="sum-k" href="#l02-2-5"><span class="sum-no">2-5</span><b>RotNet</b></a><span class="sum-d">0°/90°/180°/270° <b>4-way classification</b> · 돌린 각도 = label · object를 알아야 맞힘 → Object-Centric Understanding</span></li>
+      <li><a class="sum-k" href="#l02-2-1"><span class="sum-no">2-2-1</span><b>Relative Position</b></a><span class="sum-d">가운데 patch + 이웃 1개 → 이웃 자리 <b>8-way classification</b> · weight 공유 2-tower → <b>Local</b> Spatial Context</span></li>
+      <li><a class="sum-k" href="#l02-2-2"><span class="sum-no">2-2-2</span><b>Context Encoders</b></a><span class="sum-d">지운 영역의 <b>픽셀</b>을 주변 context로 복원 (inpainting) · <b>masked L2 + adversarial</b> → Context &amp; Object Parts</span><span class="sum-t">L2만 → blurry · adversarial만 → 선명하지만 context와 안 맞음 → 둘을 합침</span></li>
+      <li><a class="sum-k" href="#l02-2-3"><span class="sum-no">2-2-3</span><b>Jigsaw</b></a><span class="sum-d">3×3 tile 섞고 <b>permutation</b> 분류 · 9! = 362,880 대신 Hamming distance 최대인 <b>64개</b>만 class → <b>Global</b> Spatial Structure</span></li>
+      <li><a class="sum-k" href="#l02-2-4"><span class="sum-no">2-2-4</span><b>Colorization</b></a><span class="sum-d">L(흑백) → ab(색) 예측 · ab를 <b>313 color classes</b>로 나눠 pixel별 <b>classification</b>(cross-entropy) → Object Semantics</span><span class="sum-t">regression 아님: regression은 그럴듯한 색들을 평균 내서 탁해짐</span></li>
+      <li><a class="sum-k" href="#l02-2-5"><span class="sum-no">2-2-5</span><b>RotNet</b></a><span class="sum-d">0°/90°/180°/270° <b>4-way classification</b> · 돌린 각도 = label · object를 알아야 맞힘 → Object-Centric Understanding</span></li>
     </ul>
   </div>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l02-p3"><span class="sum-pn">3</span>Pretext 한계 넘기: 여러 pretext · contrastive 쪽으로 · video · audio</a>
+    <a class="sum-part-h" href="#l02-p3"><span class="sum-pn">2-3</span>Pretext 한계 넘기: 여러 pretext · contrastive 쪽으로 · video · audio</a>
     <p class="sum-p1">한계 2개(tedious·not general) → 과제 묶기(CDJP) → "같은 object는 가깝게"(contrastive) · 확장: video·audio</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l02-3-1"><span class="sum-no">3-1</span><b>Pretext의 한계</b></a><span class="sum-d">(1) 과제 설계 <b>tedious</b>, transfer와 "aligned"를 hope할 뿐 (2) 뒤쪽 layer가 pretext에 특화 → <b>not general</b> (res5 &lt; res4)</span></li>
-      <li><a class="sum-k" href="#l02-3-2"><span class="sum-no">3-2</span><b>CDJP · Multiple pretext</b></a><span class="sum-d">망가진 jigsaw 조각으로 <b>jigsaw + inpainting + colorization</b>을 한 network에서 동시에 · <b>shared backbone</b> + task별 head · 여전히 사람이 고른 과제 묶음</span></li>
-      <li><a class="sum-k" href="#l02-3-3"><span class="sum-no">3-3</span><b>더 일반적인 pretext로</b></a><span class="sum-d">"변환을 맞혀라" 대신 원본 ↔ 변환본 = <b>same object</b>(positive) 가깝게, 다른 이미지(negative) 멀게 · task-agnostic → <b>contrastive</b>의 출발 (L03)</span></li>
-      <li><a class="sum-k" href="#l02-3-4"><span class="sum-no">3-4</span><b>Space-Time Cubic Puzzles</b></a><span class="sum-d">video 2×2×4 → cube 4개를 spatial 또는 temporal로 뽑아 섞고 순서 맞히기 · 공유 <b>3D CNN</b> tower 4개 · <b>48 class</b> · joint &gt; 따로</span><span class="sum-t">48 = 24 순열 × 2 orientations(upside-down). ×2 ≠ spatial/temporal · tower는 그 구분 모름</span></li>
-      <li><a class="sum-k" href="#l02-3-5"><span class="sum-no">3-5</span><b>AVTS</b></a><span class="sum-d">audio·video가 <b>in-sync</b>(같은 time segment)인지 판별 · contrastive · negative 구성이 핵심 · <b>curriculum</b>(easy 먼저 → easy+hard) 최고</span><span class="sum-t">hard = 같은 영상의 먼 구간 · super hard = 바로 인접(겹치는) 구간</span></li>
+      <li><a class="sum-k" href="#l02-3-1"><span class="sum-no">2-3-1</span><b>Pretext의 한계</b></a><span class="sum-d">(1) 과제 설계 <b>tedious</b>, transfer와 "aligned"를 hope할 뿐 (2) 뒤쪽 layer가 pretext에 특화 → <b>not general</b> (res5 &lt; res4)</span></li>
+      <li><a class="sum-k" href="#l02-3-2"><span class="sum-no">2-3-2</span><b>CDJP · Multiple pretext</b></a><span class="sum-d">망가진 jigsaw 조각으로 <b>jigsaw + inpainting + colorization</b>을 한 network에서 동시에 · <b>shared backbone</b> + task별 head · 여전히 사람이 고른 과제 묶음</span></li>
+      <li><a class="sum-k" href="#l02-3-3"><span class="sum-no">2-3-3</span><b>더 일반적인 pretext로</b></a><span class="sum-d">"변환을 맞혀라" 대신 원본 ↔ 변환본 = <b>same object</b>(positive) 가깝게, 다른 이미지(negative) 멀게 · task-agnostic → <b>contrastive</b>의 출발 (L03)</span></li>
+      <li><a class="sum-k" href="#l02-3-4"><span class="sum-no">2-3-4</span><b>Space-Time Cubic Puzzles</b></a><span class="sum-d">video 2×2×4 → cube 4개를 spatial 또는 temporal로 뽑아 섞고 순서 맞히기 · 공유 <b>3D CNN</b> tower 4개 · <b>48 class</b> · joint &gt; 따로</span><span class="sum-t">48 = 24 순열 × 2 orientations(upside-down). ×2 ≠ spatial/temporal · tower는 그 구분 모름</span></li>
+      <li><a class="sum-k" href="#l02-3-5"><span class="sum-no">2-3-5</span><b>AVTS</b></a><span class="sum-d">audio·video가 <b>in-sync</b>(같은 time segment)인지 판별 · contrastive · negative 구성이 핵심 · <b>curriculum</b>(easy 먼저 → easy+hard) 최고</span><span class="sum-t">hard = 같은 영상의 먼 구간 · super hard = 바로 인접(겹치는) 구간</span></li>
     </ul>
   </div>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l02-p4"><span class="sum-pn">4</span>Invariance vs Equivariance</a>
+    <a class="sum-part-h" href="#l02-p4"><span class="sum-pn">2-4</span>Invariance vs Equivariance</a>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l02-4-1"><span class="sum-no">4-1</span><b>Invariance vs Equivariance</b></a><span class="sum-d">Invariance <span class="math">f(t(x)) = f(x)</span> · Equivariance <span class="math">f(t(x)) = φ(t, f(x))</span> <b>예측 가능하게</b> 변함 · pretext가 남길 정보(위치·색)를 정함</span><span class="sum-t">invariance = φ가 identity인 특수 경우 · equivariance ≠ "안 변함"</span></li>
-      <li><a class="sum-k" href="#l02-4-2"><span class="sum-no">4-2</span><b>STL</b></a><span class="sum-d">변환 label 없이 · <b>Brown</b> x ↔ t(x): semantic 보존 · <b>Blue</b> 다른 이미지·같은 t: 변환 표현 학습 · <b>Green</b> 배운 변환 적용: equivariant</span></li>
+      <li><a class="sum-k" href="#l02-4-1"><span class="sum-no">2-4-1</span><b>Invariance vs Equivariance</b></a><span class="sum-d">Invariance <span class="math">f(t(x)) = f(x)</span> · Equivariance <span class="math">f(t(x)) = φ(t, f(x))</span> <b>예측 가능하게</b> 변함 · pretext가 남길 정보(위치·색)를 정함</span><span class="sum-t">invariance = φ가 identity인 특수 경우 · equivariance ≠ "안 변함"</span></li>
+      <li><a class="sum-k" href="#l02-4-2"><span class="sum-no">2-4-2</span><b>STL</b></a><span class="sum-d">변환 label 없이 · <b>Brown</b> x ↔ t(x): semantic 보존 · <b>Blue</b> 다른 이미지·같은 t: 변환 표현 학습 · <b>Green</b> 배운 변환 적용: equivariant</span></li>
     </ul>
   </div>
 </div>
@@ -506,35 +508,35 @@ details.more{margin:.4rem 0 1.2rem}
   <a class="sum-ch-h" href="#l03"><span class="sum-ch-n">L03</span><span class="sum-ch-t">Contrastive Learning I</span></a>
   <p class="sum-ch-q"><span class="k">질문</span>"같은 건 가깝게, 다른 건 멀게"를 loss로 어떻게 쓰나?<span class="sum-a">→ similarity를 supervision으로: 거리 + margin 벌점 → "N개 중 positive 고르기" softmax 분류(InfoNCE) · 표준 = τ 넣은 InfoNCE(NT-Xent)</span></p>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l03-p1"><span class="sum-pn">1</span>기본 그림: anchor · positive · negative</a>
+    <a class="sum-part-h" href="#l03-p1"><span class="sum-pn">3-1</span>기본 그림: anchor · positive · negative</a>
     <p class="sum-p1"><b>Learning Similarity</b> · <b>Siamese</b> = shared weights · 목표 score(x, x<sup>+</sup>) ≫ score(x, x<sup>−</sup>) · label 유무 둘 다 OK</p>
   </div>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l03-p2"><span class="sum-pn">2</span>Loss 계보: pair에서 InfoNCE까지</a>
+    <a class="sum-part-h" href="#l03-p2"><span class="sum-pn">3-2</span>Loss 계보: pair에서 InfoNCE까지</a>
     <p class="sum-p1">앞 3개 = <b>거리 + margin</b> 벌점, 뒤 4개 = <b>분류</b>(NCE만 binary, 나머지 softmax) · 줄 맨 앞 = 이전 단계에서 바뀐 점</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l03-2-1"><span class="sum-no">2-1</span><b>Contrastive loss</b></a><span class="sum-d"><b>pair</b> 단위 절대 목표: positive d<sup>2</sup> → 0, negative는 <b>margin ε</b> 밖으로 · 한계: 상대 순서 강제 X, margin 밖 negative는 inactive</span></li>
-      <li><a class="sum-k" href="#l03-2-2"><span class="sum-no">2-2</span><b>Triplet loss</b></a><span class="sum-d">절대 목표 → <b>상대 순서</b>(FaceNet): <span class="math">max(0, d<sub>ap</sub> − d<sub>an</sub> + ε)</span> · 한계: N<sup>3</sup> 폭발, 대부분 easy → <b>hard negative</b>(가깝지만 다른 class) mining</span><span class="sum-t">margin ε: contrastive = 다른 class 사이 최소 거리, triplet = 두 거리 사이 최소 격차(offset)</span></li>
-      <li><a class="sum-k" href="#l03-2-3"><span class="sum-no">2-3</span><b>Lifted Structured</b></a><span class="sum-d">몇 개 pair → batch의 <b>all pairwise edges</b> · hardest negative의 max → <b>log-sum-exp</b>(smooth) · Max=sparse, Sum=uniform, LSE=<b>dense &amp; focused</b></span></li>
-      <li><a class="sum-k" href="#l03-2-4"><span class="sum-no">2-4</span><b>N-pair loss</b></a><span class="sum-d">1 vs 1(Triplet·Lifted) → 1 positive vs <b>N−1 negatives</b> 동시에 = <b>N-way softmax CE</b>(N개 중 positive 찾기) · hard negative mining 불필요</span></li>
-      <li><a class="sum-k" href="#l03-2-5"><span class="sum-no">2-5</span><b>NCE</b></a><span class="sum-d">metric → <b>확률</b>: negative = noise · 샘플 하나씩 data냐 noise냐 <b>binary</b> logistic regression(sigmoid) · 원래 통계 모델 parameter 추정법</span><span class="sum-t">NCE = binary(sigmoid) ≠ InfoNCE = categorical(softmax)</span></li>
-      <li><a class="sum-k" href="#l03-2-6"><span class="sum-no">2-6</span><b>InfoNCE</b></a><span class="sum-d">binary → N개 중 positive 고르는 <b>categorical CE</b>(CPC) · N-pair와 같은 꼴 · 최적 f ∝ p(x|c)/p(x) = <b>density ratio</b> → <b>mutual information</b>↑</span></li>
-      <li><a class="sum-k" href="#l03-2-7"><span class="sum-no">2-7</span><b>Soft-NN loss</b></a><span class="sum-d">positive 1개 → <b>여러 개</b>: 분자 = 같은 class 이웃 전부, 분모 = 모든 이웃 · <b>label 필요</b> · temperature = feature가 얼마나 concentrated한지 조절</span></li>
+      <li><a class="sum-k" href="#l03-2-1"><span class="sum-no">3-2-1</span><b>Contrastive loss</b></a><span class="sum-d"><b>pair</b> 단위 절대 목표: positive d<sup>2</sup> → 0, negative는 <b>margin ε</b> 밖으로 · 한계: 상대 순서 강제 X, margin 밖 negative는 inactive</span></li>
+      <li><a class="sum-k" href="#l03-2-2"><span class="sum-no">3-2-2</span><b>Triplet loss</b></a><span class="sum-d">절대 목표 → <b>상대 순서</b>(FaceNet): <span class="math">max(0, d<sub>ap</sub> − d<sub>an</sub> + ε)</span> · 한계: N<sup>3</sup> 폭발, 대부분 easy → <b>hard negative</b>(가깝지만 다른 class) mining</span><span class="sum-t">margin ε: contrastive = 다른 class 사이 최소 거리, triplet = 두 거리 사이 최소 격차(offset)</span></li>
+      <li><a class="sum-k" href="#l03-2-3"><span class="sum-no">3-2-3</span><b>Lifted Structured</b></a><span class="sum-d">몇 개 pair → batch의 <b>all pairwise edges</b> · hardest negative의 max → <b>log-sum-exp</b>(smooth) · Max=sparse, Sum=uniform, LSE=<b>dense &amp; focused</b></span></li>
+      <li><a class="sum-k" href="#l03-2-4"><span class="sum-no">3-2-4</span><b>N-pair loss</b></a><span class="sum-d">1 vs 1(Triplet·Lifted) → 1 positive vs <b>N−1 negatives</b> 동시에 = <b>N-way softmax CE</b>(N개 중 positive 찾기) · hard negative mining 불필요</span></li>
+      <li><a class="sum-k" href="#l03-2-5"><span class="sum-no">3-2-5</span><b>NCE</b></a><span class="sum-d">metric → <b>확률</b>: negative = noise · 샘플 하나씩 data냐 noise냐 <b>binary</b> logistic regression(sigmoid) · 원래 통계 모델 parameter 추정법</span><span class="sum-t">NCE = binary(sigmoid) ≠ InfoNCE = categorical(softmax)</span></li>
+      <li><a class="sum-k" href="#l03-2-6"><span class="sum-no">3-2-6</span><b>InfoNCE</b></a><span class="sum-d">binary → N개 중 positive 고르는 <b>categorical CE</b>(CPC) · N-pair와 같은 꼴 · 최적 f ∝ p(x|c)/p(x) = <b>density ratio</b> → <b>mutual information</b>↑</span></li>
+      <li><a class="sum-k" href="#l03-2-7"><span class="sum-no">3-2-7</span><b>Soft-NN loss</b></a><span class="sum-d">positive 1개 → <b>여러 개</b>: 분자 = 같은 class 이웃 전부, 분모 = 모든 이웃 · <b>label 필요</b> · temperature = feature가 얼마나 concentrated한지 조절</span></li>
     </ul>
   </div>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l03-p3"><span class="sum-pn">3</span>지금의 표준 틀: Modern setup</a>
+    <a class="sum-part-h" href="#l03-p3"><span class="sum-pn">3-3</span>지금의 표준 틀: Modern setup</a>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l03-3-1"><span class="sum-no">3-1</span><b>Modern setup</b></a><span class="sum-d">positive = 같은 이미지 <b>augmented view</b>(label 있으면 같은 class) · negative = <b>batch의 다른 이미지</b> · cosine/τ InfoNCE = <b>NT-Xent</b></span><span class="sum-t">τ 작을수록 softmax 뾰족 → negative 중 hard negative 몫↑ (고르게 퍼지는 건 큰 τ)</span></li>
+      <li><a class="sum-k" href="#l03-3-1"><span class="sum-no">3-3-1</span><b>Modern setup</b></a><span class="sum-d">positive = 같은 이미지 <b>augmented view</b>(label 있으면 같은 class) · negative = <b>batch의 다른 이미지</b> · cosine/τ InfoNCE = <b>NT-Xent</b></span><span class="sum-t">τ 작을수록 softmax 뾰족 → negative 중 hard negative 몫↑ (고르게 퍼지는 건 큰 τ)</span></li>
     </ul>
   </div>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l03-p4"><span class="sum-pn">4</span>최근 논문 3편: views · features · relationships</a>
+    <a class="sum-part-h" href="#l03-p4"><span class="sum-pn">3-4</span>최근 논문 3편: views · features · relationships</a>
     <p class="sum-p1">표준 InfoNCE의 숨은 가정 3개를 하나씩: views(GenView) · features(MCL) · relationships(X-CLR)</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l03-4-1"><span class="sum-no">4-1</span><b>GenView</b></a><span class="sum-d">good pair = <b>semantics 유지 + diversity</b> → <b>Stable unCLIP</b>으로 view 생성 · <b>similar foreground + different background</b> pair 가중↑</span><span class="sum-t">센 crop=false positive, 약한 crop=limited diversity · small foreground → less noise</span></li>
-      <li><a class="sum-k" href="#l03-4-2"><span class="sum-no">4-2</span><b>MCL</b></a><span class="sum-d"><b>feature suppression</b>(쉬운 feature만 배우고 끝) → stage마다 K-means 후 <b>같은 cluster 안에서 negative</b> · stage별 feature concat (색 → texture → shape)</span><span class="sum-t">MCL ≠ hard negative mining: 지금 가까운 것 X, 이전 stage 같은 cluster → feature 재사용 차단</span></li>
-      <li><a class="sum-k" href="#l03-4-3"><span class="sum-no">4-3</span><b>X-CLR</b></a><span class="sum-d">binary graph → frozen <b>text encoder</b>로 만든 <b>soft similarity graph</b>에 image graph를 CE로 맞춤 · SSL=두 view, SupCon=같은 class, X-CLR=유사도 정도</span><span class="sum-t">τ<sub>s</sub> = target graph(text) 쪽, 클수록 soft · τ = image 쪽 · DINO의 τ<sub>s</sub>(student)와 다름</span></li>
+      <li><a class="sum-k" href="#l03-4-1"><span class="sum-no">3-4-1</span><b>GenView</b></a><span class="sum-d">good pair = <b>semantics 유지 + diversity</b> → <b>Stable unCLIP</b>으로 view 생성 · <b>similar foreground + different background</b> pair 가중↑</span><span class="sum-t">센 crop=false positive, 약한 crop=limited diversity · small foreground → less noise</span></li>
+      <li><a class="sum-k" href="#l03-4-2"><span class="sum-no">3-4-2</span><b>MCL</b></a><span class="sum-d"><b>feature suppression</b>(쉬운 feature만 배우고 끝) → stage마다 K-means 후 <b>같은 cluster 안에서 negative</b> · stage별 feature concat (색 → texture → shape)</span><span class="sum-t">MCL ≠ hard negative mining: 지금 가까운 것 X, 이전 stage 같은 cluster → feature 재사용 차단</span></li>
+      <li><a class="sum-k" href="#l03-4-3"><span class="sum-no">3-4-3</span><b>X-CLR</b></a><span class="sum-d">binary graph → frozen <b>text encoder</b>로 만든 <b>soft similarity graph</b>에 image graph를 CE로 맞춤 · SSL=두 view, SupCon=같은 class, X-CLR=유사도 정도</span><span class="sum-t">τ<sub>s</sub> = target graph(text) 쪽, 클수록 soft · τ = image 쪽 · DINO의 τ<sub>s</sub>(student)와 다름</span></li>
     </ul>
   </div>
 </div>
@@ -543,14 +545,14 @@ details.more{margin:.4rem 0 1.2rem}
   <a class="sum-ch-h" href="#l04"><span class="sum-ch-n">L04</span><span class="sum-ch-t">Contrastive Learning II</span></a>
   <p class="sum-ch-q"><span class="k">질문</span>잘 돌리는 재료는 뭐고, negative 없이도 될까?<span class="sum-a">→ 재료 = heavy aug · large batch · hard negative. negative 없이도 돼: collapse만 다른 장치로 막으면 됨 (BYOL · Barlow Twins · DINO)</span></p>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l04-p1"><span class="sum-pn">1</span>잘 돌리는 재료 · false negative</a>
+    <a class="sum-part-h" href="#l04-p1"><span class="sum-pn">4-1</span>잘 돌리는 재료 · false negative</a>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l04-1-1"><span class="sum-no">1-1</span><b>재료 3개</b></a><span class="sum-d"><b>heavy augmentation</b> → positive (의미 유지) · <b>large batch</b> → negative 양·다양성 · <b>hard negative</b> → 질 (anchor와 가까움, label 없어 찾기 어려움)</span></li>
-      <li><a class="sum-k" href="#l04-1-2"><span class="sum-no">1-2</span><b>Debiased Contrastive</b></a><span class="sum-d">random negative에 같은 class 섞임 = <b>false negative</b> (sampling bias) → 진짜 negative 분포 추정해 InfoNCE 분모에: <span class="math">p<sup>−</sup> = (p − η<sup>+</sup>p<sup>+</sup>)/η<sup>−</sup></span></span><span class="sum-t">false negative (실은 같은 class) ≠ hard negative (다른 class인데 가까움)</span></li>
+      <li><a class="sum-k" href="#l04-1-1"><span class="sum-no">4-1-1</span><b>재료 3개</b></a><span class="sum-d"><b>heavy augmentation</b> → positive (의미 유지) · <b>large batch</b> → negative 양·다양성 · <b>hard negative</b> → 질 (anchor와 가까움, label 없어 찾기 어려움)</span></li>
+      <li><a class="sum-k" href="#l04-1-2"><span class="sum-no">4-1-2</span><b>Debiased Contrastive</b></a><span class="sum-d">random negative에 같은 class 섞임 = <b>false negative</b> (sampling bias) → 진짜 negative 분포 추정해 InfoNCE 분모에: <span class="math">p<sup>−</sup> = (p − η<sup>+</sup>p<sup>+</sup>)/η<sup>−</sup></span></span><span class="sum-t">false negative (실은 같은 class) ≠ hard negative (다른 class인데 가까움)</span></li>
     </ul>
   </div>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l04-p2"><span class="sum-pn">2</span>Augmentation 계열</a>
+    <a class="sum-part-h" href="#l04-p2"><span class="sum-pn">4-2</span>Augmentation 계열</a>
     <p class="sum-p1">좋은 augmentation = visual appearance는 크게 바꾸고 semantic meaning은 유지 → 어떤 변형을 쓰냐가 invariance를 정함</p>
     <ul class="sum-items">
       <li class="sum-tbl"><a class="sum-k" href="#l04-p2"><span class="sum-no">표</span><b>Augmentation Strategies 4종</b></a><span class="sum-d">AutoAugment (<b>RL</b>로 탐색) · RandAugment (랜덤 + <b>N, M</b>만) · PBA (PBT로 fixed policy 대신 <b>schedule</b>) · UDA (unlabeled, 원본과 KL 최소화)</span></li>
@@ -558,21 +560,21 @@ details.more{margin:.4rem 0 1.2rem}
     </ul>
   </div>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l04-p3"><span class="sum-pn">3</span>대표 프레임워크 4개</a>
+    <a class="sum-part-h" href="#l04-p3"><span class="sum-pn">4-3</span>대표 프레임워크 4개</a>
     <p class="sum-p1">collapse 방지에서 갈려: SimCLR negative · BYOL predictor+EMA+sg · Barlow 비대각→0 · DINO centering+sharpening</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l04-3-1"><span class="sum-no">3-1</span><b>SimCLR</b></a><span class="sum-d">같은 사진 두 view 당기고 batch 나머지 <b>2N−2개</b>는 밀기 · <b>InfoNCE</b> (NT-Xent, cosine/τ) · loss는 <span class="math">z = g(h)</span>에 · memory bank 없어 <b>큰 batch</b> 필수</span><span class="sum-t">버리는 건 g (projection head), 쓰는 건 h = f(x̃) · z는 aug-invariant라 h에 정보가 더 남음</span></li>
-      <li><a class="sum-k" href="#l04-3-2"><span class="sum-no">3-2</span><b>BYOL</b></a><span class="sum-d">negative 없이 online(+<b>predictor</b>)이 다른 view의 <b>EMA target</b> 출력을 예측 · target 쪽 <b>stop-gradient</b> · normalized MSE · <span class="math">ξ ← τξ + (1−τ)θ</span></span><span class="sum-t">τ = EMA 계수 (temperature 아님) · predictor는 online에만, sg는 target 쪽</span></li>
-      <li><a class="sum-k" href="#l04-3-3"><span class="sum-no">3-3</span><b>Barlow Twins</b></a><span class="sum-d">cross-correlation (D×D)을 <b>identity</b>로 · 대각→1 <b>invariance</b> · 비대각→0 <b>redundancy reduction</b> · 대칭, negative·predictor·EMA 없음</span><span class="sum-t">sample끼리(B×B)가 아니라 feature 차원끼리(D×D, batch 방향으로 계산) 비교</span></li>
-      <li><a class="sum-k" href="#l04-3-4"><span class="sum-no">3-4</span><b>DINO</b></a><span class="sum-d"><b>student</b>가 <b>EMA teacher</b>(sg)의 분포를 CE로 따라감 (self-distillation) · BYOL과 달리 <b>distribution matching</b> · emergent: attention이 물체 모양</span><span class="sum-t">centering·sharpening 둘 다 teacher에만 · C = teacher 출력 평균의 EMA · predictor 없음</span></li>
+      <li><a class="sum-k" href="#l04-3-1"><span class="sum-no">4-3-1</span><b>SimCLR</b></a><span class="sum-d">같은 사진 두 view 당기고 batch 나머지 <b>2N−2개</b>는 밀기 · <b>InfoNCE</b> (NT-Xent, cosine/τ) · loss는 <span class="math">z = g(h)</span>에 · memory bank 없어 <b>큰 batch</b> 필수</span><span class="sum-t">버리는 건 g (projection head), 쓰는 건 h = f(x̃) · z는 aug-invariant라 h에 정보가 더 남음</span></li>
+      <li><a class="sum-k" href="#l04-3-2"><span class="sum-no">4-3-2</span><b>BYOL</b></a><span class="sum-d">negative 없이 online(+<b>predictor</b>)이 다른 view의 <b>EMA target</b> 출력을 예측 · target 쪽 <b>stop-gradient</b> · normalized MSE · <span class="math">ξ ← τξ + (1−τ)θ</span></span><span class="sum-t">τ = EMA 계수 (temperature 아님) · predictor는 online에만, sg는 target 쪽</span></li>
+      <li><a class="sum-k" href="#l04-3-3"><span class="sum-no">4-3-3</span><b>Barlow Twins</b></a><span class="sum-d">cross-correlation (D×D)을 <b>identity</b>로 · 대각→1 <b>invariance</b> · 비대각→0 <b>redundancy reduction</b> · 대칭, negative·predictor·EMA 없음</span><span class="sum-t">sample끼리(B×B)가 아니라 feature 차원끼리(D×D, batch 방향으로 계산) 비교</span></li>
+      <li><a class="sum-k" href="#l04-3-4"><span class="sum-no">4-3-4</span><b>DINO</b></a><span class="sum-d"><b>student</b>가 <b>EMA teacher</b>(sg)의 분포를 CE로 따라감 (self-distillation) · BYOL과 달리 <b>distribution matching</b> · emergent: attention이 물체 모양</span><span class="sum-t">centering·sharpening 둘 다 teacher에만 · C = teacher 출력 평균의 EMA · predictor 없음</span></li>
     </ul>
   </div>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l04-p4"><span class="sum-pn">4</span>최근 확장: 생성한 positive · DINO를 foundation model로</a>
+    <a class="sum-part-h" href="#l04-p4"><span class="sum-pn">4-4</span>최근 확장: 생성한 positive · DINO를 foundation model로</a>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l04-4-1"><span class="sum-no">4-1</span><b>SynCLR</b></a><span class="sum-d">Llama-2 caption → 이미지 생성 · <b>같은 caption = positive set</b> (multi-positive) · real image 없음 · image identity 아닌 caption 의미 보존</span></li>
-      <li><a class="sum-k" href="#l04-4-2"><span class="sum-no">4-2</span><b>DINOv2</b></a><span class="sum-d">DINO + <b>iBOT</b> (masked patch) + <b>KoLeo</b> (퍼뜨리기) + Curated (LVD-142M) + <b>Scaling</b> (ViT-g distill) · 새 loss 아닌 integrated system</span><span class="sum-t">이미지만으로 학습 (label·caption 없음). caption을 쓰는 건 SynCLR</span></li>
-      <li><a class="sum-k" href="#l04-4-3"><span class="sum-no">4-3</span><b>DINOv3 · Gram anchoring</b></a><span class="sum-d">오래 학습하면 global ↑인데 dense(patch) feature 열화 → patch 깨끗하던 예전 checkpoint의 <b>Gram matrix</b> <span class="math">XX<sup>⊤</sup></span> 유지 · feature 말고 <b>patch 유사도 구조</b>를 맞춤</span></li>
+      <li><a class="sum-k" href="#l04-4-1"><span class="sum-no">4-4-1</span><b>SynCLR</b></a><span class="sum-d">Llama-2 caption → 이미지 생성 · <b>같은 caption = positive set</b> (multi-positive) · real image 없음 · image identity 아닌 caption 의미 보존</span></li>
+      <li><a class="sum-k" href="#l04-4-2"><span class="sum-no">4-4-2</span><b>DINOv2</b></a><span class="sum-d">DINO + <b>iBOT</b> (masked patch) + <b>KoLeo</b> (퍼뜨리기) + Curated (LVD-142M) + <b>Scaling</b> (ViT-g distill) · 새 loss 아닌 integrated system</span><span class="sum-t">이미지만으로 학습 (label·caption 없음). caption을 쓰는 건 SynCLR</span></li>
+      <li><a class="sum-k" href="#l04-4-3"><span class="sum-no">4-4-3</span><b>DINOv3 · Gram anchoring</b></a><span class="sum-d">오래 학습하면 global ↑인데 dense(patch) feature 열화 → patch 깨끗하던 예전 checkpoint의 <b>Gram matrix</b> <span class="math">XX<sup>⊤</sup></span> 유지 · feature 말고 <b>patch 유사도 구조</b>를 맞춤</span></li>
     </ul>
   </div>
 </div>
@@ -581,33 +583,33 @@ details.more{margin:.4rem 0 1.2rem}
   <a class="sum-ch-h" href="#l05"><span class="sum-ch-n">L05</span><span class="sum-ch-t">Contrastive Learning III</span></a>
   <p class="sum-ch-q"><span class="k">질문</span>negative를 싸게 많이 구하려면? negative 말고 다른 supervision은?<span class="sum-a">→ queue + momentum encoder(MoCo)로 크고 consistent한 negative · 아니면 cluster·text·label·이웃으로 "같은 것"을 새로 정의</span></p>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l05-p1"><span class="sum-pn">1</span>negative 창고 짓기</a>
+    <a class="sum-part-h" href="#l05-p1"><span class="sum-pn">5-1</span>negative 창고 짓기</a>
     <p class="sum-p1">memory bank(많지만 stale) → MoCo(queue + momentum: large + consistent) → MoCo v2 · CURL</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l05-1-1"><span class="sum-no">1-1</span><b>Memory bank</b></a><span class="sum-d">과거 embedding을 <b>store</b> → negative로 <b>reuse</b> · negative 수가 batch에서 풀림 · 대가: 옛 encoder 값이라 <b>stale</b> (mini-batch는 적지만 fresh)</span></li>
-      <li><a class="sum-k" href="#l05-1-2"><span class="sum-no">1-2</span><b>Instance Discrimination</b></a><span class="sum-d">each image = unique class · class weight 대신 bank feature <span class="math">v<sub>i</sub></span>(<b>non-parametric softmax</b>) · <b>NCE</b>로 근사(negative 일부만) · 한계: stale</span></li>
-      <li><a class="sum-k" href="#l05-1-3"><span class="sum-no">1-3</span><b>MoCo</b></a><span class="sum-d"><b>FIFO queue</b>(key 수를 batch와 분리 → large) + <b>momentum encoder</b>(천천히 변함 → consistent) · <span class="math">θ<sub>k</sub> ← mθ<sub>k</sub> + (1−m)θ<sub>q</sub></span>, m ≈ 1 · InfoNCE</span><span class="sum-t">gradient는 query encoder로만 · key encoder는 backprop 없이 momentum(EMA)으로만</span></li>
+      <li><a class="sum-k" href="#l05-1-1"><span class="sum-no">5-1-1</span><b>Memory bank</b></a><span class="sum-d">과거 embedding을 <b>store</b> → negative로 <b>reuse</b> · negative 수가 batch에서 풀림 · 대가: 옛 encoder 값이라 <b>stale</b> (mini-batch는 적지만 fresh)</span></li>
+      <li><a class="sum-k" href="#l05-1-2"><span class="sum-no">5-1-2</span><b>Instance Discrimination</b></a><span class="sum-d">each image = unique class · class weight 대신 bank feature <span class="math">v<sub>i</sub></span>(<b>non-parametric softmax</b>) · <b>NCE</b>로 근사(negative 일부만) · 한계: stale</span></li>
+      <li><a class="sum-k" href="#l05-1-3"><span class="sum-no">5-1-3</span><b>MoCo</b></a><span class="sum-d"><b>FIFO queue</b>(key 수를 batch와 분리 → large) + <b>momentum encoder</b>(천천히 변함 → consistent) · <span class="math">θ<sub>k</sub> ← mθ<sub>k</sub> + (1−m)θ<sub>q</sub></span>, m ≈ 1 · InfoNCE</span><span class="sum-t">gradient는 query encoder로만 · key encoder는 backprop 없이 momentum(EMA)으로만</span></li>
       <li class="sum-tbl"><a class="sum-k" href="#l05-p1"><span class="sum-no">표</span><b>End-to-end · Bank · MoCo</b></a><span class="sum-d">key: 현재 / bank / momentum encoder · negative: batch / bank / FIFO queue · dictionary: 작음 / 큼 / 큼 → MoCo = hybrid</span><span class="sum-t">Feature Freshness: fresh(end-to-end) / stale(bank) / consistent(MoCo)</span></li>
-      <li><a class="sum-k" href="#l05-1-4"><span class="sum-no">1-4</span><b>MoCo v2</b></a><span class="sum-d">MoCo + SimCLR 레시피 2개: <b>MLP projection head</b> + <b>strong augmentation</b> · negative 수가 batch와 분리 → batch 256으로 SimCLR(8192)를 이김</span><span class="sum-t">새 architecture 아님 · queue와 momentum encoder는 그대로</span></li>
-      <li><a class="sum-k" href="#l05-1-5"><span class="sum-no">1-5</span><b>CURL</b></a><span class="sum-d">MoCo식 contrastive를 <b>pixel RL</b>에 · replay buffer obs를 random crop 2번 → positive · RL loss와 <b>동시에</b> 학습 → sample efficiency ↑</span></li>
+      <li><a class="sum-k" href="#l05-1-4"><span class="sum-no">5-1-4</span><b>MoCo v2</b></a><span class="sum-d">MoCo + SimCLR 레시피 2개: <b>MLP projection head</b> + <b>strong augmentation</b> · negative 수가 batch와 분리 → batch 256으로 SimCLR(8192)를 이김</span><span class="sum-t">새 architecture 아님 · queue와 momentum encoder는 그대로</span></li>
+      <li><a class="sum-k" href="#l05-1-5"><span class="sum-no">5-1-5</span><b>CURL</b></a><span class="sum-d">MoCo식 contrastive를 <b>pixel RL</b>에 · replay buffer obs를 random crop 2번 → positive · RL loss와 <b>동시에</b> 학습 → sample efficiency ↑</span></li>
     </ul>
   </div>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l05-p2"><span class="sum-pn">2</span>negative 말고 다른 신호</a>
+    <a class="sum-part-h" href="#l05-p2"><span class="sum-pn">5-2</span>negative 말고 다른 신호</a>
     <p class="sum-p1">같은 종류도 밀어내는 false negative → "같은 것"을 cluster(DeepCluster·SwAV) · text(CLIP) · label(SupCon)로 정함</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l05-2-1"><span class="sum-no">2-1</span><b>DeepCluster</b></a><span class="sum-d"><b>k-means</b> cluster ID = <b>pseudo label</b> → 분류 학습 → 다시 clustering 반복 (alternate clustering &amp; classification) · pair 없음</span></li>
-      <li><a class="sum-k" href="#l05-2-2"><span class="sum-no">2-2</span><b>SwAV</b></a><span class="sum-d">trainable <b>prototype</b> K개 → view마다 code를 online 계산 → 다른 view의 code를 맞힘(<b>swapped prediction</b>) · Feature ↔ Prototype</span><span class="sum-t">DeepCluster = offline ↔ SwAV = online · SwAV는 명시적 negative 없음</span></li>
-      <li><a class="sum-k" href="#l05-2-3"><span class="sum-no">2-3</span><b>CLIP</b></a><span class="sum-d">자연어가 supervision: (image, text) 쌍을 <b>shared embedding space</b>로 · n×n 대각선 = positive, <b>symmetric</b> loss · <b>zero-shot</b> = prompt 매칭</span><span class="sum-t">contrastive가 caption 예측보다 ~4× data-efficient · BoW &gt; Transformer LM</span></li>
-      <li><a class="sum-k" href="#l05-2-4"><span class="sum-no">2-4</span><b>SupCon</b></a><span class="sum-d">label 사용: <b>같은 class 전부 positive</b>, 다른 class는 negative · positive마다 InfoNCE를 계산해 평균 (positive 1개면 SimCLR와 같음)</span><span class="sum-t">CE보다 정확도는 조금만 ↑ · 장점은 robustness(ImageNet-C)와 hyperparameter 둔감</span></li>
+      <li><a class="sum-k" href="#l05-2-1"><span class="sum-no">5-2-1</span><b>DeepCluster</b></a><span class="sum-d"><b>k-means</b> cluster ID = <b>pseudo label</b> → 분류 학습 → 다시 clustering 반복 (alternate clustering &amp; classification) · pair 없음</span></li>
+      <li><a class="sum-k" href="#l05-2-2"><span class="sum-no">5-2-2</span><b>SwAV</b></a><span class="sum-d">trainable <b>prototype</b> K개 → view마다 code를 online 계산 → 다른 view의 code를 맞힘(<b>swapped prediction</b>) · Feature ↔ Prototype</span><span class="sum-t">DeepCluster = offline ↔ SwAV = online · SwAV는 명시적 negative 없음</span></li>
+      <li><a class="sum-k" href="#l05-2-3"><span class="sum-no">5-2-3</span><b>CLIP</b></a><span class="sum-d">자연어가 supervision: (image, text) 쌍을 <b>shared embedding space</b>로 · n×n 대각선 = positive, <b>symmetric</b> loss · <b>zero-shot</b> = prompt 매칭</span><span class="sum-t">contrastive가 caption 예측보다 ~4× data-efficient · BoW &gt; Transformer LM</span></li>
+      <li><a class="sum-k" href="#l05-2-4"><span class="sum-no">5-2-4</span><b>SupCon</b></a><span class="sum-d">label 사용: <b>같은 class 전부 positive</b>, 다른 class는 negative · positive마다 InfoNCE를 계산해 평균 (positive 1개면 SimCLR와 같음)</span><span class="sum-t">CE보다 정확도는 조금만 ↑ · 장점은 robustness(ImageNet-C)와 hyperparameter 둔감</span></li>
     </ul>
   </div>
   <div class="sum-part">
-    <a class="sum-part-h" href="#l05-p3"><span class="sum-pn">3</span>넓히기: 이웃 · fine-grained · 틀린 label</a>
+    <a class="sum-part-h" href="#l05-p3"><span class="sum-pn">5-3</span>넓히기: 이웃 · fine-grained · 틀린 label</a>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l05-3-1"><span class="sum-no">3-1</span><b>NNCLR → All4One</b></a><span class="sum-d">이웃을 <b>positive</b>로: NNCLR = support set NN 1개 · All4One = K개 → <b>self-attention</b> centroid(평균 X) + Neighbor·Centroid·Feature loss</span></li>
-      <li><a class="sum-k" href="#l05-3-2"><span class="sum-no">3-2</span><b>PAPN</b></a><span class="sum-d">fine-grained: 강한 aug는 shallow stage를 더 흔듦 → <b>SPA</b>(shallow mild, deep strong) + <b>PHP</b>(prototype part + whole 같이 contrast)</span></li>
-      <li><a class="sum-k" href="#l05-3-3"><span class="sum-no">3-3</span><b>SCL-RHE</b></a><span class="sum-d">SupCon의 human label error: 틀린 신호 99%+가 <b>false positive</b>(AL 같고 LL 다름, 이미 가까움) → <b>hard positive</b> 강조</span><span class="sum-t">similarity 높은(easy) positive → sampling weight를 낮게</span></li>
+      <li><a class="sum-k" href="#l05-3-1"><span class="sum-no">5-3-1</span><b>NNCLR → All4One</b></a><span class="sum-d">이웃을 <b>positive</b>로: NNCLR = support set NN 1개 · All4One = K개 → <b>self-attention</b> centroid(평균 X) + Neighbor·Centroid·Feature loss</span></li>
+      <li><a class="sum-k" href="#l05-3-2"><span class="sum-no">5-3-2</span><b>PAPN</b></a><span class="sum-d">fine-grained: 강한 aug는 shallow stage를 더 흔듦 → <b>SPA</b>(shallow mild, deep strong) + <b>PHP</b>(prototype part + whole 같이 contrast)</span></li>
+      <li><a class="sum-k" href="#l05-3-3"><span class="sum-no">5-3-3</span><b>SCL-RHE</b></a><span class="sum-d">SupCon의 human label error: 틀린 신호 99%+가 <b>false positive</b>(AL 같고 LL 다름, 이미 가까움) → <b>hard positive</b> 강조</span><span class="sum-t">similarity 높은(easy) positive → sampling weight를 낮게</span></li>
     </ul>
   </div>
 </div>
@@ -617,45 +619,45 @@ details.more{margin:.4rem 0 1.2rem}
   <p class="sum-ch-q"><span class="k">질문</span>label이 조금 있을 때 unlabeled를 어떻게 써먹나? ① consistency<span class="sum-a">→ L<sub>u</sub> = <b>consistency</b>: 흔들어도 예측이 같게 (H1). target 출처(Π → TE → MT) · 흔드는 법(noisy samples → AT → VAT → ICT → UDA)</span></p>
 
   <div class="sum-part">
-    <a class="sum-part-h" href="#l06-p1"><span class="sum-pn">1</span>문제 설정: 목표식 · 가정 · consistency</a>
+    <a class="sum-part-h" href="#l06-p1"><span class="sum-pn">6-1</span>문제 설정: 목표식 · 가정 · consistency</a>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l06-1-1"><span class="sum-no">1-1</span><b>label 부족 해법 4개</b></a><span class="sum-d">pre-train → fine-tune(<b>순차</b>) · active learning(label 달 샘플 선택) · auto-generation · <b>semi-supervised</b>(labeled·unlabeled <b>together</b>)</span></li>
-      <li><a class="sum-k" href="#l06-1-2"><span class="sum-no">1-2</span><b>목표식</b></a><span class="sum-d"><span class="math">L = L<sub>s</sub> + μ(t)·L<sub>u</sub></span> · μ(t)는 <b>increasing in time</b> (초반 예측은 못 믿음) · L<sub>u</sub> 설계 두 갈래: consistency(L06) / pseudo label(L07)</span></li>
-      <li><a class="sum-k" href="#l06-1-3"><span class="sum-no">1-3</span><b>가정 H1–H4</b></a><span class="sum-d">H1 <b>Smoothness</b>(흔들어도 label 유지) · H2 Cluster(한 cluster = 한 label) · H3 <b>Low-density</b> separation(boundary는 빈 곳) · H4 Manifold(low-dim)</span><span class="sum-t">H3 boundary는 low-density(high 아님), H4는 low-dimensional manifold</span></li>
-      <li><a class="sum-k" href="#l06-1-4"><span class="sum-no">1-4</span><b>Consistency regularization</b></a><span class="sum-d"><span class="math">L<sub>u</sub> = D(f(x), f(A(x)))</span> · label 없이 두 예측만 맞춤(= H1) · perturbation: <b>data aug</b> / <b>model stochasticity</b>(dropout)</span></li>
+      <li><a class="sum-k" href="#l06-1-1"><span class="sum-no">6-1-1</span><b>label 부족 해법 4개</b></a><span class="sum-d">pre-train → fine-tune(<b>순차</b>) · active learning(label 달 샘플 선택) · auto-generation · <b>semi-supervised</b>(labeled·unlabeled <b>together</b>)</span></li>
+      <li><a class="sum-k" href="#l06-1-2"><span class="sum-no">6-1-2</span><b>목표식</b></a><span class="sum-d"><span class="math">L = L<sub>s</sub> + μ(t)·L<sub>u</sub></span> · μ(t)는 <b>increasing in time</b> (초반 예측은 못 믿음) · L<sub>u</sub> 설계 두 갈래: consistency(L06) / pseudo label(L07)</span></li>
+      <li><a class="sum-k" href="#l06-1-3"><span class="sum-no">6-1-3</span><b>가정 H1–H4</b></a><span class="sum-d">H1 <b>Smoothness</b>(흔들어도 label 유지) · H2 Cluster(한 cluster = 한 label) · H3 <b>Low-density</b> separation(boundary는 빈 곳) · H4 Manifold(low-dim)</span><span class="sum-t">H3 boundary는 low-density(high 아님), H4는 low-dimensional manifold</span></li>
+      <li><a class="sum-k" href="#l06-1-4"><span class="sum-no">6-1-4</span><b>Consistency regularization</b></a><span class="sum-d"><span class="math">L<sub>u</sub> = D(f(x), f(A(x)))</span> · label 없이 두 예측만 맞춤(= H1) · perturbation: <b>data aug</b> / <b>model stochasticity</b>(dropout)</span></li>
     </ul>
   </div>
 
   <div class="sum-part">
-    <a class="sum-part-h" href="#l06-p2"><span class="sum-pn">2</span>target을 어디서 얻나: Π → TE → Mean Teacher</a>
+    <a class="sum-part-h" href="#l06-p2"><span class="sum-pn">6-2</span>target을 어디서 얻나: Π → TE → Mean Teacher</a>
     <p class="sum-p1">셋 다 consistency loss. 갈리는 건 target z̃의 출처: 한 번 더 forward → 과거 예측 EMA → weight EMA teacher</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l06-2-1"><span class="sum-no">2-1</span><b>Π-model</b></a><span class="sum-d">같은 입력을 <b>같은 θ</b>에 다른 dropout·augmentation으로 <b>forward 2번</b> → 두 출력 MSE · labeled + unlabeled 모두에 · 약점: 비용 2배</span><span class="sum-t">파라미터가 다른 두 모델이 아님. network 하나를 noise만 바꿔 두 번</span></li>
-      <li><a class="sum-k" href="#l06-2-2"><span class="sum-no">2-2</span><b>Temporal Ensembling</b></a><span class="sum-d">target = 그 샘플의 <b>과거 예측 EMA</b> <span class="math">Z ← αZ + (1−α)z</span> · forward 1번 · <b>epoch 끝</b>에 갱신 + bias correction <span class="math">Z/(1−α<sup>t</sup>)</span> · 약점: N×C 메모리</span></li>
-      <li><a class="sum-k" href="#l06-2-3"><span class="sum-no">2-3</span><b>Mean Teacher</b></a><span class="sum-d">teacher = student <b>weight의 EMA</b> <span class="math">θ′ ← βθ′ + (1−β)θ</span> · <b>매 iteration</b>, backprop 없음 · β 0.99 → 0.999 · dropout은 student만 · MSE &gt; KL</span><span class="sum-t">TE = prediction EMA(epoch 끝) ↔ MT = weight EMA(매 iteration). teacher도 계속 갱신됨</span></li>
+      <li><a class="sum-k" href="#l06-2-1"><span class="sum-no">6-2-1</span><b>Π-model</b></a><span class="sum-d">같은 입력을 <b>같은 θ</b>에 다른 dropout·augmentation으로 <b>forward 2번</b> → 두 출력 MSE · labeled + unlabeled 모두에 · 약점: 비용 2배</span><span class="sum-t">파라미터가 다른 두 모델이 아님. network 하나를 noise만 바꿔 두 번</span></li>
+      <li><a class="sum-k" href="#l06-2-2"><span class="sum-no">6-2-2</span><b>Temporal Ensembling</b></a><span class="sum-d">target = 그 샘플의 <b>과거 예측 EMA</b> <span class="math">Z ← αZ + (1−α)z</span> · forward 1번 · <b>epoch 끝</b>에 갱신 + bias correction <span class="math">Z/(1−α<sup>t</sup>)</span> · 약점: N×C 메모리</span></li>
+      <li><a class="sum-k" href="#l06-2-3"><span class="sum-no">6-2-3</span><b>Mean Teacher</b></a><span class="sum-d">teacher = student <b>weight의 EMA</b> <span class="math">θ′ ← βθ′ + (1−β)θ</span> · <b>매 iteration</b>, backprop 없음 · β 0.99 → 0.999 · dropout은 student만 · MSE &gt; KL</span><span class="sum-t">TE = prediction EMA(epoch 끝) ↔ MT = weight EMA(매 iteration). teacher도 계속 갱신됨</span></li>
       <li class="sum-tbl"><a class="sum-k" href="#l06-p2"><span class="sum-no">표</span><b>Π · TE · MT</b></a><span class="sum-d">EMA: 없음(매 iteration 새로 forward) / predictions(epoch 끝) / weights(매 iteration) · forward 2 / 1 / 1 + 1</span></li>
     </ul>
   </div>
 
   <div class="sum-part">
-    <a class="sum-part-h" href="#l06-p3"><span class="sum-pn">3</span>perturbation을 어떻게 주나</a>
+    <a class="sum-part-h" href="#l06-p3"><span class="sum-pn">6-3</span>perturbation을 어떻게 주나</a>
     <p class="sum-p1">흐름: network 안 noise → 입력에 센 aug → worst-case 방향(adversarial) → MixUp → 질 좋은 의미적 aug</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l06-3-1"><span class="sum-no">3-1</span><b>Noisy samples as targets</b></a><span class="sum-d"><b>같은 모델</b>로 원본 vs <b>strong aug</b> 버전 예측을 같게 · vs Π: dropout 위주 noise 대신 입력에 <b>센</b> aug · vs MT: EMA teacher 없이 self-consistency</span></li>
-      <li><a class="sum-k" href="#l06-3-2"><span class="sum-no">3-2</span><b>Adversarial Training</b></a><span class="sum-d"><b>worst-case</b> noise(<span class="math">‖r‖ ≤ ε</span>)를 넣고도 <b>GT label</b>을 맞히게 · FGSM <span class="math">r ≈ ε·sign(g)</span> · supervised, 목적은 robustness</span></li>
-      <li><a class="sum-k" href="#l06-3-3"><span class="sum-no">3-3</span><b>VAT</b></a><span class="sum-d">GT 대신 <b>모델 자신의 현재 예측</b>을 target(<b>virtual</b>) → unlabeled에도 · 목적은 local smoothness · random 방향(RPT)보다 효과적</span><span class="sum-t">AT = GT label(supervised) ↔ VAT = 모델 예측. virtual ≠ 합성 이미지 · random noise</span></li>
-      <li><a class="sum-k" href="#l06-3-4"><span class="sum-no">3-4</span><b>ICT</b></a><span class="sum-d">unlabeled 두 장 <b>MixUp</b> → student 예측 ≈ <b>Mean Teacher</b> 예측의 mix (mixed inputs → mixed predictions) · low-density separation과 맞음</span></li>
-      <li><a class="sum-k" href="#l06-3-5"><span class="sum-no">3-5</span><b>UDA</b></a><span class="sum-d">adversarial noise 대신 label-preserving 센 의미적 aug(<b>RandAugment</b>) · <span class="math">p(y|x) ≈ p(y|Aug(x))</span> · VAT·ICT를 이김 → <b>augmentation 품질</b>이 핵심</span></li>
+      <li><a class="sum-k" href="#l06-3-1"><span class="sum-no">6-3-1</span><b>Noisy samples as targets</b></a><span class="sum-d"><b>같은 모델</b>로 원본 vs <b>strong aug</b> 버전 예측을 같게 · vs Π: dropout 위주 noise 대신 입력에 <b>센</b> aug · vs MT: EMA teacher 없이 self-consistency</span></li>
+      <li><a class="sum-k" href="#l06-3-2"><span class="sum-no">6-3-2</span><b>Adversarial Training</b></a><span class="sum-d"><b>worst-case</b> noise(<span class="math">‖r‖ ≤ ε</span>)를 넣고도 <b>GT label</b>을 맞히게 · FGSM <span class="math">r ≈ ε·sign(g)</span> · supervised, 목적은 robustness</span></li>
+      <li><a class="sum-k" href="#l06-3-3"><span class="sum-no">6-3-3</span><b>VAT</b></a><span class="sum-d">GT 대신 <b>모델 자신의 현재 예측</b>을 target(<b>virtual</b>) → unlabeled에도 · 목적은 local smoothness · random 방향(RPT)보다 효과적</span><span class="sum-t">AT = GT label(supervised) ↔ VAT = 모델 예측. virtual ≠ 합성 이미지 · random noise</span></li>
+      <li><a class="sum-k" href="#l06-3-4"><span class="sum-no">6-3-4</span><b>ICT</b></a><span class="sum-d">unlabeled 두 장 <b>MixUp</b> → student 예측 ≈ <b>Mean Teacher</b> 예측의 mix (mixed inputs → mixed predictions) · low-density separation과 맞음</span></li>
+      <li><a class="sum-k" href="#l06-3-5"><span class="sum-no">6-3-5</span><b>UDA</b></a><span class="sum-d">adversarial noise 대신 label-preserving 센 의미적 aug(<b>RandAugment</b>) · <span class="math">p(y|x) ≈ p(y|Aug(x))</span> · VAT·ICT를 이김 → <b>augmentation 품질</b>이 핵심</span></li>
     </ul>
   </div>
 
   <div class="sum-part">
-    <a class="sum-part-h" href="#l06-p4"><span class="sum-pn">4</span>segmentation 3편: teacher–student 다듬기</a>
+    <a class="sum-part-h" href="#l06-p4"><span class="sum-pn">6-4</span>segmentation 3편: teacher–student 다듬기</a>
     <p class="sum-p1">셋 다 Mean Teacher 뼈대 + weak-to-strong(teacher엔 weak aug, student엔 strong aug). 약점을 하나씩 고침</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l06-4-1"><span class="sum-no">4-1</span><b>PS-MT</b></a><span class="sum-d">teacher부터 믿을 만하게: <b>teacher 2개 ensemble</b>(epoch마다 하나만 갱신) · student엔 센 perturbation(CutMix, <b>T-VAT</b>) · MSE → <b>Conf-CE</b></span><span class="sum-t">T-VAT: 방향은 teacher가 찾고, perturbation은 student feature에. CutMix는 teacher 예측 이후</span></li>
-      <li><a class="sum-k" href="#l06-4-2"><span class="sum-no">4-2</span><b>Dual Teacher</b></a><span class="sum-d">teacher가 student를 닮아가는 <b>coupling</b> 해결 · 임시 EMA teacher 2개를 epoch마다 <b>switching</b>(active만 target·갱신) · 두 번째 student 없이 diversity</span><span class="sum-t">둘 다 epoch마다 teacher 1개만 갱신. 차이는 target: PS-MT = 둘의 ensemble ↔ Dual = active 1개</span></li>
-      <li><a class="sum-k" href="#l06-4-3"><span class="sum-no">4-3</span><b>S⁴Former</b></a><span class="sum-d">ViT 맞춤 3단: Input <b>PatchShuffle</b> · Feature <b>PASA</b>(teacher가 불확실한 patch만 attention 조절) · Output <b>NCR</b>(pseudo-label class 뺀 분포)</span></li>
+      <li><a class="sum-k" href="#l06-4-1"><span class="sum-no">6-4-1</span><b>PS-MT</b></a><span class="sum-d">teacher부터 믿을 만하게: <b>teacher 2개 ensemble</b>(epoch마다 하나만 갱신) · student엔 센 perturbation(CutMix, <b>T-VAT</b>) · MSE → <b>Conf-CE</b></span><span class="sum-t">T-VAT: 방향은 teacher가 찾고, perturbation은 student feature에. CutMix는 teacher 예측 이후</span></li>
+      <li><a class="sum-k" href="#l06-4-2"><span class="sum-no">6-4-2</span><b>Dual Teacher</b></a><span class="sum-d">teacher가 student를 닮아가는 <b>coupling</b> 해결 · 임시 EMA teacher 2개를 epoch마다 <b>switching</b>(active만 target·갱신) · 두 번째 student 없이 diversity</span><span class="sum-t">둘 다 epoch마다 teacher 1개만 갱신. 차이는 target: PS-MT = 둘의 ensemble ↔ Dual = active 1개</span></li>
+      <li><a class="sum-k" href="#l06-4-3"><span class="sum-no">6-4-3</span><b>S⁴Former</b></a><span class="sum-d">ViT 맞춤 3단: Input <b>PatchShuffle</b> · Feature <b>PASA</b>(teacher가 불확실한 patch만 attention 조절) · Output <b>NCR</b>(pseudo-label class 뺀 분포)</span></li>
     </ul>
   </div>
 </div>
@@ -665,49 +667,49 @@ details.more{margin:.4rem 0 1.2rem}
   <p class="sum-ch-q"><span class="k">질문</span>② confident한 예측을 정답으로 쓰자. 근데 틀리면?<span class="sum-a">→ confident 예측 = <b>pseudo label</b>. 틀리면 자기강화(<b>confirmation bias</b>) → graph·noise·teacher 학습·threshold·상대 network로 줄여</span></p>
 
   <div class="sum-part">
-    <a class="sum-part-h" href="#l07-p1"><span class="sum-pn">1</span>기본기</a>
+    <a class="sum-part-h" href="#l07-p1"><span class="sum-pn">7-1</span>기본기</a>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l07-1-1"><span class="sum-no">1-1</span><b>Pseudo-Label &amp; Entropy Min.</b></a><span class="sum-d">confident 예측 → <span class="math">y* = argmax p(y|x)</span> one-hot → CE · <b>entropy regularization</b>의 <b>hard-label 근사</b> → boundary가 <b>low-density</b>로</span></li>
-      <li><a class="sum-k" href="#l07-1-2"><span class="sum-no">1-2</span><b>Label Propagation</b></a><span class="sum-d">feature 공간 <b>kNN graph</b>로 labeled → unlabeled label 확산 · <b>similarity</b>-based (PL은 confidence-based) · 비용↑·feature 질 의존</span></li>
-      <li><a class="sum-k" href="#l07-1-3"><span class="sum-no">1-3</span><b>Self-training · Noisy Student</b></a><span class="sum-d">teacher → student(다음 teacher) 반복 · <b>student에만 noise</b>(RandAugment·Dropout·Stochastic Depth) → 그대로 베끼기 방지 · soft &gt; hard</span><span class="sum-t">noise는 student에만, student ≥ teacher 크기 (distillation과 크기 방향 반대)</span></li>
+      <li><a class="sum-k" href="#l07-1-1"><span class="sum-no">7-1-1</span><b>Pseudo-Label &amp; Entropy Min.</b></a><span class="sum-d">confident 예측 → <span class="math">y* = argmax p(y|x)</span> one-hot → CE · <b>entropy regularization</b>의 <b>hard-label 근사</b> → boundary가 <b>low-density</b>로</span></li>
+      <li><a class="sum-k" href="#l07-1-2"><span class="sum-no">7-1-2</span><b>Label Propagation</b></a><span class="sum-d">feature 공간 <b>kNN graph</b>로 labeled → unlabeled label 확산 · <b>similarity</b>-based (PL은 confidence-based) · 비용↑·feature 질 의존</span></li>
+      <li><a class="sum-k" href="#l07-1-3"><span class="sum-no">7-1-3</span><b>Self-training · Noisy Student</b></a><span class="sum-d">teacher → student(다음 teacher) 반복 · <b>student에만 noise</b>(RandAugment·Dropout·Stochastic Depth) → 그대로 베끼기 방지 · soft &gt; hard</span><span class="sum-t">noise는 student에만, student ≥ teacher 크기 (distillation과 크기 방향 반대)</span></li>
     </ul>
   </div>
 
   <div class="sum-part">
-    <a class="sum-part-h" href="#l07-p2"><span class="sum-pn">2</span>틀린 pseudo label 다루기</a>
+    <a class="sum-part-h" href="#l07-p2"><span class="sum-pn">7-2</span>틀린 pseudo label 다루기</a>
     <p class="sum-p1">confirmation bias 대응 두 갈래: student를 regularize (Arazo) ↔ teacher를 학습 (Meta PL)</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l07-2-1"><span class="sum-no">2-1</span><b>Confirmation bias · Arazo</b></a><span class="sum-d">틀린 pseudo label을 student가 따라 해 오류 누적 · 해법: soft label <b>MixUp</b> + labeled <b>oversampling</b>(batch당 최소 수) + strong aug + dropout</span></li>
-      <li><a class="sum-k" href="#l07-2-2"><span class="sum-no">2-2</span><b>Meta Pseudo Labels</b></a><span class="sum-d">teacher 고정 X → <b>teacher를 학습</b> · bi-level: student는 teacher의 pseudo label로, teacher는 그 student의 <b>labeled loss</b>(진짜 정답)가 줄게</span></li>
+      <li><a class="sum-k" href="#l07-2-1"><span class="sum-no">7-2-1</span><b>Confirmation bias · Arazo</b></a><span class="sum-d">틀린 pseudo label을 student가 따라 해 오류 누적 · 해법: soft label <b>MixUp</b> + labeled <b>oversampling</b>(batch당 최소 수) + strong aug + dropout</span></li>
+      <li><a class="sum-k" href="#l07-2-2"><span class="sum-no">7-2-2</span><b>Meta Pseudo Labels</b></a><span class="sum-d">teacher 고정 X → <b>teacher를 학습</b> · bi-level: student는 teacher의 pseudo label로, teacher는 그 student의 <b>labeled loss</b>(진짜 정답)가 줄게</span></li>
     </ul>
   </div>
 
   <div class="sum-part">
-    <a class="sum-part-h" href="#l07-p3"><span class="sum-pn">3</span>둘 다 쓰기: MixMatch → ReMixMatch → FixMatch · DivideMix</a>
+    <a class="sum-part-h" href="#l07-p3"><span class="sum-pn">7-3</span>둘 다 쓰기: MixMatch → ReMixMatch → FixMatch · DivideMix</a>
     <p class="sum-p1">pseudo labeling(H3) + consistency(H1): 한 view로 target을 만들고 다른 view가 맞히기</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l07-3-1"><span class="sum-no">3-1</span><b>MixMatch</b></a><span class="sum-d">consistency·entropy min.·pseudo label·sharpening·MixUp <b>통합</b>(holistic) · K개 aug 예측 <b>평균 → sharpen</b>(T) → MixUp · MixUp 빼면 최대 하락</span><span class="sum-t">평균 먼저, 그다음 sharpen · unlabeled loss는 CE가 아니라 L2</span></li>
-      <li><a class="sum-k" href="#l07-3-2"><span class="sum-no">3-2</span><b>ReMixMatch</b></a><span class="sum-d">MixMatch + <b>Distribution Alignment</b>(class 쏠림 → labeled p(y)로) · <b>Augmentation Anchoring</b>(weak → 여러 strong) · rotation loss</span></li>
-      <li><a class="sum-k" href="#l07-3-3"><span class="sum-no">3-3</span><b>FixMatch</b></a><span class="sum-d"><b>weak</b> max ≥ <b>τ</b> → <b>hard</b> one-hot → <b>strong</b>에 CE · threshold &gt; sharpen · "Predict on an easy example, learn from a difficult one"</span><span class="sum-t">sharpening·MixUp·EMA teacher 없음(같은 모델) · τ = confidence threshold ≠ temperature</span></li>
+      <li><a class="sum-k" href="#l07-3-1"><span class="sum-no">7-3-1</span><b>MixMatch</b></a><span class="sum-d">consistency·entropy min.·pseudo label·sharpening·MixUp <b>통합</b>(holistic) · K개 aug 예측 <b>평균 → sharpen</b>(T) → MixUp · MixUp 빼면 최대 하락</span><span class="sum-t">평균 먼저, 그다음 sharpen · unlabeled loss는 CE가 아니라 L2</span></li>
+      <li><a class="sum-k" href="#l07-3-2"><span class="sum-no">7-3-2</span><b>ReMixMatch</b></a><span class="sum-d">MixMatch + <b>Distribution Alignment</b>(class 쏠림 → labeled p(y)로) · <b>Augmentation Anchoring</b>(weak → 여러 strong) · rotation loss</span></li>
+      <li><a class="sum-k" href="#l07-3-3"><span class="sum-no">7-3-3</span><b>FixMatch</b></a><span class="sum-d"><b>weak</b> max ≥ <b>τ</b> → <b>hard</b> one-hot → <b>strong</b>에 CE · threshold &gt; sharpen · "Predict on an easy example, learn from a difficult one"</span><span class="sum-t">sharpening·MixUp·EMA teacher 없음(같은 모델) · τ = confidence threshold ≠ temperature</span></li>
       <li class="sum-tbl"><a class="sum-k" href="#l07-p3"><span class="sum-no">표</span><b>Mix/ReMix/FixMatch</b></a><span class="sum-d">target: 평균→sharpen / weak+DA→sharpen / weak ≥ τ → one-hot · 학습 입력: MixUp / 여러 strong / strong · L<sub>u</sub>: L2 / (강조 X) / CE</span></li>
-      <li><a class="sum-k" href="#l07-3-4"><span class="sum-no">3-4</span><b>DivideMix</b></a><span class="sum-d"><b>noisy label</b> 대응 · 샘플별 loss에 2-component <b>GMM</b> → 낮으면 clean · noisy는 unlabeled로 → MixMatch · <b>co-divide</b> · co-refinement·co-guessing</span><span class="sum-t">분할은 자기 것 아닌 상대 network 것 · 버리는 건 label만 · 두 network는 대등 (EMA teacher X)</span></li>
+      <li><a class="sum-k" href="#l07-3-4"><span class="sum-no">7-3-4</span><b>DivideMix</b></a><span class="sum-d"><b>noisy label</b> 대응 · 샘플별 loss에 2-component <b>GMM</b> → 낮으면 clean · noisy는 unlabeled로 → MixMatch · <b>co-divide</b> · co-refinement·co-guessing</span><span class="sum-t">분할은 자기 것 아닌 상대 network 것 · 버리는 건 label만 · 두 network는 대등 (EMA teacher X)</span></li>
     </ul>
   </div>
 
   <div class="sum-part">
-    <a class="sum-part-h" href="#l07-p4"><span class="sum-pn">4</span>Pre-training과 같이 쓰기</a>
+    <a class="sum-part-h" href="#l07-p4"><span class="sum-pn">7-4</span>Pre-training과 같이 쓰기</a>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l07-4-1"><span class="sum-no">4-1</span><b>Pre-training + SSL(semi)</b></a><span class="sum-d">pre-training과 <b>보완</b>(대체 X) · Zoph: pre-train 이득은 aug·label↑면 ↓, self-training은 유지 · SimCLRv2: <b>pre-train → fine-tune → distill</b></span></li>
+      <li><a class="sum-k" href="#l07-4-1"><span class="sum-no">7-4-1</span><b>Pre-training + SSL(semi)</b></a><span class="sum-d">pre-training과 <b>보완</b>(대체 X) · Zoph: pre-train 이득은 aug·label↑면 ↓, self-training은 유지 · SimCLRv2: <b>pre-train → fine-tune → distill</b></span></li>
     </ul>
   </div>
 
   <div class="sum-part">
-    <a class="sum-part-h" href="#l07-p5"><span class="sum-pn">5</span>threshold 3부작</a>
+    <a class="sum-part-h" href="#l07-p5"><span class="sum-pn">7-5</span>threshold 3부작</a>
     <p class="sum-p1">모두 FixMatch(weak → strong) 위에서: 어떤 걸 고르나 / 버린 건 어떻게 쓰나 / 고른 건 얼마나 흔드나</p>
     <ul class="sum-items">
-      <li><a class="sum-k" href="#l07-5-1"><span class="sum-no">5-1</span><b>FreeMatch</b></a><span class="sum-d">고정 τ → <b>SAT</b>: 평균 confidence의 <b>EMA</b>, <span class="math">τ<sub>0</sub> = 1/C</span>에서 상승 · class별 τ<sub>t</sub> × MaxNorm(class 예측 EMA), 어려운 class↓ · <b>SAF</b>: class 쏠림 방지</span></li>
-      <li><a class="sum-k" href="#l07-5-2"><span class="sum-no">5-2</span><b>AllMatch</b></a><span class="sum-d">버린 샘플까지 <b>모두</b> 사용 · CAT: global EMA × class별 <b>weight norm</b> 비율 · <b>BCC</b>: weak top-k<sub>i</sub>(샘플별) candidate vs negative 분할을 strong에도</span><span class="sum-t">class별 τ: FreeMatch = 예측 EMA ↔ AllMatch = weight norm · 둘 다 어려운 class는 낮게</span></li>
-      <li><a class="sum-k" href="#l07-5-3"><span class="sum-no">5-3</span><b>IFMatch</b></a><span class="sum-d">image perturbation에 <b>feature perturbation</b> 추가(대체 X) · <b>CBI</b>: strong image에도 confident한 쉬운 샘플만 + weak feature pert. · plug-in</span><span class="sum-t">Branch I = weak image + strong feature · II = strong image + 조건부 weak feature</span></li>
+      <li><a class="sum-k" href="#l07-5-1"><span class="sum-no">7-5-1</span><b>FreeMatch</b></a><span class="sum-d">고정 τ → <b>SAT</b>: 평균 confidence의 <b>EMA</b>, <span class="math">τ<sub>0</sub> = 1/C</span>에서 상승 · class별 τ<sub>t</sub> × MaxNorm(class 예측 EMA), 어려운 class↓ · <b>SAF</b>: class 쏠림 방지</span></li>
+      <li><a class="sum-k" href="#l07-5-2"><span class="sum-no">7-5-2</span><b>AllMatch</b></a><span class="sum-d">버린 샘플까지 <b>모두</b> 사용 · CAT: global EMA × class별 <b>weight norm</b> 비율 · <b>BCC</b>: weak top-k<sub>i</sub>(샘플별) candidate vs negative 분할을 strong에도</span><span class="sum-t">class별 τ: FreeMatch = 예측 EMA ↔ AllMatch = weight norm · 둘 다 어려운 class는 낮게</span></li>
+      <li><a class="sum-k" href="#l07-5-3"><span class="sum-no">7-5-3</span><b>IFMatch</b></a><span class="sum-d">image perturbation에 <b>feature perturbation</b> 추가(대체 X) · <b>CBI</b>: strong image에도 confident한 쉬운 샘플만 + weak feature pert. · plug-in</span><span class="sum-t">Branch I = weak image + strong feature · II = strong image + 조건부 weak feature</span></li>
     </ul>
   </div>
 </div>

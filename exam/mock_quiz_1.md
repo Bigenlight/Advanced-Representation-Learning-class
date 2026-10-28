@@ -215,7 +215,7 @@ Which of the following is NOT one of the methods proposed by Arazo et al. to red
 
 - **실력 점수: 11 / 20** (필기 안 보고 맞힌 것만. 필기 보고 맞힌 것까지 치면 16 / 20)
 - ❌ 틀림: 8, 16(무응답), 17, 20 · 📖 필기 봄: 9, 10, 14, 15, 19 · ✅인데 불안(?): 7, 11, 12, 13, 18
-- 시험 전 다시 볼 것: 📖·❌ 9개 → flow.html 맨 위 **한눈에 요약**에서 해당 카드 (L03 2-2 Triplet, L04 1-2 Debiased · 3-4 DINO, L05 1-3 MoCo, L06 1-2 목표식 · 1-3 가정 H1–H4, L07 1-1 Pseudo-Label · 2-1 Arazo · 2-2 Meta PL)
+- 시험 전 다시 볼 것: 📖·❌ 9개 → flow.html 맨 위 **한눈에 요약**에서 해당 카드 (3-2-2 Triplet, 4-1-2 Debiased · 4-3-4 DINO, 5-1-3 MoCo, 6-1-2 목표식 · 6-1-3 가정 H1–H4, 7-1-1 Pseudo-Label · 7-2-1 Arazo · 7-2-2 Meta PL)
 
 ### 오답 해설
 
