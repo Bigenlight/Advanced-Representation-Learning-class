@@ -189,9 +189,11 @@ Which of the following is NOT true about CURL?
 **채점** ❌ 정답 **(D)** (네 답 C, NOT 문제)
 - CURL (p.21): replay buffer에서 observation → **random crop** 두 번 = positive pair (B ✓) → **query encoder + momentum key encoder**로 contrastive (C ✓, MoCo 그대로) → "**Simultaneously** optimize the RL policy/value network using the learned representation".
 - (D) "먼저 pre-train → freeze → RL"이 틀린 문장이라 NOT = (D). CURL은 contrastive loss를 RL loss와 **동시에** 최적화하는 **auxiliary** 목표야.
-- (C)는 맞는 문장이야. CURL은 MoCo식 구조(momentum key encoder + contrastive loss)를 RL observation에 붙인 거야.
+- (C)는 맞는 문장이야. **CURL은 MoCo식 구조**(momentum key encoder + contrastive loss)를 RL observation에 붙인 거야.
 - RL 연결: pixel 관측 RL은 reward만으로 feature를 배우기엔 sample-inefficient해서, contrastive auxiliary loss를 같이 걸어 sample efficiency를 올린 거야. 반대로 "pre-train → freeze"는 frozen visual encoder를 쓰는 쪽 방식이야 (슬라이드 밖). 네 분야니까 이 구분은 꼭 챙겨.
 - 📍 **HTML**: `5-1-5` **CURL** → **어떻게** · **차이** 문단 (L05 p.20–21) · [열기](flow.html#l05-1-5)
+
+> CURL는 MoCo 계열과 함께 있음.
 
 ### 15. [T/F] `[L06]`
 VAT replaces the ground-truth label used in adversarial training with the model's own current prediction, so the VAT loss can be applied to unlabeled samples as well.
@@ -230,6 +232,9 @@ Compared with Mean Teacher, how does the "noisy samples as learning targets" app
 - 팁: "Compared with X, how does Y …?" 문제는 **X의 특징인 보기부터 지워**.
 - 📍 **HTML**: `6-3-1` **Noisy samples as targets** → **쉽게** 문단의 **Mean Teacher와 차이** 줄 (L06 p.30–31) · [열기](flow.html#l06-3-1)
 
+> 약간 함정 문제. 
+Noisy samples as target: 같은 모델로, 원본과 strong augmentation 버전의 예측을 같게.
+
 ### 18. [T/F] `[L07]`
 In Meta Pseudo Labels, the teacher is updated so that the student trained on its pseudo labels achieves a lower supervised loss on labeled data.
 > ?? T?
@@ -239,6 +244,8 @@ In Meta Pseudo Labels, the teacher is updated so that the student trained on its
 - 보통 self-training은 teacher를 고정해. Meta PL은 student의 **진짜 label 성적**을 feedback으로 teacher도 학습해 → "자기 label로 자기 평가"하는 순환(confirmation bias)이 끊겨.
 - RL 비유: teacher = policy, pseudo label = action, student의 labeled-data 성적 = reward로 보면 돼. inner update를 거쳐 outer를 고치는 bi-level 구조야.
 - 📍 **HTML**: `7-2-2` **Meta Pseudo Labels** → **핵심** 문단 (outer (teacher) 줄) (L07 p.24–25) · [열기](flow.html#l07-2-2)
+
+> 맞음. 이제 안다. Meta pseudo. 선생이 만든 데이터를 보고 배우고, 진짜 데이터를 보고 낸 성적으로 선생을 조교하는 것이다.
 
 ### 19. [T/F] `[L07]`
 The key contribution of MixMatch is proposing a single new component, rather than combining existing SSL techniques.
@@ -250,6 +257,8 @@ The key contribution of MixMatch is proposing a single new component, rather tha
 - 논문 제목에도 답이 있어: "MixMatch: A **Holistic** Approach to Semi-Supervised Learning".
 - 비유 (슬라이드 밖): DQN 개선 여러 개를 한데 합친 **Rainbow DQN**과 같은 성격의 논문이야.
 - 📍 **HTML**: `7-3-1` **MixMatch** → **한 줄** 문단 (L07 p.30) · [열기](flow.html#l07-3-1)
+
+> **MixMatch는 이름 그대로** consistency, entropy minimization, pseudo labeling, sharpening, MixUp를 하나로 **통합**한 것.
 
 ### 20. [MCQ] `[L07]`
 In ReMixMatch's Distribution Alignment, how is the prediction for an unlabeled sample adjusted?
@@ -267,6 +276,8 @@ In ReMixMatch's Distribution Alignment, how is the prediction for an unlabeled s
 - 비유: "목표 분포 / 현재 분포" 비율로 다시 가중하는 건 **importance weighting**(off-policy RL의 importance ratio)과 같은 꼴이야.
 - ReMixMatch 부품 3개를 같이 외워: **DA** (class 분포 맞추기) · **AA** (weak anchor → 여러 strong view, FixMatch의 원형) · rotation loss.
 - 📍 **HTML**: `7-3-2` **ReMixMatch** → **Distribution Alignment (DA)** 줄 (L07 p.36–37) · [열기](flow.html#l07-3-2)
+
+> 리스케일링 된다는 것만 암기하면 될 듯?
 
 ---
 
