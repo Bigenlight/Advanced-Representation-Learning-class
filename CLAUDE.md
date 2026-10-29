@@ -10,9 +10,14 @@
 - 원리까지 파고드는 타입 → 정리할 때 정의·수식 유도·직관 흐름을 생략하지 말 것. 수식은 LaTeX(`$...$`, `$$...$$`)로.
 - **영어 수업** (슬라이드·강의·시험 모두 영어 전제). 노트 본문은 한국어로 쓰되 용어·정의는 슬라이드 원문 영어 표현을 살릴 것. `exam/` 자료(예상문제·모범답안)는 **영어로 답안 작성 연습**할 수 있게 영어 모범답안 병기.
 - **시험 있는 과목** → 정리할 때 "시험에 나올 만한 것"(정의, loss 수식, 방법 간 비교, 왜 그렇게 설계했는지)을 항상 의식할 것.
-- **퀴즈는 영어 T/F + 객관식 + 빈칸 채우기(fill-in-the-blank)** (빈칸은 2026-10-22 마지막 수업에서 추가 공지, 완전 서술형은 없을 듯) → 예상문제는 T/F·MCQ·빈칸 형태로 만들 것. 슬라이드 원문 문장을 살짝 비튼 함정 지문(예: student↔teacher, prediction EMA↔weight EMA, MSE↔KL 뒤바꾸기), 수치·방법 이름 매칭, "which is NOT …" 유형을 의식할 것. 정답엔 근거 슬라이드 페이지(`p.N`)를 붙일 것. 교수님 말로는 난이도가 높지 않다고 함 → 핵심 개념·정의·방법 간 차이 위주로 내되, 교수 기준 "쉬움"이니 표 수치까지 완전히 버리지는 말 것 (비중만 낮게).
+- **⚠️ 중간고사 실제 형식 (2026-10-29 복기·기말 전략: `exam/midterm_recall.md`) — 기말도 공지 전까진 이걸 가정**:
+  - 영어 **20문제 = T/F 10 + MCQ 5 + 빈칸·서술 5**. 개념은 basic이었지만 **15문제를 영어로 써야** 해서 체감 난이도가 높았음.
+  - **T/F = 고르고 이유까지 서술.** F면 무엇이 틀렸는지까지 씀 (고친 문장까지 요구했는지는 기억 애매 → 써 두면 안전) → 예상 T/F마다 영어 `Why` + `Corrected` 모범답안을 붙일 것 (T에도 이유).
+  - **빈칸 = 단순화해서 잘라 낸 짧은 코드 조각** (슬라이드 Algorithm 박스 아님). 빈칸은 보통 **1개, 한 줄 전체가 아니라 한 요소**(예: threshold `tau`, `no_grad`, EMA 계수, label) + **그 과정 설명**. 빈칸은 가볍고 무게는 설명에 있음. Rotation·InfoNCE·FixMatch·Mean Teacher처럼 **계열 대표 방법**이 나왔고, 그중 3개는 슬라이드에 코드가 없었음 → 대표 방법마다 code card (4–8줄 조각 + 빈칸 1개 + 영어 과정 설명 2–3문장)를 만들 것.
+  - MCQ는 모의퀴즈와 비슷하고 살짝 어려움. "What is X for?" 역할 질문이 나옴 (InfoNCE의 목적, SimCLR g의 역할). 기억난 문제엔 표 수치·저자·학회가 없었음. 상세 교훈은 `exam/PLAYBOOK.md` 7장.
+- (중간 전 예상, 기록용) **퀴즈는 영어 T/F + 객관식 + 빈칸 채우기(fill-in-the-blank)** (빈칸은 2026-10-22 마지막 수업에서 추가 공지, 완전 서술형은 없을 듯 ← 실제론 T/F도 서술이었음) → 예상문제는 T/F·MCQ·빈칸 형태로 만들 것. 슬라이드 원문 문장을 살짝 비튼 함정 지문(예: student↔teacher, prediction EMA↔weight EMA, MSE↔KL 뒤바꾸기), 수치·방법 이름 매칭, "which is NOT …" 유형을 의식할 것. 정답엔 근거 슬라이드 페이지(`p.N`)를 붙일 것. 교수님 말로는 난이도가 높지 않다고 함 → 핵심 개념·정의·방법 간 차이 위주로 내되, 교수 기준 "쉬움"이니 표 수치까지 완전히 버리지는 말 것 (비중만 낮게).
 - **중간고사 퀴즈: 2026-10-29(목), 총 20문제, 쉽게 출제.** 교수님 말씀: *"please study basic concept & core idea of the papers"* → 시험 대비 자료는 **논문/방법별 basic concept + core idea**(무슨 문제를 풀려고 했고, 핵심 아이디어가 뭐고, 이전 방법과 뭐가 다른지)를 최우선으로. 표 수치는 최소화.
-- **pseudo code도 공부하라고 하심** (2026-10-22). 슬라이드에 Algorithm/코드 박스로 나온 건 9개: X-CLR (L03 p.67), SimCLR Alg.1 (L04 p.25), DINO (L04 p.40), MoCo Alg.1 (L05 p.12), CLIP (L05 p.35), Π-model Alg.1 (L06 p.18), Temporal Ensembling Alg.2 (L06 p.20), Label Propagation Alg.1 (L07 p.11), DivideMix Alg.1 (L07 p.54). 준-알고리즘으로 DeepCluster process (L05 p.24)와 BYOL 단계 (L04 p.32)도 있음. 단, 교수님이 pseudo code를 깊게 가르치진 않았음 → 구현 디테일보다 **논문 core idea가 드러나는 핵심 줄**(stop-gradient/`detach`, momentum·EMA update, loss 식, `labels`, centering, bias correction 등) 위주로 나올 것. 그래도 **킬러 파트**일 가능성 높음 → 핵심 줄 빈칸·"이 코드는 어느 방법?"·"이 줄의 역할은?" 유형을 의식할 것.
+- (중간 전 예상, 기록용 — 실제 형식은 위 ⚠️ 블록) **pseudo code도 공부하라고 하심** (2026-10-22). 슬라이드에 Algorithm/코드 박스로 나온 건 9개: X-CLR (L03 p.67), SimCLR Alg.1 (L04 p.25), DINO (L04 p.40), MoCo Alg.1 (L05 p.12), CLIP (L05 p.35), Π-model Alg.1 (L06 p.18), Temporal Ensembling Alg.2 (L06 p.20), Label Propagation Alg.1 (L07 p.11), DivideMix Alg.1 (L07 p.54). 준-알고리즘으로 DeepCluster process (L05 p.24)와 BYOL 단계 (L04 p.32)도 있음. 단, 교수님이 pseudo code를 깊게 가르치진 않았음 → 구현 디테일보다 **논문 core idea가 드러나는 핵심 줄**(stop-gradient/`detach`, momentum·EMA update, loss 식, `labels`, centering, bias correction 등) 위주로 나올 것. 그래도 **킬러 파트**일 가능성 높음 → 핵심 줄 빈칸·"이 코드는 어느 방법?"·"이 줄의 역할은?" 유형을 의식할 것.
 
 ## 폴더 규칙
 
