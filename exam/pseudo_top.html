@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pseudo code 딱 이것만</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1d1f;--mut:#6b6b70;--card:#ffffff;--line:#e4e1da;--acc:#2f5bd3;--hl:rgba(255,214,0,.38);--hl2:rgba(0,170,255,.18);--hlb:#e0a800;--hl2b:#1d8fd6;--code:#f3f1ec;--t3:#c2410c;--t2:#2f5bd3;--t1:#8a8a8f;--mask:#d8d4cb}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141416;--fg:#ececef;--mut:#9a9aa2;--card:#1d1d21;--line:#33333a;--acc:#8fb0ff;--hl:rgba(255,214,0,.30);--hl2:rgba(0,170,255,.22);--code:#26262b;--t3:#fb923c;--t2:#8fb0ff;--t1:#77777f;--mask:#4a4a52}}
+:root[data-theme="dark"]{--bg:#141416;--fg:#ececef;--mut:#9a9aa2;--card:#1d1d21;--line:#33333a;--acc:#8fb0ff;--hl:rgba(255,214,0,.30);--hl2:rgba(0,170,255,.22);--code:#26262b;--t3:#fb923c;--t2:#8fb0ff;--t1:#77777f;--mask:#4a4a52}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+main{max-width:980px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:24px;margin:8px 0 4px}
+.lead{color:var(--mut);margin:0 0 14px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.bar button{font:inherit;font-size:13px;padding:5px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);cursor:pointer}
+.bar a{font-size:13px;color:var(--acc)}
+section.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:16px 0}
+section.box h2{font-size:16px;margin:2px 0 8px}
+section.box ol,section.box ul{margin:4px 0;padding-left:22px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+td{border-top:1px solid var(--line);padding:6px 6px;vertical-align:top}
+td .pg{display:block;color:var(--mut);font-size:12px}
+td a{color:var(--fg);font-weight:600;text-decoration:none}
+td.st{white-space:nowrap;color:var(--t3)}
+tr.t2 td.st{color:var(--t2)} tr.t1 td.st{color:var(--t1)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;background:var(--code);padding:1px 5px;border-radius:5px}
+code.bl{display:inline;white-space:pre-wrap;word-break:break-word;line-height:1.9}
+button.ans{font:inherit;border:0;padding:0 4px;margin:0 1px;border-radius:5px;cursor:pointer;background:var(--mask);color:var(--fg)}
+button.ans .txt{display:none}
+button.ans.on{background:var(--hl)} button.ans.on .txt{display:inline;font-weight:700} button.ans.on .mask{display:none}
+.card{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--t3);border-radius:12px;padding:12px 16px 14px;margin:18px 0;scroll-margin-top:56px}
+.card.t2{border-left-color:var(--t2)} .card.t1{border-left-color:var(--t1)}
+.card header{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.card .no{font-weight:700;color:var(--mut)}
+.card h2{font-size:19px;margin:0}
+.card .pg{color:var(--mut);font-size:13px}
+.card .tier{margin-left:auto;font-size:13px;color:var(--t3);font-weight:600}
+.card.t2 .tier{color:var(--t2)} .card.t1 .tier{color:var(--t1)}
+.core{margin:6px 0 8px}
+.row{display:grid;grid-template-columns:76px 1fr;gap:8px;margin:5px 0}
+.row .k{font-size:12.5px;color:var(--mut);font-weight:700;padding-top:2px}
+.row.main .k{color:var(--t3)}
+.row.skip{color:var(--mut);font-size:14px}
+.acc{display:block;font-size:12.5px;color:var(--mut)}
+.note{font-size:13px;color:var(--mut)}
+figure.slide{margin:10px 0 0}
+.imgwrap{position:relative;display:block;width:100%;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+.imgwrap img{position:absolute;display:block;height:auto;max-width:none}
+.hl{position:absolute;border-radius:4px;pointer-events:none}
+.hl.main{background:var(--hl);outline:2.5px solid var(--hlb)}
+.hl.second{background:var(--hl2);outline:2px dashed var(--hl2b)}
+figcaption{font-size:12.5px;color:var(--mut);margin-top:4px}
+@media (max-width:560px){.row{grid-template-columns:1fr;gap:0}.card .tier{margin-left:0}.imgwrap{max-width:100%!important}}
+</style></head>
+<body><main>
+<h1>Pseudo code, 딱 이것만</h1>
+<p class="lead">교수님이 쉽게, <b>몇 단어짜리 빈칸</b>만 낸다는 전제로 Opus 3명이 서로 모른 채 11개 알고리즘에서 각자 고르고, 합의한 것만 남겼어. 정답은 전부 슬라이드에 <b>글자 그대로</b> 있는 단어야. ★★★ 꼭 · ★★ 나올 수도 · ★ 버려도 됨. 카드엔 정답이 같이 보이니까 <b>자가 테스트는 위 요약 표</b>로 해.</p>
+<div class="bar"><button type="button" id="all">정답 다 보기</button><button type="button" id="none">다 가리기</button><button type="button" id="theme">밝게/어둡게</button><a href="flow.html#code">flow.html의 전체 pseudo code 정리 →</a></div>
+<section class="box"><h2>한 장 요약 (회색 칸을 누르면 정답)</h2><div class="tbl"><table><tr class="t2"><td><a href="#pc-xclr">X-CLR</a><span class="pg">L03 p.67</span></td><td><code class="bl">tgt_sims = softmax(<button class="ans" type="button" data-i="0" aria-label="정답 보기"><span class="mask">____</span><span class="txt">txt_emb</span></button> @ txt_emb.T / tao_s, dim=1)</code></td><td class="st">★★</td></tr><tr class="t3"><td><a href="#pc-simclr">SimCLR Alg.1</a><span class="pg">L04 p.25</span></td><td><code class="bl">draw two <button class="ans" type="button" data-i="3" aria-label="정답 보기"><span class="mask">____</span><span class="txt">augmentation</span></button> functions t∼T, t′∼T</code></td><td class="st">★★★</td></tr><tr class="t2"><td><a href="#pc-byol">BYOL 단계 (준-알고리즘)</a><span class="pg">L04 p.32</span></td><td><code class="bl">BYOL does not use <button class="ans" type="button" data-i="6" aria-label="정답 보기"><span class="mask">____</span><span class="txt">negative</span></button> pairs.</code></td><td class="st">★★</td></tr><tr class="t2"><td><a href="#pc-dino">DINO</a><span class="pg">L04 p.40</span></td><td><code class="bl">t = softmax((t - C) / tpt, dim=1)  # <button class="ans" type="button" data-i="9" aria-label="정답 보기"><span class="mask">____</span><span class="txt">center</span></button> + sharpen</code></td><td class="st">★★</td></tr><tr class="t3"><td><a href="#pc-moco">MoCo Alg.1</a><span class="pg">L05 p.12</span></td><td><code class="bl"># <button class="ans" type="button" data-i="13" aria-label="정답 보기"><span class="mask">____</span><span class="txt">momentum</span></button> update: key network   →   f_k.params = m*f_k.params+(1-m)*f_q.params</code></td><td class="st">★★★</td></tr><tr class="t2"><td><a href="#pc-deepcluster">DeepCluster process (준-알고리즘)</a><span class="pg">L05 p.24</span></td><td><code class="bl">Cluster the representations using <button class="ans" type="button" data-i="17" aria-label="정답 보기"><span class="mask">____</span><span class="txt">k-means</span></button>.</code></td><td class="st">★★</td></tr><tr class="t3"><td><a href="#pc-clip">CLIP</a><span class="pg">L05 p.35</span></td><td><code class="bl"># <button class="ans" type="button" data-i="20" aria-label="정답 보기"><span class="mask">____</span><span class="txt">symmetric</span></button> loss function</code></td><td class="st">★★★</td></tr><tr class="t3"><td><a href="#pc-pi">Π-model Alg.1</a><span class="pg">L06 p.18</span></td><td><code class="bl">z̃ ← f_θ(g(x))   ▷ again, with different <button class="ans" type="button" data-i="23" aria-label="정답 보기"><span class="mask">____</span><span class="txt">dropout</span></button> and augmentation</code></td><td class="st">★★★</td></tr><tr class="t2"><td><a href="#pc-te">Temporal Ensembling Alg.2</a><span class="pg">L06 p.20</span></td><td><code class="bl">Z ← αZ + (1−α)z   ▷ accumulate ensemble <button class="ans" type="button" data-i="26" aria-label="정답 보기"><span class="mask">____</span><span class="txt">predictions</span></button></code></td><td class="st">★★</td></tr><tr class="t1"><td><a href="#pc-lp">Label Propagation Alg.1</a><span class="pg">L07 p.11</span></td><td><code class="bl">Z ← solve (10) with CG   ▷ <button class="ans" type="button" data-i="29" aria-label="정답 보기"><span class="mask">____</span><span class="txt">diffusion</span></button></code></td><td class="st">★</td></tr><tr class="t3"><td><a href="#pc-dividemix">DivideMix Alg.1</a><span class="pg">L07 p.54</span></td><td><code class="bl">W^(2) = <button class="ans" type="button" data-i="32" aria-label="정답 보기"><span class="mask">____</span><span class="txt">GMM</span></button>(X, Y, θ^(1))   // model per-sample loss with θ^(1) to obtain clean proabability for θ^(2)</code></td><td class="st">★★★</td></tr></table></div></section>
+<section class="box"><h2>가장 나올 것 같은 순서 Top 5</h2><ol><li><b>MoCo</b> · <code># ____ update: key network</code> (+ detach, queue)</li><li><b>SimCLR</b> · <code>draw two ____ functions t∼T, t′∼T</code></li><li><b>DivideMix</b> · <code>W^(2) = ____(X, Y, θ^(1))</code></li><li><b>Π-model</b> · <code>again, with different ____ and augmentation</code></li><li><b>DINO</b> · <code># ____ + sharpen</code> (+ detach)</li></ol></section>
+<section class="box"><h2>11개를 꿰는 공통 패턴</h2><ul><li><b>detach</b> = stop-gradient = target 쪽 고정: MoCo(key) · DINO(teacher) · X-CLR(text). 한 단어로 세 곳을 커버해.</li><li><b>momentum / EMA</b> = 느린 쪽이 빠른 쪽을 따라감: MoCo key encoder · DINO teacher · BYOL target. <b>TE만 prediction</b>의 EMA야 (weight 아님).</li><li><b>두 view</b> 만들기: SimCLR · MoCo · DINO는 augmentation 두 번, Π-model은 dropout까지 다르게 해서 두 번 forward.</li><li><b>labels</b>: MoCo <code>zeros(N)</code> (positive가 0번 칸) ↔ CLIP <code>arange(n)</code> (대각선).</li></ul></section>
+<p class="lead">아래 카드: 노란 형광펜 = 1순위 빈칸 줄, 파란 점선 = 2순위. 그림을 누르면 원본 크기로 열려.</p>
+
+<article class="card t2" id="pc-xclr">
+  <header><span class="no">1</span><h2>X-CLR</h2><span class="pg">L03 p.67</span>
+    <span class="tier">★★ 나올 수도</span></header>
+  <p class="core">InfoNCE의 one-hot 정답 대신, <b>frozen text encoder</b>로 만든 caption끼리의 similarity(soft target graph)를 image 쪽이 따라가게 해.</p>
+  <div class="row main"><span class="k">빈칸</span><div><code class="bl">tgt_sims = softmax(<button class="ans" type="button" data-i="2" aria-label="정답 보기"><span class="mask">____</span><span class="txt">txt_emb</span></button> @ txt_emb.T / tao_s, dim=1)</code><span class="acc">인정: text embedding (caption 쪽 embedding)</span></div></div>
+  <div class="row"><span class="k">왜</span><div>target graph = <b>text끼리</b>의 similarity야. image 쪽(<code>img_emb</code>)은 학습되는 쪽이고, 그 분포를 CE로 맞춰 (<code>CE(tgt_sims, img_sims)</code>).</div></div>
+  <div class="row"><span class="k">어느 방법?</span><div><code>txt_enc(captions).detach()</code> + <code>softmax(... / tao_s)</code>로 만든 <b>soft target</b> + <code>return CE(tgt_sims, img_sims)</code></div></div>
+<div class="row"><span class="k">2순위</span><div><code class="bl">txt_emb = txt_enc(captions).<button class="ans" type="button" data-i="1" aria-label="정답 보기"><span class="mask">____</span><span class="txt">detach</span></button>()  # N x D_txt</code> <span class=note>(주석 &quot;frozen text encoder&quot; → target 쪽은 gradient 차단)</span></div></div>  <div class="row skip"><span class="k">버려도 됨</span><div><code>tao</code> vs <code>tao_s</code> 구분, shape 주석, 아래 p_ij · s_ij · G(soft) 수식</div></div>
+  <figure class="slide"><a href="../assets/lecture03/p067.png" target="_blank" rel="noopener"><div class="imgwrap" style="aspect-ratio:1840/565;max-width:100%"><img src="../assets/lecture03/p067.png" style="width:108.696%;left:-5.978%;top:-42.478%" alt="X-CLR 슬라이드 L03 p.67"><span class="hl main" style="left:5.16%;top:53.63%;width:56.79%;height:15.40%"></span><span class="hl second" style="left:5.16%;top:16.64%;width:57.61%;height:7.79%"></span></div></a><figcaption>노란 = 1순위 (target은 text similarity) · 파란 점선 = 2순위 (detach = frozen)</figcaption></figure>
+</article>
+<article class="card t3" id="pc-simclr">
+  <header><span class="no">2</span><h2>SimCLR Alg.1</h2><span class="pg">L04 p.25</span>
+    <span class="tier">★★★ 꼭 나온다</span></header>
+  <p class="core">같은 이미지에 <b>augmentation을 두 번</b> → 두 view가 positive, batch 안 나머지 2N−2개가 negative. 학습이 끝나면 projection head g는 버려.</p>
+  <div class="row main"><span class="k">빈칸</span><div><code class="bl">draw two <button class="ans" type="button" data-i="5" aria-label="정답 보기"><span class="mask">____</span><span class="txt">augmentation</span></button> functions t∼T, t′∼T</code><span class="acc">인정: data augmentation</span></div></div>
+  <div class="row"><span class="k">왜</span><div>label 없이 positive pair를 만드는 줄이야. 교수님이 빨간 박스 + &quot;Generate a positive pair by sampling data augmentation functions&quot;를 직접 달았어.</div></div>
+  <div class="row"><span class="k">어느 방법?</span><div><code>h = f(x̃)  # representation</code>, <code>z = g(h)  # projection</code>, 마지막 줄 <code>return encoder network f(·), and throw away g(·)</code>. queue·momentum 없음.</div></div>
+<div class="row"><span class="k">2순위</span><div><code class="bl">return encoder network f(·), and throw away <button class="ans" type="button" data-i="4" aria-label="정답 보기"><span class="mask">____</span><span class="txt">g(·)</span></button></code> <span class=note>(인정: g, projection head. downstream엔 h = f(x)를 써)</span></div></div>  <div class="row skip"><span class="k">버려도 됨</span><div>ℓ(i,j) 식 전체, 1/2N Σ[…] 평균 식, s_ij cosine 식, 2k−1 / 2k 인덱스</div></div>
+  <figure class="slide"><a href="../assets/lecture04/p025.png" target="_blank" rel="noopener"><div class="imgwrap" style="aspect-ratio:765/885;max-width:85%"><img src="../assets/lecture04/p025.png" style="width:261.438%;left:-67.974%;top:-16.949%" alt="SimCLR Alg.1 슬라이드 L04 p.25"><span class="hl main" style="left:10.98%;top:19.44%;width:80.52%;height:5.20%"></span><span class="hl second" style="left:3.01%;top:92.99%;width:83.66%;height:4.97%"></span></div></a><figcaption>교수님 빨간 박스 줄이 1순위 · 맨 아래 return 줄이 2순위</figcaption></figure>
+</article>
+<article class="card t2" id="pc-byol">
+  <header><span class="no">3</span><h2>BYOL 단계 (준-알고리즘)</h2><span class="pg">L04 p.32</span>
+    <span class="tier">★★ 나올 수도</span></header>
+  <p class="core"><b>negative 없이</b> online network가 target network(online의 EMA) 출력을 <b>예측</b>해. 학습되는 건 online(θ)뿐이야.</p>
+  <div class="row main"><span class="k">빈칸</span><div><code class="bl">BYOL does not use <button class="ans" type="button" data-i="8" aria-label="정답 보기"><span class="mask">____</span><span class="txt">negative</span></button> pairs.</code><span class="acc">인정: negative samples</span></div></div>
+  <div class="row"><span class="k">왜</span><div>SimCLR·MoCo와 갈리는 BYOL의 정체성이야. 슬라이드 맨 아래 굵은 글씨라 T/F로도 나오기 좋아 (&quot;BYOL uses negative pairs&quot; → F).</div></div>
+  <div class="row"><span class="k">어느 방법?</span><div>online에만 있는 <b>prediction</b> q_θ, &quot;loss is <b>MSE</b> between L2-normalized prediction and z̄′&quot;, &quot;only parameters θ are optimized&quot;</div></div>
+<div class="row"><span class="k">2순위</span><div><code class="bl">The loss L_θ^BYOL is <button class="ans" type="button" data-i="7" aria-label="정답 보기"><span class="mask">____</span><span class="txt">MSE</span></button> between L2-normalized prediction q̄_θ(z) and z̄′</code> <span class=note>(DINO는 cross-entropy야. 바꿔치기 함정)</span></div></div>  <div class="row skip"><span class="k">버려도 됨</span><div>y · z · q · ξ 기호 대응, L2-normalize 식, L̃ (view 바꾼 대칭 loss) 표기</div></div>
+  <figure class="slide"><a href="../assets/lecture04/p032.png" target="_blank" rel="noopener"><div class="imgwrap" style="aspect-ratio:1770/880;max-width:100%"><img src="../assets/lecture04/p032.png" style="width:112.994%;left:-3.390%;top:-14.773%" alt="BYOL 단계 (준-알고리즘) 슬라이드 L04 p.32"><span class="hl main" style="left:3.67%;top:88.86%;width:35.31%;height:5.23%"></span><span class="hl second" style="left:1.41%;top:50.00%;width:74.58%;height:7.05%"></span></div></a><figcaption>코드 박스가 아니라 단계 목록이야. 맨 아래 굵은 문장이 1순위.</figcaption></figure>
+</article>
+<article class="card t2" id="pc-dino">
+  <header><span class="no">4</span><h2>DINO</h2><span class="pg">L04 p.40</span>
+    <span class="tier">★★ 나올 수도</span></header>
+  <p class="core">label 없는 <b>self-distillation</b>: student가 <b>EMA teacher</b>의 출력 분포를 다른 view에서 CE로 따라가. collapse는 teacher 쪽 <b>centering + sharpening</b>으로 막아.</p>
+  <div class="row main"><span class="k">빈칸</span><div><code class="bl">t = softmax((t - C) / tpt, dim=1)  # <button class="ans" type="button" data-i="12" aria-label="정답 보기"><span class="mask">____</span><span class="txt">center</span></button> + sharpen</code><span class="acc">인정: centering</span></div></div>
+  <div class="row"><span class="k">왜</span><div>DINO만의 collapse 방지 장치야. <b>teacher 쪽에만</b> 걸려 (student는 <code>softmax(s / tps)</code>만). 원본 그림(누르면 열림) 왼쪽 도식에서도 centering 박스는 teacher 위에만 있어.</div></div>
+  <div class="row"><span class="k">어느 방법?</span><div><code>gs, gt: student and teacher networks</code>, <code>loss = H(t1, s2)/2 + H(t2, s1)/2</code> (view 교차), <code>gt.params = l*gt.params + (1-l)*gs.params</code> (teacher ← student의 EMA)</div></div>
+<div class="row"><span class="k">2순위</span><div><code class="bl">t = t.<button class="ans" type="button" data-i="10" aria-label="정답 보기"><span class="mask">____</span><span class="txt">detach</span></button>()  # stop gradient</code> <span class=note>(teacher 쪽 gradient 차단. MoCo · X-CLR와 같은 단어)</span></div></div><div class="row"><span class="k">2순위</span><div><code class="bl">gt.params = l*gt.params + (1-l)*<button class="ans" type="button" data-i="11" aria-label="정답 보기"><span class="mask">____</span><span class="txt">gs</span></button>.params</code> <span class=note>(teacher ← student의 EMA. student ↔ teacher 바꿔치기 함정)</span></div></div>  <div class="row skip"><span class="k">버려도 됨</span><div>tps / tpt, l / m 기호, center 갱신식 C = m*C + …, .sum(dim=1).mean(), /2 계수</div></div>
+  <figure class="slide"><a href="../assets/lecture04/p040.png" target="_blank" rel="noopener"><div class="imgwrap" style="aspect-ratio:905/875;max-width:90%"><img src="../assets/lecture04/p040.png" style="width:220.994%;left:-105.525%;top:-22.286%" alt="DINO 슬라이드 L04 p.40"><span class="hl main" style="left:8.29%;top:75.43%;width:90.83%;height:3.43%"></span><span class="hl second" style="left:8.29%;top:69.60%;width:53.04%;height:3.20%"></span><span class="hl second" style="left:8.29%;top:58.06%;width:71.82%;height:2.97%"></span></div></a><figcaption>세 명 의견이 갈린 곳이야: center · detach · EMA 줄의 gs. 셋 다 형광펜으로 칠해 뒀어.</figcaption></figure>
+</article>
+<article class="card t3" id="pc-moco">
+  <header><span class="no">5</span><h2>MoCo Alg.1</h2><span class="pg">L05 p.12</span>
+    <span class="tier">★★★ 꼭 나온다</span></header>
+  <p class="core">key encoder를 query encoder의 <b>momentum(EMA)</b>으로 천천히 바꾸고, 지난 batch들의 key를 <b>FIFO queue</b>에 쌓아 negative로 써 → 크고(large) 일관된(consistent) dictionary.</p>
+  <div class="row main"><span class="k">빈칸</span><div><code class="bl"># <button class="ans" type="button" data-i="16" aria-label="정답 보기"><span class="mask">____</span><span class="txt">momentum</span></button> update: key network   →   f_k.params = m*f_k.params+(1-m)*f_q.params</code><span class="acc">인정: momentum (EMA)</span></div></div>
+  <div class="row"><span class="k">왜</span><div>방법 이름이 <b>Mo</b>mentum <b>Co</b>ntrast야. 교수님 박스: &quot;Update f_k through momentum&quot;. key encoder는 backprop이 아니라 이 줄로만 바뀌어.</div></div>
+  <div class="row"><span class="k">어느 방법?</span><div><code>k = k.detach()</code>, <code>l_neg = mm(q.view(N,C), queue.view(C,K))</code>, <code>labels = zeros(N)  # positives are the 0-th</code>, <code>enqueue</code> / <code>dequeue</code></div></div>
+<div class="row"><span class="k">2순위</span><div><code class="bl">k = k.<button class="ans" type="button" data-i="14" aria-label="정답 보기"><span class="mask">____</span><span class="txt">detach</span></button>()  # no gradient to keys</code> <span class=note>(교수님 화살표 &quot;No gradient through the key&quot;)</span></div></div><div class="row"><span class="k">2순위</span><div><code class="bl">l_neg = mm(q.view(N,C), <button class="ans" type="button" data-i="15" aria-label="정답 보기"><span class="mask">____</span><span class="txt">queue</span></button>.view(C,K))</code> <span class=note>(교수님 박스 &quot;Use the running queue of keys as the negative samples&quot;)</span></div></div>  <div class="row skip"><span class="k">버려도 됨</span><div>bmm / mm / view shape, cat(dim=1), logits/t, NxK 같은 shape 주석</div></div>
+  <figure class="slide"><a href="../assets/lecture05/p012.png" target="_blank" rel="noopener"><div class="imgwrap" style="aspect-ratio:700/905;max-width:80%"><img src="../assets/lecture05/p012.png" style="width:285.714%;left:-80.714%;top:-16.575%" alt="MoCo Alg.1 슬라이드 L05 p.12"><span class="hl main" style="left:6.14%;top:79.56%;width:77.14%;height:5.30%"></span><span class="hl second" style="left:6.14%;top:35.69%;width:65.71%;height:2.87%"></span><span class="hl second" style="left:6.14%;top:49.61%;width:74.29%;height:2.87%"></span></div></a><figcaption>11개 중 1위. 세 명 모두 MoCo를 1위로 꼽았고, 1순위 단어만 momentum / detach로 갈렸어. 셋 다 챙겨.</figcaption></figure>
+</article>
+<article class="card t2" id="pc-deepcluster">
+  <header><span class="no">6</span><h2>DeepCluster process (준-알고리즘)</h2><span class="pg">L05 p.24</span>
+    <span class="tier">★★ 나올 수도</span></header>
+  <p class="core">pair 없이 <b>k-means cluster 번호를 pseudo label</b>로 써서 classification으로 학습해. clustering ↔ classification을 번갈아.</p>
+  <div class="row main"><span class="k">빈칸</span><div><code class="bl">Cluster the representations using <button class="ans" type="button" data-i="19" aria-label="정답 보기"><span class="mask">____</span><span class="txt">k-means</span></button>.</code><span class="acc">인정: k-means clustering</span></div></div>
+  <div class="row"><span class="k">왜</span><div>contrastive가 아니라 <b>clustering</b>으로 정답을 만든다는 게 핵심이야. 다음 SwAV가 이걸 online으로 바꿔.</div></div>
+  <div class="row"><span class="k">어느 방법?</span><div>Extract → k-means → cluster ID = pseudo label → update → repeat. Key Idea &quot;Alternate between clustering and classification&quot;</div></div>
+<div class="row"><span class="k">2순위</span><div><code class="bl">Assign <button class="ans" type="button" data-i="18" aria-label="정답 보기"><span class="mask">____</span><span class="txt">pseudo labels</span></button> from cluster IDs.</code></div></div>  <div class="row skip"><span class="k">버려도 됨</span><div>Process 5단계 문장을 그대로 외우기 (흐름만 알면 돼)</div></div>
+  <figure class="slide"><a href="../assets/lecture05/p024.png" target="_blank" rel="noopener"><div class="imgwrap" style="aspect-ratio:1400/745;max-width:85%"><img src="../assets/lecture05/p024.png" style="width:142.857%;left:-6.429%;top:-17.450%" alt="DeepCluster process (준-알고리즘) 슬라이드 L05 p.24"><span class="hl main" style="left:12.29%;top:80.40%;width:44.29%;height:4.56%"></span><span class="hl second" style="left:12.29%;top:84.97%;width:40.00%;height:4.56%"></span></div></a><figcaption>아래 Process 상자가 준-알고리즘이야.</figcaption></figure>
+</article>
+<article class="card t3" id="pc-clip">
+  <header><span class="no">7</span><h2>CLIP</h2><span class="pg">L05 p.35</span>
+    <span class="tier">★★★ 꼭 나온다</span></header>
+  <p class="core">(image, caption) n쌍으로 n×n similarity 행렬을 만들고 <b>대각선 = 정답</b>. 이미지→텍스트, 텍스트→이미지 두 방향 CE를 평균해 (symmetric).</p>
+  <div class="row main"><span class="k">빈칸</span><div><code class="bl"># <button class="ans" type="button" data-i="22" aria-label="정답 보기"><span class="mask">____</span><span class="txt">symmetric</span></button> loss function</code></div></div>
+  <div class="row"><span class="k">왜</span><div><code>loss_i</code>(axis=0)와 <code>loss_t</code>(axis=1)를 평균 → 두 방향 다 맞히기. CLIP loss의 이름이야.</div></div>
+  <div class="row"><span class="k">어느 방법?</span><div><code>image_encoder</code> + <code>text_encoder</code> 두 개, <code># joint multimodal embedding</code>, <code>logits = np.dot(I_e, T_e.T) * np.exp(t)</code></div></div>
+<div class="row"><span class="k">2순위</span><div><code class="bl">labels = np.<button class="ans" type="button" data-i="21" aria-label="정답 보기"><span class="mask">____</span><span class="txt">arange</span></button>(n)</code> <span class=note>(정답 = 대각선 0, 1, …, n−1. MoCo는 zeros(N)이라 바꿔치기 함정)</span></div></div>  <div class="row skip"><span class="k">버려도 됨</span><div>[n, d_i] 같은 shape 주석, W_i / W_t 크기, l2_normalize 형태, axis=0/1이 어느 쪽인지</div></div>
+  <figure class="slide"><a href="../assets/lecture05/p035.png" target="_blank" rel="noopener"><div class="imgwrap" style="aspect-ratio:920/835;max-width:72%"><img src="../assets/lecture05/p035.png" style="width:217.391%;left:-21.196%;top:-26.946%" alt="CLIP 슬라이드 L05 p.35"><span class="hl main" style="left:1.09%;top:78.32%;width:48.91%;height:4.07%"></span><span class="hl second" style="left:1.09%;top:82.40%;width:41.30%;height:4.31%"></span></div></a><figcaption>symmetric vs arange는 반반이야. 둘 다 봐.</figcaption></figure>
+</article>
+<article class="card t3" id="pc-pi">
+  <header><span class="no">8</span><h2>Π-model Alg.1</h2><span class="pg">L06 p.18</span>
+    <span class="tier">★★★ 꼭 나온다</span></header>
+  <p class="core"><b>같은 network</b>에 같은 입력을 <b>dropout · augmentation만 바꿔 두 번</b> 넣고, 두 출력의 차이(MSE)를 줄여 (consistency).</p>
+  <div class="row main"><span class="k">빈칸</span><div><code class="bl">z̃ ← f_θ(g(x))   ▷ again, with different <button class="ans" type="button" data-i="25" aria-label="정답 보기"><span class="mask">____</span><span class="txt">dropout</span></button> and augmentation</code><span class="acc">인정: dropout (mask)</span></div></div>
+  <div class="row"><span class="k">왜</span><div>두 줄이 글자로는 똑같은 이유가 이 빈칸이야. noise(dropout + augmentation)가 랜덤이라 출력이 달라져. forward 2번 = Π-model의 비용 → 다음 TE의 동기.</div></div>
+  <div class="row"><span class="k">어느 방법?</span><div><code>z ← f_θ(g(x))</code>와 <code>z̃ ← f_θ(g(x))</code> 두 줄이 연달아, w(t)·Σ‖z − z̃‖²</div></div>
+<div class="row"><span class="k">2순위</span><div><code class="bl">+ w(t)·1/(C|B|)·Σ_{i∈B} ‖z_i − z̃_i‖²   ▷ <button class="ans" type="button" data-i="24" aria-label="정답 보기"><span class="mask">____</span><span class="txt">unsupervised</span></button> loss component</code> <span class=note>(label 없는 샘플까지 B 전체에 걸려)</span></div></div>  <div class="row skip"><span class="k">버려도 됨</span><div>Require 목록, 1/|B| · 1/(C|B|) 계수, ADAM, B∩L 표기</div></div>
+  <figure class="slide"><a href="../assets/lecture06/p018.png" target="_blank" rel="noopener"><div class="imgwrap" style="aspect-ratio:1690/855;max-width:100%"><img src="../assets/lecture06/p018.png" style="width:118.343%;left:-9.467%;top:-18.713%" alt="Π-model Alg.1 슬라이드 L06 p.18"><span class="hl main" style="left:6.39%;top:56.96%;width:92.60%;height:5.85%"></span><span class="hl second" style="left:14.20%;top:68.65%;width:67.46%;height:7.49%"></span></div></a><figcaption></figcaption></figure>
+</article>
+<article class="card t2" id="pc-te">
+  <header><span class="no">9</span><h2>Temporal Ensembling Alg.2</h2><span class="pg">L06 p.20</span>
+    <span class="tier">★★ 나올 수도</span></header>
+  <p class="core">두 번째 forward 대신 <b>그 샘플의 과거 예측 평균(EMA)</b>을 target으로 → forward 1번. 대신 샘플마다 예측을 저장해.</p>
+  <div class="row main"><span class="k">빈칸</span><div><code class="bl">Z ← αZ + (1−α)z   ▷ accumulate ensemble <button class="ans" type="button" data-i="28" aria-label="정답 보기"><span class="mask">____</span><span class="txt">predictions</span></button></code><span class="acc">인정: ensemble predictions</span></div></div>
+  <div class="row"><span class="k">왜</span><div><b>weight가 아니라 prediction</b>의 EMA야. weight EMA는 Mean Teacher. 이 대비가 L06의 핵심이야.</div></div>
+  <div class="row"><span class="k">어느 방법?</span><div><code>Z ← 0[N×C]</code> (샘플별 표), forward 한 줄 <code>z ← f_θ(g(x, t))</code>, epoch 끝의 <code>Z ← αZ + (1−α)z</code>, <code>z̃ ← Z/(1−α^t)</code></div></div>
+<div class="row"><span class="k">2순위</span><div><code class="bl">z̃ ← Z/(1−α^t)   ▷ construct target vectors by <button class="ans" type="button" data-i="27" aria-label="정답 보기"><span class="mask">____</span><span class="txt">bias correction</span></button></code> <span class=note>(Z가 0에서 시작해 생긴 치우침 보정. Adam과 같은 원리)</span></div></div>  <div class="row skip"><span class="k">버려도 됨</span><div>0 ≤ α &lt; 1 범위, Algorithm 2 캡션 문장, loss 계수</div></div>
+  <figure class="slide"><a href="../assets/lecture06/p020.png" target="_blank" rel="noopener"><div class="imgwrap" style="aspect-ratio:1370/885;max-width:100%"><img src="../assets/lecture06/p020.png" style="width:145.985%;left:-6.569%;top:-17.514%" alt="Temporal Ensembling Alg.2 슬라이드 L06 p.20"><span class="hl main" style="left:4.38%;top:80.34%;width:81.02%;height:4.52%"></span><span class="hl second" style="left:4.38%;top:84.86%;width:89.42%;height:4.75%"></span></div></a><figcaption></figcaption></figure>
+</article>
+<article class="card t1" id="pc-lp">
+  <header><span class="no">10</span><h2>Label Propagation Alg.1</h2><span class="pg">L07 p.11</span>
+    <span class="tier">★ 버려도 됨</span></header>
+  <p class="core">pseudo label을 자기 softmax가 아니라 <b>feature 공간 kNN graph 위에서 label을 퍼뜨려(diffusion)</b> 얻고, certainty로 가중해.</p>
+  <div class="row main"><span class="k">빈칸</span><div><code class="bl">Z ← solve (10) with CG   ▷ <button class="ans" type="button" data-i="31" aria-label="정답 보기"><span class="mask">____</span><span class="txt">diffusion</span></button></code><span class="acc">인정: (방법 이름은 Label Propagation이지만 빈칸 정답은 diffusion)</span></div></div>
+  <div class="row"><span class="k">왜</span><div>줄 18개에 식이 많아서 빈칸 확률은 가장 낮아. 나온다면 이 한 단어 정도야.</div></div>
+  <div class="row"><span class="k">어느 방법?</span><div><code>extract descriptors</code> → <code>affinity values</code> → <code>W ← A + Aᵀ</code> → <code>diffusion</code> → <code>argmax ▷ pseudo-label</code> → <code>ω_i ← certainty</code></div></div>
+<div class="row"><span class="k">2순위</span><div><code class="bl">ω_i ← <button class="ans" type="button" data-i="30" aria-label="정답 보기"><span class="mask">____</span><span class="txt">certainty</span></button> of ŷ_i   ▷ pseudo-label weight</code></div></div>  <div class="row skip"><span class="k">버려도 됨</span><div>line 8–10 affinity · 정규화 식, (I − αW)Z = Y, CG, ζ_j 식, 줄 번호 전부</div></div>
+  <figure class="slide"><a href="../assets/lecture07/p011_lp_algorithm.png" target="_blank" rel="noopener"><div class="imgwrap" style="aspect-ratio:925/736;max-width:90%"><img src="../assets/lecture07/p011_lp_algorithm.png" style="width:183.351%;left:0.000%;top:0.000%" alt="Label Propagation Alg.1 슬라이드 L07 p.11"><span class="hl main" style="left:1.95%;top:57.47%;width:96.76%;height:4.89%"></span><span class="hl second" style="left:1.95%;top:72.01%;width:96.76%;height:4.89%"></span></div></a><figcaption>세 명 모두 ★ (버려도 됨). 시간 없으면 건너뛰어.</figcaption></figure>
+</article>
+<article class="card t3" id="pc-dividemix">
+  <header><span class="no">11</span><h2>DivideMix Alg.1</h2><span class="pg">L07 p.54</span>
+    <span class="tier">★★★ 꼭 나온다</span></header>
+  <p class="core">per-sample loss에 <b>GMM</b>을 맞춰 clean(labeled) / noisy(unlabeled)로 나누고, 그 분할을 <b>상대 network</b>에 줘 (co-divide). 그다음은 MixMatch로 학습.</p>
+  <div class="row main"><span class="k">빈칸</span><div><code class="bl">W^(2) = <button class="ans" type="button" data-i="34" aria-label="정답 보기"><span class="mask">____</span><span class="txt">GMM</span></button>(X, Y, θ^(1))   // model per-sample loss with θ^(1) to obtain clean proabability for θ^(2)</code><span class="acc">인정: Gaussian Mixture Model</span></div></div>
+  <div class="row"><span class="k">왜</span><div>loss가 작으면 clean, 크면 noisy. θ^(1)로 만든 분할을 θ^(2)가 써서, 자기 실수를 자기가 믿는 confirmation bias를 줄여. 교수님이 빨간 글씨 &quot;Co-divide&quot;를 달았고 p.53에 &quot;Why use GMM?&quot;도 있어.</div></div>
+  <div class="row"><span class="k">어느 방법?</span><div>두 network θ^(1), θ^(2), <code>GMM(·, θ^(1))</code> → W^(2) (교차), w_i ≥ τ → labeled set, <code>MixMatch(X̂, Û)</code></div></div>
+<div class="row"><span class="k">2순위</span><div><code class="bl">L_X, L_U = <button class="ans" type="button" data-i="33" aria-label="정답 보기"><span class="mask">____</span><span class="txt">MixMatch</span></button>(X̂, Û)   // apply MixMatch</code> <span class=note>(DivideMix는 새 학습 알고리즘이 아니라 MixMatch에 넣을 데이터를 나누는 방법이야)</span></div></div>  <div class="row skip"><span class="k">버려도 됨</span><div>line 7–8 집합 식, line 17–21 수식 (co-refinement · co-guessing 식), Sharpen T, λ_u, WarmUp</div></div>
+  <figure class="slide"><a href="../assets/lecture07/p054_algorithm.png" target="_blank" rel="noopener"><div class="imgwrap" style="aspect-ratio:931/901;max-width:80%"><img src="../assets/lecture07/p054_algorithm.png" style="width:100.000%;left:0.000%;top:0.000%" alt="DivideMix Alg.1 슬라이드 L07 p.54"><span class="hl main" style="left:1.50%;top:15.43%;width:97.96%;height:6.10%"></span><span class="hl second" style="left:1.50%;top:81.13%;width:97.96%;height:3.11%"></span></div></a><figcaption>슬라이드 오타 &quot;proabability&quot;는 원문 그대로야.</figcaption></figure>
+</article>
+</main>
+<script>
+document.addEventListener('click',e=>{const b=e.target.closest('button.ans');if(b)b.classList.toggle('on')});
+document.getElementById('all').onclick=()=>document.querySelectorAll('button.ans').forEach(b=>b.classList.add('on'));
+document.getElementById('none').onclick=()=>document.querySelectorAll('button.ans').forEach(b=>b.classList.remove('on'));
+document.getElementById('theme').onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark'};
+</script>
+</body></html>
