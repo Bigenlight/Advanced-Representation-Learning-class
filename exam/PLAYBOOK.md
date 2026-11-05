@@ -52,6 +52,32 @@
 | **D-3** | 모의고사 풀기 → 틀린 문제는 해당 카드·노트로 돌아가 보강 |
 | **D-1** | 마지막 체크 섹션, 함정 Top N, pseudo code 핵심 줄만 다시 |
 
+### 0.3 단원마다 만드는 세트 (L08부터)
+
+> 2026-11-05 결정. 기말 범위는 강의가 나오면 **그 주에** 아래를 전부 만들어. 중간 양식 그대로고, 분량만 강의 수에 맞춰.
+> 누적 여부를 아직 몰라서 중간 파일은 안 건드리고 `*_final*` 새 파일에 쌓아 (0.1의 "아니면" 쪽). 누적으로 확정되면 그때 합쳐.
+
+| 순서 | 산출물 | 메모 |
+|---|---|---|
+| 1 | `lectures/NN_*.pdf`, `lectures/_pages/NN_*/`, `assets/lectureNN/` | PyMuPDF가 없으면 `pdftoppm` + PIL로 렌더·crop |
+| 2 | `notes/_drafts/NN_*/chunk_XX.md` | 페이지별 슬라이드 원문 + 설명 |
+| 3 | `notes/NN_*.md` | 4.2 |
+| 4 | `exam/_parts/NN_*.md` → `exam/core_ideas_final.md` | 4.3 + 7장. 치트시트는 `python3 -I exam/_tools/make_core_final.py`로 재생성 |
+| 5 | `exam/pseudocode_final.md` | code card. 카드는 torch가 있는 env에서 돌려 (`~/miniconda3/envs/acl/bin/python -I`) |
+| 6 | `exam/_flow_final/` → `exam/flow_final.html` | 각 섹션(`#sum`·`#map`·`#terms`·`#patterns`·`#code`·`#bridge`·`#last`)에 블록 추가 + `<section id="lNN">` |
+| 7 | `exam/mock_quiz_final_LNN.md` | 단원 미니 모의고사: T/F 5 + MCQ 3 + code 2. `exam/_tools/make_mock_final.py` 맨 위 상수만 바꿔. 검수가 끝난 뒤에 만들어 |
+| 8 | README 진도 표, 그리고 범위가 공지되면 CLAUDE.md | |
+
+**진행 방식**: 슬라이드를 읽는 작성자는 fan-out(강의 맥락을 물려받는 fork가 잘 맞아), 검수자는 맥락 없는 새 Opus. 검수자에게 내 결론이나 brief를 주지 마.
+
+**검수는 여러 명이 나눠서 동시에.** L08 땐 산출물마다 검수자 한 명이 41쪽 전체를 읽어서 한 건에 9–14분, 학습 페이지는 80분이 걸렸고, 너무 오래 걸린다는 피드백을 받았어. 산출물 하나를 페이지 범위나 섹션으로 쪼개서 검수자 여러 명에게 동시에 맡겨. 각자 자기 범위의 슬라이드만 읽게 하고, 범위를 넘는 일관성 확인은 통합할 때 내가 해.
+
+**L08에서 얻은 교훈**
+- **pool 검수는 정답을 지운 문제지를 먼저 풀게 해.** 정답을 보고 검수하면 그 답에 끌려가. 스크립트로 `**Answer**` 이후를 잘라서 주면 돼.
+- **단계가 이어지는 코드는 여러 단계를 chain해서 돌려.** OICR 카드는 단일 stage 테스트를 통과했는데, 2단계부터 class 번호가 한 칸씩 밀리는 버그가 있었어. 독립 검수자가 찾았어.
+- **학습 페이지 `#code`는 code card 검수가 끝난 뒤 그 코드에 맞춰.** 병렬로 만들면 고치기 전 코드가 페이지에 남아.
+- **"target은 모델 자신에서 와"는 위험한 요약이야.** WSOD에선 class는 image label이, proposal은 모델 점수가 정해. 이 표현으로 쓰면 image label을 안 쓰는 줄 알게 돼.
+
 ---
 
 ## 1. 먼저 정하는 것: 독자와 시험

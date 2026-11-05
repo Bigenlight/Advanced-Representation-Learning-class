@@ -10,7 +10,8 @@
 | `notes/` | 강의별 정식 노트 `NN_topic.md` |
 | `notes/_drafts/` | 페이지 청크별 초안 (멀티에이전트 산출물, 검증 완료) |
 | `assets/lectureNN/` | 노트용 슬라이드 그림 |
-| `exam/` | 시험 대비 — **`midterm_recall.md` (2026-10-29 중간고사 복기 + 기말 전략: 시험 모양·출제 패턴·기말에 할 것)**, **`PLAYBOOK.md` (자료 만드는 요령: 서술·구조·양식·시각자료, 기말 때 여기서 시작)**, **`flow.html` (7강 한 바퀴 학습 페이지: 처음 배우는 사람 눈높이로 용어·수식을 풀어 씀 + 슬라이드 그림 + 개념 그래프·인터랙티브, 브라우저로 열기 / 소스는 `_flow/`, 본문 원본은 `_flow/base.html`)**, **`flow.pdf` (같은 내용 A4 PDF, 접힌 슬라이드 그림·정답 전부 펼침, 목차 북마크 / `python3 -I exam/_flow/pdf.py`로 재생성)**, `core_ideas.md` (01–07 core idea 치트시트), **`pseudocode.md` (pseudo code 9개 총정리)**, `mock_quiz_1~3.md` (T/F·MCQ 20문제), **`mock_quiz_4~5.md` (빈칸·pseudo code 포함 새 형식)**, `_parts/` (강의별 pool: T/F·MCQ 139 + 빈칸 84, `pc_1~4` pseudo code pool 59 — 전부 Opus 독립 검수) |
+| `exam/` (기말) | **L08부터 단원마다 추가** — `flow_final.html` (학습 페이지, 소스 `_flow_final/`), `core_ideas_final.md` (치트시트), `pseudocode_final.md` (code card), `mock_quiz_final_LNN.md` (단원 미니 모의고사), `_parts/NN_*.md` (pool). 생성 스크립트는 `_tools/` |
+| `exam/` (중간) | 시험 대비 — **`midterm_recall.md` (2026-10-29 중간고사 복기 + 기말 전략: 시험 모양·출제 패턴·기말에 할 것)**, **`PLAYBOOK.md` (자료 만드는 요령: 서술·구조·양식·시각자료, 기말 때 여기서 시작)**, **`flow.html` (7강 한 바퀴 학습 페이지: 처음 배우는 사람 눈높이로 용어·수식을 풀어 씀 + 슬라이드 그림 + 개념 그래프·인터랙티브, 브라우저로 열기 / 소스는 `_flow/`, 본문 원본은 `_flow/base.html`)**, **`flow.pdf` (같은 내용 A4 PDF, 접힌 슬라이드 그림·정답 전부 펼침, 목차 북마크 / `python3 -I exam/_flow/pdf.py`로 재생성)**, `core_ideas.md` (01–07 core idea 치트시트), **`pseudocode.md` (pseudo code 9개 총정리)**, `mock_quiz_1~3.md` (T/F·MCQ 20문제), **`mock_quiz_4~5.md` (빈칸·pseudo code 포함 새 형식)**, `_parts/` (강의별 pool: T/F·MCQ 139 + 빈칸 84, `pc_1~4` pseudo code pool 59 — 전부 Opus 독립 검수) |
 
 ## 진도 표
 
@@ -23,10 +24,12 @@
 | 05 | Contrastive Learning III | 76p | ☑ | ☑ | ☐ | ☑ |
 | 06 | Semi-Supervised Learning I | 76p | ☑ | ☑ | ☐ | ☑ |
 | 07 | Semi-Supervised Learning II | 106p | ☑ | ☑ | ☐ | ☑ |
+| 08 | Weakly-Supervised Learning I | 41p | ☑ | ☑ | ☐ | ☑ |
 
 ## 평가 구조
 
 - **영어 수업** (시험도 영어 전제)
+- **기말 퀴즈: 2026-12-10 (W15)** — 범위 W10–W14 (Weakly-Supervised I·II, Active Learning I·II, MAE). 누적 여부·형식은 공지 전이라 중간과 같다고 가정 (`exam/midterm_recall.md` 5장)
 
 - **중간고사 퀴즈: 2026-10-29 (목)** — 총 **20문제**, 쉽게 출제. 교수님: *"please study basic concept & core idea of the papers"* → 논문별 핵심 아이디어 위주
 - 시험 있음 (상세 TBD — 강의계획서 확인 후 기입)

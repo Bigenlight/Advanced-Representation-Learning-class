@@ -1,0 +1,179 @@
+[
+ {
+  "slot": "l08-in01",
+  "src": "assets/lecture08/p004_annotation_cost.png",
+  "alt": "Four annotation types for one image with annotation time axis",
+  "caption": "왼쪽에서 오른쪽으로 읽어. 같은 사진의 annotation이 class 이름 → point → b-box → pixel labels로 정밀해지고, 맨 아래 축의 시간도 같이 늘어. 빨강은 motorbike, 초록은 person이야. 맨 왼쪽만 단위가 per class고 나머지는 per instance야. <b>왼쪽 label로 학습해서 오른쪽 출력을 내려는 게 weak supervision이야.</b>",
+  "page": "L08 p.4",
+  "width": 460
+ },
+ {
+  "slot": "l08-in02",
+  "src": "assets/lecture08/p005_supervision_settings.png",
+  "alt": "Supervised, weakly supervised, weakly semi-supervised and semi-supervised panels",
+  "caption": "칸 하나가 학습 data 두 장이야. 사각형이 그려져 있으면 box label, 글자만 떠 있으면 image label, 아무것도 없으면 unlabeled야. (a)는 둘 다 box, (b)는 둘 다 글자, (c)는 box + 글자, (d)는 box + 없음이야. <b>(c)와 (d)는 둘째 사진만 달라.</b>",
+  "page": "L08 p.5",
+  "width": 460
+ },
+ {
+  "slot": "l08-in03",
+  "src": "assets/lecture08/p006_transfer_mil.png",
+  "alt": "Knowledge transfer from strongly labeled tasks to weakly labeled tasks through representation learning and MIL",
+  "caption": "위 줄은 strong label이 있는 task, 아래 줄은 weak label만 있는 task야. 오른쪽 위 빨간 칸은 person · bike에 box가 달려 있어. 오른쪽 아래 초록 칸은 dog라는 이름만 있어서 후보 box 중 뭐가 맞는지 물음표가 붙어 있어. 위에서 배운 representation을 아래로 내려 주고, MIL로 dog의 box를 찾아.",
+  "page": "L08 p.6",
+  "width": 360
+ },
+ {
+  "slot": "l08-in04",
+  "src": "assets/lecture08/p015_mil_bags.png",
+  "alt": "Positive and negative bags of candidate windows with bags equal images and instances equal windows",
+  "caption": "왼쪽 열은 motorbike가 있는 사진(positive bags), 가운데 열은 없는 사진(negative bags)이야. 빨간 사각형이 후보 window고, 초록 사각형이 찾아야 할 진짜 motorbike야. <b>학습 때 초록은 안 주어져.</b> 그래서 Goals가 \"find true positive instances\"야.",
+  "page": "L08 p.15",
+  "width": 460
+ },
+ {
+  "slot": "l08-in05",
+  "src": "assets/lecture08/p016_mil_pipeline.png",
+  "alt": "Standard MIL pipeline: initialize, then loop between re-train and re-localize",
+  "caption": "왼쪽에서 오른쪽으로 읽어. 후보 window에서 Initialize로 첫 box(노랑)를 잡고, 그 뒤엔 오른쪽 고리만 돌아. 위 화살표 Re-train은 box로 model을 학습하고, 아래 화살표 Re-localize는 model로 box를 다시 골라.",
+  "page": "L08 p.16",
+  "width": 460,
+  "crop_note": "Bullet text overlapping the crop box was painted white; figure content untouched."
+ },
+ {
+  "slot": "l08-in06",
+  "src": "assets/lecture08/p017_bag_generation.png",
+  "alt": "Sliding windows on a street image and object proposals on a cow image",
+  "caption": "위 사진의 노란 사각형이 sliding window야. 일정한 간격으로 밀면서 훑어. 아래 사진의 파란 사각형이 object proposal이야. 물체처럼 보이는 자리를 골라 둔 후보라서 배치가 불규칙해.",
+  "page": "L08 p.17",
+  "width": 230
+ },
+ {
+  "slot": "l08-in07",
+  "src": "assets/lecture08/p018_init_graph.png",
+  "alt": "Graph connecting candidate boxes to positive images",
+  "caption": "윗줄이 후보 box, 아랫줄이 positive 사진이야. 선은 box가 어느 사진의 box와 이어지는지를 나타내. 초록 후보 하나가 굵은 선으로 여러 사진과 이어진 걸 봐. <b>여러 positive 사진에 되풀이되는 box가 relevant 후보야.</b>",
+  "page": "L08 p.18",
+  "width": 460
+ },
+ {
+  "slot": "l08-in08",
+  "src": "assets/lecture08/p020_relocalize_argmax.png",
+  "alt": "All proposals reduced to the single highest scoring window, with the argmax formula",
+  "caption": "왼쪽 사진의 파란 사각형이 proposal 전부고, 화살표 오른쪽의 노란 사각형이 점수 1등 하나야. 맨 오른쪽 식이 그 규칙이야. <b>사진마다 box가 딱 하나만 남아.</b>",
+  "page": "L08 p.20",
+  "width": 520
+ },
+ {
+  "slot": "l08-in09",
+  "src": "assets/lecture08/p022_max_vs_softmax.png",
+  "alt": "Candidate proposals, the single box kept by max, and the several boxes kept by soft-max",
+  "caption": "세 줄로 읽어. 맨 위가 후보 proposal, Max 글자 밑이 hard max 결과, Soft-max 글자 밑이 relaxing 결과야. Max는 노란 box 하나만 남아서 왼쪽은 사진 통째, 오른쪽은 여러 마리가 한 box로 묶여. <b>Soft-max는 주황 · 빨강 box 여러 개가 같이 살아남아.</b>",
+  "page": "L08 p.22",
+  "width": 240
+ },
+ {
+  "slot": "l08-in10",
+  "src": "assets/lecture08/p024_multifold.png",
+  "alt": "Two detectors re-trained and re-localizing on opposite images",
+  "caption": "파란 실선이 Re-train, 주황 점선이 Re-localize야. 위 사진은 detector 2를 학습시키고, 그 사진의 box는 detector 1이 골라. 아래 사진은 반대야. <b>선이 X자로 엇갈리는 게 핵심이야.</b> 자기가 학습한 사진의 box는 자기가 안 골라.",
+  "page": "L08 p.24",
+  "width": 420
+ },
+ {
+  "slot": "l08-in11",
+  "src": "assets/lecture08/p025_pairwise_crf.png",
+  "alt": "Fully connected CRF with images as nodes and windows as states",
+  "caption": "원 하나가 positive 사진 하나고(nodes: images), 그 사진에서 어느 window를 고르나가 상태야(states: windows). unary는 objectness scores, pairwise는 similarity between windows야. 원끼리 전부 이어져 있어서(fully connected CRF) <b>사진 수 N이 늘면 비교할 짝이 N²로 늘어.</b>",
+  "page": "L08 p.25",
+  "width": 360
+ },
+ {
+  "slot": "l08-in12",
+  "src": "assets/lecture08/p026_subcategories.png",
+  "alt": "Airplane images grouped into fighter and airliner clusters around representatives",
+  "caption": "맨 위 줄은 모양이 제각각인 airplane 사진이야. 아래는 그걸 묶은 모습이고, 노란 테두리 묶음은 전투기, 보라 테두리 묶음은 여객기야. 가운데 clusters 안의 box가 각 묶음의 대표야. <b>묶음 안에서만 닮으면 되니까 intra-class variation을 담을 수 있어.</b>",
+  "page": "L08 p.26",
+  "width": 290
+ },
+ {
+  "slot": "l08-in13",
+  "src": "assets/lecture08/p027_context.png",
+  "alt": "Foreground and background split, and context-aware additive and contrastive models",
+  "caption": "왼쪽 그림은 box 안쪽(FG)과 바깥쪽(BG)을 나눠서 봐 (Russakovsky). 오른쪽은 Kantorov의 두 모델이야. ROI와 둘레 context를 따로 본 다음, additive는 더해서(+) \"person?\"을 판단하고, contrastive는 빼서(−) \"person in ROI but not in context?\"를 판단해.",
+  "page": "L08 p.27",
+  "width": 520
+ },
+ {
+  "slot": "l08-in14",
+  "src": "assets/lecture08/p028_objectness.png",
+  "alt": "Boxes on a photo colored by objectness score with a color bar",
+  "caption": "box 색이 그 window의 objectness 점수야. 오른쪽 색 막대에서 빨강이 1, 파랑이 0이야. 오토바이를 감싼 진한 빨강 box가 제일 높고, 부품만 잡은 안쪽 주황 box는 그보다 낮고, 하늘 쪽 짙은 파랑 box는 거의 0이야. <b>점수가 whole object 쪽으로 밀어 줘.</b>",
+  "page": "L08 p.28",
+  "width": 360
+ },
+ {
+  "slot": "l08-in15",
+  "src": "assets/lecture08/p029_equivariance.png",
+  "alt": "An image and its mirrored version with score maps before and after",
+  "caption": "왼쪽은 원본과 좌우로 뒤집은 사진이야. 가운데 열이 Before, 오른쪽 열이 After 점수 맵이고 빨강일수록 점수가 높아. Before에선 같은 차인데 사진에 따라 색이 크게 달라. <b>After에선 두 사진의 점수 차이가 줄어.</b> 뒤집어도 같은 물체는 같은 점수를 받아야 하니까.",
+  "page": "L08 p.29",
+  "width": 420
+ },
+ {
+  "slot": "l08-in16",
+  "src": "assets/lecture08/p030_scale_prior.png",
+  "alt": "Re-training with size order and re-localization with size weighting",
+  "caption": "점선 위 RE-TRAINING에선 사진을 Size Order로 줄 세워서 큰 물체부터 학습해. 점선 아래 RE-LOCALIZATION에선 Size Weighting 곡선으로 proposal마다 weight w를 줘. 곡선 봉우리에서 멀어질수록 w가 줄어. 그림의 S<sub>e</sub> · S<sub>p</sub>는 슬라이드에 정의가 없어서, 추정 크기와 proposal 크기로 읽은 거야.",
+  "page": "L08 p.30",
+  "width": 420
+ },
+ {
+  "slot": "l08-in17",
+  "src": "assets/lecture08/p031_motion_tubes.png",
+  "alt": "Pipeline from training videos to candidate tubes, joint selection, sampled frames and object detector",
+  "caption": "위에서 아래로 읽어. Training Videos에서 Candidate Tubes를 뽑고, 왼쪽 아래에서 비디오마다 tube 하나를 모든 비디오를 같이 보며 골라(Joint-Selection). 점선은 tube끼리의 비교야. 고른 tube에서 frame을 뽑아 Object Detector를 학습해.",
+  "page": "L08 p.31",
+  "width": 280
+ },
+ {
+  "slot": "l08-in18",
+  "src": "assets/lecture08/p034_wsddn.png",
+  "alt": "WSDDN two-stream architecture with classification and localization tables multiplied into image-level scores",
+  "caption": "왼쪽에서 오른쪽으로 읽어. 사진이 Conv layers를 지나고 Region Proposals가 RoIPooling으로 proposal별 feature가 돼. classification 표는 <b>한 열</b>(R<sub>1</sub>) 안에서 class끼리 비교하고, localization 표는 <b>한 행</b>(horse) 안에서 proposal끼리 비교해. 회색 칠은 두 표 다 horse 행이라서, 비교 방향을 뜻하는 표시가 아니야. 두 표를 곱한(⊗) 뒤 proposal을 합치면 맨 오른쪽 image-level 점수가 나와.",
+  "page": "L08 p.34",
+  "width": 500
+ },
+ {
+  "slot": "l08-in19",
+  "src": "assets/lecture08/p035_wsddn_failures.png",
+  "alt": "Three WSDDN failure cases with red boxes",
+  "caption": "빨간 box가 WSDDN의 결과야. 왼쪽은 사람 전체가 아니라 얼굴, 가운데는 고양이 전체가 아니라 머리 쪽만 잡았어(discriminative parts). <b>오른쪽은 여러 사람을 한 box로 묶었어</b>(Groups multiple instances together).",
+  "page": "L08 p.35",
+  "width": 500
+ },
+ {
+  "slot": "l08-in20",
+  "src": "assets/lecture08/p036_oicr.png",
+  "alt": "OICR architecture with a multiple instance detection network and K instance classifier refinement streams",
+  "caption": "왼쪽에서 오른쪽으로 읽어. Conv layers → SPP(Spatial Pyramid Pooling) layer → Two fc layers로 proposal feature vector를 뽑아. 맨 위 분홍 제목 칸이 WSDDN 구조야: softmax 두 개 → element-wise product → sum over proposals. 그 밑으로 refinement 줄기가 1-st부터 K-th까지 이어져. <b>Supervision 화살표는 앞 줄기의 proposal scores로 다음 줄기의 pseudo label을 만든다는 뜻이야.</b> 점수 자체가 target은 아니야.",
+  "page": "L08 p.36",
+  "width": 520
+ },
+ {
+  "slot": "l08-in21",
+  "src": "assets/lecture08/p037_pcl.png",
+  "alt": "Three ways of labeling proposals: one bag, per-proposal labels, and per-cluster labels",
+  "caption": "세 열을 위에서 아래로 읽어. (a)는 proposal 전체를 bag X 하나로 보고 image label [1, 2]만 줘. (b)는 proposal마다 label을 달아. (c)는 proposal을 cluster X<sub>1</sub>–X<sub>4</sub>로 묶어서 cluster마다 label을 달아. 그림의 (c)에서 label 1 cluster가 둘이야. <b>같은 class 물체가 둘이면 pseudo object도 둘이 돼.</b> label 0은 슬라이드에 정의가 없는데, 그림상 배경으로 읽혀.",
+  "page": "L08 p.37",
+  "width": 290
+ },
+ {
+  "slot": "l08-in22",
+  "src": "assets/lecture08/p038_ren_arch.png",
+  "alt": "Min-max objective and architecture with Base, Concrete DropBlock, Neck, MIST and Student blocks",
+  "caption": "왼쪽에서 오른쪽으로 읽어. Base → Concrete DropBlock → Neck을 지난 feature가 갈라져. f<sub>w</sub>, g<sub>w</sub>를 곱해서(⊗) s<sub>w</sub>, 합쳐서(⊕) φ<sub>w</sub>가 돼. WSDDN과 같은 구조야. 아래 Student는 MIST(Multiple Instance Self-Training, 슬라이드엔 풀이가 없어)가 만든 pseudo label ŷ, t̂로 학습하고, cls. prob.과 regress. head를 가져. 식의 시그마 아래 글자는 슬라이드에서 잘렸는데 I로 읽어.",
+  "page": "L08 p.38",
+  "width": 460
+ }
+]
