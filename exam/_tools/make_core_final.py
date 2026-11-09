@@ -6,7 +6,8 @@
 """
 import pathlib, re
 repo = pathlib.Path(__file__).resolve().parents[2]
-parts = [('08', 'Weakly-Supervised Learning I', repo / 'exam/_parts/08_Weakly_Supervised_Learning_I.md')]
+parts = [('08', 'Weakly-Supervised Learning I', repo / 'exam/_parts/08_Weakly_Supervised_Learning_I.md'),
+         ('09', 'Weakly-Supervised Learning II', repo / 'exam/_parts/09_Weakly_Supervised_Learning_II.md')]
 head = """# 고급표현학습 기말 대비 — Core Ideas (L08–)
 
 > 기말 치트시트야. **L08부터** 강의가 끝날 때마다 블록을 이어 붙여.

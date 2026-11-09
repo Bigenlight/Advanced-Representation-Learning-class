@@ -17,7 +17,7 @@ FLOW = pathlib.Path(__file__).resolve().parent
 REPO = FLOW.parent.parent  # exam/_flow_final -> repo root
 OUT = REPO / 'exam' / 'flow_final.html'
 
-CODE_SLIDES = {}  # L08: no Algorithm/code box in 41 pages
+CODE_SLIDES = {}  # L08: no Algorithm/code box in 41 pages · L09: none in 96 pages
 
 EXTRA_CSS = r"""
 <style>

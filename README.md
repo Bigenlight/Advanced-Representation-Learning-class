@@ -25,6 +25,7 @@
 | 06 | Semi-Supervised Learning I | 76p | ☑ | ☑ | ☐ | ☑ |
 | 07 | Semi-Supervised Learning II | 106p | ☑ | ☑ | ☐ | ☑ |
 | 08 | Weakly-Supervised Learning I | 41p | ☑ | ☑ | ☐ | ☑ |
+| 09 | Weakly-Supervised Learning II | 96p | ☑ | ☑ | ☐ | ☑ |
 
 ## 평가 구조
 

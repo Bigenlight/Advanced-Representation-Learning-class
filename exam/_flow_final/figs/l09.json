@@ -1,0 +1,253 @@
+[
+ {
+  "slot": "l09-in01",
+  "src": "assets/lecture09/p004_fully_vs_weakly.png",
+  "alt": "Fully supervised full mask versus weakly supervised point clicks on the same cats",
+  "caption": "위 줄이 fully supervised, 아래 줄이 weakly supervised야. 위는 고양이 두 마리를 같은 색 mask 하나로 통째로 칠한 정답이라 Directly supervised고, 아래는 고양이마다 점 하나만 찍혀 있어서 Indirectly supervised야. semantic segmentation은 개체를 안 나눠서 두 마리가 같은 색이야. <b>weak supervision은 정답 mask 대신 간접 정보(여기선 click)만 줘.</b>",
+  "page": "L09 p.4",
+  "width": 340
+ },
+ {
+  "slot": "l09-in02",
+  "src": "assets/lecture09/p008_saliency_map.png",
+  "alt": "Motorcycle photo and its saliency heatmap highlighting the motorcycle and rider",
+  "caption": "왼쪽이 원본 사진, 오른쪽이 saliency map이야. 빨강이 눈에 띄는(salient) 영역, 파랑이 아닌 영역이야. 오토바이와 탄 사람이 통째로 빨갛고 트랙과 풀밭은 파래. <b>이 saliency는 \"무엇이 튀는가\"만 알려 주고 class 이름은 안 줘(class-agnostic).</b> 슬라이드는 이 그림을 \"Boundaries, saliency\" prior에 붙였어.",
+  "page": "L09 p.8",
+  "width": 460,
+  "fold": true
+ },
+ {
+  "slot": "l09-in03",
+  "src": "assets/lecture09/p013_hint_click.png",
+  "alt": "Photos with colored click points placed on objects",
+  "caption": "사진마다 색 점이 1–4개 찍혀 있어. 슬라이드 제목은 \"Click inside object\"이고, 점은 사람 · 말 · 고양이 · 소파 · 젖병 같은 물체 안쪽에 있어. 같은 색은 같은 class로 보여(해석, 슬라이드엔 색 설명이 없어). <b>click은 대략의 위치와 개수를 주지만, 물체가 어디까지인지(경계)는 안 줘.</b>",
+  "page": "L09 p.13",
+  "width": 340
+ },
+ {
+  "slot": "l09-in04",
+  "src": "assets/lecture09/p019_image_to_pixel.png",
+  "alt": "Image-level labels at training time and pixel-level labels at test time",
+  "caption": "왼쪽에서 오른쪽으로 읽어. 왼쪽은 학습 때 주는 image-level label(글자 person, bicycle뿐)이고, 오른쪽은 test 때 내야 하는 pixel-level 결과야. 글자색과 칠한 색이 짝이야(person = 초록, bicycle = 보라). 두 사진은 서로 다른 사진이야. <b>글자 label만으로 pixel마다 class를 찍는 게 이 파트의 목표야.</b>",
+  "page": "L09 p.19",
+  "width": 420
+ },
+ {
+  "slot": "l09-in05a",
+  "src": "assets/lecture09/p021_gradient_saliency.png",
+  "alt": "Gradient saliency steps and noisy saliency maps for two images",
+  "caption": "위에 recipe(classifier 학습 → 입력 사진에 대한 class 점수의 gradient 계산)가 있고, 아래 두 줄은 왼쪽부터 원본, gradient saliency map, 그 map으로 만든 영역 표시, 잘라 낸 결과야. 둘째 칸의 gradient map은 어두운 바탕에 희미한 점이 사진 전체에 흩어져 있어서 물체 윤곽이 또렷하지 않아. <b>pixel 단위 gradient는 salt-and-pepper처럼 noisy해.</b>",
+  "page": "L09 p.21",
+  "width": 320
+ },
+ {
+  "slot": "l09-in05",
+  "src": "assets/lecture09/p022_smoothgrad.png",
+  "alt": "SmoothGrad procedure with Vanilla versus SmoothGrad saliency maps",
+  "caption": "위 Step 1–4가 순서야. Step 2–3(noise 넣고 gradient 재기)을 50번 반복해서 평균 낸 게 SmoothGrad야. 아래 표는 열이 원본 / Vanilla gradient / SmoothGrad(빨간 테두리)야. Vanilla는 점이 사진 전체에 흩어져 있고, SmoothGrad에선 물체 윤곽이 보여. <b>같은 gradient라도 noise를 넣어 평균 내면 salt-and-pepper가 사라져.</b>",
+  "page": "L09 p.22",
+  "width": 290
+ },
+ {
+  "slot": "l09-in06",
+  "src": "assets/lecture09/p024_cam_architecture.png",
+  "alt": "FC layer replaced by spatial average pooling and a 1x1 conv layer",
+  "caption": "아래에서 위로 읽어. 왼쪽 원래 classifier는 Conv layer N 위에 FC가 있어. 오른쪽은 FC를 빼고 spatial average pooling(= GAP, 색 띠 하나가 channel 하나의 평균) 위에 1×1 conv를 얹었어. 맨 위 동그라미 두 개가 class 점수야. <b>위치를 섞는 layer(FC)를 없애서 spatial 정보를 끝까지 남기는 게 CAM의 구조야.</b>",
+  "page": "L09 p.24",
+  "width": 420
+ },
+ {
+  "slot": "l09-in07",
+  "src": "assets/lecture09/p025_cam_weighted_sum.png",
+  "alt": "Class activation mapping as a weighted sum of feature maps",
+  "caption": "위 줄이 분류, 아래 줄이 지도 만들기야. 위에서 GAP 뒤 class 점수(Australian terrier)에 쓴 weight w<sub>1</sub>…w<sub>n</sub>을 색으로 짝지어 아래로 가져와서, 마지막 conv feature map 각각에 곱해 더해. 맨 오른쪽 heatmap이 terrier의 CAM이야. backward 계산은 없어. <b>분류에 쓴 weight로 feature map을 합치면 위치별 class 기여 지도가 나와.</b>",
+  "page": "L09 p.25",
+  "width": 440
+ },
+ {
+  "slot": "l09-in08",
+  "src": "assets/lecture09/p026_per_class_maps.png",
+  "alt": "CAM heatmaps for the top-5 predicted categories of one image",
+  "caption": "왼쪽 위 원본(정답 dome) 다음으로 예측 상위 5개 class의 CAM이 있어. 칸 위 숫자는 그 class의 예측 확률이고, 빨강이 그 class 점수가 높은 위치야. palace CAM은 건물 아래 가로로 긴 부분, dome CAM은 위쪽 둥근 지붕이 빨개. 나머지 셋(church · altar · monastery)은 서로 비슷해. <b>같은 feature map에 class별 weight만 바꾸면 class마다 지도가 하나씩 나와.</b>",
+  "page": "L09 p.26",
+  "width": 340
+ },
+ {
+  "slot": "l09-in09",
+  "src": "assets/lecture09/p027_cam_threshold_seeds.png",
+  "alt": "CAM weighted averaging and thresholding pipeline producing a binary seed mask",
+  "caption": "M1(CNN + GAP로 분류) → M2(feature map에 weight를 곱해 합친 M<sub>k</sub>) → M3(resize 후 τ<sub>loc</sub>보다 큰 곳을 흰색으로)로 읽어. 맨 오른쪽 흰 영역 B<sub>k</sub>가 foreground야. 이 그림에선 C가 channel 수, k가 class라서 CAM 식의 글자와 뒤바뀌어 있어. <b>점수가 높은 확실한 영역만 남긴 게 seed고, 이걸 training data로 써.</b>",
+  "page": "L09 p.27",
+  "width": 440
+ },
+ {
+  "slot": "l09-in10",
+  "src": "assets/lecture09/p028_cam_ostrich_salamander.png",
+  "alt": "CAM heatmaps for ostrich and spotted salamander photos",
+  "caption": "위 줄이 ostrich, 아래 줄이 spotted salamander야. 사진 아래 heatmap에서 빨강이 CAM이 높은 곳이고 숫자는 class 점수야. 빨간 곳은 사진마다 한두 덩어리에 모이고(타조는 머리 · 목에 뜨는 경우가 많고 몸통 한 곳에 뜨는 것도 있어), 덩어리 모양이 둥글게 뭉개져 있어. <b>CAM은 물체 전체 윤곽을 따라가지 못해: not sharp, discriminative area only.</b>",
+  "page": "L09 p.28",
+  "width": 480
+ },
+ {
+  "slot": "l09-in11",
+  "src": "assets/lecture09/p030_sec_pipeline.png",
+  "alt": "SEC pipeline with seeding, expansion and constrain-to-boundary losses",
+  "caption": "왼쪽 image(label: Person, Cow)가 가운데 Segmentation CNN을 지나 pixel별 class 확률 지도가 돼. 위 갈래는 Weak Localization이 만든 seed(분홍 = Person, 초록 = Cow, 남색 = Background, 회색 체크 = label 없음)로 Seeding loss를, 가운데는 GWRP로 모은 image 점수로 Expansion loss를, 아래는 CRF로 다듬은 mask로 Constrain-to-boundary loss를 걸어. 세 loss를 더해(⊕) 회색 화살표 방향으로 학습 신호가 거꾸로 흘러. <b>seed에서 시작해 넓히고, 경계에서 멈추게 하는 세 loss야.</b>",
+  "page": "L09 p.30",
+  "width": 500
+ },
+ {
+  "slot": "l09-in12",
+  "src": "assets/lecture09/p033_saliency_guide_labeller.png",
+  "alt": "Guide labeller fuses saliency and seeder masks to train a segmenter",
+  "caption": "왼쪽 두 장은 같은 사진의 image label(person, bicycle)과 saliency map이고, 오른쪽이 학습 구조야. 위 점선 상자 Guide labeller 안에서 Saliency(class 모르는 전체 foreground)와 Seeder(CAM에서 뽑은 class별 seed)가 각각 mask를 내고, 둘을 합친 게 pseudo label이야. 이걸로 아래 Segmenter convnet에 dense classifier loss를 걸어. <b>CAM seed는 class를, saliency는 물체 전체 범위를 줘서 서로 메워.</b>",
+  "page": "L09 p.33",
+  "width": 500
+ },
+ {
+  "slot": "l09-in13",
+  "src": "assets/lecture09/p035_seam_equivariance.png",
+  "alt": "SEAM Siamese network enforcing equivariance between CAMs of original and transformed images",
+  "caption": "왼쪽은 같은 비행기를 크기만 줄여 넣었을 때야. CAM은 크기마다 모양이 달라지는데 SEAM은 비슷하게 유지돼. 오른쪽은 구조야. 위 줄(주황)이 원본, 아래 줄(파랑)이 affine transform한 사진이고, weight를 공유하는 Siamese network가 각각 CAM(ŷ)과 PCM으로 다듬은 map(y)을 내. 오른쪽 loss 상자에서 ER은 두 쪽의 CAM ŷ<sup>o</sup>와 ŷ<sup>t</sup>를, ECR은 한쪽 PCM 결과와 다른 쪽 CAM을 엇갈려 L1으로 맞추고, Cls는 image label로 분류를 유지해. <b>입력을 변환하면 CAM도 같이 변환돼야 한다(equivariance)는 걸 loss로 강제해.</b>",
+  "page": "L09 p.35–36",
+  "width": 500
+ },
+ {
+  "slot": "l09-in14",
+  "src": "assets/lecture09/p037_hide_and_seek.png",
+  "alt": "Training image split into a grid with random patches hidden at each epoch",
+  "caption": "왼쪽 training image를 격자 칸으로 나누고, 오른쪽으로 epoch마다 서로 다른 칸을 가려서 CNN에 넣어. 가려지는 위치는 매번 무작위야. <b>제일 눈에 띄는 부분이 가려지는 epoch도 있어서, network가 다른 부분을 보고도 분류하게 돼.</b>",
+  "page": "L09 p.37",
+  "width": 330
+ },
+ {
+  "slot": "l09-in15",
+  "src": "assets/lecture09/p038_hide_and_seek_heatmaps.png",
+  "alt": "Heatmap comparison of baseline GAP and Hide-and-Seek",
+  "caption": "칸 네 개가 한 묶음이야. 왼쪽 둘이 AlexNet-GAP의 box와 heatmap, 오른쪽 둘이 HaS의 box와 heatmap이야. 빨강 box는 정답, 초록 box는 예측이야. 기본 학습은 얼굴처럼 한 곳만 빨갛게 뜨는데, HaS는 몸통과 다리까지 번져. <b>가려서 학습하면 heatmap이 넓어지고 box도 정답에 가까워져.</b>",
+  "page": "L09 p.38",
+  "width": 460
+ },
+ {
+  "slot": "l09-in16",
+  "src": "assets/lecture09/p039_adversarial_erasing.png",
+  "alt": "Adversarial erasing loop that repeatedly erases the highest-activation region",
+  "caption": "위 상자의 classification network가 사진을 dog로 맞히게 학습해. 그 heatmap H<sub>t</sub>에서 센 곳을 threshold로 잘라 F<sub>t</sub>를 만들고, I<sub>t</sub>에서 그 영역을 지워 I<sub>t+1</sub>을 만들어 다시 넣어(Recurrent). 맨 아래 줄이 t = 1, 2, 3에서 사진과 heatmap이 바뀌는 모습이고, 지운 영역을 모은 게 Mined Object Region이야. <b>무작위가 아니라 가장 discriminative한 곳을 골라 지우는 게 adversarial이야.</b>",
+  "page": "L09 p.39",
+  "width": 460
+ },
+ {
+  "slot": "l09-in17",
+  "src": "assets/lecture09/p040_ae_steps_heatmaps.png",
+  "alt": "Adversarial erasing heatmaps across steps with the erased regions in gray",
+  "caption": "위에서 아래로 읽어. 맨 위가 원본, AE-Step1–3은 단계별 heatmap(빨강이 높은 곳), 맨 아래 Erased Regions는 지운 영역(회색)이야. step이 올라갈수록 빨간 곳이 다른 부분으로 옮겨 가. 개는 머리 → 머리 아래 · 가슴 → 몸통 · 발 쪽, 의자는 다리 → 앉는 판 · 등받이 쪽이야. <b>지운 영역은 물체의 꽤 넓은 부분을 덮지만 전부는 아니야.</b>",
+  "page": "L09 p.40",
+  "width": 480,
+  "fold": true
+ },
+ {
+  "slot": "l09-in18",
+  "src": "assets/lecture09/p045_webly_pipeline_loop.png",
+  "alt": "Target domain and web domain exchanging Filter and Enhance between Model-T and Model-W",
+  "caption": "왼쪽 타원이 target domain(clean image-level label이 있는 dataset), 오른쪽이 web domain(검색으로 모은 noisy 사진)이야. 위 화살표 Filter는 Model-T가 web 사진을 걸러 web 쪽 모델(Model-W)을 학습시키는 쪽이고, 아래 화살표 Enhance는 web에서 배운 지식이 target 쪽 mask를 좋게 하는 쪽이야. Model-W가 Web-SEC 자리라는 건 그림에서 읽은 추정이야. <b>두 domain이 서로를 돕는 루프가 이 pipeline의 큰 그림이야.</b>",
+  "page": "L09 p.45",
+  "width": 450
+ },
+ {
+  "slot": "l09-in19",
+  "src": "assets/lecture09/p047_webly_websec_pixel_labeler.png",
+  "alt": "Pipeline from noisy web images to clean web images to fine masks, with Web-SEC outputs",
+  "caption": "왼쪽에서 오른쪽으로 읽어. noisy web image를 Model-T로 거르면 clean web image가 되고, 여기서 자동으로 만든 대략적인 fine mask(web images)로 Web-SEC를 학습해. 맨 오른쪽 두 쌍은 학습된 Web-SEC가 낸 mask 예시(개, 아이)야. <b>web 사진은 대개 가운데 물체 하나라서 mask를 자동으로 만들 수 있고, 그걸로 pixel classifier를 직접 학습해.</b>",
+  "page": "L09 p.47",
+  "width": 460
+ },
+ {
+  "slot": "l09-in20",
+  "src": "assets/lecture09/p055_box_want_vs_have.png",
+  "alt": "Desired pixel mask versus available rectangle labels for a horse and rider",
+  "caption": "왼쪽 사진(말 탄 사람)에 대해 가운데가 원하는 것(What we want: 물체 모양대로 칠한 mask), 오른쪽이 가진 것(What we have: 같은 색 직사각형)이야. 겹친 곳은 작은 box(사람)가 위에 칠해져 있어. <b>box를 통째로 칠한 mask는 물체 밖 pixel이 많이 섞인 noisy label이야.</b>",
+  "page": "L09 p.55",
+  "width": 440
+ },
+ {
+  "slot": "l09-in21",
+  "src": "assets/lecture09/p056_noisy_recursive_rounds.png",
+  "alt": "Segmentation output improving over training rounds from rectangles toward ground truth",
+  "caption": "왼쪽에서 오른쪽으로 읽어. 입력 직사각형 → 1 round 뒤 → 5 rounds 뒤 → 10 rounds 뒤 → Ground truth야. 1 round엔 말이 뭉툭한 덩어리지만, round가 갈수록 말 다리와 사람 윤곽이 살아나. <b>noisy mask로 학습해도 network가 robust해서, 예측을 다시 label로 쓰면 점점 좋아져.</b>",
+  "page": "L09 p.56",
+  "width": 480
+ },
+ {
+  "slot": "l09-in21a",
+  "src": "assets/lecture09/p059_recursive_training_curve.png",
+  "alt": "mIoU versus training rounds for several box-derived mask initializations",
+  "caption": "왼쪽은 직사각형 입력이 학습을 거쳐 말 · 사람 모양 mask가 되는 예시야. 오른쪽 그래프는 x축이 training round, y축이 mIoU고, 맨 위 검은 선이 fully supervised야. 아래부터 Rectangles &lt; 20% Bbox &lt; Grabcut+ · MCG &lt; MCG ∩ Grabcut+ 순서고, 입력이 좋을수록 시작점도 끝점도 높아. <b>좋은 입력(MCG ∩ Grabcut+)은 round 1부터 fully supervised에 가까워.</b>",
+  "page": "L09 p.57–59",
+  "width": 440
+ },
+ {
+  "slot": "l09-in22",
+  "src": "assets/lecture09/p064_incomplete_boundary.png",
+  "alt": "Initial CAM lighting only the dog's head, with incomplete activation and boundary leakage panels",
+  "caption": "왼쪽에서 오른쪽으로 읽어. 원본 사진과 initial CAM을 나란히 놓았고, CAM은 개 머리만 빨갛게 켜져 있어. 오른쪽 두 칸이 문제 두 개야. 1번은 몸통이 빠진 incomplete activation(점선 = 비어 있는 부분), 2번은 빨간 activation이 배경 풀밭까지 번지는 boundary leakage야. <b>덜 켜지는 문제와 넘치는 문제를 둘 다 풀어야 해.</b>",
+  "page": "L09 p.64",
+  "width": 420
+ },
+ {
+  "slot": "l09-in23",
+  "src": "assets/lecture09/p065_class_distribution.png",
+  "alt": "Two patches of the same class compared by their class distributions with JS divergence",
+  "caption": "위 (a)는 같은 사진을 class마다 CAM으로 본 거고, 빨간 상자와 검은 상자는 둘 다 사람 patch야. 아래 (b)는 두 patch의 20개 class 점수 막대야. 초록 막대(Person) 하나만 보면 두 patch가 꽤 달라. 그런데 막대 전체 모양을 JS divergence로 재면 \"Highly similar!\"야. <b>target 점수 하나보다 분포 전체가 \"같은 물체인가\"를 더 잘 알려 줘.</b>",
+  "page": "L09 p.65",
+  "width": 280
+ },
+ {
+  "slot": "l09-in24",
+  "src": "assets/lecture09/p071_cdclip_framework.png",
+  "alt": "CD-CLIP framework with frozen CLIP encoders, the CDA module and the DINO-based SBE module",
+  "caption": "범례부터 봐: 눈꽃 = frozen, S = cosine similarity, P = class average pooling, JS = JS divergence, 빗금 화살표 = no gradient, 빨간 화살표 = loss야. 위쪽은 CLIP Text/Visual Encoder로 patch × class 점수(Attention Maps)를 만들고, 노란 CDA 상자가 두 patch의 class 분포를 JS로 비교해 Initial Affinity를 CDA Affinity로 고쳐서 CAM을 퍼뜨려. 아래 초록 SBE 상자는 Super CAM으로 DINO feature를 평균 내 Super-Class Prototype을 만들고, DINO patch와 비교해 Prototype CAM을 얻어. 두 pseudo label이 Decoder 출력에 L<sub>seg</sub>와 L<sub>b</sub>를 걸어. <b>CLIP은 \"무슨 class인지\", DINO는 \"어디까지가 한 덩어리인지\"를 맡아.</b>",
+  "page": "L09 p.71",
+  "width": 500
+ },
+ {
+  "slot": "l09-in25",
+  "src": "assets/lecture09/p080_language_driven_pipeline.png",
+  "alt": "Language-driven web learning pipeline with caption model, web crawler, filtering, pseudo labels and incremental training",
+  "caption": "주황 영역이 옛 class(airplane, bird, cat), 파란 영역이 새 class(dog, sofa)야. 옛 data는 Caption Model로 caption만 남기고, 그 caption으로 web에서 rehearsal 사진을 다시 찾아 Caption Filtering을 거쳐. 새 class는 이름(\"Dog\")으로 Web-crawler를 돌리고 Domain Filtering을 거친 뒤, caption에서 multi-label(\"cat, dog, sofa\")을 만들어. 오른쪽에서 파란(frozen) Step t−1 model이 pseudo label을 만들고 주황(trainable) Step t model이 L<sub>seg</sub>와 L<sub>cls</sub>로 학습해. <b>language가 검색, label, 필터링, rehearsal을 다 맡아.</b>",
+  "page": "L09 p.80",
+  "width": 420
+ },
+ {
+  "slot": "l09-in26",
+  "src": "assets/lecture09/p083_caption_verify.png",
+  "alt": "Verification of a retrieved image by comparing nouns of two captions",
+  "caption": "왼쪽에서 오른쪽으로 읽어. 저장된 caption q'(\"a bird perched on a plant\")로 검색했더니 플라밍고 사진이 왔고, 그 사진에 새 caption q''를 달아. 가운데는 명사를 상위 개념 사슬(Wading bird → … → Entity, 숫자 = 깊이)로 펼쳐 벡터 v1, v2로 만들고 score = 1 − cos(v1, v2)로 비교하는 부분이야. 같은 계열(Bird)이라 사진을 남겨. <b>caption은 retrieval key고, web이 외부 memory야.</b>",
+  "page": "L09 p.83",
+  "width": 480
+ },
+ {
+  "slot": "l09-in27",
+  "src": "assets/lecture09/p087_homo_vs_hetero.png",
+  "alt": "Homogeneous versus heterogeneous weak labels (tags, points, boxes) across training images",
+  "caption": "왼쪽 회색 칸이 homogeneous야. 행 하나가 label 종류 하나(Tag / Point / Box)고, 사진 세 장이 전부 같은 종류야. 오른쪽 초록 칸이 heterogeneous야. 사진마다 tag, point, box 중 하나씩 붙어. 색은 class를 뜻해. <b>싼 label은 넓게, 비싼 label은 정확하게: 한 dataset 안에서 label 종류를 섞어.</b>",
+  "page": "L09 p.87",
+  "width": 400
+ },
+ {
+  "slot": "l09-in28",
+  "src": "assets/lecture09/p088_wish_framework.png",
+  "alt": "WISH framework with object queries, class/prompt/mask heads, frozen SAM supervision and multi-stage matching",
+  "caption": "위쪽이 Mask2Former 구조야. Image → Encoder → Feature F → Transformer decoder가 object query Q를 만들고, Q에서 세 head(H<sub>cls</sub>, H<sub>prompt</sub>, H<sub>mask</sub>)가 class, prompt latent, mask를 예측해. 아래쪽 frozen SAM prompt encoder와 mask decoder가 weak label(point/box)에서 target C, Z, M<sub>SAM</sub>을 만들고, 가운데 Multi-stage matching이 예측과 짝지어. 왼쪽 아래 파란 상자는 tag를 CAM으로 point prompt로 바꾸는 가지야. 그림의 \"Prompt laent\"는 latent의 오타야. <b>label 종류가 달라도 SAM prompt space에선 같은 형식이 돼.</b>",
+  "page": "L09 p.88",
+  "width": 500
+ },
+ {
+  "slot": "l09-in28a",
+  "src": "assets/lecture09/p091_tag_to_point_prompt.png",
+  "alt": "Branch converting tag labels through CAM into point prompts within the WISH framework",
+  "caption": "위에서 아래로 읽어. 사진이 Encoder를 지나 feature F가 되고, H<sub>cam</sub>을 거쳐 CAM A가 돼. tag Y<sup>t</sup>는 CAM의 class 예측을 L<sub>cam</sub>으로 학습시키고, CAM A의 봉우리에서 point prompt Y<sup>t→p</sup>를 만들어. 오른쪽 초록 칸에서 이게 진짜 point · box label(Y<sup>p</sup>, Y<sup>b</sup>)과 같은 자리로 들어가. 오른쪽 끝의 잘린 조각은 슬라이드 그림 자체가 잘린 거야. <b>tag도 CAM 봉우리 → point prompt로 바꾸면 point처럼 쓸 수 있어.</b>",
+  "page": "L09 p.91",
+  "width": 240,
+  "fold": true
+ }
+]

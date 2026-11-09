@@ -48,7 +48,7 @@ pre code{background:none;padding:0;font-size:inherit;word-break:normal}
 @media (max-width:600px){.m-body .math,.steps .math{white-space:normal}}
 #last>h3::before{display:none}
 /* 요약에서 누르면 오는 자리: 위쪽 여유 + 잠깐 강조 */
-:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08) :is(h3,.m,li)[id]{scroll-margin-top:1.2rem}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09) :is(h3,.m,li)[id]{scroll-margin-top:1.2rem}
 @keyframes tgt{from{background:var(--accent-soft)}to{background:transparent}}
 :is(h3,.m,li)[id]:target{animation:tgt 2.4s ease-out}
 /* 한눈에 요약 (암기용) */
@@ -80,7 +80,7 @@ pre code{background:none;padding:0;font-size:inherit;word-break:normal}
 .sum-ch{scroll-margin-top:1rem}
 .sum-d,.sum-t{overflow-wrap:anywhere}
 .sum-ch-q .sum-a b{font-weight:800}
-@media (max-width:1000px){:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08) :is(h3,.m,li)[id],.sum-ch{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 4.2rem)}}
+@media (max-width:1000px){:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09) :is(h3,.m,li)[id],.sum-ch{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 4.2rem)}}
 @media (max-width:640px){main>section>h3{font-size:1.18rem}}
 .wrap{max-width:74rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
@@ -122,13 +122,13 @@ main>section:first-child{border-top:0}
 h2{font-family:var(--f-display);font-weight:700;font-size:1.75rem;line-height:1.2;letter-spacing:-.01em;margin:0 0 .7rem;text-wrap:balance}
 h3{font-family:var(--f-display);font-weight:600;font-size:1.15rem;line-height:1.3;margin:1.8rem 0 .5rem;text-wrap:balance}
 /* 파트(h3) = 번호 배지 + accent 밑줄 · 카드/계보 단계 = 단원-파트-번호 (L01–L07, --ch = 단원 번호) */
-#l01{--ch:"1"}#l02{--ch:"2"}#l03{--ch:"3"}#l04{--ch:"4"}#l05{--ch:"5"}#l06{--ch:"6"}#l07{--ch:"7"}#l08{--ch:"8"}
+#l01{--ch:"1"}#l02{--ch:"2"}#l03{--ch:"3"}#l04{--ch:"4"}#l05{--ch:"5"}#l06{--ch:"6"}#l07{--ch:"7"}#l08{--ch:"8"}#l09{--ch:"9"}
 main>section{counter-reset:part}
 main>section>h3{counter-increment:part;counter-reset:item;display:flex;align-items:center;gap:.6rem;font-size:1.32rem;font-weight:700;margin:2.7rem 0 .9rem;padding-bottom:.5rem;border-bottom:2px solid var(--accent)}
 main>section>h3::before{content:counter(part);flex:none;display:inline-grid;place-items:center;min-width:1.8rem;height:1.8rem;padding:0 .4rem;border-radius:7px;background:var(--accent);color:var(--bg);font:700 .92rem/1 var(--f-mono)}
-:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08)>h3::before{content:var(--ch) "-" counter(part)}
-:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08) .methods>.m>div:first-child::before{counter-increment:item;content:var(--ch) "-" counter(part) "-" counter(item);display:block;width:max-content;margin-bottom:.4rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent)}
-:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08) .steps>li>.s-name::before{counter-increment:item;content:var(--ch) "-" counter(part) "-" counter(item);display:inline-block;margin-right:.45rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent);vertical-align:.12em}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09)>h3::before{content:var(--ch) "-" counter(part)}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09) .methods>.m>div:first-child::before{counter-increment:item;content:var(--ch) "-" counter(part) "-" counter(item);display:block;width:max-content;margin-bottom:.4rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent)}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09) .steps>li>.s-name::before{counter-increment:item;content:var(--ch) "-" counter(part) "-" counter(item);display:inline-block;margin-right:.45rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent);vertical-align:.12em}
 p{margin:0 0 .9rem}
 .muted{color:var(--muted)}
 .offscope{display:inline-block;font:600 .74rem/1 var(--f-mono);letter-spacing:.04em;color:var(--rl);border:1px solid var(--rl);border-radius:999px;padding:.4rem .6rem;margin:0 0 1rem}
@@ -279,7 +279,7 @@ td.muted{font-weight:400}
       <p class="eyebrow">HYU 고급표현학습 · 2026-2학기 · 기말 범위 W10–W14</p>
       <h1>고급표현학습 기말 한 바퀴</h1>
       <p class="lede">중간고사 뒤 강의를 <b>처음 배우는 사람</b> 기준으로 풀어 쓰는 페이지야. 용어는 처음 나올 때 그 자리에서 풀었어. 논문 이름을 외우기 전에 <b>왜 다음 방법이 나왔는지</b>만 따라가면 돼.</p>
-      <p class="lede">지금은 <b>L08(Weakly-Supervised Learning I)</b>까지 들어 있어. 강의가 끝날 때마다 단원이 하나씩 늘어나.</p>
+      <p class="lede">지금은 <b>L08–L09(Weakly-Supervised Learning I · II)</b>까지 들어 있어. 강의가 끝날 때마다 단원이 하나씩 늘어나.</p>
       <p class="thesis">기말 범위를 꿰는 질문(임시): annotation을 덜 쓰면서 모자란 <em>supervision</em>을 어떻게 메우나?</p>
       <ul class="chips" aria-label="기말 정보">
         <li class="key">Final Quiz 12/10 (W15)</li>
@@ -313,6 +313,7 @@ td.muted{font-weight:400}
       <li><a href="#terms"><span class="n">ABC</span><span class="t">용어 먼저</span></a></li>
       <li class="grp">Weakly-supervised</li>
       <li><a href="#l08"><span class="n">L08</span><span class="t">WSOD</span></a></li>
+      <li><a href="#l09"><span class="n">L09</span><span class="t">WSSS</span></a></li>
       <li class="grp">정리</li>
       <li><a href="#patterns"><span class="n">PAT</span><span class="t">공통 패턴</span></a></li>
       <li><a href="#code"><span class="n">PC</span><span class="t">Pseudo code</span></a></li>
@@ -325,7 +326,7 @@ td.muted{font-weight:400}
 
 <!-- ============ 한눈에 요약 ============ -->
 <section id="sum">
-  <div class="ch-head"><span class="ch-num">SUM</span><h2>한눈에 요약</h2><p class="ch-meta">암기용 · L08</p></div>
+  <div class="ch-head"><span class="ch-num">SUM</span><h2>한눈에 요약</h2><p class="ch-meta">암기용 · L08–L09</p></div>
   <p class="sum-use">단원 → 파트 → 카드 순서로 꼭 외울 것만 모았어. 번호는 <b>단원-파트-카드</b> (예: 8-3-2 = 8강 파트 3의 2번 카드). <b>번호나 이름을 누르면 그 상세 카드로 바로 가.</b> 돌아올 땐 단원 머리의 <b>↑ 요약</b>이나 브라우저 뒤로 가기. 주황 글씨는 시험 함정. pseudo code는 뒤쪽 <a href="#code">Pseudo code</a> 섹션에서 따로 봐.</p>
 <div class="sum-ch" id="sum-l08">
   <a class="sum-ch-h" href="#l08"><span class="sum-ch-n">L08</span><span class="sum-ch-t">Weakly-Supervised Learning I</span></a>
@@ -393,6 +394,63 @@ td.muted{font-weight:400}
     </ul>
   </div>
 </div>
+<div class="sum-ch" id="sum-l09">
+  <a class="sum-ch-h" href="#l09"><span class="sum-ch-n">L09</span><span class="sum-ch-t">Weakly-Supervised Learning II</span></a>
+  <p class="sum-ch-q"><span class="k">질문</span>pixel label이 없는데 pixel-level target은 어디서 오나?<span class="sum-a">→ 대개 classifier의 <b>CAM</b>을 threshold로 자른 <b>seed</b>에서 시작해: 경계 · 범위를 보강하고(SEC · saliency · SEAM · 가리기 · 지우기) → web 사진 · box 같은 다른 supervision을 빌리고 → CLIP · DINO · SAM 같은 pretrained model의 단서까지 써</span></p>
+  <div class="sum-part">
+    <a class="sum-part-h" href="#l09-p1"><span class="sum-pn">9-1</span>WSSS: 무엇으로 pixel을 맞히나 — Priors &amp; Hints</a>
+    <p class="sum-p1">"There are only two sources of information": Priors · Hints (p.5)</p>
+    <ul class="sum-items">
+      <li><a class="sum-k" href="#l09-1-1"><span class="sum-no">9-1-1</span><b>Fully vs Weakly supervised</b></a><span class="sum-d">Fully supervised = <b>Directly</b> supervised (정답 pixel mask) · Weakly supervised = <b>Indirectly</b> supervised (p.4) · "Image-level labels at training time" → "Pixel-level labels at test time" (p.19)</span><span class="sum-t">약한 쪽은 <b>train</b> label이고, pixel은 <b>test</b> 때 내는 출력이야</span></li>
+      <li><a class="sum-k" href="#l09-1-2"><span class="sum-no">9-1-2</span><b>Priors</b></a><span class="sum-d">"what do I believe to be true <b>independent of any particular image sample</b>" · Size, Location, Shape · Number of instances, Contrast · Boundaries, saliency · Class Distribution · Similarity across images · Similarity with external images</span><span class="sum-t">prior와 hint의 정의를 맞바꾼 지문 조심</span></li>
+      <li><a class="sum-k" href="#l09-1-3"><span class="sum-no">9-1-3</span><b>Hints</b></a><span class="sum-d">"<b>indirect supervision received for each image</b>" · Image (video) label · Image caption · Click inside object · Object bound boxes · Object extreme points · Scribbles · Eye gaze</span></li>
+    </ul>
+  </div>
+  <div class="sum-part">
+    <a class="sum-part-h" href="#l09-p2"><span class="sum-pn">9-2</span>Image-level → Pixel-level: Gray box vs White box</a>
+    <ul class="sum-items">
+      <li><a class="sum-k" href="#l09-2-1"><span class="sum-no">9-2-1</span><b>Gray box vs White box</b></a><span class="sum-d">Gray box = "Utilize the internal information in the network" (분류기의 activations or gradients를 읽음) · White box = network 구조를 바꿔서 map이 바로 나오게 함 (CAM) (p.20은 제목만 있고, 설명은 p.24–25에서 나와)</span></li>
+      <li><a class="sum-k" href="#l09-2-2"><span class="sum-no">9-2-2</span><b>Gradient saliency · SmoothGrad</b></a><span class="sum-d">"Calculate how much the score changes when the input is slightly modified" · "<b>extremely noisy</b>", "salt-and-pepper" · SmoothGrad: noise 추가 → 사본마다 gradient → <b>Average</b> · 한계: "Asking apples from the oranges tree"</span><span class="sum-t">SmoothGrad는 <b>gradient</b>를 평균 내 (noisy 사진을 먼저 평균 내는 게 아니야)</span></li>
+      <li><a class="sum-k" href="#l09-2-3"><span class="sum-no">9-2-3</span><b>CAM</b></a><span class="sum-d">Step 1) eliminate the FC layer · Step 2) add <b>GAP</b> · Step 3) 1×1 convolution = linear combination · <span class="math">M<sub>c</sub>(x,y) = Σ<sub>k</sub> w<sub>k</sub><sup>c</sup> f<sub>k</sub>(x,y)</span> (식은 논문, 슬라이드엔 그림) · Designed to Generate <b>Per-Class</b> Maps</span><span class="sum-t">map은 "<b>without the need for separate gradient calculations</b>"로 나와 (network 학습 자체는 backprop)</span></li>
+      <li><a class="sum-k" href="#l09-2-4"><span class="sum-no">9-2-4</span><b>Seeds</b></a><span class="sum-d">The Class Maps are <b>Thresholded</b>, to Generate Training Data · 확실한 영역(confident regions) = "<b>seeds</b>"</span><span class="sum-t"><b>High</b> → Foreground, <b>Low</b> → Background. 뒤집으면 False</span></li>
+    </ul>
+  </div>
+  <div class="sum-part">
+    <a class="sum-part-h" href="#l09-p3"><span class="sum-pn">9-3</span>CAM 보강: not sharp · discriminative only</a>
+    <p class="sum-p1">1. Resulting masks are not sharp → resolution · boundary-aware propagation(SEC) · transfer learning(saliency) · equivariance(SEAM) / 2. Focused on discriminative area only → peek-a-boo(HaS) · adversarial peek-a-boo(AE)</p>
+    <ul class="sum-items">
+      <li><a class="sum-k" href="#l09-3-1"><span class="sum-no">9-3-1</span><b>Good, but not good enough</b></a><span class="sum-d">1. Resulting masks are <b>not sharp</b> · 2. Focused on <b>discriminative area only</b> · ⇢ Increase top layers resolution (p.29)</span></li>
+      <li><a class="sum-k" href="#l09-3-2"><span class="sum-no">9-3-2</span><b>SEC</b></a><span class="sum-d">Seed, Expand, Constrain · <b>Seeding</b> loss: CAM seed 유지 · <b>Expansion</b> loss: image-level labels via <b>GWRP</b> · <b>Constrain-to-boundary</b> loss: <b>CRF</b>로 경계에 맞추기</span><span class="sum-t">GWRP = Expand, CRF = Constrain. 둘을 바꾼 지문 조심</span></li>
+      <li><a class="sum-k" href="#l09-3-3"><span class="sum-no">9-3-3</span><b>Saliency-guided (Oh)</b></a><span class="sum-d">CAM = <b>class-specific</b>, discriminative regions만 · Saliency = complete object extent, <b>class-agnostic</b> · Seeder → Saliency → Guide Labeller → Segmentation CNN</span><span class="sum-t">class-specific ↔ class-agnostic을 뒤집은 지문 조심</span></li>
+      <li><a class="sum-k" href="#l09-3-4"><span class="sum-no">9-3-4</span><b>SEAM</b></a><span class="sum-d">"Activation maps should be <b>equivariant</b> to the input" · affine transform + Siamese network · PCM(pixel-wise affinity로 CAM 퍼뜨리기) · Classification + <b>ER</b> + <b>ECR</b> loss</span><span class="sum-t">invariant가 아니라 <b>equivariant</b> · ECR은 slide에 "Cross-view Consistency"로 적혀 있어 (논문: Equivariant Cross Regularization)</span></li>
+      <li><a class="sum-k" href="#l09-3-5"><span class="sum-no">9-3-5</span><b>Hide-and-Seek</b></a><span class="sum-d">"<b>Randomly</b> hide image patches during training" → 남은 부분으로 맞혀야 해서 CAM이 넓어져 · "Let us play peek-a-boo!"</span><span class="sum-t"><b>random</b>이야. "제일 센 곳을 골라 가린다"는 AE · ← slide cite "Wang et al. CVPR 2020", 실제는 Singh &amp; Lee ICCV 2017</span></li>
+      <li><a class="sum-k" href="#l09-3-6"><span class="sum-no">9-3-6</span><b>Adversarial Erasing</b></a><span class="sum-d">heatmap → threshold → mined region <b>erase</b> → 지운 사진으로 다시 학습 → 반복 · 지운 영역을 합치면 object region · "adversarial peek-a-boo"</span><span class="sum-t">지금 제일 센 영역을 <b>골라서</b> 지워 (random이 아니야)</span></li>
+      <li class="sum-tbl"><a class="sum-k" href="#l09-p3"><span class="sum-no">표</span><b>Takeaways · 보강 비교</b></a><span class="sum-d">"Training a classifier, and hoping to get segmentations out of it ✗" · spatial continuity priors ~ · "The training can be modified to promote covering the object extent ✔" (p.42)</span></li>
+    </ul>
+  </div>
+  <div class="sum-part">
+    <a class="sum-part-h" href="#l09-p4"><span class="sum-pn">9-4</span>Webly Supervised Learning</a>
+    <ul class="sum-items">
+      <li><a class="sum-k" href="#l09-4-1"><span class="sum-no">9-4-1</span><b>Webly supervised learning</b></a><span class="sum-d">"uses data collected from the web as supervision" · without manual annotation · Labels are noisy, ambiguous, and incomplete · "trading annotation cost for <b>label noise</b>"</span></li>
+      <li><a class="sum-k" href="#l09-4-2"><span class="sum-no">9-4-2</span><b>Model-T + Web-SEC (Shen)</b></a><span class="sum-d">1 Model-T(clean image labels) → 2 Model-T가 web 사진 <b>filter</b> → 3 Web-SEC(pixel labeler) 학습 → 4 target 사진에 pixel label → 5 Model-T의 CAM → 6 두 label <b>fuse</b> → final model</span><span class="sum-t">"Unlike CAM-based methods, Web-SEC actually learns a <b>pixel classifier</b>" · web 사진은 single centered object라서 mask를 자동으로 얻기 쉬워</span></li>
+    </ul>
+  </div>
+  <div class="sum-part">
+    <a class="sum-part-h" href="#l09-p5"><span class="sum-pn">9-5</span>Boxly Supervised Learning</a>
+    <ul class="sum-items">
+      <li><a class="sum-k" href="#l09-5-1"><span class="sum-no">9-5-1</span><b>Simple Does It (Khoreva)</b></a><span class="sum-d">"Convnets are <b>robust to noise</b>" · noisy mask로 학습 → CNN의 <b>예측을 pseudo-label</b>로 retrain → 반복 · Better masks lead to better segmentation · ~95% of full supervision (GrabCut++)</span><span class="sum-t">box mask를 고정 label로 계속 쓰지 않아. round마다 <b>자기 예측</b>으로 바꿔</span></li>
+      <li><a class="sum-k" href="#l09-5-2"><span class="sum-no">9-5-2</span><b>Summary</b></a><span class="sum-d">Many priors and hints have been explored · Exploit all available priors, explore new information sources · Do not underestimate the power of <b>transfer learning (and webly supervision)</b> (p.61)</span></li>
+    </ul>
+  </div>
+  <div class="sum-part">
+    <a class="sum-part-h" href="#l09-p6"><span class="sum-pn">9-6</span>넓히기: Beyond CAM</a>
+    <ul class="sum-items">
+      <li><a class="sum-k" href="#l09-6-1"><span class="sum-no">9-6-1</span><b>CD-CLIP</b></a><span class="sum-d">patch를 target-class 점수 하나가 아니라 <b>class distribution</b>(target + super-class) 전체로 봐 · <b>JS divergence</b>가 작을수록 같은 영역 · CDA: affinity 보정 → CAM 완성 (CAM mIoU 70.1 → 80.3) · SBE: CLIP super-class CAM + DINO feature → prototype → boundary loss</span><span class="sum-t">CDA = <b>completeness</b>, SBE = <b>boundary</b> · boundary loss는 super-class가 <b>2개 이상</b>일 때만</span></li>
+      <li><a class="sum-k" href="#l09-6-2"><span class="sum-no">9-6-2</span><b>Learning from the Web (Liu)</b></a><span class="sum-d">원래 training image 없이 web으로 새 class 학습 · "The class name retrieves images; the caption determines their labels" · Store <b>Captions, Not Images</b> → web search → rehearsal · domain filtering · caption filtering</span><span class="sum-t">web = "external semantic memory". 옛 사진을 저장해 두고 replay하는 게 아니야</span></li>
+      <li><a class="sum-k" href="#l09-6-3"><span class="sum-no">9-6-3</span><b>WISH</b></a><span class="sum-d">homogeneous(전부 같은 label 종류) vs <b>heterogeneous</b>(사진마다 tag · point · box 중 하나) · <b>SAM's prompt space</b> = common representation · class / prompt / mask matching + Hungarian · tag → CAM peaks → point prompts</span><span class="sum-t">tags = coverage(breadth), points · boxes = localization(precision)</span></li>
+    </ul>
+  </div>
+</div>
 
 </section>
 
@@ -403,7 +461,7 @@ td.muted{font-weight:400}
   <ol class="check">
     <li><b>큰 그림</b>(MAP)부터 봐. 기말 범위가 어떤 질문으로 이어지는지만 잡으면 돼.</li>
     <li><b>용어 먼저</b>(ABC)는 외우지 말고 훑어. 본문의 용어 링크를 눌러 돌아와도 돼.</li>
-    <li><b>L08</b>을 순서대로 읽어. 앞 방법의 한계가 다음 방법의 문제가 되는 구조라서, 건너뛰면 "이 방법이 왜 나왔지?"가 안 보여.</li>
+    <li><b>L08 → L09</b> 순서대로 읽어. 앞 방법의 한계가 다음 방법의 문제가 되는 구조라서, 건너뛰면 "이 방법이 왜 나왔지?"가 안 보여.</li>
     <li>단원 끝 셀프 체크는 <b>영어로 직접 써 보고</b> 정답을 열어. 중간고사는 20문제 중 15개가 영어로 쓰는 문제였어.</li>
     <li>다 읽고 나서 <b>공통 패턴</b>(PAT)과 <b>Pseudo code</b>(PC)를 봐. 시험 전날엔 <b>마지막 체크</b>(D-1)로 영어 문장이 바로 나오는지 확인해. 외울 것만 보려면 <b>한눈에 요약</b>(SUM)을 봐. <b>Physical AI 연결</b>(PAI)은 동기 부여용이고 시험 범위가 아니야.</li>
   </ol>
@@ -414,7 +472,7 @@ td.muted{font-weight:400}
     <li><code>p.N</code>은 강의 PDF의 페이지 번호야. 다른 강의를 가리킬 땐 <code>L07 p.42</code>처럼 써.</li>
     <li><span class="k">한 줄</span>일상어 요약. <span class="k">문제</span>왜 나왔나. <span class="k">핵심</span>아이디어. <span class="k">어떻게</span>단계별 절차. <span class="k">왜 돼?</span>직관. <span class="k">차이</span>이전 방법과 다른 점 ("A vs B" 문제가 여기서 나와).</li>
     <li>기술 용어와 방법 이름은 영어 그대로 뒀어. 시험 지문에서 그 단어를 바로 알아봐야 하거든.</li>
-    <li><code>← slide엔 …</code>은 슬라이드 표기가 실제와 다른 곳이야. 시험 지문은 슬라이드 표기를 따를 수 있어.<span class="fn">(학회 약어: CVPR = Computer Vision and Pattern Recognition, ECCV = European Conference on Computer Vision, ICCV = International Conference on Computer Vision, ICML = International Conference on Machine Learning, NeurIPS(NIPS) = Neural Information Processing Systems, BMVC = British Machine Vision Conference, TPAMI(PAMI) = IEEE Transactions on Pattern Analysis and Machine Intelligence)</span></li>
+    <li><code>← slide엔 …</code>은 슬라이드 표기가 실제와 다른 곳이야. 시험 지문은 슬라이드 표기를 따를 수 있어.<span class="fn">(학회 약어: CVPR = Computer Vision and Pattern Recognition, ECCV = European Conference on Computer Vision, ICCV = International Conference on Computer Vision, ICML = International Conference on Machine Learning, ICLR = International Conference on Learning Representations, NeurIPS(NIPS) = Neural Information Processing Systems, BMVC = British Machine Vision Conference, TPAMI(PAMI) = IEEE Transactions on Pattern Analysis and Machine Intelligence)</span></li>
   </ul>
 
   <h3>박스 네 종류</h3>
@@ -430,13 +488,13 @@ td.muted{font-weight:400}
 <section id="map">
   <h2>큰 그림: 모자란 supervision을 어떻게 메우나</h2>
   <p>중간고사 범위(L01–L07)는 "사람이 label을 안 주면 학습 target은 어디서 오나?" 한 질문으로 꿰었어. 기억난 문제의 절반 넘게 "label · target을 누가 어떻게 만드나"였어.</p>
-  <p>기말 범위는 W10–W14 다섯 강의야. 임시 질문은 <b>annotation을 덜 쓰면서 모자란 supervision을 어떻게 메우나?</b>야. 아직 L08 하나만 들었으니까 W14가 끝나면 이 질문을 다시 볼 거야.</p>
+  <p>기말 범위는 W10–W14 다섯 강의야. 임시 질문은 <b>annotation을 덜 쓰면서 모자란 supervision을 어떻게 메우나?</b>야. 지금은 L08–L09 두 강의(둘 다 weakly-supervised)까지 들었어. L08은 "<b>어느 box</b>", L09는 "<b>어느 pixel</b>"을 target으로 삼나를 물었어. W14가 끝나면 이 질문을 다시 볼 거야.</p>
 
   <div class="tbl"><table>
     <thead><tr><th>주차</th><th>강의</th><th>이 질문에 대한 답</th><th>상태</th></tr></thead>
     <tbody>
       <tr><td>W10 11/5</td><td>L08 Weakly-Supervised I</td><td>label을 <b>약하게</b> 줘. image label만 주고, 어느 box가 물체인지는 모델이 찾아. 대개 고른 box가 다음 학습의 target이 돼.</td><td><a href="#l08">정리됨</a></td></tr>
-      <tr><td>W11 11/12</td><td>Weakly-Supervised II</td><td class="muted">예정</td><td class="muted">예정</td></tr>
+      <tr><td>W11 11/12</td><td>L09 Weakly-Supervised II</td><td><b>pixel label</b> 대신 image label · web · box · foundation model(CLIP / DINO / SAM)에서 pixel target을 만들어. 대개 classifier의 CAM을 잘라 만든 seed가 출발점이고, 경계와 범위는 다른 단서로 보강해.</td><td><a href="#l09">정리됨</a></td></tr>
       <tr><td>W12 11/19</td><td>Active Learning I</td><td class="muted">예정</td><td class="muted">예정</td></tr>
       <tr><td>W13 11/26</td><td>Active Learning II</td><td class="muted">예정</td><td class="muted">예정</td></tr>
       <tr><td>W14 12/3</td><td>MAE</td><td class="muted">예정</td><td class="muted">예정</td></tr>
@@ -450,7 +508,7 @@ td.muted{font-weight:400}
 <!-- ============ 용어 ============ -->
 <section id="terms">
   <h2>용어 먼저 깔기</h2>
-  <p>L08은 object detection 용어를 "다들 알지?" 하고 지나가. RL · VLA 쪽에선 처음 보는 말이 많으니까 여기서 깔아 둘게. 항목마다 <b>뜻 → 예 → 왜 필요한지</b> 순서고, 보라색 RL 줄은 아는 개념과 짝지은 비유야. 비유라서 완전히 같진 않고, 슬라이드 밖이라 시험 범위도 아니야.</p>
+  <p>L08은 object detection 용어를, L09는 segmentation 용어와 CLIP · DINO · SAM 같은 큰 pretrained model 이름을 "다들 알지?" 하고 지나가. RL · VLA 쪽에선 처음 보는 말이 많으니까 여기서 깔아 둘게. 항목마다 <b>뜻 → 예 → 왜 필요한지</b> 순서고, 보라색 RL 줄은 아는 개념과 짝지은 비유야. 비유라서 완전히 같진 않고, 슬라이드 밖이라 시험 범위도 아니야.</p>
 
   <h3>Detection 기초</h3>
   <dl class="gloss">
@@ -508,10 +566,11 @@ td.muted{font-weight:400}
       <p><span class="k">왜</span>사진 전체를 Conv layers에 한 번만 통과시키고, proposal 수천 개가 그 결과를 같이 써. proposal별 점수에서 Conv layers까지 gradient가 이어져서 network 전체를 같이 학습할 수 있어 (WSDDN). ← slide는 RoI-Pooling이라고 적었는데, 논문은 SPP(spatial pyramid pooling)라고 불러. 시험은 슬라이드 표기로 봐.</p>
       <span class="rlx">actor와 critic이 encoder 하나를 공유해서 계산을 재사용하는 것과 같은 발상이야.</span></dd>
 
-    <dt id="t-discriminative-part">Discriminative part<small>L08 p.35 · p.38</small></dt>
+    <dt id="t-discriminative-part">Discriminative part<small>L08 p.35 · p.38 · L09 p.28</small></dt>
     <dd>물체 중에서 class를 구별하기에 제일 쉬운 <b>일부분</b>이야. discriminative = 구별력이 있는.
       <p><span class="k">예</span>사람의 얼굴, 고양이의 머리. box가 물체 전체가 아니라 여기만 잡는 게 WSOD의 대표 실패야 (p.35).</p>
       <p><span class="k">왜</span>image label을 맞히는 데는 그 부위만 봐도 충분해서, loss가 물체 전체를 볼 이유를 안 줘.</p>
+      <p><span class="k">L09</span>CAM도 같은 문제를 겪어: "Focused on discriminative area only" (L09 p.28). Hide-and-Seek과 adversarial erasing이 이걸 직접 공격해 (L09 p.37–41).</p>
       <span class="rlx">쉽게 점수를 얻는 shortcut만 배우는 것과 닮았어. 일부러 속이는 건 아니고, loss가 그걸로 충분하니까 생기는 일이야.</span></dd>
 
     <dt id="t-objectness">Objectness<small>L08 p.28</small></dt>
@@ -520,11 +579,174 @@ td.muted{font-weight:400}
       <p><span class="k">왜</span>class와 무관한 prior라서 box label 없이도 쓸 수 있고, 배경이나 부품 대신 whole object 쪽으로 밀어 줘.</p>
       <span class="rlx">점수에 task-agnostic prior를 섞는 것과 비슷해. 단 potential-based reward shaping은 아니야.</span></dd>
 
-    <dt id="t-crf">CRF<small>L08 p.25</small></dt>
+    <dt id="t-crf">CRF<small>L08 p.25 · L09 p.31</small></dt>
     <dd><b>C</b>onditional <b>R</b>andom <b>F</b>ield. 여러 node의 상태를 <b>한꺼번에</b> 고르는 그래프 모델이야. node 혼자의 점수(unary)와 이어진 두 node의 점수(pairwise)를 같이 봐.
       <p><span class="k">예</span>p.25에선 node = 사진, 상태 = 고른 window, unary = objectness score, pairwise = window끼리의 similarity야.</p>
       <p><span class="k">왜</span>사진마다 따로 고르지 않고 "서로 닮은 window"를 동시에 고르려면 이런 틀이 필요해.</p>
+      <p><span class="k">L09</span>SEC의 Constrain-to-boundary loss도 CRF를 써: "Refine predictions using CRF" (L09 p.31). 거기선 node = <b>pixel</b>이고, 가깝고 색이 비슷한 pixel끼리 같은 label을 주려는 모양이야 (보충). L08 p.25의 CRF(node = 사진)와 이름만 같고 그래프가 달라.</p>
       <span class="rlx">multi-agent RL의 coordination graph(개별 utility + 짝 utility)와 같은 모양이야.</span></dd>
+  </dl>
+
+  <h3>Segmentation 기초 (L09)</h3>
+  <dl class="gloss">
+    <dt id="t-semantic-segmentation">Semantic segmentation<small>L09 p.4 · p.19</small></dt>
+    <dd>사진의 <b>모든 pixel</b>마다 class를 붙이는 task야. 같은 class의 물체가 두 개 있어도 구분하지 않아 (둘 다 "person").
+      <p><span class="k">예</span>사람 · 고양이 · 문이 있는 사진(p.11)이면 출력은 사진 크기의 지도이고, 칸마다 person / cat / door / background 중 하나가 적혀.</p>
+      <p><span class="k">왜</span>L09의 주인공 WSSS(Weakly-Supervised Semantic Segmentation)는 test 때 이 pixel 지도를 내야 하는데, train 때는 image label만 줘 (p.19).</p>
+      <span class="rlx">manipulation에서 pixel마다 "여길 잡으면 성공할까"를 내는 affordance map과 같은 dense 출력이야.</span></dd>
+
+    <dt id="t-instance-segmentation">Instance segmentation<small>L09 p.54 · p.95</small></dt>
+    <dd>물체를 <b>하나하나</b> 따로 구분하는 segmentation이야. 사람이 두 명이면 mask도 두 개가 나와.
+      <p><span class="k">예</span>"From box-level labels to pixel-level instance labels" (p.54)는 box마다 그 물체의 mask를 만드는 문제야. WISH(p.86–95)도 instance segmentation이야 ("Conventional WSIS", p.95).</p>
+      <p><span class="k">왜</span>semantic은 "무슨 class냐"만 묻고, instance는 "몇 번째 물체냐"까지 물어. 둘을 바꿔 쓴 지문을 조심해.</p>
+      <span class="rlx">object-centric state에서 물체마다 slot을 따로 두는 것과 같아.</span></dd>
+
+    <dt id="t-pixel-label">Pixel-level label<small>L09 p.19</small></dt>
+    <dd>pixel마다 정답 class를 단 label이야. 정답 mask라고도 해. label 중에 제일 비싸.
+      <p><span class="k">예</span>L08 p.4 기준으로 pixel labels는 78 sec per instance라서 b-box(10 sec)의 약 8배야.</p>
+      <p><span class="k">왜</span>WSSS는 "Image-level labels at training time"으로 "Pixel-level labels at test time"을 내야 해 (p.19). 이 차이를 메우는 게 강의 전체의 일이야.</p>
+      <span class="rlx">image label이 episode 끝의 sparse reward라면, pixel label은 매 step의 dense reward야.</span></dd>
+
+    <dt id="t-miou">mIoU<small>L09 p.41 · p.73</small></dt>
+    <dd><b>m</b>ean <b>I</b>ntersection <b>o</b>ver <b>U</b>nion. class마다 예측 mask와 정답 mask의 IoU(겹친 넓이 ÷ 합친 넓이)를 구해서 평균 낸 segmentation 점수야. 보통 0–100(%)으로 적어.
+      <p><span class="k">예</span>CD-CLIP: "CDA significantly improves the CAM mIoU from 70.1 to 80.3" (p.73). 수치 자체는 시험 비중이 낮아.</p>
+      <p><span class="k">왜</span>슬라이드의 결과표가 대부분 이 숫자로 방법을 비교해. 숫자가 크면 mask가 정답과 더 많이 겹친다는 뜻이야.</p>
+      <span class="rlx">여러 task의 success rate를 평균 낸 점수처럼 읽으면 돼.</span></dd>
+  </dl>
+
+  <h3>CAM 부품 (L09)</h3>
+  <dl class="gloss">
+    <dt id="t-saliency-map">Saliency map<small>L09 p.8 · p.21–22 · p.34</small></dt>
+    <dd>"어느 pixel이 중요했나"를 밝기로 그린 지도야. 이 강의엔 뜻이 <b>두 개</b>야. (1) classifier 점수를 입력으로 미분한 <b>gradient 지도</b> (gray box, p.21–22). (2) class와 상관없이 눈에 띄는 물체(foreground)를 찾는 <b>saliency model의 출력</b> (prior p.8, Oh p.34).
+      <p><span class="k">예</span>(1)은 "salt-and-pepper"처럼 점이 흩어져 (p.21). (2)는 물체 전체 범위를 덮지만 무슨 class인지는 몰라 (p.34).</p>
+      <p><span class="k">왜</span>같은 단어라서 T/F에서 헷갈려. gradient saliency의 함정은 <b>noisy</b>, Oh의 saliency의 함정은 <b>class-agnostic</b>이야.</p>
+      <span class="rlx">Atari agent가 화면의 어디를 보고 움직였는지 그리는 saliency map이 (1)과 같은 도구야.</span></dd>
+
+    <dt id="t-gap">GAP<small>L09 p.24</small></dt>
+    <dd><b>G</b>lobal <b>A</b>verage <b>P</b>ooling. feature map 한 장(채널 하나)을 모든 위치에 대해 평균 내서 숫자 하나로 만드는 층이야.
+      <p><span class="k">예</span>설명용: 채널이 512개면 GAP 뒤엔 위치 정보 없이 숫자 512개가 남아.</p>
+      <p><span class="k">왜</span>CAM은 FC layer를 빼고 GAP을 넣어 (p.24). 그러면 class 점수 = class weight × (map의 평균)이 되니까, 평균 내기 <b>전</b>의 map에 같은 weight를 곱하면 위치 지도가 나와.</p>
+      <span class="rlx">image encoder 끝에서 spatial feature를 pooling해 벡터로 만든 뒤 MLP policy에 넣는 것과 같아.</span></dd>
+
+    <dt id="t-cam">CAM<small>L09 p.24–26</small></dt>
+    <dd><b>C</b>lass <b>A</b>ctivation <b>M</b>apping. class 하나에 대해 "사진의 어디가 그 class 같았나"를 보여 주는 지도야. 마지막 conv feature map들을 그 class의 weight로 더해서 만들어: <span class="math">M<sub>c</sub>(x,y) = Σ<sub>k</sub> w<sub>k</sub><sup>c</sup> f<sub>k</sub>(x,y)</span> (식은 논문, 슬라이드 p.25엔 같은 내용이 그림으로 있어).
+      <p><span class="k">예</span>p.26은 한 사진에서 예측한 class마다 CAM을 따로 그려 ("Designed to Generate Per-Class Maps"). 같은 사진도 class가 다르면 밝은 곳이 달라.</p>
+      <p><span class="k">왜</span>"activation maps can be obtained directly without the need for separate gradient calculations" (p.25). 이 지도를 threshold로 자른 seed가 WSSS의 출발점이야.</p>
+      <span class="rlx">pooled feature 위에 linear head가 있는 policy라면, action logit의 weight로 feature map을 더해서 "이 action을 고를 때 어디를 봤나" 지도를 같은 식으로 얻을 수 있어.</span></dd>
+
+    <dt id="t-seed">Seed<small>L09 p.27</small></dt>
+    <dd>CAM을 threshold로 잘라서 얻은 <b>확실한</b> 영역이야. "High value scores ➝ Foreground areas", "Low value scores ➝ Background areas", "(This confident regions are commonly named "seeds")" (p.27).
+      <p><span class="k">예</span>설명용: CAM 값이 0.8인 pixel은 foreground seed, 0.05인 pixel은 background seed가 돼. 0.4처럼 애매한 pixel은 label을 안 주는 걸로 읽으면 돼 (해석).</p>
+      <p><span class="k">왜</span>seed가 segmentation network의 첫 학습 data(pseudo label)가 돼. SEC의 Seeding loss가 바로 이 seed를 지켜 (p.31).</p>
+      <span class="rlx">confidence가 높은 target만 골라 쓰는 filtering이야. FixMatch의 threshold와 같은 발상이야.</span></dd>
+
+    <dt id="t-pseudo-mask">Pseudo mask<small>L09 p.34 · p.56</small></dt>
+    <dd>사람이 아니라 모델이나 규칙이 만든 "가짜 정답 mask"야. pseudo label의 segmentation 버전이야.
+      <p><span class="k">예</span>Oh: "Combine CAM and saliency to generate class-specific pseudo masks" (p.34). Khoreva: "the CNN's predictions are then used as pseudo-labels for retraining" (p.56).</p>
+      <p><span class="k">왜</span>WSSS 방법 대부분은 결국 pseudo mask를 만들고 그걸로 segmentation network를 학습해. 그래서 "pseudo mask를 누가 어떻게 만드나"가 방법을 가르는 기준이야.</p>
+      <span class="rlx">자기 추정으로 만든 TD target(bootstrapped target)과 같아. 틀린 target이 쌓이면 confirmation bias가 생기는 것도 같아.</span></dd>
+
+    <dt id="t-affinity">Affinity<small>L09 p.36 · p.64–69</small></dt>
+    <dd>두 pixel(또는 patch)이 "같은 물체에 속할 것 같은 정도"를 숫자로 나타낸 거야. 보통 feature나 attention의 유사도로 계산해.
+      <p><span class="k">예</span>SEAM의 PCM은 "pixel-wise affinity among CNN features"로 CAM activation을 같은 물체의 다른 pixel로 퍼뜨려 (p.36). CD-CLIP은 이 affinity를 class distribution으로 보정해 (p.69).</p>
+      <p><span class="k">왜</span>CAM이 한 부분만 켜질 때 affinity로 이웃에 퍼뜨리면 물체 전체를 덮을 수 있어. 대신 affinity가 틀리면 "Foreground activation can cross class boundaries" (p.64).</p>
+      <span class="rlx">state 유사도 graph를 따라 value를 이웃 state로 퍼뜨리는 것과 같아.</span></dd>
+
+    <dt id="t-equivariance">Equivariance<small>L09 p.35–36 · L08 p.29</small></dt>
+    <dd>입력을 변환하면 출력도 <b>같은 방식으로</b> 변환되는 성질이야. invariance(입력이 변해도 출력이 그대로)와 다른 개념이야.
+      <p><span class="k">예</span>사진을 줄이면 CAM도 같이 줄어야 해. SEAM: "Activation maps should be equivariant to the input" (p.35).</p>
+      <p><span class="k">왜</span>사진을 조금 변환했을 뿐인데 CAM이 다르게 나오면("Small input transformations can produce different activation maps", p.36) 그 차이 자체가 label 없는 학습 신호가 돼. L08 p.29의 equivariance prior와 같은 개념이야.</p>
+      <span class="rlx">물체를 돌려 놓으면 grasp도 같이 돌아가야 한다는 SE(2) equivariant policy와 같은 성질이야.</span></dd>
+
+    <dt id="t-erasing">Hiding · Erasing<small>L09 p.37–41</small></dt>
+    <dd>학습할 때 사진의 일부를 가리거나 지워서 network가 <b>다른 부분도</b> 보게 만드는 방법이야.
+      <p><span class="k">예</span>Hide-and-Seek은 patch를 <b>random</b>으로 가려 (p.37). Adversarial erasing은 지금 classifier가 제일 크게 반응하는 영역을 <b>골라서</b> 지우고 다시 학습해 (p.39).</p>
+      <p><span class="k">왜</span>CAM은 "activates only the most discriminative regions" (p.37). 그 부분이 안 보이면 classifier가 다른 부분으로 맞혀야 해서 CAM이 넓어져.</p>
+      <span class="rlx">occlusion augmentation으로 policy가 단서 하나에만 기대지 않게 하는 것과 같아. adversarial erasing은 "정책이 제일 의존하는 단서를 일부러 가리고 다시 학습하는" 것과 비슷해. min-max 학습은 아니야 (min-max는 L08 Concrete DropBlock).</span></dd>
+  </dl>
+
+  <h3>Web · Box · 이어서 배우기 (L09)</h3>
+  <dl class="gloss">
+    <dt id="t-webly">Webly supervised<small>L09 p.44</small></dt>
+    <dd>웹 검색으로 모은 사진과 그 검색어를 supervision으로 쓰는 거야. "A learning method that uses data collected from the web as supervision" (p.44).
+      <p><span class="k">예</span>"dog"로 검색해서 받은 사진에 "dog" label을 붙여 써. 공짜지만 "Labels are noisy, ambiguous, and incomplete" (p.44).</p>
+      <p><span class="k">왜</span>"trading annotation cost for label noise" (p.44). Shen은 웹 사진이 "typically containing a single centered object"라서 mask를 자동으로 만들기 쉽다는 점을 이용해 (p.47).</p>
+      <span class="rlx">인터넷의 사람 영상으로 robot representation을 pretraining하는 것과 같은 거래야. 공짜 data를 얻는 대신 noise와 domain gap을 감수해.</span></dd>
+
+    <dt id="t-grabcut">GrabCut<small>L09 p.58–60 · 슬라이드 밖 기초</small></dt>
+    <dd>box 하나를 주면 그 안에서 물체(foreground)와 배경을 색 분포와 graph cut으로 나누는 고전 segmentation 알고리즘이야. 학습하는 network가 아니야.
+      <p><span class="k">예</span>Khoreva는 box를 꽉 채운 rectangle 대신 GrabCut+로 만든 mask에서 학습을 시작해. "We reach ~95% of full supervision by using GrabCut++" (p.60) ← 그래프 범례엔 "Grabcut+"로 적혀 있어.</p>
+      <p><span class="k">왜</span>시작 mask가 좋을수록 recursive training이 더 높은 곳에서 출발해 (p.58–59).</p>
+      <span class="rlx">scripted policy로 만든 시연으로 학습을 시작하는 것과 비슷해. 학습 없는 prior가 좋은 초기값을 줘.</span></dd>
+
+    <dt id="t-incremental-learning">Incremental learning<small>L09 p.77–79</small></dt>
+    <dd>학습을 한 번에 끝내지 않고, 단계(step)마다 <b>새 class</b>를 추가로 배우는 설정이야. continual learning이라고도 해.
+      <p><span class="k">예</span>Liu: step t에 새 class(예: dog, sofa)가 들어오는데 "Original training images are no longer accessible" (p.77). 결과표의 10–10 · 15–5 · 10–1이 이런 단계 설정의 이름이야 (p.84–85).</p>
+      <p><span class="k">왜</span>새 class를 배우면 옛 class를 잊어. 그래서 rehearsal이 필요해 (p.78).</p>
+      <span class="rlx">task가 차례로 바뀌는 continual RL과 같은 설정이야.</span></dd>
+
+    <dt id="t-catastrophic-forgetting">Forgetting (catastrophic forgetting)<small>L09 p.78</small></dt>
+    <dd>새 data로 학습하는 동안 옛 data에서 배운 걸 잊어버리는 현상이야. 슬라이드는 그냥 "forgetting"이라고 써.
+      <p><span class="k">예</span>Liu의 세 번째 challenge: "Learning new classes causes forgetting of old classes" (p.78).</p>
+      <p><span class="k">왜</span>옛 사진이 없으니 옛 class를 다시 볼 방법이 필요해. "The web must provide both new knowledge and memory of old knowledge" (p.78).</p>
+      <span class="rlx">multi-task RL에서 새 task를 배우다가 옛 task 성능이 무너지는 것과 같아.</span></dd>
+
+    <dt id="t-rehearsal">Rehearsal<small>L09 p.79–83</small></dt>
+    <dd>새 걸 배우면서 옛 data를 섞어 다시 보여 주는 <b>복습</b>이야.
+      <p><span class="k">예</span>보통은 옛 사진을 저장해 두고 섞어. Liu는 사진 대신 caption을 저장하고 웹에서 비슷한 사진을 다시 찾아 복습해: "Old image → Stored caption q' → Web search → Rehearsal image" (p.82).</p>
+      <p><span class="k">왜</span>"Store Captions, Not Images" (p.82). 원래 사진을 저장할 수 없는 설정에서도 옛 class를 복습할 수 있어.</p>
+      <span class="rlx">experience replay buffer와 같은 역할이야. Liu는 transition 대신 "검색어"만 저장해 두는 replay인 셈이야.</span></dd>
+  </dl>
+
+  <h3>Foundation model 부품 (L09)</h3>
+  <dl class="gloss">
+    <dt id="t-clip">CLIP<small>L09 p.63–71 · L05 p.32–37</small></dt>
+    <dd>사진과 글(text)을 같은 embedding 공간에 놓도록 학습한 image–text model이야. L05에서 배웠어.
+      <p><span class="k">예</span>CD-CLIP은 frozen CLIP의 text encoder에 target class와 super-class 이름(prompt)을 넣고, image feature와의 cosine similarity로 patch마다 class 점수를 만들어 (p.66–71).</p>
+      <p><span class="k">왜</span>class 이름만 있으면 patch마다 class 점수가 나오니까, image label만으로도 CAM과 class distribution을 얻을 수 있어.</p>
+      <span class="rlx">CLIPort처럼 언어 지시를 받는 manipulation policy가 CLIP encoder를 써.</span></dd>
+
+    <dt id="t-dino-feature">DINO feature<small>L09 p.70–71 · L04 DINO</small></dt>
+    <dd>self-distillation으로 학습한 ViT(DINO 계열, L04)가 patch마다 내는 feature야. label 없이 학습했는데도 "어디까지가 한 덩어리인지" 같은 물체 구조를 잘 담아.
+      <p><span class="k">예</span>CD-CLIP의 SBE는 CLIP super-class CAM 안의 DINO feature를 평균 내서 prototype을 만들고, 그 prototype과 DINO patch를 비교해 영역을 찾아 (p.70–71).</p>
+      <p><span class="k">왜</span>"CLIP gives the prototype a semantic identity, and DINO expands it into a coherent region" (p.71).</p>
+      <span class="rlx">OpenVLA 같은 VLA가 vision encoder로 DINOv2를 쓰는 것도 이런 구조 · 공간 정보 때문이라고 보는 시각이 있어 (슬라이드 밖, 시험 범위 아님).</span></dd>
+
+    <dt id="t-js-divergence">JS divergence<small>L09 p.65 · p.69</small></dt>
+    <dd><b>J</b>ensen–<b>S</b>hannon divergence. 두 확률분포가 얼마나 다른지 재는 값이야. 두 분포의 평균 <span class="math">M = (P + Q) / 2</span>를 만들고 <span class="math">D<sub>JS</sub> = ½ KL(P‖M) + ½ KL(Q‖M)</span>로 계산해 (보충). P와 Q를 바꿔도 값이 같고, 0이면 같은 분포야.
+      <p><span class="k">예</span>CD-CLIP: "Small JS divergence: similar class distributions", "Large JS divergence: different class distributions" (p.69).</p>
+      <p><span class="k">왜</span>KL은 순서를 바꾸면 값이 달라지는데 JS는 대칭이라서, "patch A와 B가 닮았나"를 재기 좋아.</p>
+      <span class="rlx">TRPO가 정책 변화를 KL로 제한하는 것과 같은 계열의 도구야. JS는 그 대칭 버전이야.</span></dd>
+
+    <dt id="t-prototype">Prototype<small>L09 p.70</small></dt>
+    <dd>어떤 class(또는 무리)를 대표하는 feature 하나야. 보통 그 무리에 속한 feature들의 평균으로 만들어.
+      <p><span class="k">예</span>CD-CLIP의 super-class prototype <span class="math">f<sub>s</sub><sup>n</sup> = CAP(M<sub>s</sub><sup>n</sup> ⊙ F<sub>d</sub>)</span>는 super-class CAM 안의 DINO feature 평균이야. 그다음 "Compare the prototype with every DINO patch"로 prototype CAM을 만들어 (p.70).</p>
+      <p><span class="k">왜</span>prototype과 닮은 patch만 그 영역으로 묶으니까, activation이 다른 class로 넘어가는 걸 막는 경계 단서가 돼.</p>
+      <span class="rlx">goal embedding 하나와 각 state embedding의 cosine 거리를 재는 것과 같아.</span></dd>
+
+    <dt id="t-sam">SAM<small>L09 p.87–94</small></dt>
+    <dd><b>S</b>egment <b>A</b>nything <b>M</b>odel. point나 box 같은 prompt를 주면 그 물체의 mask를 내주는 큰 pretrained segmentation model이야.
+      <p><span class="k">예</span>WISH: "SAM returns three masks for each prompt"이고, 그중 지금 예측과 제일 가까운 걸 골라 (p.94). tag는 CAM peak를 point prompt로 바꿔서 SAM에 넣어 (p.91).</p>
+      <p><span class="k">왜</span>"SAM's prompt space serves as a common representation for heterogeneous supervision" (p.88). tag · point · box를 한 형식으로 바꿔 주는 공통 언어가 돼.</p>
+      <span class="rlx">로봇 perception에서 box나 point 하나로 잡을 물체의 mask를 얻는 도구로 많이 써.</span></dd>
+
+    <dt id="t-prompt">Prompt<small>L09 p.88</small></dt>
+    <dd>모델에게 "이걸 봐"라고 알려 주는 추가 입력이야. SAM에선 point(점)나 box(네모)가 prompt야.
+      <p><span class="k">예</span>"Point prompt → point latent", "Box prompt → box latent", "Tag → converted point prompt" (p.88).</p>
+      <p><span class="k">왜</span>label 종류가 달라도 prompt latent로 바꾸면 같은 공간에서 비교할 수 있어. 그래서 WISH가 한 모델로 섞인 label을 다 배워.</p>
+      <span class="rlx">goal-conditioned policy에 주는 goal과 같아. 어느 물체를 다룰지 지정해.</span></dd>
+
+    <dt id="t-object-query">Object query<small>L09 p.88</small></dt>
+    <dd>Mask2Former 같은 transformer segmentation model이 가진 학습 가능한 벡터 묶음이야. query 하나가 물체 하나를 맡아서 그 class와 mask를 예측해.
+      <p><span class="k">예</span>WISH: "Q: Mask2Former object queries"이고, prompt head가 query마다 prompt latent <span class="math">ẑ = H<sub>prompt</sub>(Q)</span>를 예측해 (p.88).</p>
+      <p><span class="k">왜</span>query가 여러 개라서 어느 query가 어느 weak label을 맡을지 정해야 해. 그 짝짓기가 Hungarian matching이야.</p>
+      <span class="rlx">object-centric representation의 slot 하나와 같아. slot마다 물체 하나를 맡아.</span></dd>
+
+    <dt id="t-hungarian-matching">Hungarian matching<small>L09 p.89–90</small></dt>
+    <dd>예측 여러 개와 정답 여러 개를 일대일로 짝지을 때, 전체 비용의 합이 최소가 되는 짝을 찾는 알고리즘이야.
+      <p><span class="k">예</span>WISH의 비용은 <span class="math">Cost = α·Cost<sub>cls</sub> + β·Cost<sub>prompt</sub> + γ·Cost<sub>mask</sub></span>이고 (p.89), "Hungarian matching assigns predictions to weakly labeled instances" (p.90).</p>
+      <p><span class="k">왜</span>query 순서와 label 순서는 아무 관계가 없어서, 짝을 먼저 정해야 query마다 loss를 걸 수 있어. WISH는 "what it is, where it is, and which SAM mask fits it best"로 짝을 정해 (p.90).</p>
+      <span class="rlx">multi-agent task allocation에서 agent와 task를 비용 최소로 일대일 배정하는 것과 같은 문제야.</span></dd>
   </dl>
 </section>
 
@@ -941,9 +1163,489 @@ td.muted{font-weight:400}
   <label class="done"><input type="checkbox" id="done-l08" data-done="l08">다 봤음</label>
 </section>
 
+<!-- ============ L09 ============ -->
+<section id="l09">
+  <div class="ch-head"><span class="ch-num">L09</span><h2>Weakly-Supervised Learning II</h2><p class="ch-meta">96p · W11 · WSSS</p><a class="to-sum" href="#sum-l09">↑ 요약</a></div>
+  <p class="ch-q"><span class="k">질문</span>pixel label이 없는데 pixel-level target은 어디서 오나?</p>
+  <p>L08은 image label만 주고 test 때 <b>box</b>를 내라는 문제였어. L09는 한 단계 더 가. image label(또는 click, box 같은 약한 label)만 주고 test 때는 <b>pixel마다</b> class를 내라는 거야. 이 설정이 WSSS<span class="fn">(<b>W</b>eakly-<b>S</b>upervised <b>S</b>emantic <b>S</b>egmentation)</span>야. <a href="#t-semantic-segmentation">semantic segmentation</a>(사진의 모든 pixel에 class 이름을 붙이는 task)의 정답 mask는 제일 비싼 label이라서(L08 p.4: pixel labels 78 sec per instance) weak supervision이 특히 절실해.</p>
+  <p>흐름은 이렇게 가: 모자란 정보는 <b>prior</b>와 <b>hint</b> 두 군데서만 온다는 데서 출발하고 → image label로 학습한 classifier 안에서 위치를 꺼내고(<b>CAM</b>) → CAM의 두 약점(not sharp, discriminative area only)을 보강하고 → web 사진과 box처럼 다른 정보원을 끌어와. 끝엔 CLIP · DINO · SAM 같은 큰 pretrained model을 빌리는 최신 논문 세 편이 붙어. 거의 모든 방법이 결국 <b>pseudo mask</b>(사람 대신 모델이나 알고리즘이 만든 pixel label)를 만들고, 그걸 정답처럼 써서 segmentation network를 학습해.</p>
+
+  <h3 id="l09-p1">WSSS: 무엇으로 pixel을 맞히나 — Priors &amp; Hints (p.3–17)</h3>
+  <div class="methods">
+    <div class="m" id="l09-1-1"><div><span class="m-name">Fully vs Weakly supervised</span><span class="m-src">Benenson slide · p.4</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>정답을 출력과 같은 모양(pixel mask)으로 주면 fully, 다른 모양(점, image label, box)으로 주면 weakly supervised야.</p>
+      <p>p.4 그림 안 글자: "Fully supervised → <b>Directly</b> supervised", "Weakly supervised → <b>Indirectly</b> supervised".</p>
+      <p><span class="k">문제</span>pixel 정답이 제일 비싸. L08 p.4 기준으로 image label 1 sec per class, point 2.4, b-box 10, pixel labels 78 sec per instance야.</p>
+      <p><span class="k">핵심</span>기준은 test 때 내야 할 출력이야. 출력은 <a href="#t-pixel-label">pixel-level label</a>(pixel마다 class를 적은 정답 mask)인데, p.4 그림의 weakly supervised 쪽은 고양이마다 점 하나만 줘. 나머지 pixel이 고양이인지는 모델이 간접적으로 알아내야 해.</p>
+      <!--slot:l09-in01-->
+      <p><span class="k">차이</span>L08의 정의 그대로야: "Lower degree (or cheaper) annotation at train time than the required output at test time" (L08 p.4). L08은 출력이 box였고, L09는 pixel이야.</p>
+    </div></div>
+
+    <div class="m" id="l09-1-2"><div><span class="m-name">Priors</span><span class="m-src">Benenson slide · p.5–10</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>사진과 상관없이 참이라고 믿는 것이야. 약한 label로 모자란 정보를 채우는 두 출처 중 하나야.</p>
+      <p>"There are only two sources of information" (p.5).</p>
+      <ul>
+        <li><b>Priors</b>: "what do I believe to be true <b>independent of any particular image sample</b>"</li>
+        <li><b>Hints</b>: "<b>indirect supervision</b> received <b>for each image</b>"</li>
+      </ul>
+      <p><span class="k">핵심</span>구분 기준 하나만 외워. 사진마다 다르면 hint, 사진과 무관하면 prior야. 슬라이드의 prior 목록은 이래.</p>
+      <ul>
+        <li>Size, Location, Shape (p.6)</li>
+        <li>Number of instances, Contrast (p.7)</li>
+        <li>Boundaries, saliency (p.8): 물체 경계는 사진 edge와 겹치고, 눈에 띄는 영역이 물체일 가능성이 높아.</li>
+        <li>Class Distribution (p.9): data 전체에서 class가 어떤 비율로 나오나 ("⅔ Cats, ⅓ Cars").</li>
+        <li>Similarity across images, Similarity with external images (p.10)</li>
+      </ul>
+      <p>슬라이드엔 단어와 일부러 이상하게 합성한 사진(나무만 한 고양이 등)뿐이야. 어느 사진이 어느 prior의 예인지는 설명이 없어서, 짝짓기는 해석이야.</p>
+      <!--slot:l09-in02-->
+      <p><span class="k">왜 돼?</span>image label만으론 pixel 정답이 하나로 안 정해져. 그래서 "경계는 edge를 따른다" 같은 믿음으로 후보를 줄여. 뒤에서 boundaries는 SEC의 CRF(p.31, 연결은 해석), saliency는 Oh et al.(p.33–34)로 이어져.</p>
+      <p><span class="k">차이</span>p.8 · p.34의 saliency는 눈에 띄는 <b>물체 영역</b>이라 class를 몰라(class-agnostic). p.21–22의 <a href="#t-saliency-map">saliency map</a>은 class 점수의 <b>gradient</b>라 class마다 달라. 이름이 같은 두 개념이야. p.9의 class distribution(data 전체 비율)도 9-6-1 CD-CLIP의 class distribution(patch 하나의 class별 점수 분포)과 다른 개념이야.</p>
+    </div></div>
+
+    <div class="m" id="l09-1-3"><div><span class="m-name">Hints</span><span class="m-src">Verbeek 07 외 · p.11–17</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>사람이 사진마다 달아 주는 간접 supervision이야. 종류마다 알려 주는 게 달라.</p>
+      <ul>
+        <li><b>Image (video) label</b> (p.11–12): "Person, cat, door". 무엇이 있는지만 알려 주고 위치는 없어.</li>
+        <li><b>Image caption</b> (p.11–12): "Kattie holds the cat next to the door". class에 관계까지 담겨.</li>
+        <li><b>Click inside object</b> (p.13): 물체 안쪽 점 하나. 대략의 위치를 알려 줘.</li>
+        <li><b>Object bound boxes</b> (p.14): 위치와 대략의 범위. box 안 어느 pixel이 물체인지는 몰라.</li>
+        <li><b>Object extreme points</b> (p.15): 물체의 가장 왼쪽 · 위 · 오른쪽 · 아래 점 4개. 네 점이면 box가 바로 나와 (정의 문장은 슬라이드에 없어).</li>
+        <li><b>Scribbles</b> (p.16): 물체 위에 그은 선. 선 위의 pixel은 확실히 그 class야.</li>
+        <li><b>Eye gaze</b> (p.17): annotator가 쳐다본 곳. 그림에선 말(language)과 같이 써서 box를 찾아.</li>
+      </ul>
+      <!--slot:l09-in03-->
+      <p><span class="k">핵심</span>어떤 hint도 "어디까지가 물체인가"(경계)는 다 안 알려 줘. 그 빈칸을 prior와 모델이 채워야 해. 슬라이드는 이 목록을 비용 순으로 정렬하지 않았어.</p>
+      <p><span class="k">차이</span>뒤에서 쓰이는 곳이 다 달라. image label은 p.18–42 전체, caption은 9-6-2(caption → multi-label, p.81), click(point)과 box는 9-6-3 WISH, box는 9-5-1 Boxly에서 써.</p>
+    </div></div>
+  </div>
+
+  <h3 id="l09-p2">Image-level → Pixel-level: Gray box vs White box (p.18–27)</h3>
+  <p>여기부턴 hint 중 가장 싼 image label 하나로 출발해. image label로 학습한 classifier 안을 들여다보면 "어디를 보고 분류했나"가 나와. 그걸 꺼내는 방법이 두 갈래야.</p>
+  <div class="methods">
+    <div class="m" id="l09-2-1"><div><span class="m-name">Gray box vs White box</span><span class="m-src">p.19–20</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>classifier 구조를 그대로 두고 안을 엿보면 gray box, 구조를 바꿔서 위치 정보가 저절로 나오게 하면 white box야.</p>
+      <p>목표 (p.19): "<b>Image-level labels</b> at training time" → "<b>Pixel-level labels</b> at test time".</p>
+      <!--slot:l09-in04-->
+      <p><span class="k">핵심</span>Gray box는 "Utilize the internal information in the network"야. "it identifies which areas the model focused on for classification by leveraging the <b>activations or gradients</b> within the CNN" (p.20). White box는 p.20엔 이름만 있고, 내용은 p.24–25의 CAM이야.</p>
+      <ul>
+        <li><b>Gray box</b>: 구조는 그대로 둬. 슬라이드 예시는 gradient 기반이라 map을 얻을 때 backward 계산이 필요해.</li>
+        <li><b>White box</b>: FC를 빼고 GAP + 1×1 conv로 바꿔. map이 forward 계산에서 바로 나와 ("without the need for separate gradient calculations", p.25).</li>
+      </ul>
+      <p><span class="k">차이</span>gray box 정의엔 "activations <b>or</b> gradients"가 둘 다 있어. 슬라이드 예시(9-2-2)가 gradient일 뿐이야. "gray box = gradient만"으로 외우면 T/F에서 틀려.</p>
+    </div></div>
+
+    <div class="m" id="l09-2-2"><div><span class="m-name">Gradient saliency · SmoothGrad</span><span class="m-src">Simonyan 2014 · Smilkov 2017 · p.21–23</span><small class="m-full"><span class="pt">Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps (ICLR 2014 workshop)</span><span class="pt">SmoothGrad: removing noise by adding noise (arXiv 2017)</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>class 점수를 입력 사진으로 미분해서 영향이 큰 pixel을 찾고(Simonyan), noise를 섞어 여러 번 재고 평균해서 잡음을 지워(SmoothGrad).</p>
+      <p><span class="k">어떻게</span>Simonyan (p.21): "Step 1) Train an ImageNet classifier." "Step 2) Calculate how much the score changes when the input is slightly modified." 식으로는 <span class="math">∂S<sub>c</sub>/∂I |<sub>I<sub>0</sub></sub></span>야. S<sub>c</sub> = class c의 점수, I = 입력 사진, |<sub>I<sub>0</sub></sub> = 지금 보는 사진에서 계산한다는 뜻이야. 이 지도가 saliency map이야.</p>
+      <p><span class="k">문제</span>"The problem is that it is <b>extremely noisy</b>." "the gradient measures sensitivity at the level of individual pixels, resulting in a "<b>salt-and-pepper</b>" appearance." (p.21). pixel 하나 단위의 미분이라 이웃 pixel끼리 값이 들쭉날쭉해.</p>
+      <!--slot:l09-in05a-->
+      <p><span class="k">어떻게</span>SmoothGrad (p.22):</p>
+      <ol>
+        <li>Train a standard CNN classifier.</li>
+        <li>Add small random noise to the images.</li>
+        <li>Calculate the gradient for each.</li>
+        <li>Average. 그림 글자: "Repeat 50 times step 2&amp;3, average result".</li>
+      </ol>
+      <p>식으로 쓰면 <span class="math">M̂<sub>c</sub>(I) = (1/n) Σ<sub>i</sub> M<sub>c</sub>(I + ε<sub>i</sub>)</span>, ε<sub>i</sub> ~ N(0, σ<sup>2</sup>)이야. M<sub>c</sub> = Simonyan의 gradient map, n = 반복 횟수(그림에선 50)야. 식은 노트 보충이고 슬라이드엔 단계만 있어.</p>
+      <!--slot:l09-in05-->
+      <p><span class="k">왜 돼?</span>pixel 단위의 들쭉날쭉한 값은 noise마다 방향이 달라서 평균하면 서로 상쇄돼. 물체 쪽에서 일관되게 큰 값만 남아. "The key point is that calculating the gradient multiple times and averaging it removes noise and yields a more meaningful saliency map." (p.22)</p>
+      <p><span class="k">문제</span>noise를 지워도 남는 한계가 있어. "Key issue: Asking apples from the oranges tree. Classifier was not built nor trained to segment objects." classifier는 "highlights only the specific regions necessary for classification rather than the entire object" (p.23). 분류용으로 만든 모델한테 segmentation을 시키는 격이야.</p>
+      <p><span class="k">차이</span>Simonyan은 gradient를 <b>한 번</b> 재고, SmoothGrad는 noise를 넣어 <b>50번</b> 재서 <b>평균</b>해. noise는 <b>입력 사진</b>에 넣어. gradient에 넣는 게 아니야. 둘 다 구조를 안 바꾸는 gray box야.</p>
+    </div></div>
+
+    <div class="m" id="l09-2-3"><div><span class="m-name">CAM</span><span class="m-src">Zhou 2016 · p.24–26</span><small class="m-full"><span class="ab"><b>C</b>lass <b>A</b>ctivation <b>M</b>apping</span><span class="pt">Learning Deep Features for Discriminative Localization (CVPR 2016)</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>classifier 끝을 GAP + 선형 layer로 바꿔서, class 점수를 위치별 기여 지도로 바로 펼쳐 봐.</p>
+      <p><span class="k">문제</span>gray box는 위치를 버리는 FC layer를 그대로 둔 채 gradient를 따로 계산해야 했고, 결과도 noisy했어.</p>
+      <p><span class="k">어떻게</span>구조를 세 단계로 바꿔 (p.24).</p>
+      <ol>
+        <li>"eliminate the FC layer": FC는 feature map을 한 줄로 펴서 다 섞는 layer라 "어느 위치에서 온 값인지"가 사라져.</li>
+        <li>"add GAP (Global Average Pooling)": <a href="#t-gap">GAP</a>은 channel마다 feature map 한 장의 평균값 하나를 내.</li>
+        <li>"add a 1×1 convolution that performs a linear combination of the features": 위치끼리는 안 섞고 channel끼리만 섞어. class마다 weight 한 벌이 있어.</li>
+      </ol>
+      <p>← slide는 "FC를 없애고 1×1 conv"라고 적었는데, 원 논문(Zhou 2016)에선 마지막 conv → GAP → <b>선형(FC) layer + softmax</b>야. GAP 뒤엔 위치가 1×1뿐이라 둘은 같은 연산이야: channel별 평균값의 선형 결합(weight w<sub>k</sub><sup>c</sup>). 시험엔 slide 표현을 쓰고, "FC를 없앤다"는 건 <b>feature map을 한 줄로 펴서 위치를 섞는 FC</b>를 뺀다는 뜻으로 읽어.</p>
+      <!--slot:l09-in06-->
+      <p><span class="k">핵심</span>분류에 쓴 weight를 feature map에 그대로 곱해 더하면 그 class의 <a href="#t-cam">CAM</a>이야. "since the network itself is designed to preserve spatial information, activation maps can be obtained directly without the need for separate gradient calculations." (p.25)</p>
+      <p><span class="math">M<sub>c</sub>(x, y) = Σ<sub>k</sub> w<sub>k</sub><sup>c</sup> f<sub>k</sub>(x, y)</span></p>
+      <p>f<sub>k</sub>(x, y) = 마지막 conv의 k번째 feature map에서 위치 (x, y)의 값, w<sub>k</sub><sup>c</sup> = feature k가 class c에 얼마나 중요한지(그림의 w<sub>1</sub>, …, w<sub>n</sub>), M<sub>c</sub> = class c의 CAM이야. 슬라이드엔 그림 속 "w<sub>1</sub> * map + w<sub>2</sub> * map + … = Class Activation Map"만 있고, 식은 노트 보충이야.</p>
+      <!--slot:l09-in07-->
+      <p><span class="k">왜 돼?</span>GAP(평균)과 선형 결합(w)이 둘 다 선형이라 순서를 바꿔도 돼. <span class="math">S<sub>c</sub> = Σ<sub>k</sub> w<sub>k</sub><sup>c</sup> (1/Z) Σ<sub>x,y</sub> f<sub>k</sub>(x, y) = (1/Z) Σ<sub>x,y</sub> M<sub>c</sub>(x, y)</span>. 즉 class 점수가 CAM의 평균이야(Z = 위치 개수, bias는 원 논문처럼 0으로 둠). 그래서 map을 얻을 땐 forward 때 계산한 feature map과 weight만 있으면 돼. classifier를 <b>학습</b>할 땐 당연히 backprop을 써.</p>
+      <div class="note easy"><span class="tag">예시로 보면</span><p>설명용 숫자야. 2×2 feature map 두 장: f<sub>1</sub> = [[4, 0], [0, 0]](머리에 반응), f<sub>2</sub> = [[0, 0], [2, 2]](몸에 반응). dog weight w = (1, 0.5)면 M<sub>dog</sub> = [[4, 0], [1, 1]]이고 평균 1.5가 S<sub>dog</sub>와 같아. 머리 칸 4가 압도적이라 threshold하면 머리만 남아. discriminative area only 문제가 여기서 보여.</p></div>
+      <p>"Designed to Generate Per-Class Maps" (p.26). 같은 feature map에 class별 weight만 바꿔 곱하니까 class마다 지도가 하나씩 나와. 정답이 dome인 사진의 top 5 예측(palace 0.459, dome 0.195, church 0.146, altar 0.091, monastery 0.051)마다 지도가 따로 나와. 특히 palace(건물 아래 넓은 부분)와 dome(위쪽 지붕)은 확 달라. 나머지 셋(church · altar · monastery)은 서로 비슷해.</p>
+      <!--slot:l09-in08-->
+      <p><span class="k">차이</span>gray box는 <span class="math">∂S<sub>c</sub>/∂I</span>(입력 pixel 단위 gradient)라 salt-and-pepper고, CAM은 마지막 conv activation × class weight라 해상도가 conv 크기(예: 14×14, p.29)라서 뭉개져. 한계 하나는 같아: 둘 다 분류에 필요한 부분만 밝혀.</p>
+    </div></div>
+
+    <div class="m" id="l09-2-4"><div><span class="m-name">Seeds</span><span class="m-src">p.27</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>CAM에서 확실히 높은 곳은 foreground, 확실히 낮은 곳은 background로 정한 pixel label의 씨앗이야.</p>
+      <p>제목: "The Class Maps are Thresholded, to Generate Training Data". "<b>High</b> value scores → <b>Foreground</b> areas", "<b>Low</b> value scores → <b>Background</b> areas", "(This confident regions are commonly named "seeds")" ← slide 문법 그대로(This → These).</p>
+      <p><span class="k">어떻게</span></p>
+      <ol>
+        <li>M1: GAP로 분류해 (class k: monkey).</li>
+        <li>M2: Weighted Averaging. weight로 feature map을 합쳐 M<sub>k</sub>(= CAM)를 만들어.</li>
+        <li>M3: Thresholding. 입력 크기로 resize하고 τ<sub>loc</sub>보다 큰 곳을 1로 둔 binary mask B<sub>k</sub>를 만들어.</li>
+      </ol>
+      <!--slot:l09-in09-->
+      <p><span class="k">핵심</span><a href="#t-seed">seed</a>는 물체 전체가 아니라 "확실한" 작은 영역이야. image label에서 pixel label로 가는 첫 다리야. WSSS에선 애매한 중간을 label 없이 비워 두는(ignore) 게 보통이야(노트 보충). 확신하는 pixel만 학습 target이 되게 하려는 거야.</p>
+      <p><span class="k">차이</span>p.27 그림의 τ<sub>loc</sub>는 threshold야. temperature도 EMA 계수도 아니야. 이 그림에선 C가 channel 수, k가 class라서 CAM 식의 글자와 뒤바뀌어 있어. 뒤 방법들(SEC 등)은 이 seed를 경계 안에서 키워 물체 전체를 덮으려 해.</p>
+    </div></div>
+  </div>
+
+  <h3 id="l09-p3">CAM 보강: not sharp · discriminative only (p.28–42)</h3>
+  <p>여기부턴 슬라이드가 두 문제 줄을 반복하면서 "⇢ 처방"을 하나씩 붙여. 슬라이드 <b>헤더</b> 기준으로 1번(not sharp) 처방은 resolution · SEC · saliency · SEAM이고, 2번(discriminative only) 처방은 Hide-and-Seek · Adversarial Erasing이야. 단 본문을 보면 SEC와 saliency는 2번도 건드려.</p>
+  <div class="methods">
+    <div class="m" id="l09-3-1"><div><span class="m-name">Good, but not good enough</span><span class="m-src">p.28–29</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>CAM은 경계가 뭉개지고, 분류에 결정적인 부분만 켜.</p>
+      <ol>
+        <li>"Resulting masks are <b>not sharp</b>"</li>
+        <li>"Focused on <b>discriminative area only</b>"</li>
+      </ol>
+      <!--slot:l09-in10-->
+      <p><span class="k">왜 어려워?</span>두 문제는 원인이 달라. not sharp는 해상도와 경계 정보가 모자라서야. discriminative area only는 분류 loss가 그걸로 충분해서야. 타조는 긴 목만 봐도 맞히니까 나머지에 반응할 이유가 없어(<a href="#t-discriminative-part">discriminative part</a>, L08과 같은 뿌리).</p>
+      <p><span class="k">어떻게</span>처방 1-a는 "Increase top layers resolution" (p.29)야. 마지막 쪽 feature map이 "14x14 pixels"라서 upsample해도 뭉개지니까 위쪽 layer 해상도를 키워. 슬라이드엔 cite도 구체적 방법도 없어.</p>
+      <p><span class="k">차이</span>이 파트 처방 지도: not sharp → resolution(p.29), boundary-aware propagation = SEC(p.30), transfer learning · saliency(p.33), equivariance = SEAM(p.35). discriminative only → peek-a-boo = Hide-and-Seek(p.38), adversarial peek-a-boo = Adversarial Erasing(p.39).</p>
+    </div></div>
+
+    <div class="m" id="l09-3-2"><div><span class="m-name">SEC</span><span class="m-src">Kolesnikov &amp; Lampert 2016 · p.30–32</span><small class="m-full"><span class="ab"><b>S</b>eed, <b>E</b>xpand, <b>C</b>onstrain</span><span class="pt">Seed, Expand and Constrain: Three Principles for Weakly-Supervised Image Segmentation (ECCV 2016)</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>CAM의 확실한 곳만 seed로 쓰고(Seed), image label로 넓히고(Expand), CRF로 경계에 맞추는(Constrain) 세 loss로 segmentation network를 학습해.</p>
+      <p><span class="k">문제</span>CAM limitations (p.31): "Activation maps are small and coarse", "Focus only on discriminative regions", "Poor object boundaries".</p>
+      <p><span class="k">핵심</span>"Three complementary losses" (p.31). 문제마다 loss를 하나씩 둬.</p>
+      <ul>
+        <li><b>Seeding Loss</b>: "Use CAM as reliable foreground seeds", "Preserve highly confident object regions". seed가 찍힌 pixel에서만 cross-entropy를 걸어.</li>
+        <li><b>Expansion Loss</b>: "Encourage predictions to expand beyond the seeds", "Use image-level labels via Global Weighted Rank Pooling (GWRP)".</li>
+        <li><b>Constrain-to-boundary Loss</b>: "Refine predictions using <a href="#t-crf">CRF</a>", "Encourage masks to align with image boundaries".</li>
+      </ul>
+      <!--slot:l09-in11-->
+      <p><span class="k">어떻게</span>GWRP는 pixel 점수를 큰 순서로 세우고, 순위가 내려갈수록 작은 weight <span class="math">d<sup>j−1</sup></span>로 평균하는 pooling이야(식은 논문 보충). d = 0이면 max pooling, d = 1이면 average pooling이야. max는 1등 pixel 하나만 봐서 넓힐 이유가 없고, average는 작은 물체도 사진 전체를 덮게 밀어. GWRP는 그 중간이라 꽤 많은 pixel이 높아야 점수가 높아. (논문 보충) d는 경우마다 달라: 사진에 없는 class는 d<sub>−</sub> = 0(max pooling, 어느 pixel도 높지 않게 눌러), 있는 class는 d<sub>+</sub> = 0.996, background는 d<sub>bg</sub> = 0.999야. 슬라이드엔 GWRP 이름만 있어.</p>
+      <div class="note easy"><span class="tag">예시로 보면</span><p>설명용 숫자야. pixel 5개, d = 0.5면 weight는 [1, 0.5, 0.25, 0.125, 0.0625]이고 합 Z = 1.9375야. 2 pixel만 켜진 [0.9, 0.9, 0, 0, 0]은 max 0.9, GWRP ≈ 0.70이야. 4 pixel로 넓어진 [0.9, 0.9, 0.9, 0.9, 0]은 max 0.9 그대로, GWRP ≈ 0.87이야. GWRP만 넓어질수록 올라서 expansion loss가 넓히는 쪽으로 밀어.</p></div>
+      <p>슬라이드 요약 (p.31): "Seed: Preserve reliable CAM activations." "Expand: Grow seeds to cover the entire object using image-level supervision." "Constrain: Refine object boundaries with CRF-based regularization."</p>
+      <p><span class="k">왜 돼?</span>seed는 좁지만 거의 맞아서 세게 학습해도 안전해. seed 밖은 정답을 모르니까 "image 점수가 높으려면 꽤 넓어야 해"라는 약한 압력만 줘. 넓히다 경계를 넘는 건 CRF가 색 경계에서 멈추게 해. 논문에선 foreground seed만 CAM에서 오고, background seed는 별도 gradient saliency에서 와(논문 보충).</p>
+      <p><span class="k">차이</span>슬라이드는 SEC를 1번 처방 "Use boundary-aware propagation"(p.30)으로 소개하지만, expansion loss는 2번(discriminative only)도 겨냥해. 그래서 p.31이 세 limitation을 다 적어. CRF는 L08 p.25의 CRF와 이름만 같아. L08은 node = image(사진끼리 닮은 window 고르기), 여기는 node = pixel(색과 위치가 가까운 pixel끼리 label 맞추기)이야.</p>
+    </div></div>
+
+    <div class="m" id="l09-3-3"><div><span class="m-name">Saliency-guided (Oh)</span><span class="m-src">Oh 2017 · p.33–34</span><small class="m-full"><span class="pt">Exploiting Saliency for Object Segmentation from Image Level Labels (CVPR 2017)</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>미리 학습한 saliency 모델에서 "물체가 어디까지인가"를, CAM에서 "그게 무슨 class인가"를 빌려 와서 합친 pseudo mask로 학습해.</p>
+      <p><span class="k">문제</span>CAM은 discriminative part만 켜고 경계도 흐려. image label엔 범위 정보가 전혀 없어.</p>
+      <p><span class="k">핵심</span>두 단서의 장단점이 정확히 반대야 (p.34 Observation).</p>
+      <ul>
+        <li><b>CAM</b>: "Provides <b>class-specific</b> localization", "Covers only discriminative regions"</li>
+        <li><b>Saliency</b>: "Provides <b>complete object extent</b>", "<b>Class-agnostic</b> foreground estimation"</li>
+      </ul>
+      <p>그래서 "Combine CAM and saliency to generate class-specific pseudo masks" (p.34).</p>
+      <ol>
+        <li><b>Seeder</b>: "Generate class-specific seeds from CAM."</li>
+        <li><b>Saliency</b>: "Estimate foreground regions."</li>
+        <li><b>Guide Labeller</b>: "Fuse both cues into pseudo masks."</li>
+        <li><b>Segmentation CNN</b>: "Learn dense pixel-wise predictions."</li>
+      </ol>
+      <!--slot:l09-in12-->
+      <p><span class="k">왜 돼?</span>saliency는 사람과 자전거를 통째로 칠하지만 어느 쪽이 person인지 몰라. CAM seed가 사람 위에 person, 자전거 위에 bicycle 이름표를 붙여. 둘을 합친 <a href="#t-pseudo-mask">pseudo mask</a>는 class도 맞고 범위도 넓어.</p>
+      <p><span class="k">차이</span>p.33의 처방 문구는 "Use transfer learning", "We could also use saliency cues"야. saliency 모델은 이 task가 아닌 다른 data로 학습돼서 transfer야. SEC는 seed를 <b>loss로</b> 넓히고, 이 방법은 넓힌 pseudo mask를 <b>학습 전에</b> 만들어 놓고 평범하게 학습해. 헤더는 1번(not sharp)이지만 "complete object extent"라서 2번도 메워.</p>
+    </div></div>
+
+    <div class="m" id="l09-3-4"><div><span class="m-name">SEAM</span><span class="m-src">Wang 2020 · p.35–36</span><small class="m-full"><span class="ab"><b>S</b>elf-supervised <b>E</b>quivariant <b>A</b>ttention <b>M</b>echanism</span><span class="pt">Self-supervised Equivariant Attention Mechanism for Weakly Supervised Semantic Segmentation (CVPR 2020)</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>원본 사진과 변환한 사진의 CAM이 "변환만큼만" 다르게 나오도록 classifier를 학습시켜. "Activation maps should be equivariant to the input" (p.35).</p>
+      <p><span class="k">문제</span>"CAMs are often coarse and inconsistent", "Small input transformations can produce different activation maps" (p.36). 같은 비행기를 크기만 바꿔 넣었는데 CAM 모양이 달라져.</p>
+      <p><span class="k">핵심</span><a href="#t-equivariance">equivariance</a> = 입력을 변환하면 출력도 같은 방식으로 변환된다는 성질이야. <span class="math">F(A(I)) = A(F(I))</span>. invariance(<span class="math">F(A(I)) = F(I)</span>, 출력이 안 변함)와 구분해. 분류 답은 invariant해야 하지만 CAM과 mask는 equivariant해야 해. "Apply geometric transformations (e.g., affine transform)", "Predict CAMs for both original and transformed images", "Enforce consistency after <b>compensating for the transformation</b>" (p.36).</p>
+      <ol>
+        <li>사진 I와 변환한 A(I)를 weight를 공유하는 CNN 두 갈래(Siamese network)에 넣어.</li>
+        <li>각 갈래에서 CAM ŷ<sup>o</sup>, ŷ<sup>t</sup>를 만들어.</li>
+        <li>PCM이 CAM을 다듬어 y<sup>o</sup>, y<sup>t</sup>를 내. PCM은 "a module that propagates CAM activations to other pixels within the same object by utilizing pixel-wise <a href="#t-affinity">affinity</a> among CNN features"야 (p.36).</li>
+        <li>세 loss로 학습해: Classification Loss "Preserve image-level classification performance", Equivariant Regularization (ER) Loss "Encourage transformation-consistent CAMs", Cross-view Consistency (ECR) Loss "Align CAMs across different views". ← slide의 ECR 풀네임은 약자와 안 맞아. 논문 표기는 Equivariant Cross Regularization이야.</li>
+      </ol>
+      <!--slot:l09-in13-->
+      <p>논문 식(슬라이드엔 없음): <span class="math">L<sub>ER</sub> = ‖A(ŷ<sup>o</sup>) − ŷ<sup>t</sup>‖<sub>1</sub></span>, <span class="math">L<sub>ECR</sub> = ‖A(y<sup>o</sup>) − ŷ<sup>t</sup>‖<sub>1</sub> + ‖A(ŷ<sup>o</sup>) − y<sup>t</sup>‖<sub>1</sub></span>. 원본 쪽 map에 A를 걸어 준 다음 비교하는 게 "compensating"이야.</p>
+      <p><span class="k">왜 돼?</span>변환 A는 우리가 직접 걸었으니까 "A(I)의 CAM = I의 CAM에 A를 건 것"이라는 정답 관계를 사람 label 없이 알아. 그 관계가 supervision이라서 self-supervised야.</p>
+      <p><span class="k">차이</span>L08 p.29의 Equivariance prior를 CAM에 건 거야. SEC는 CAM에서 시작한 seed를 세 loss(seeding · GWRP를 쓰는 expansion · CRF constrain)로 <b>segmentation network</b>에 학습시키고, SEAM은 <b>CAM을 내는 classifier 자체</b>에 equivariance consistency loss를 걸어.</p>
+    </div></div>
+
+    <div class="m" id="l09-3-5"><div><span class="m-name">Hide-and-Seek</span><span class="m-src">Singh &amp; Lee 2017 · p.37–38</span><small class="m-full"><span class="ab">HaS = <b>H</b>ide-<b>a</b>nd-<b>S</b>eek</span><span class="pt">Hide-and-Seek: Forcing a Network to be Meticulous for Weakly-supervised Object and Action Localization (ICCV 2017) ← slide엔 "Wang et al. CVPR 2020"</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>학습할 때마다 사진의 칸 몇 개를 <b>무작위로</b> 가려서, classifier가 가장 쉬운 부분 하나에만 기대지 못하게 해.</p>
+      <p><span class="k">문제</span>"CAM activates only the most discriminative regions." (p.37) 개 얼굴만 봐도 "dog"를 맞히니까 CAM도 얼굴만 켜져.</p>
+      <p><span class="k">어떻게</span>Solution (p.37):</p>
+      <ol>
+        <li>학습 사진을 격자 칸으로 나눠.</li>
+        <li>"Randomly hide image patches during training." epoch마다 가려지는 칸이 달라.</li>
+        <li>"Encourage learning from the remaining visible parts." 가려진 사진으로 평범하게 분류를 학습해. 슬라이드의 세 번째 Solution 줄은 "Generate more complete localization maps."야.</li>
+      </ol>
+      <!--slot:l09-in14-->
+      <p><span class="k">왜 돼?</span>Effect (p.37): "The classifier is forced to discover other visible object parts." "CAM gradually covers a larger portion of the object." 얼굴 칸이 가려진 epoch엔 얼굴 없이 맞혀야 하니까 다리와 몸통도 쓰게 돼. "Random hiding encourages the network to discover complementary object parts instead of relying on a single discriminative region."</p>
+      <p>"Let us play peek-a-boo!" (p.38). 보통 학습한 AlexNet-GAP heatmap은 얼굴 한 점에 몰리고, HaS heatmap은 몸통까지 퍼져.</p>
+      <!--slot:l09-in15-->
+      <p><span class="k">차이</span>바뀌는 건 <b>학습 data</b>뿐이야. 구조와 loss는 그대로라 어떤 classifier에도 붙일 수 있어. 어디를 가릴지 모델을 보고 정하지 <b>않아</b>(random). 이게 9-3-6 Adversarial Erasing과 갈리는 지점이야. ← p.37–38 cite는 바로 앞 SEAM의 cite가 남은 걸로 보여. 실제 논문은 Singh &amp; Lee, ICCV 2017이고, p.11–17 하단 cite 목록 맨 끝에도 잘린 채 "Singh ICCV 17"로 보이는 항목이 있어. 시험 지문은 슬라이드 표기를 따를 수 있어.</p>
+    </div></div>
+
+    <div class="m" id="l09-3-6"><div><span class="m-name">Adversarial Erasing</span><span class="m-src">Wei 2017 · p.39–41</span><small class="m-full"><span class="pt">Object Region Mining with Adversarial Erasing: A Simple Classification to Semantic Segmentation Approach (CVPR 2017) ← slide엔 학회 없이 "Wei et al. 2017"</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>classifier가 가장 의존하는 곳(CAM이 제일 센 곳)을 지우고 다시 학습하는 걸 반복해서, 지운 영역들을 모아 물체 전체를 찾아.</p>
+      <p><span class="k">문제</span>Hide-and-Seek와 같아. CAM이 discriminative part만 켜.</p>
+      <p><span class="k">핵심</span>"Let us play adversarial peek-a-boo!", "(<b>adversarial instead of random</b> erasures)" (p.39). 무작위로 가리지 말고, <b>지금 classifier가 제일 믿는 곳</b>을 골라 <a href="#t-erasing">지워(erasing)</a>.</p>
+      <ol>
+        <li>사진 I<sub>t</sub>로 classification network를 image label로 학습해.</li>
+        <li>heatmap(CAM) H<sub>t</sub>를 구해.</li>
+        <li>H<sub>t</sub>를 threshold로 잘라 제일 센 영역 F<sub>t</sub>를 얻어.</li>
+        <li>그 영역을 지워: <span class="math">I<sub>t+1</sub> = I<sub>t</sub> ⊖ F<sub>t</sub></span></li>
+        <li>I<sub>t+1</sub>로 1번부터 다시 해. 그림은 t = 1, 2, 3이야 (Recurrent).</li>
+        <li>지운 영역 F<sub>1</sub>, F<sub>2</sub>, F<sub>3</sub>를 합친 mined object region을 segmentation network의 foreground pseudo label로 써. background는 saliency에서 따로 얻어(논문 보충).</li>
+      </ol>
+      <!--slot:l09-in16-->
+      <p>AE-Step1 → 2 → 3으로 갈수록 heatmap의 빨간 곳이 다른 부분으로 옮겨 가 (p.40). 맨 아래 Erased Regions(회색)는 물체의 꽤 넓은 부분을 덮지만 <b>전부는 아니야</b>.</p>
+      <!--slot:l09-in17-->
+      <p><span class="k">왜 돼?</span>지우는 쪽이 classifier가 제일 믿는 단서를 골라 빼앗아. classifier한텐 방해꾼(adversary)이야. 그래서 남은 부분에서 다음으로 discriminative한 부분을 찾아야 해.</p>
+      <p><span class="k">결과</span>p.41 표(VOC 2012 test, <a href="#t-miou">mIoU</a>, 비중 낮음): image label만 쓴 방법 중 AE-PSL 55.7이 맨 위야 (SEC 51.7, AF-SS 52.7. * 표시 AF-MCG 55.5는 pixel-level supervision을 암묵적으로 써서 따로 묶여). box supervision(WSSL 62.2, BoxSup 64.2)보다는 아직 낮아. 이 간격이 p.42 마지막 질문으로 이어져.</p>
+      <p><span class="k">차이</span>Hide-and-Seek는 <b>random</b> hiding을 한 번의 학습에 섞고, AE는 <b>CAM 최고 영역</b>을 지우고 재학습하는 걸 여러 step 반복해. L08 Ren의 Concrete DropBlock도 "most relevant" region을 지웠지만, 지울 곳을 network가 min-max로 같이 학습했어.</p>
+    </div></div>
+  </div>
+
+  <p>p.42 Takeaways는 표시(✗, ~, ✔)까지 외워 둬. 표시를 바꾼 T/F가 나오기 좋아.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>원문 (p.42)</th><th>표시</th><th>뜻</th></tr></thead>
+    <tbody>
+      <tr><td>Training a classifier, and hoping to get segmentations out of it</td><td>✗</td><td>classifier만 학습하고 segmentation이 저절로 나오길 바라면 안 돼 (p.23 "Asking apples from the oranges tree")</td></tr>
+      <tr><td>Using spatial continuity priors will help, but to a limit</td><td>~</td><td>가까운 pixel은 같은 label이라는 가정(CRF 등)은 돕지만 한계가 있어</td></tr>
+      <tr><td>The training can be modified to promote covering the object extent</td><td>✔</td><td><b>학습 방식을 바꿔서</b> 물체 전체를 덮게 하는 게 효과가 있어 (HaS, AE, SEC expansion)</td></tr>
+      <tr><td>With careful changes it is possible to obtain significant improvements</td><td>~</td><td>신중하게 바꾸면 크게 좋아질 수 있지만 쉽진 않아</td></tr>
+      <tr><td>⇒ How far can we go from image-level to pixel-level labels ?</td><td></td><td>다음 파트의 질문이야. image label 밖의 정보(web, box)를 쓰면 어디까지 가나</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>CAM 보강 방법을 한 표로 모으면 이래. "슬라이드 헤더" 열은 화살표가 붙은 문제 번호야.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>방법</th><th>슬라이드 헤더</th><th>처방 (슬라이드 표현)</th><th>더 쓰는 것</th><th>어디를 바꾸나</th></tr></thead>
+    <tbody>
+      <tr><td>Resolution (p.29)</td><td>1. not sharp</td><td>Increase top layers resolution</td><td>없음</td><td>network 구조</td></tr>
+      <tr><td>SEC (p.30–32)</td><td>1. not sharp (p.31은 세 limitation 다)</td><td>Use boundary-aware propagation</td><td>CAM seed, GWRP, CRF</td><td>segmentation network의 loss</td></tr>
+      <tr><td>Saliency-guided, Oh (p.33–34)</td><td>1. not sharp (본문은 2번도)</td><td>Use transfer learning</td><td>미리 학습한 saliency 모델 (class-agnostic)</td><td>pseudo mask를 만드는 단계</td></tr>
+      <tr><td>SEAM (p.35–36)</td><td>1. not sharp</td><td>Enforce equivariance</td><td>affine 변환한 두 번째 view, PCM</td><td>classifier의 loss (ER, ECR)</td></tr>
+      <tr><td>Hide-and-Seek (p.37–38)</td><td>2. discriminative only</td><td>Let us play peek-a-boo!</td><td>random patch hiding</td><td>학습 data</td></tr>
+      <tr><td>Adversarial Erasing (p.39–41)</td><td>2. discriminative only</td><td>Let us play adversarial peek-a-boo!</td><td>CAM 최고 영역 erasing + 재학습 반복</td><td>학습 data (여러 step)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 id="l09-p4">Webly Supervised Learning (p.43–52)</h3>
+  <p>p.42의 질문 "How far can we go from image-level to pixel-level labels?"에 대한 답 하나가 <b>정보원을 늘리는 것</b>이야. 여기선 사람 annotation 대신 web 검색 사진을 끌어와.</p>
+  <div class="methods">
+    <div class="m" id="l09-4-1"><div><span class="m-name">Webly supervised learning</span><span class="m-src">Shen 18 · Jin 17 · Chen 15 · p.44</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>web 검색으로 모은 사진을 supervision으로 써. 검색어가 곧 label이야.</p>
+      <p>"A learning method that uses data collected from the web as supervision." (p.44) <a href="#t-webly">webly supervised</a> = web + weakly supervised야.</p>
+      <ul>
+        <li>"Collect training images directly from web search engines."</li>
+        <li>"Enables large-scale learning without manual annotation."</li>
+        <li>"Labels are noisy, ambiguous, and incomplete."</li>
+        <li>"Learning must be robust to noisy supervision."</li>
+      </ul>
+      <p><span class="k">문제</span>noisy = 검색어와 안 맞는 사진이 섞여. ambiguous = 한 단어가 여러 뜻이야(p.44 그림: "jasmine" 검색 결과에 공주 그림 · 분장한 사람과 jasmine 꽃이 같이 나와. 그림을 이렇게 읽은 건 해석이야). incomplete = 검색어 하나만 붙고, 같이 찍힌 다른 물체는 label에 없어.</p>
+      <p><span class="k">핵심</span>"Webly supervised learning leverages freely available web images as supervision, <b>trading annotation cost for label noise</b>." (p.44) 아끼는 건 annotation cost고, 받아들이는 건 label noise야.</p>
+      <p><span class="k">차이</span>사람 label 대신 공짜 data를 쓰고, 그 대가가 noise야. p.10 prior "Similarity with external images"의 external images를 web 검색으로 가져오는 방향으로 읽혀 (해석).</p>
+    </div></div>
+
+    <div class="m" id="l09-4-2"><div><span class="m-name">Model-T + Web-SEC (Shen)</span><span class="m-src">Shen 2018 · p.45–52</span><small class="m-full"><span class="pt">Bootstrapping the Performance of Webly Supervised Semantic Segmentation (CVPR 2018)</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>target dataset의 clean image label로 학습한 classifier(Model-T)가 web 사진을 거르고, 거른 web 사진으로 pixel labeler(Web-SEC)를 학습해서, 두 쪽 mask를 합쳐 최종 model을 학습해.</p>
+      <p><span class="k">문제</span>image label만으로 만든 CAM mask는 거칠고 물체 일부만 잡아. 그런데 사람이 pixel label을 더 달긴 싫어.</p>
+      <p><span class="k">어떻게</span>Pipeline (p.45–50, 원문 순서):</p>
+      <ol>
+        <li>Train an image classifier (<b>Model-T</b>) on clean image-level labels.</li>
+        <li>Use Model-T to <b>filter</b> noisy web images.</li>
+        <li>Train <b>Web-SEC</b> (pixel labeler) using the filtered web images.</li>
+        <li>Apply Web-SEC to generate pixel labels for the <b>target</b> images.</li>
+        <li>Use Model-T to produce class activation maps (CAMs) on the target images.</li>
+        <li><b>Fuse</b> the two label sources and train the final segmentation model.</li>
+      </ol>
+      <!--slot:l09-in18-->
+      <p><span class="k">핵심</span>p.47 원문 세 줄이 core idea야. "Unlike CAM-based methods, Web-SEC actually learns a <b>pixel classifier</b>." "The key observation is that web images are much cleaner—typically containing <b>a single centered object</b>—so approximate segmentation masks can be generated automatically." "...which learns <b>generic object shapes</b> and can later be <b>transferred</b> to the target dataset."</p>
+      <!--slot:l09-in19-->
+      <p><span class="k">왜 돼?</span>web 사진은 물체 하나가 가운데 있어서 "어디가 물체인가"를 사람 없이도 대략 정할 수 있어. 쉬운 data에서 물체 모양 일반을 배우고, 어려운 target으로 옮겨.</p>
+      <ul>
+        <li><b>Model-T</b>: target의 clean image label로 학습해. web 사진을 <b>판정</b>(filter)하고 target 사진의 CAM을 만들어 (1 · 2 · 5단계). web 사진으로 학습하진 않아.</li>
+        <li><b>Web-SEC</b>: filter된 web 사진으로 학습하고 target 사진에 <b>적용</b>만 해 (3 · 4단계). 그림의 Model-W가 이 자리로 보여 ← 슬라이드는 둘을 직접 연결하지 않아 (추정).</li>
+        <li><b>Final model</b>: 두 label을 합친 enhanced mask로 학습해 (6단계).</li>
+      </ul>
+      <p><span class="k">결과</span>p.51–52 표(비중 낮음): Ours-Res50이 63.0(val)으로 fully supervised 줄 63.7에 가깝고, image label만 쓴 SEC 50.7보다 훨씬 높아. 추가 annotation 없이 Web만 더했어.</p>
+      <p><span class="k">차이</span>CAM 계열은 분류용 classifier에서 위치를 <b>빌려 오고</b>, Web-SEC는 처음부터 pixel을 <b>분류하도록</b> 학습해. 9-6-2 Liu에선 web이 dataset을 보충하는 게 아니라 <b>대체</b>해.</p>
+    </div></div>
+  </div>
+
+  <h3 id="l09-p5">Boxly Supervised Learning (p.53–61)</h3>
+  <p>이번엔 image label보다 정보가 많은 weak label인 <a href="#t-bounding-box">bounding box</a>를 써. "Box-level labels at training time" → "Pixel-level per instance labels at test time" (p.54).</p>
+  <div class="methods">
+    <div class="m" id="l09-5-1"><div><span class="m-name">Simple Does It (Khoreva)</span><span class="m-src">Khoreva 2017 · p.54–60</span><small class="m-full"><span class="pt">Simple Does It: Weakly Supervised Instance and Semantic Segmentation (CVPR 2017)</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>box를 칠한 거친 mask로 segmentation network를 학습하고, 그 예측을 다음 round의 label로 쓰면서 mask를 점점 다듬어.</p>
+      <p><span class="k">문제</span>box 안을 통째로 칠하면(그래프의 Rectangles) 물체 밖 pixel이 많이 섞인 noisy label이야. 원하는 건 모양대로 칠한 mask(What we want)인데 가진 건 직사각형(What we have)이야 (p.55).</p>
+      <!--slot:l09-in20-->
+      <p><span class="k">핵심</span>"Convnets are robust to noise. Let us use that !" (p.56). "Initially, training is performed using a noisy mask, but the CNN's predictions are then used as pseudo-labels for retraining."</p>
+      <ul>
+        <li>"Segmentation networks are robust to noisy supervision."</li>
+        <li>"Approximate masks are sufficient for training."</li>
+        <li>"Iteratively refine pseudo masks during training."</li>
+        <li>"Better masks lead to better segmentation."</li>
+      </ul>
+      <p><span class="k">어떻게</span>recursive training이야.</p>
+      <ol>
+        <li>box를 칠한 직사각형 mask로 segmentation network를 학습해.</li>
+        <li>학습한 network로 training 사진의 mask를 다시 예측해.</li>
+        <li>그 예측을 pseudo-label로 써서 다시 학습해.</li>
+        <li>2–3을 반복해. 한 번이 training round 하나야.</li>
+      </ol>
+      <!--slot:l09-in21-->
+      <p><span class="k">왜 돼?</span>슬라이드엔 이유 설명이 없어서 직관이야. box 안 배경 오류는 사진마다 위치와 모양이 제각각이고, 물체 모양은 사진끼리 공통이야. 그래서 network는 공통 패턴을 먼저 배우고, 사진마다 다른 오류까지 다 따라 하진 않아.</p>
+      <p><span class="k">결과</span>입력 mask가 좋을수록 시작점도 끝점도 높아: Rectangles &lt; 20% Bbox &lt; Grabcut+ · MCG &lt; MCG ∩ Grabcut+(M ∩ G+) (p.57–59, 수치 비중 낮음). <a href="#t-grabcut">GrabCut</a>은 box를 주면 box 안을 색 분포로 전경과 배경으로 나누는 고전 segmentation 방법이야. (GrabCut 설명, MCG = 물체 후보 영역 mask를 뽑는 고전 방법, 20% Bbox = box 중앙 일부(넓이 20%)만 전경으로 칠하고 나머지 box는 ignore한 입력은 논문 보충이야. 슬라이드엔 이름과 그래프만 있어.) Rectangles만으로는 ~61 mIoU에서 평평해져서 fully supervised(~70)엔 한참 못 미쳐 (p.57). "We reach ~95% of full supervision by using GrabCut++" (p.60) ← 제목은 GrabCut++, 그래프 범례는 Grabcut+, 그림 열은 M ∩ G+야. 논문 기준 ~95%는 M ∩ G+야.</p>
+      <!--slot:l09-in21a-->
+      <p><span class="k">차이</span>L07 pseudo labeling과 같은 구조인데 단위가 pixel이고, box라는 약한 label이 처음부터 있어. L08 Standard MIL은 box를 다시 <b>골랐고</b>, 여기선 mask를 다시 <b>그려</b>. 위험도 같아: 틀린 예측을 label로 쓰면 confirmation bias로 굳을 수 있어. 논문은 box 밖으로 나간 예측을 background로 되돌리는 식으로 box를 계속 제약으로 써 (논문 보충).</p>
+    </div></div>
+
+    <div class="m" id="l09-5-2"><div><span class="m-name">Summary</span><span class="m-src">p.61</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>prior와 hint를 다 쓰고, 새 정보원과 transfer learning을 쓰고, 더 좋은 network를 타.</p>
+      <ul>
+        <li>Many priors and hints have been explored</li>
+        <li>Exploit all available priors, explore new information sources</li>
+        <li>Do not underestimate the power of transfer learning (and webly supervision)</li>
+        <li>Current techniques are quite effective, and ride the wave of better network architectures</li>
+      </ul>
+      <p><span class="k">차이</span>네 줄이 앞 파트에 하나씩 대응해. 첫 줄은 9-1의 prior · hint, 둘째 줄은 saliency · web · box 같은 새 정보원, 셋째 줄은 Web-SEC의 transfer, 넷째 줄은 backbone 효과야(p.51: Ours-VGG16 58.8 → Ours-Res50 63.0).</p>
+    </div></div>
+  </div>
+
+  <p>파트 2–5는 "pixel label이 없을 때 pixel target을 어디서 얻나"에 대한 세 가지 답이야. 위치 정보가 <b>어디서</b> 오나가 다를 뿐, 셋 다 결국 pseudo mask를 만들어 정답처럼 써.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>비교 축</th><th>CAM 계열 (p.24–42)</th><th>Webly, Shen (p.45–52)</th><th>Boxly, Khoreva (p.54–60)</th></tr></thead>
+    <tbody>
+      <tr><td>사람이 준 label</td><td>image label</td><td>image label (target)</td><td>bounding box</td></tr>
+      <tr><td>더 끌어온 정보</td><td>network 내부 activation (+ CRF, saliency 등)</td><td>web 검색 사진</td><td>고전 segmentation (GrabCut+, MCG)</td></tr>
+      <tr><td>pixel target을 만드는 쪽</td><td>classifier의 CAM → seed</td><td>Web-SEC mask + Model-T CAM을 fuse</td><td>직사각형 · GrabCut+ → 이후 network 자신의 예측</td></tr>
+      <tr><td>noise 대응</td><td>seed는 확실한 곳만</td><td>Model-T가 web 사진을 filter</td><td>"Convnets are robust to noise" + 좋은 입력 mask</td></tr>
+      <tr><td>핵심 문장</td><td>"Classifier was not built nor trained to segment objects" (p.23)</td><td>"trading annotation cost for label noise" (p.44)</td><td>"Better masks lead to better segmentation" (p.56)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 id="l09-p6">넓히기: Beyond CAM (p.62–95)</h3>
+  <p>p.2 목차(1–4) 밖의 최신 세미나 논문 세 편이야. 슬라이드에 있으니까 시험 범위로 봐. 출발점은 여전히 CAM이고, p.62가 두 약점을 다시 적어: "CAM activates only the most discriminative regions", "CAM boundaries are coarse and inaccurate". 세 편 모두 CAM 하나로 못 메우는 정보를 <b>바깥의 큰 model이나 data</b>(CLIP · DINO, web · caption, SAM)에서 빌려 와.</p>
+  <div class="methods">
+    <div class="m" id="l09-6-1"><div><span class="m-name">CD-CLIP</span><span class="m-src">Yang 2026 · p.62–74</span><small class="m-full"><span class="ab">CDA = <b>C</b>lass <b>D</b>istribution <b>A</b>ware · SBE = <b>S</b>uper-class <b>B</b>oundary <b>E</b>xploration (p.66 그림)</span><span class="pt">Leveraging Class Distributions in CLIP for Weakly Supervised Semantic Segmentation (CVPR 2026)</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>CLIP이 patch마다 내는 <b>class 점수 분포 전체</b>로 "어떤 patch끼리 같은 물체인가"를 다시 매겨서 CAM을 채우고(CDA), DINO feature로 <b>어디서 멈출지</b> 경계를 가르쳐(SBE).</p>
+      <p><span class="k">문제</span>문제가 두 개고 방향이 반대야 (p.64).</p>
+      <ol>
+        <li><b>Incomplete activation</b>: "CAM focuses on the most discriminative part." "Other object regions remain inactive."</li>
+        <li><b>Inaccurate boundaries</b>: "Affinity propagation may spread activation." "Foreground activation can cross class boundaries." 덜 켜진 걸 퍼뜨려 고치면 이번엔 배경까지 번져(boundary leakage).</li>
+      </ol>
+      <p>질문은 하나로 모여: "How can we expand CAMs without losing object boundaries?" (p.64)</p>
+      <!--slot:l09-in22-->
+      <p>먼저 용어. patch = ViT가 사진을 자른 작은 정사각형 조각이야. <a href="#t-clip">CLIP</a>은 사진과 글을 같은 embedding 공간에 둔 model이라(L05), patch feature와 class 이름 text feature의 cosine similarity로 patch마다 <b>모든 class</b>의 점수를 바로 낼 수 있어. <a href="#t-dino-feature">DINO feature</a>는 label 없이 self-distillation으로 학습한 ViT의 feature야(L04). 물체 구조를 잘 따라가지만 class 이름은 몰라.</p>
+      <p><span class="k">핵심</span>"Target Score Is Not Enough" (p.65). 기존 affinity는 "feature or attention similarity between patches"를 쓰는데, "Similar appearance does not always imply the same class." 그래서 CD-CLIP은 이렇게 봐: "Every patch has scores over multiple classes." "Patches of the same semantic class show similar class distributions." 한 문장으로: "A patch is characterized not only by its target-class score, but by its distribution over all classes."</p>
+      <!--slot:l09-in23-->
+      <p><span class="k">어떻게</span>CDA (p.67–69):</p>
+      <ol>
+        <li>patch마다 class 분포를 만들어: <span class="math">S<sub>a</sub> = Min-max(CosSim(F, T<sub>all</sub>))</span>. F = CLIP patch feature, T<sub>all</sub> = target class와 super-class(여러 class를 묶은 상위 class)의 text feature 전부야.</li>
+        <li>두 patch 분포를 비교해: "Small JS divergence: similar class distributions", "Large JS divergence: different class distributions". <span class="math">S<sub>d</sub> = (1 − D<sub>JS</sub>(Softmax(S<sub>a</sub>) ‖ Softmax(S<sub>a</sub>)<sup>T</sup>)) / τ</span>, τ = temperature.</li>
+        <li>affinity를 고쳐: <span class="math">A<sub>d</sub> = Softmax(S<sub>d</sub>) · A<sub>init</sub></span>. "Distribution similarity filters unreliable relationships in the original affinity." A<sub>init</sub>은 MHSA attention으로 만든 원래 affinity야.</li>
+        <li>CAM을 퍼뜨려: <span class="math">M<sub>re</sub><sup>c</sup> = M<sub>init</sub><sup>c</sup> · (A<sub>d</sub>)<sup>t</sup></span>. "CDA propagates activation from the head to the body."</li>
+      </ol>
+      <p>기호 정리: S<sub>d</sub>는 (patch i, patch j) 쌍마다 분포를 비교한 patch × patch 행렬이야. M<sub>init</sub><sup>c</sup> = class c의 초기 CAM, t = 전파 횟수(슬라이드에 정의 없음)야. 아래 SBE의 F<sub>d</sub> = DINO patch feature, M<sub>s</sub><sup>n</sup> = super-class n의 CLIP CAM, CAP = Class Average Pooling(p.66 범례)이야. loss의 P = decoder 예측, Y<sub>s</sub> = super-class pseudo label(슬라이드에 정의 없음), |C<sub>p</sub>| = 사진에 있는 super-class 수야. JS 식의 P, M은 분포 기호라 이것들과 다른 글자야.</p>
+      <p><a href="#t-js-divergence">JS divergence</a>는 <span class="math">D<sub>JS</sub>(P‖Q) = ½ KL(P‖M) + ½ KL(Q‖M)</span>, M = ½(P + Q)야. KL과 달리 대칭이고 유한해. 같은 분포면 0이고 다를수록 커서, 1 − D<sub>JS</sub>가 유사도가 돼.</p>
+      <div class="note easy"><span class="tag">예시로 보면</span><p>설명용 숫자야. class 4개 [person, bicycle, motorbike, sky]. 머리 patch [0.40, 0.30, 0.20, 0.10], 몸통 patch [0.25, 0.35, 0.25, 0.15], 하늘 patch [0.05, 0.05, 0.05, 0.85]. person 점수만 보면 머리 0.40과 몸통 0.25가 꽤 달라. 그런데 JS(log 밑 2)는 머리–몸통 ≈ 0.02, 머리–하늘 ≈ 0.46이야. 머리–몸통 연결은 살고 머리–하늘 연결은 약해져.</p></div>
+      <p>SBE (p.70–71): "CDA expands activation—but where should it stop?" 넓혔으니 이번엔 멈출 곳이 필요해.</p>
+      <ol>
+        <li>super-class <a href="#t-prototype">prototype</a>(한 그룹을 대표하는 평균 feature 벡터)을 만들어: "Use the CLIP super-class CAM as a semantic seed and average the corresponding DINO features." <span class="math">f<sub>s</sub><sup>n</sup> = CAP(M<sub>s</sub><sup>n</sup> ⊙ F<sub>d</sub>)</span></li>
+        <li>prototype CAM을 만들어: "Compare the prototype with every DINO patch to recover a complete and structurally coherent super-class region." <span class="math">M<sub>p</sub><sup>n</sup> = ReLU(CosSim(f<sub>s</sub><sup>n</sup>, F<sub>d</sub>))</span></li>
+      </ol>
+      <!--slot:l09-in24-->
+      <p>Loss (p.72): <span class="math">L = L<sub>seg</sub> + λ<sub>1</sub> L<sub>b</sub></span>. boundary-enhanced loss L<sub>b</sub>는 Dice(P, Y<sub>s</sub>)인데, 사진에 있는 super-class 수가 2개 이상일 때만 걸고 아니면 0이야. "Apply boundary loss only when there are two or more distinct superclasses." 경계 supervision은 서로 다른 super-class가 맞닿은 곳에서만 의미가 있어서야 (p.73).</p>
+      <p><span class="k">왜 돼?</span>"CLIP gives the prototype a semantic identity, and DINO expands it into a coherent region" (p.71). CLIP은 이름표, DINO는 모양을 맡아. 넓히는 힘(CDA)과 멈추는 힘(SBE)을 따로 둬서 둘 다 챙겨.</p>
+      <p><span class="k">결과</span>p.73 (비중 낮음): "CDA significantly improves the CAM mIoU from 70.1 to 80.3." "SBE provides a greater improvement to the final segmentation performance than the CAM itself." SBE는 activation을 넓히는 게 아니라 decoder의 경계 학습을 도와.</p>
+      <p><span class="k">차이</span>SEAM의 PCM과 기존 MHSA affinity는 <b>feature(겉모습) 유사도</b>로 퍼뜨려. CDA는 <b>class 분포 유사도</b>로 affinity를 먼저 걸러. SEC는 CRF로 경계를 맞췄고, SBE는 DINO prototype CAM과 Dice로 가르쳐. Takeaway (p.74): "Better WSSS requires both knowing which patches belong together and knowing where their relationship should stop."</p>
+    </div></div>
+
+    <div class="m" id="l09-6-2"><div><span class="m-name">Learning from the Web (Liu)</span><span class="m-src">Liu 2024 · p.75–85</span><small class="m-full"><span class="ab">WILSS = <b>W</b>eakly-supervised <b>I</b>ncremental <b>L</b>earning for <b>S</b>emantic <b>S</b>egmentation</span><span class="pt">Learning from the Web: Language Drives Weakly-Supervised Incremental Learning for Semantic Segmentation (ECCV 2024)</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>옛 학습 사진을 버린 상태에서, 새 class는 web 검색으로 배우고 옛 class는 저장해 둔 caption으로 web에서 비슷한 사진을 다시 받아 복습해.</p>
+      <p>질문 (p.75): "Can a segmentation model learn new classes from the web without storing its original training images?"</p>
+      <p>먼저 용어. <a href="#t-incremental-learning">incremental learning</a> = step마다 새 class를 추가로 배우는 설정이야. <a href="#t-catastrophic-forgetting">catastrophic forgetting</a> = 새 class만 배우면 옛 class 성능이 무너지는 현상이야. <a href="#t-rehearsal">rehearsal</a> = 옛 class 사진을 섞어 보여 줘서 잊지 않게 하는 거야. 보통은 옛 사진을 저장해 둬야 해.</p>
+      <p><span class="k">문제</span>Three challenges (p.78):</p>
+      <ol>
+        <li>"Web images have a different distribution."</li>
+        <li>"Search queries provide noisy single-class labels."</li>
+        <li>"Learning new classes causes forgetting of old classes."</li>
+      </ol>
+      <p>"The web must provide both new knowledge and memory of old knowledge." (p.78)</p>
+      <p><span class="k">핵심</span>"Web images replace curated incremental data, while captions replace reliable manual image labels." (p.79) 그리고 "Language is used for querying, labeling, filtering, and rehearsal." (p.80)</p>
+      <ol>
+        <li><b>Retrieve web images</b>: "Query the web using new class names." "Retrieve rehearsal images using stored captions."</li>
+        <li><b>Filter noisy web images</b>: "Domain filtering removes out-of-distribution images." "Caption filtering removes semantically irrelevant images."</li>
+        <li><b>Generate supervision</b>: "Captions are converted into multi-label supervision." "The previous model produces pixel-level pseudo-labels."</li>
+        <li><b>Update the segmentation model</b>: "Learn new classes from web images." "Rehearse old classes without storing original images."</li>
+      </ol>
+      <!--slot:l09-in25-->
+      <p>새 class 쪽 (p.81): "The class name <b>retrieves</b> images; the caption <b>determines</b> their labels." 검색어 "Dog"는 label {dog} 하나뿐이지만, caption "a dog and a cat laying on a couch"는 {cat, dog, sofa}를 줘. Domain filtering은 dataset 쪽일 확률이 더 큰 사진(<span class="math">p<sub>ds</sub> / p<sub>web</sub> &gt; 1</span>)만 남겨.</p>
+      <p>옛 class 쪽 (p.82–83): "Store Captions, Not Images". "Old image → Stored caption q' → Web search → Rehearsal image". 받아 온 사진엔 새 caption q''를 달아 q'와 명사를 비교하고, 비슷한 의미 계열이면 남겨. "Captions serve as retrieval keys, and the web serves as external memory."</p>
+      <!--slot:l09-in26-->
+      <p><span class="k">왜 돼?</span>사진은 web에 이미 있어. 들고 있을 건 그걸 다시 찾아올 열쇠(caption)뿐이야. caption은 class 이름보다 장면을 자세히 말해서 옛 사진과 더 닮은 사진이 와 ("Caption queries retrieve semantically richer images than class-name queries", p.84).</p>
+      <p><span class="k">결과</span>p.84–85 (수치 비중 낮음): "Domain filtering reduces the web-to-dataset gap." "Caption labeling corrects incomplete single-class supervision." "The two components are complementary." 둘을 같이 쓰면 10–10 결과가 2.9점 올라. rehearsal 쪽은 "Querying and filtering work best together"이고 15–5가 3.6점 올라. "Caption-based rehearsal is particularly valuable in multi-step learning." (10–1에서 크게 향상, p.85)</p>
+      <p><span class="k">차이</span>9-4-2 Shen에선 web이 curated dataset을 <b>보충</b>했어. 여기선 web이 dataset을 <b>대체</b>하고, 옛 class의 memory 역할까지 해. "The web is not only a source of new data. It can serve as an external semantic memory." (p.85)</p>
+    </div></div>
+
+    <div class="m" id="l09-6-3"><div><span class="m-name">WISH</span><span class="m-src">Kweon &amp; Yoon 2025 · p.86–95</span><small class="m-full"><span class="pt">WISH: Weakly Supervised Instance Segmentation using Heterogeneous Labels (CVPR 2025) ← slide엔 cite 없음</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>tag · point · box가 섞인 dataset을 한 model로 학습하는 instance segmentation 방법이야. SAM의 prompt space를 weak label들의 공용어로 써.</p>
+      <p>질문 (p.86): "Under a fixed annotation budget, should every image receive the same type of weak label?"</p>
+      <p>먼저 용어. <a href="#t-instance-segmentation">instance segmentation</a> = 물체 하나하나를 따로 mask로 내는 task야. tag = 사진의 class 목록(위치 없음), point = 물체마다 점 하나, box = 물체마다 box야. <a href="#t-sam">SAM</a>(Segment Anything Model)은 <a href="#t-prompt">prompt</a>(점이나 box)를 주면 그 물체의 mask를 내는 큰 pretrained segmentation model이야. prompt 하나에 mask 후보를 3개 내 (p.94). <a href="#t-object-query">object query</a>는 Mask2Former에서 물체 하나를 맡는 학습 벡터야.</p>
+      <p><span class="k">문제</span>Homogeneous supervision(p.87): "Every training image uses the same weak label type." "Tags are cheap but provide no localization." "Boxes are informative but expensive." "Points provide an intermediate level of supervision." 기존 WSIS<span class="fn">(<b>W</b>eakly <b>S</b>upervised <b>I</b>nstance <b>S</b>egmentation)</span>는 "Chooses one weak label type for the entire dataset" (p.95).</p>
+      <p><span class="k">핵심</span>Heterogeneous supervision: "Different images may use different weak label types." "A single model learns from all label types." (p.87) 공용어는 "SAM's prompt space serves as a common representation for heterogeneous supervision." (p.88)</p>
+      <!--slot:l09-in27-->
+      <ol>
+        <li>weak label을 prompt latent로 바꿔: "Point prompt → point latent", "Box prompt → box latent", "Tag → converted point prompt".</li>
+        <li>query가 latent를 예측해: <span class="math">Ẑ = H<sub>prompt</sub>(Q)</span>. Q = Mask2Former object queries, H<sub>prompt</sub> = prompt prediction head야.</li>
+        <li>Multi-stage matching (p.89–90): Class matching은 "what" ("identifies the semantic category"), Prompt matching은 "where" ("identifies the approximate instance location", 예측 latent와 label latent의 KLD), Mask matching은 "which SAM mask fits it best" (SAM 후보 3개 중 예측에 가장 가까운 것). 총 cost는 <span class="math">Cost = α·Cost<sub>cls</sub> + β·Cost<sub>prompt</sub> + γ·Cost<sub>mask</sub></span>(p.89)이고, <a href="#t-hungarian-matching">Hungarian matching</a>이 이 cost가 최소가 되게 예측과 weak label을 1:1로 짝지어. 여기 β는 아래 예산 식의 β<sub>t</sub>, β<sub>p</sub>, β<sub>b</sub>와 다른 뜻이야.</li>
+        <li>tag → point (p.91): CAM의 local maxima를 뽑아 "Each selected CAM peak becomes a positive point prompt." SAM이 점마다 instance mask를 내고, 겹치는 mask는 묶어. "CAM supplies missing spatial cues, and SAM turns those cues into instance-level masks."</li>
+        <li>self-enhancement (p.94): "Current instance masks refine the CAM." "Improved CAMs generate better point prompts for tag supervision."</li>
+      </ol>
+      <!--slot:l09-in28-->
+      <!--slot:l09-in28a-->
+      <p><span class="k">왜 돼?</span>p.93: "Tags Provide Coverage" (많은 사진, 다양한 모습), "Points and Boxes Provide Localization". "Cheap labels provide breadth, while strong labels provide spatial precision." 정보가 한 model 안에서 섞이는 건 "SAM's prompt space transfers information across label types" 덕분이야.</p>
+      <p>예산 식 (p.92): <span class="math">N<sub>t</sub>β<sub>t</sub> + N<sub>p</sub>β<sub>p</sub> + N<sub>b</sub>β<sub>b</sub> = ζ</span>. N = 그 label(tag, point, box)을 단 사진 수, β = label 종류별 장당 비용(슬라이드엔 설명 없음), ζ = 고정된 총 annotation 예산이야.</p>
+      <p><span class="k">결과</span>p.92 (같은 예산, 비중 낮음): tag만 46.0, point만 44.7, box만 45.1인데, 섞으면 tag + point 47.3, tag + box 48.3이야. "A balanced mixture can outperform either weak label alone under the same annotation cost." p.94: SAM 후보 3개 중 현재 예측에 가장 가까운 걸 고르는 adaptive 선택이 고정 mask level보다 좋고("Adaptive selection outperforms using a fixed mask level"), prompt matching은 "Helps the model learn instance identity without mask ground truth". "Prompt matching, adaptive mask selection, and self-enhancement are complementary."</p>
+      <p><span class="k">차이</span>CAM 모양 전체를 쓰지 않고 <b>봉우리 위치만</b> 써. 모양은 SAM이 그려. CAM이 "어디쯤", SAM이 "어디까지"를 맡는 분업이야. 결론 (p.95): "The optimal supervision strategy may be a <b>portfolio</b> of weak labels, not a single annotation type."</p>
+    </div></div>
+  </div>
+
+  <div class="note rl"><span class="tag">RL로 번역</span>
+    <p>슬라이드 밖 비유라서 시험 범위가 아니야. 각 줄의 단서까지 같이 봐.</p>
+    <ul>
+      <li>CAM의 <span class="math">S<sub>c</sub> = 평균<sub>x,y</sub> M<sub>c</sub>(x, y)</span> ↔ multi-agent RL의 value decomposition(VDN, <span class="math">Q<sub>tot</sub> = Σ<sub>i</sub> Q<sub>i</sub></span>). "어느 위치가 점수를 벌었나"는 credit assignment 질문이야. 단 정확히 쪼개지는 건 head가 선형이고 bias를 무시할 때뿐이야.</li>
+      <li>gradient saliency <span class="math">∂S<sub>c</sub>/∂I</span> ↔ critic의 <span class="math">∂Q/∂s</span> 같은 local sensitivity. SmoothGrad의 평균 ↔ sample을 많이 모아 gradient 분산을 줄이는 것. 단 SmoothGrad의 noise는 입력에 일부러 넣고, REINFORCE의 noise는 policy sampling에서 와.</li>
+      <li>GWRP weight <span class="math">d<sup>j−1</sup></span> ↔ discount <span class="math">γ<sup>t</sup></span>의 모양. d = 0이 myopic, d = 1이 전부 같은 비중이야. 단 j는 시간이 아니라 점수 순위야.</li>
+      <li>SEC Constrain(CRF로 다듬은 출력을 KL target으로) ↔ 개선 연산자로 만든 target을 따라가게 하는 distillation(AlphaZero가 MCTS policy를 따라가는 구도). 단 CRF엔 학습 parameter가 없고, 원 논문은 gradient를 CRF까지 통과시켜 흘려 보내(target이 완전히 고정된 건 아니야).</li>
+      <li>SEAM equivariance ↔ 이미지 RL의 augmentation(DrQ · RAD)은 Q가 변환에 <b>invariant</b>하게 만들어. pixel 위 heatmap을 출력하는 policy(pick-and-place)는 SEAM처럼 <b>equivariant</b>해야 해.</li>
+      <li>Hide-and-Seek ↔ domain randomization(무작위 방해), Adversarial Erasing ↔ robust adversarial RL(adversary가 agent가 기대는 단서를 빼앗음). 둘 다 shortcut 하나에 기대는 걸 막아.</li>
+      <li>Boxly recursive training ↔ fitted Q iteration의 target 갱신. 오차가 쌓이는 위험(bootstrapping error)도 같아. box 제약 ↔ offline RL의 support constraint와 동기만 닮았어.</li>
+      <li>CD-CLIP의 분포 비교 ↔ 두 state를 greedy action 하나의 Q값이 아니라 policy 분포 <span class="math">π(·|s)</span> 전체로 비교하기(KL · JS). <span class="math">(A<sub>d</sub>)<sup>t</sup></span> ↔ transition matrix를 t번 곱하기. 단 A<sub>d</sub>의 줄 합이 1이라는 말은 슬라이드에 없어.</li>
+      <li>Liu의 caption rehearsal ↔ replay buffer. 단 buffer에 transition이 아니라 다시 찾아올 검색어만 넣고, 다시 받은 사진은 원본과 같지 않아. forgetting ↔ continual RL의 policy drift.</li>
+      <li>WISH Hungarian matching ↔ agent와 task를 1:1로 배정하는 assignment problem. heterogeneous label ↔ 대량의 싼 play data + 소량의 expert demo를 섞는 data mix.</li>
+    </ul>
+  </div>
+  <div class="note trap"><span class="tag">시험 함정</span><ul>
+    <li>Priors는 "independent of any particular image sample", Hints는 "indirect supervision received for each image"야. 둘을 뒤바꾼 지문 조심 (p.5).</li>
+    <li>Gray box는 network 안의 "activations <b>or</b> gradients"를 써 (p.20). White box(CAM)는 구조를 바꿔서 map에 "separate gradient calculations"가 <b>필요 없어</b> (p.25). 학습엔 backprop을 써.</li>
+    <li>gradient saliency가 noisy한 이유는 <b>pixel 단위</b> sensitivity라서야(salt-and-pepper, p.21). SmoothGrad는 noise를 <b>입력 사진</b>에 넣고 gradient를 <b>평균</b>해 (p.22).</li>
+    <li>CAM 구조: FC를 <b>빼고</b> GAP + 1×1 conv를 <b>넣어</b> (p.24). FC를 더하는 게 아니야.</li>
+    <li>Seeds: <b>high</b> → foreground, <b>low</b> → background (p.27).</li>
+    <li>SEC: Seeding = CAM seed, Expansion = image label + <b>GWRP</b>, Constrain = <b>CRF</b>로 경계 (p.31). expansion과 constrain을 맞바꾼 지문 조심.</li>
+    <li>CAM = class-<b>specific</b>이지만 일부만, saliency = class-<b>agnostic</b>이지만 물체 전체 (p.34).</li>
+    <li>SEAM은 <b>equivariant</b>야. invariant가 아니고, 변환을 <b>보정한 뒤</b> 비교해 (p.35–36).</li>
+    <li>Hide-and-Seek = <b>random</b> hiding, Adversarial Erasing = <b>가장 discriminative한 곳</b>을 지움 ("adversarial instead of random erasures", p.39).</li>
+    <li>Takeaways: classifier만 학습하고 segmentation을 바라기 ✗, spatial continuity prior ~, 학습을 바꿔 object extent 덮기 ✔ (p.42).</li>
+    <li>Webly: annotation cost를 아끼고 label noise를 떠안아 (p.44). web 사진을 거르고 target CAM을 만드는 건 <b>Model-T</b>, pixel classifier를 web 사진으로 학습해 target에 적용하는 건 <b>Web-SEC</b>야 (p.45–47).</li>
+    <li>Boxly: "Convnets are robust to noise" (p.56). 예측을 pseudo-label로 다시 학습하고 입력 mask를 좋게 하면 fully supervised의 ~95%야 (p.60 제목 "by using GrabCut++", 그래프 범례는 Grabcut+, 논문 기준 ~95%는 M ∩ G+). Rectangles만으로는 ~61 mIoU라 95%가 아니야 (p.57).</li>
+    <li>CD-CLIP: <b>small</b> JS = similar. CDA = completeness, SBE = boundary. boundary loss는 super-class가 <b>2개 이상</b>일 때만 (p.69, 72, 74).</li>
+    <li>Liu: <b>captions</b>를 저장하고 사진은 저장 안 해. class 이름은 <b>검색</b>하고 caption은 <b>label</b>을 정해 (p.81–82).</li>
+    <li>WISH: tag = coverage(breadth), point · box = localization(precision). class matching = what, prompt matching = where, mask matching = which SAM mask (p.90, 93).</li>
+  </ul></div>
+  <div class="note next"><span class="tag">다음으로</span><p>p.96은 "Next Week.. Active learning .."으로 끝나. 다음 강의는 W12 Active Learning I(11/19)이야. WISH가 "예산 안에서 <b>어떤 종류의</b> label을 살까"를 물었다면, active learning은 "<b>어느 sample에</b> label을 달까"를 묻는 쪽일 거야. 내용은 그 강의에서 확인해.</p></div>
+  <div class="quiz"><p class="quiz-h">셀프 체크: 영어로 먼저 써 보고 열어</p>
+    <details class="q"><summary><span class="typ">T/F</span><span class="qs en">In CAM, the class activation map is obtained by back-propagating the class score to the input image, like gradient-based saliency.</span></summary><p class="ans"><b>False.</b> <span class="en">Why: CAM replaces the FC layer with GAP and a linear (1×1 conv) layer, so the network preserves spatial information and the map is a weighted sum of the last convolutional feature maps with the class weights. No separate gradient calculation is needed. Corrected: In CAM, the class activation map is obtained directly as a weighted sum of the last convolutional feature maps, without separate gradient calculations.</span> gray box(gradient)와 white box(CAM)를 섞은 지문이야 (p.24–25).</p></details>
+    <details class="q"><summary><span class="typ">MCQ</span><span class="qs en">What is the expansion loss of SEC for?<br>(A) It trains the network only on the confident CAM seeds.<br>(B) It grows the seeds to cover the entire object using image-level labels through GWRP.<br>(C) It aligns the masks with image boundaries using a CRF.<br>(D) It makes the CAM equivariant to affine transformations.</span></summary><p class="ans"><b>(B)</b> <span class="en">The expansion loss encourages predictions to expand beyond the seeds, using image-level labels via Global Weighted Rank Pooling.</span> (A)는 seeding loss, (C)는 constrain-to-boundary loss(p.31), (D)는 SEAM(p.36)이야. 근거 p.31.</p></details>
+    <details class="q"><summary><span class="typ">빈칸</span><span class="qs en">Fill in the blank and explain the process: <code>cam = (fc.weight[c].view(-1, 1, 1) * feats).______(dim=0)</code>, where <code>feats</code> holds the K last-conv feature maps [K, H, W] and <code>fc</code> is the layer after GAP.</span></summary><p class="ans"><b>sum.</b> <span class="en">This builds the class activation map of class c. The weights that connect the GAP outputs to class c multiply each feature map, and summing over the K channels gives a map whose average equals the class score (ignoring the bias). It only needs the forward features, and thresholding the map gives the foreground and background seeds used as training data.</span> 채널 방향(dim=0)으로 더하는 게 <span class="math">Σ<sub>k</sub> w<sub>k</sub><sup>c</sup> f<sub>k</sub></span>야 (p.25, 27).</p></details>
+  </div>
+  <label class="done"><input type="checkbox" id="done-l09" data-done="l09">다 봤음</label>
+</section>
+
 <!-- ============ 공통 패턴 ============ -->
 <section id="patterns">
-  <h2>공통 패턴: L08에 계속 나오는 부품</h2>
+  <h2>공통 패턴: L08–L09에 계속 나오는 부품</h2>
   <p>방법은 많지만 질문은 두 개야. 이 표 두 개가 잡히면 "이건 어느 방법?" 문제가 거의 풀려. 강의가 늘면 표에 행이 늘어나.</p>
 
   <h3>왜 같은 부품이 계속 나오나</h3>
@@ -983,13 +1685,49 @@ td.muted{font-weight:400}
     </table>
   </div>
   <div class="note easy"><span class="tag">쉽게 말하면</span><p>L07에선 "class pseudo label을 누가 만드나"가 핵심이었어. L08은 같은 질문을 "<b>어느 box</b>를 target으로 삼나"로 옮긴 거야. 표는 슬라이드와 그림을 같이 읽어 정리한 거라 불릿에 이 모양으로 적혀 있진 않아.</p></div>
+
+  <h3>L09: pixel target은 어디서 오나</h3>
+  <p>L09에선 test 때 pixel마다 class를 내야 하는데, train엔 image label이나 web 사진, box, 여러 종류가 섞인 weak label만 있어. 그래서 방법마다 "pixel target을 누가 만드나"가 달라. 대부분은 <a href="#t-cam">CAM</a>에서 시작해서 모자란 부분을 다른 단서로 메워.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>방법</th><th>target을 만드는 쪽</th><th>target이 되는 것</th><th>추가 단서 · 장치</th></tr></thead>
+      <tbody>
+        <tr><td>CAM → seeds <span class="m-src">p.24–27</span></td><td>image label로 학습한 classifier(GAP + linear)의 CAM</td><td>threshold로 자른 seed (high → foreground, low → background)</td><td>없음. CAM 그대로라서 두 문제가 남아</td></tr>
+        <tr><td>SEC <span class="m-src">p.30–32</span></td><td>CAM seed + image label + 자기 예측의 CRF 결과</td><td>seed pixel, image label(GWRP로 비교), CRF로 다듬은 mask</td><td>Expansion(GWRP), Constrain(CRF). CRF는 사후 처리가 아니라 loss 안에 있어 (슬라이드엔 "Refine predictions using CRF"까지만, 논문은 CRF를 거쳐 backprop)</td></tr>
+        <tr><td>Saliency-guided (Oh) <span class="m-src">p.33–34</span></td><td>Seeder(CAM) + saliency model → Guide Labeller</td><td>class-specific pseudo mask</td><td>외부 saliency (class-agnostic, complete extent)</td></tr>
+        <tr><td>SEAM <span class="m-src">p.35–36</span></td><td>같은 network의 다른 view (원본 ↔ affine 변환)</td><td>변환을 보정한 상대 view의 CAM (+ image label)</td><td>equivariance (ER · ECR loss), PCM</td></tr>
+        <tr><td>Hide-and-Seek <span class="m-src">p.37–38</span></td><td>사람의 image label</td><td>image label (가린 사진으로 분류)</td><td>random patch hiding → CAM이 넓어짐</td></tr>
+        <tr><td>Adversarial Erasing <span class="m-src">p.39–41</span></td><td>단계마다 classifier의 heatmap</td><td>단계마다 지운 영역(mined region)의 합</td><td>제일 센 영역을 지우고 다시 학습</td></tr>
+        <tr><td>Webly (Shen) <span class="m-src">p.45–50</span></td><td>Web-SEC(web 사진으로 학습한 pixel labeler) + Model-T의 CAM</td><td>두 label을 합친(fuse) pixel label</td><td>web 사진(single centered object), Model-T filtering</td></tr>
+        <tr><td>Boxly (Khoreva) <span class="m-src">p.54–60</span></td><td>처음엔 사람이 준 box, 그 뒤엔 직전 round의 자기 예측</td><td>box에서 만든 mask (rectangles, GrabCut+ 등)</td><td>noise robustness, 좋은 초기 mask</td></tr>
+        <tr><td>CD-CLIP <span class="m-src">p.66–72</span></td><td>frozen CLIP(무슨 class) + frozen DINO(어디까지 한 덩어리)</td><td>CDA로 넓힌 CAM과 prototype CAM의 pseudo label</td><td>class distribution(JS divergence), super-class prototype</td></tr>
+        <tr><td>Learning from the Web (Liu) <span class="m-src">p.79–83</span></td><td>caption(image-level) + 이전 step의 model(pixel pseudo label)</td><td>caption에서 뽑은 multi-label + pixel pseudo label</td><td>domain · caption filtering, 저장한 caption으로 rehearsal</td></tr>
+        <tr><td>WISH <span class="m-src">p.87–91</span></td><td>frozen SAM(prompt encoder · mask decoder)이 weak label을 번역</td><td>짝지어진 query의 class · prompt latent · SAM mask</td><td>Hungarian matching, CAM peak → point prompt</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>L09: CAM의 두 문제와 처방</h3>
+  <p>p.28의 두 문제가 p.29–41의 뼈대야. 슬라이드는 처방마다 어느 문제 밑에 화살표(⇢)를 달았는지로 구분해.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>문제</th><th>슬라이드 처방 (자리)</th><th>무엇을 바꾸나</th></tr></thead>
+      <tbody>
+        <tr><td>1. Resulting masks are <b>not sharp</b> (경계)</td><td>Increase top layers resolution (p.29) · Use boundary-aware propagation = SEC (p.30–32) · Use transfer learning = saliency, Oh (p.33–34) · Enforce equivariance = SEAM (p.35–36)</td><td>해상도, CRF로 경계 맞추기, 외부 단서, view 사이 일관성</td></tr>
+        <tr><td>2. Focused on <b>discriminative area only</b> (범위)</td><td>peek-a-boo = Hide-and-Seek (p.37–38) · adversarial peek-a-boo = Adversarial Erasing (p.39–41)</td><td>학습 입력을 바꿔서 다른 부위로도 맞히게 함</td></tr>
+        <tr><td>둘 다 (넓히기)</td><td>CD-CLIP (p.62–74)</td><td>CDA로 CAM을 넓히고(completeness), SBE로 어디서 멈출지 정해(boundary)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note trap"><span class="tag">시험 함정</span><p>슬라이드는 SEC · Oh · SEAM을 1번 자리에 놓았어. 그런데 본문엔 2번과 이어지는 말도 있어: SEC의 Expansion loss는 "expand beyond the seeds"(p.31), Oh의 saliency는 "Provides complete object extent"(p.34)야. T/F에선 슬라이드 자리를 기준으로 답하고, 이유에 이 점을 같이 써.</p></div>
+  <div class="note easy"><span class="tag">쉽게 말하면</span><p>L08은 "<b>어느 box</b>를 target으로 삼나"였고, L09는 같은 질문을 "<b>어느 pixel</b>"로 옮긴 거야. L08에서 box가 얼굴 같은 discriminative part만 잡았던 것처럼(L08 p.35), L09의 CAM도 제일 눈에 띄는 부분만 켜져. 그래서 두 강의 모두 "다른 단서를 빌려 target을 넓히고 다듬는" 방법들이 이어져. 이 두 표도 슬라이드와 그림을 같이 읽어 정리한 거야.</p></div>
 </section>
 
 <!-- ============ Pseudo code ============ -->
 <section id="code">
-  <h2>Pseudo code 3개: 핵심 줄만</h2>
-  <p>L08 슬라이드 41장엔 Algorithm 박스나 코드 박스가 <b>0개</b>야. 그래도 넘어가면 안 돼. 중간고사 코드 문제 4개 중 3개(Rotation, FixMatch, Mean Teacher)가 슬라이드에 코드가 없는 방법이었어. 그래서 슬라이드의 pipeline 문장을 짧은 코드로 옮긴 카드를 만들었어.</p>
-  <p>여기엔 계열 대표 <b>1순위 3개</b>만 있어. 슬라이드 코드가 아니라 <b>설명용으로 쓰고 dummy tensor로 돌려 본 코드</b>야. 전체 8장과 빈칸 · 모범 설명은 repo의 <code>exam/pseudocode_final.md</code>(WS-1–WS-8)에 있어. 색이 들어간 줄이 core idea가 박힌 줄이야.</p>
+  <h2>Pseudo code 7개: 핵심 줄만</h2>
+  <p>L08 슬라이드 41장, L09 슬라이드 96장 모두 Algorithm 박스나 코드 박스가 <b>0개</b>야. 그래도 넘어가면 안 돼. 중간고사 코드 문제 4개 중 3개(Rotation, FixMatch, Mean Teacher)가 슬라이드에 코드가 없는 방법이었어. 그래서 슬라이드의 pipeline 문장을 짧은 코드로 옮긴 카드를 만들었어.</p>
+  <p>여기엔 계열 대표 <b>1순위만</b> 있어 (L08 3개 + L09 4개). 슬라이드 코드가 아니라 <b>설명용으로 쓰고 dummy tensor로 돌려 본 코드</b>야. 전체 카드와 빈칸 · 모범 설명은 repo의 <code>exam/pseudocode_final.md</code>(L08 WS-1–WS-8, L09 WS-9–WS-19)에 있어. 색이 들어간 줄이 core idea가 박힌 줄이야.</p>
 
   <h3>먼저: 코드 읽는 법</h3>
   <dl class="gloss">
@@ -999,6 +1737,16 @@ td.muted{font-weight:400}
     <dd>어느 방향으로 합이 1이 되게 할지 정해. 점수표 모양이 [R, C](R = proposal 수, C = class 수)면 <code>dim=1</code>은 한 proposal 안에서 class끼리, <code>dim=0</code>은 한 class 안에서 proposal끼리 비교해.</dd>
     <dt><code>torch.no_grad()</code><small>OICR</small></dt>
     <dd>이 블록 안 계산은 gradient 기록을 안 해. target을 만드는 계산이라서 상수로 다룬다는 걸 코드로 보여 주는 거야.</dd>
+      <dt><code>torch.einsum('k,khw-&gt;hw', w, F)</code><small>CAM</small></dt>
+    <dd>축 이름을 글자로 적는 곱셈이야. <code>k</code>(channel) 축끼리 곱해서 더하고 <code>[h, w]</code>만 남겨. 즉 Σ<sub>k</sub> w<sub>k</sub>F<sub>k</sub>, feature map들의 <b>가중합</b>이야.</dd>
+    <dt><code>torch.autograd.grad(score, x)</code><small>SmoothGrad</small></dt>
+    <dd>score를 입력 x로 미분한 값을 돌려줘. <code>.backward()</code>와 달리 weight의 <code>.grad</code>엔 아무것도 안 쌓여. gradient가 <b>입력</b>으로 간다는 걸 보여 주는 줄이야.</dd>
+    <dt><code>x[:, mask] = v</code><small>Adversarial Erasing · Boxly</small></dt>
+    <dd><code>mask</code>(True/False 지도)가 True인 pixel만 골라서 v로 덮어써. <code>x</code>가 <code>[3, H, W]</code>, <code>mask</code>가 <code>[H, W]</code>면 세 채널이 같이 바뀌어.</dd>
+    <dt><code>a |= b</code><small>Adversarial Erasing</small></dt>
+    <dd>True/False 지도 두 장의 <b>합집합</b>(OR)을 a에 덮어써. 지운 영역을 step마다 누적하는 줄이야.</dd>
+    <dt><code>F.multilabel_soft_margin_loss</code><small>CAM</small></dt>
+    <dd>class마다 "있다 / 없다"를 따로 맞히는 loss야. 사진 하나에 class가 여러 개일 수 있어서 softmax 대신 써.</dd>
   </dl>
 
   <h3>MIL 가족: 고르고 학습하기</h3>
@@ -1067,6 +1815,98 @@ loss.backward()</code></pre>
       <p><span class="k">알아보는 법</span>argmax + IoU로 <code>target</code> 벡터를 만들고, <code>cross_entropy</code>로 proposal을 직접 분류해. class 수가 background까지 C + 1개야.</p>
     </div>
   </div>
+
+  <h3>L09 CAM 가족: 분류기에서 위치 읽기</h3>
+  <p>L09 슬라이드 96장에도 Algorithm · 코드 박스는 <b>0개</b>야. 그래서 p.21–27 그림과 p.39 · p.56의 pipeline을 코드로 옮겼어. 여기엔 1순위 4개만 있어. 전체 11장(WS-9–WS-19)과 빈칸 · 모범 설명은 repo의 <code>exam/pseudocode_final.md</code>에 있어. 두 카드는 같은 질문의 두 답이야: <b>분류기 안의 어떤 정보로 위치를 읽나?</b> gray box는 입력 gradient를, white box는 feature map과 FC weight를 써.</p>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">Gradient saliency · SmoothGrad</span><span class="m-src">WS-10 · p.21–22</span></div>
+    <pre><code>grads = []
+for _ in range(n):                                  # p.22: repeat 50 times
+    <span class="hl">x = (img + sigma * torch.randn_like(img)).requires_grad_()</span>  # add small random noise
+    score = classifier(x[None])[0, c]               # S_c
+    g, = torch.autograd.grad(score, x)              # dS_c / dI: [3, H, W]
+    grads.append(g)
+<span class="hl">sal = torch.stack(grads).mean(dim=0).abs().amax(dim=0)</span>    # combine the n gradients, then |.| max over RGB</code></pre>
+    <div class="m-body">
+      <p><span class="k">한 줄</span>입력에 작은 noise를 넣고 구한 gradient를 여러 번 평균해서, 지저분한 saliency map을 깨끗하게 만들어.</p>
+      <p><span class="k">입력 → 출력</span>이미 학습된 분류기, 사진 <code>img</code>, class <code>c</code>를 받아서 pixel마다 중요도 <code>sal</code>([H, W])을 돌려줘. loss도 label도 없어.</p>
+      <p><span class="k">핵심 줄</span></p>
+      <ol>
+        <li><code>img + sigma * torch.randn_like(img)</code>: "Add small random noise to the images" (p.22 Step 2).</li>
+        <li><code>torch.stack(grads).mean(dim=0)</code>: "Average" (p.22 Step 4). gradient 하나는 pixel 단위라 "salt-and-pepper"처럼 지저분한데(p.21), 평균하면 우연한 잡음이 상쇄돼.</li>
+      </ol>
+      <p><span class="k">core idea</span>gradient <span class="math">∂S<sub>c</sub>/∂I</span>는 "이 pixel을 조금 바꾸면 class 점수가 얼마나 변하나"야. <code>n = 1</code>, <code>sigma = 0</code>이면 Simonyan의 vanilla gradient(p.21)와 같아. <b>update되는 건 없어</b>. gradient는 weight가 아니라 입력으로 가.</p>
+      <p><span class="k">알아보는 법</span><code>randn_like</code>로 noise를 넣고, <code>autograd.grad(score, x)</code>로 입력 gradient를 구하고, <code>mean</code>으로 평균해.</p>
+    </div>
+  </div>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">CAM</span><span class="m-src">WS-9 · p.24–27</span></div>
+    <pre><code>feat = backbone(img)                     # F: [K, h, w], last conv feature maps
+<span class="hl">logits = fc(feat.mean(dim=(1, 2)))</span>       # GAP -&gt; FC -&gt; class scores [C]
+loss = F.multilabel_soft_margin_loss(logits[None], labels[None])  # image labels only
+loss.backward()                          # train backbone + fc as a classifier
+<span class="hl">cam = torch.einsum('k,khw-&gt;hw', fc.weight[c], feat)</span>  # M_c = sum_k w_{k,c} F_k
+cam = F.relu(cam) / F.relu(cam).max()    # [h, w], scaled to 0..1
+cam = F.interpolate(cam[None, None], size=img.shape[-2:], mode='bilinear')[0, 0]  # resize
+fg = cam &gt; tau                           # B_c: confident foreground</code></pre>
+    <div class="m-body">
+      <p><span class="k">한 줄</span>GAP 분류기를 image label로 학습한 뒤, 그 FC weight로 마지막 feature map을 가중합하면 class별 위치 지도가 나와.</p>
+      <p><span class="k">입력 → 출력</span>사진 <code>img</code>와 image label <code>labels</code>([C], 0 또는 1)로 학습하고, class <code>c</code>의 CAM과 foreground mask <code>fg</code>(사진 크기)를 돌려줘.</p>
+      <p><span class="k">핵심 줄</span></p>
+      <ol>
+        <li><code>fc(feat.mean(dim=(1, 2)))</code>: GAP 다음 FC야 (p.24 Step 2–3). GAP와 FC가 둘 다 선형이라 class 점수 = CAM의 평균 + bias야.</li>
+        <li><code>torch.einsum('k,khw-&gt;hw', fc.weight[c], feat)</code>: <span class="math">M<sub>c</sub> = Σ<sub>k</sub> w<sub>k,c</sub>F<sub>k</sub></span> (p.25, p.27 M2). 분류에 쓰던 weight를 그대로 위치 지도에 써.</li>
+      </ol>
+      <p><span class="k">core idea</span>"activation maps can be obtained directly without the need for separate gradient calculations" (p.25). target은 <b>image label</b>뿐이고, update되는 건 backbone과 <code>fc</code>야. 마지막 두 줄은 p.27 M3(resize → <span class="math">&gt; τ<sub>loc</sub></span>)이고, 이렇게 남긴 확실한 영역이 seed야.</p>
+      <p><span class="k">알아보는 법</span><code>mean(dim=(1, 2))</code>(GAP)와 <code>fc.weight[c]</code>가 같이 나와. <code>autograd.grad</code>나 <code>backward</code>로 지도를 구하지 않아. p.27 그림은 k가 class, C가 channel 수라서 기호가 반대야.</p>
+    </div>
+  </div>
+
+  <h3>L09 넓히기 가족: 물체 전체 · box에서 mask로</h3>
+  <p>두 카드 모두 <b>모델이 만든 결과를 다음 학습에 다시 넣는 반복</b>이야. 반복 사이에 무엇을 바꾸나가 달라: AE는 입력 사진을 지우고, Boxly는 label을 갈아 끼워.</p>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">Adversarial Erasing</span><span class="m-src">WS-11 · p.39–41</span></div>
+    <pre><code>mined = torch.zeros(H, W, dtype=torch.bool)    # union of erased regions
+x = img.clone()                                # I_1
+for t in range(T):                             # T = 3 steps in the p.39 figure
+    net = train_classifier(x, labels)          # retrain on the erased image
+    heat = cam(net, x, c)                      # H_t: [H, W], scaled to 0..1
+    <span class="hl">F_t = heat &gt; tau</span>                           # F_t: most discriminative region
+    mined |= F_t                               # accumulate the mined object region
+    <span class="hl">x[:, F_t] = mean_pixel</span>                     # erase it: I_{t+1}</code></pre>
+    <div class="m-body">
+      <p><span class="k">한 줄</span>CAM이 가장 센 곳을 지우고 다시 학습하는 걸 반복해서, 물체의 다른 부분까지 찾아.</p>
+      <p><span class="k">입력 → 출력</span>사진 <code>img</code>, image label <code>labels</code>, class <code>c</code>, threshold <code>tau</code>를 받아서 지운 영역의 합 <code>mined</code>([H, W])를 돌려줘.</p>
+      <p><span class="k">핵심 줄</span></p>
+      <ol>
+        <li><code>heat &gt; tau</code>: CAM이 <b>높은</b> 곳, 즉 가장 discriminative한 부분 <span class="math">F<sub>t</sub></span>를 골라.</li>
+        <li><code>x[:, F_t] = mean_pixel</code>: 그 부분을 지워서 <span class="math">I<sub>t+1</sub></span>을 만들어 (p.39 그림). 다음 step 분류기는 남은 부분으로 맞혀야 해.</li>
+      </ol>
+      <p><span class="k">core idea</span>step마다 target은 <b>image label</b> 하나고, update되는 건 그 step의 분류기야. 지운 영역의 합집합이 물체 전체에 가까운 영역이 돼 ("The Mined Object Region"). 설명용 toy로 3 step 돌리면 누적 영역이 10 → 84 → 106 pixel(물체 120)로 늘어.</p>
+      <p><span class="k">알아보는 법</span>loop 안에서 <b>다시 학습</b>(<code>train_classifier</code>)하고, <code>&gt; tau</code>로 고른 곳을 지우고, <code>|=</code>로 모아. Hide-and-Seek은 <code>torch.rand</code>로 <b>무작위</b>로 가려 ("adversarial instead of random erasures", p.39).</p>
+    </div>
+  </div>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">Simple Does It: recursive training</span><span class="m-src">WS-12 · p.55–59</span></div>
+    <pre><code>label = box_lbl.clone()                  # round 0: filled boxes, [B, H, W], 0 = background
+for r in range(R):
+    net = train_segnet(imgs, label)      # learn from the noisy masks
+    with torch.no_grad():
+        pred = net(imgs).argmax(dim=1)   # [B, H, W] predicted classes
+    <span class="hl">pred[box_lbl == 0] = 0</span>               # outside every box -&gt; background
+    <span class="hl">label = pred</span>                         # next round's training label</code></pre>
+    <div class="m-body">
+      <p><span class="k">한 줄</span>box를 통째로 칠한 거친 mask로 학습하고, network 예측을 다음 round의 label로 바꿔 끼우는 걸 반복해.</p>
+      <p><span class="k">입력 → 출력</span>사진 <code>imgs</code>와 box를 class 번호로 칠한 <code>box_lbl</code>([B, H, W], 0 = background)을 받아서 다듬어진 pixel label <code>label</code>을 돌려줘.</p>
+      <p><span class="k">핵심 줄</span></p>
+      <ol>
+        <li><code>pred[box_lbl == 0] = 0</code>: box 밖은 늘 background로 되돌려. box가 주는 확실한 정보야 (논문 보충).</li>
+        <li><code>label = pred</code>: "the CNN's predictions are then used as pseudo-labels for retraining" (p.56).</li>
+      </ol>
+      <p><span class="k">core idea</span>"Segmentation networks are robust to noisy supervision" (p.56). 첫 target은 채운 box, 그다음부턴 <b>network 자기 예측</b>이고, update되는 건 segmentation network야. 설명용 toy로 3 round 돌리면 box 안 pixel 정확도가 0.44 → 0.96이 돼.</p>
+      <p><span class="k">알아보는 법</span>round loop 안에서 <code>argmax</code>로 예측을 만들고, box 밖을 0으로 자르고, <code>label</code>을 덮어써. L08 MIL의 re-localize ↔ re-train을 pixel 단위로 한 구조야.</p>
+    </div>
+  </div>
 </section>
 
 <!-- ============ Physical AI ============ -->
@@ -1087,17 +1927,30 @@ loss.backward()</code></pre>
       <p><span class="k">한 줄</span>분류는 얼굴만 봐도 맞히지만, 물체를 다루려면 물체 전체의 범위를 알아야 해.</p>
       <p><span class="k">수업과 연결</span>discriminative part 문제는 perception이 action으로 이어질 때 더 크게 와닿아. 머그컵 손잡이만 잡은 box로는 컵의 크기를 알 수 없으니까.</p>
     </div></div>
+    <div class="m"><div><span class="m-name">CAM = 어디를 보고 정했나</span><span class="m-src">L09 p.24–26</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>VLA나 visuomotor policy가 "컵을 집을 때 정말 컵을 봤나?"를 확인할 때도 CAM 같은 지도를 그려 봐.</p>
+      <p><span class="k">수업과 연결</span>pooled feature 위에 linear head가 있으면 action logit의 weight로 feature map을 더해 같은 지도를 얻어. 다만 CAM이 discriminative part만 켜지듯, policy도 손잡이 같은 일부 단서에만 기댈 수 있어. 지도가 좁다고 policy가 틀린 건 아니지만, distractor 쪽이 켜지면 위험 신호야.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">point · box prompt = 물체 가리키기</span><span class="m-src">L09 p.88–91</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>로봇 perception에선 VLM이나 detector가 준 box · point를 SAM에 넣어 잡을 물체의 mask를 얻는 경우가 많아.</p>
+      <p><span class="k">수업과 연결</span>WISH처럼 label 종류를 섞는 생각은 robot data labeling 예산에도 그대로 와. 싼 label(성공/실패, 언어 지시)은 많이, 비싼 label(물체 mask, contact point)은 조금만 달아서 한 모델에 같이 먹이는 거야.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">web · caption = 싼 supervision</span><span class="m-src">L09 p.44 · p.80–82</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>로봇 data는 비싸서, 인터넷 사진 · 영상과 caption으로 representation을 먼저 배우는 흐름이 있어 (예: R3M은 Ego4D 사람 영상으로 pretraining).</p>
+      <p><span class="k">수업과 연결</span>webly supervision의 거래(annotation cost ↔ label noise)와 같아. Liu가 caption을 검색 key로 저장했듯, 언어로 적어 둔 episode 설명은 비슷한 data를 다시 찾는 memory key로도 쓸 수 있어.</p>
+    </div></div>
   </div>
 </section>
 
 <!-- ============ 마지막 체크 ============ -->
 <section id="last">
-  <h2>마지막 체크: 이 12줄은 영어로 바로 나와야 해</h2>
-  <p>시험 전날 이것만 다시 봐. 지금은 L08 몫이고, 강의가 늘면 줄이 늘어나. 읽는 법은 이래.</p>
+  <h2>마지막 체크: 이 26줄은 영어로 바로 나와야 해</h2>
+  <p>시험 전날 이것만 다시 봐. 지금은 L08–L09 몫이고, 강의가 늘면 줄이 늘어나. 읽는 법은 이래.</p>
   <ul>
     <li>영어 문장을 소리 내서 말해 보고, 막히면 밑의 한국어 풀이를 봐.</li>
-    <li>굵은 단어는 T/F 함정이나 빈칸으로 나오기 좋은 자리야. 그 단어가 짝꿍 단어로 바뀐 문장(train ↔ test, bags ↔ instances, most ↔ least 등)이 나오면 False일 가능성이 커.</li>
+    <li>굵은 단어는 T/F 함정이나 빈칸으로 나오기 좋은 자리야. 그 단어가 짝꿍 단어로 바뀐 문장(train ↔ test, bags ↔ instances, most ↔ least, high ↔ low, random ↔ most discriminative, equivariant ↔ invariant 등)이 나오면 False일 가능성이 커.</li>
   </ul>
+  <h3>L08 Weakly-Supervised Learning I</h3>
   <ol class="check en">
     <li>Weak supervision: <b>lower degree (or cheaper)</b> annotation at <b>train</b> time than the required output at <b>test</b> time.<span class="s-why">WSOD가 대표 예야: test 때 box를 내야 하는데 train엔 class 이름만 줘. p.4</span></li>
     <li>MIL: each image is a <b>bag</b> of candidate windows, and only the <b>bag label</b> is known.<span class="s-why">bags = images, instances = windows야. 어느 window가 물체인지는 안 알려 줘. p.15</span></li>
@@ -1112,11 +1965,30 @@ loss.backward()</code></pre>
     <li>PCL: OICR uses a <b>single</b> pseudo object per image, but PCL uses <b>clusters</b> as independent pseudo objects.<span class="s-why">top-ranking proposals로 undirected graph를 만들고 연결이 많은 vertex를 cluster centre로 뽑아. p.37</span></li>
     <li>Concrete DropBlock drops the <b>most relevant</b> regions, so the detector must attend to the <b>entire object</b>.<span class="s-why">detector(w)는 loss를 줄이고 DropBlock(θ)은 loss를 키워: <span class="math">arg min<sub>w</sub> max<sub>θ</sub></span>. p.38</span></li>
   </ol>
+  <h3>L09 Weakly-Supervised Learning II</h3>
+  <ol class="check en" start="13">
+    <li>Weakly supervised segmentation uses <b>image-level</b> labels at <b>training</b> time to produce <b>pixel-level</b> labels at <b>test</b> time.<span class="s-why">정답 mask를 직접 안 주니까 indirectly supervised야. p.4, p.19</span></li>
+    <li>Priors are what we believe <b>independent of any particular image</b>; hints are <b>indirect supervision received for each image</b>.<span class="s-why">prior = size · shape · boundaries · saliency 같은 믿음, hint = image label · click · box · scribble 같은 사진별 label이야. p.5</span></li>
+    <li>Gradient saliency is <b>extremely noisy</b> (salt-and-pepper); SmoothGrad adds noise, computes a gradient for each copy, and <b>averages</b> the gradients.<span class="s-why">pixel 단위 민감도라서 점이 흩어져. 평균 내는 건 사진이 아니라 gradient야. p.21–22</span></li>
+    <li>CAM removes the FC layer, adds <b>GAP</b>, and sums the last feature maps with the <b>class weights</b>, so no <b>separate gradient calculation</b> is needed.<span class="s-why"><span class="math">M<sub>c</sub> = Σ<sub>k</sub> w<sub>k</sub><sup>c</sup> f<sub>k</sub></span>. class마다 지도가 하나씩 나와 (per-class maps). p.24–26</span></li>
+    <li>Thresholded CAMs give seeds: <b>high</b> scores become <b>foreground</b>, and <b>low</b> scores become <b>background</b>.<span class="s-why">확실한 영역만 seed로 써서 첫 학습 data를 만들어. p.27</span></li>
+    <li>CAM masks are <b>not sharp</b> and focus on the <b>discriminative area only</b>.<span class="s-why">경계 문제(1번)와 범위 문제(2번). 뒤의 방법들이 이 둘 중 어느 쪽을 고치나로 나뉘어. p.28</span></li>
+    <li>SEC: <b>Seed</b> keeps CAM seeds, <b>Expand</b> uses image-level labels via <b>GWRP</b>, and <b>Constrain</b> aligns masks to boundaries with a <b>CRF</b>.<span class="s-why">loss 세 개를 같이 걸어. GWRP와 CRF의 자리를 바꾼 지문이 함정이야. p.31</span></li>
+    <li>CAM gives <b>class-specific</b> but partial localization; saliency gives the <b>complete object extent</b> but is <b>class-agnostic</b>.<span class="s-why">Oh는 둘을 Guide Labeller로 합쳐 class-specific pseudo mask를 만들어. p.34</span></li>
+    <li>SEAM enforces that activation maps are <b>equivariant</b> (not invariant) to input transformations.<span class="s-why">원본과 affine 변환한 사진의 CAM을 변환을 보정해서 맞춰 (ER · ECR loss). p.35–36</span></li>
+    <li>Hide-and-Seek hides <b>random</b> patches; adversarial erasing erases the <b>most discriminative</b> region the classifier currently uses.<span class="s-why">둘 다 다른 부위를 보게 만들지만, 가리는 곳을 고르는 방법이 달라. p.37, p.39</span></li>
+    <li>Webly supervision trades annotation cost for <b>label noise</b>; Web-SEC learns a <b>pixel classifier</b> from clean, single-object web images.<span class="s-why">Model-T가 web 사진을 filter하고 target 사진의 CAM을 만들어. 두 label을 fuse해서 최종 model을 학습해. p.44–47</span></li>
+    <li>Boxly: "Convnets are <b>robust to noise</b>" — train on rough box masks, then use the <b>predictions as pseudo-labels</b> for the next round.<span class="s-why">round를 거듭할수록 mask가 좋아지고, 좋은 초기 mask면 full supervision의 ~95%까지 가 (slide title: "GrabCut++", 그래프 범례는 Grabcut+). p.56–60</span></li>
+    <li>CD-CLIP compares patches by their <b>class distributions</b> using <b>JS divergence</b>: CDA completes the CAM, and SBE fixes the <b>boundaries</b>.<span class="s-why">JS가 작을수록 같은 영역이야. boundary loss는 super-class가 2개 이상일 때만 걸어. p.65–74</span></li>
+    <li>Liu et al. store <b>captions, not images</b>, and use the web as external memory; WISH maps tags, points, and boxes into <b>SAM's prompt space</b>.<span class="s-why">Liu: class name이 사진을 찾고 caption이 label을 정해. WISH: 섞인(heterogeneous) weak label을 한 모델이 배워. p.81–82, p.88</span></li>
+  </ol>
   <h3>다음 할 일</h3>
   <p>이 페이지로 흐름을 잡았으면 repo에서 이 순서로 가면 돼.</p>
   <ol class="check">
-    <li><code>exam/pseudocode_final.md</code>의 "한눈에 보기" + 1순위 카드 3장<span class="s-why">코드를 보고 빈칸을 채운 뒤, 과정 설명을 영어 2–3문장으로 직접 써 봐.</span></li>
+    <li><code>exam/pseudocode_final.md</code>의 "한눈에 보기" + L08 · L09 1순위 카드<span class="s-why">코드를 보고 빈칸을 채운 뒤, 과정 설명을 영어 2–3문장으로 직접 써 봐.</span></li>
     <li><code>exam/_parts/08_Weakly_Supervised_Learning_I.md</code>로 T/F 이유 쓰기 연습<span class="s-why">L08 문제 pool이야. 답을 고르는 데서 멈추지 말고 이유까지 영어로 써.</span></li>
+    <li><code>exam/_parts/09_Weakly_Supervised_Learning_II.md</code>로 T/F 이유 쓰기 연습<span class="s-why">L09 문제 pool이야. CAM · seed · SEC · SEAM · 가리기와 지우기가 핵심이야.</span></li>
+    <li><code>exam/mock_quiz_final_L08.md</code> · <code>exam/mock_quiz_final_L09.md</code> 단원 미니 모의고사<span class="s-why">답을 영어로 직접 써서 채점해. 맞았어도 헷갈린 문제는 해당 카드로 돌아가.</span></li>
     <li>개념이 흔들리면 <code>exam/core_ideas_final.md</code>에서 그 방법만 다시 보기<span class="s-why">방법마다 Problem → Core idea → vs. previous 순서로 영어 정리가 돼 있어.</span></li>
   </ol>
 </section>

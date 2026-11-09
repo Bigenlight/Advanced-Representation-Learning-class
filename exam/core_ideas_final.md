@@ -8,6 +8,7 @@
 ## 목차
 
 - [08. Weakly-Supervised Learning I](#08)
+- [09. Weakly-Supervised Learning II](#09)
 
 ---
 
@@ -211,3 +212,200 @@
 - **OICR vs WSDDN**: learns to classify **instances** vs classifies images through implicit instance scoring (p.36).
 - **OICR vs PCL**: a single pseudo object (top proposal + surrounding ones) vs one pseudo object per proposal cluster (p.37).
 - **ConcreteDropBlock**: "a data-driven and parametric drop-out to drop the most relevant regions" (p.38).
+
+---
+
+<a id="09"></a>
+
+## 09. Weakly-Supervised Learning II
+
+### Core ideas
+
+#### Fully vs weakly supervised semantic segmentation (Slide credit: Rodrigo Benenson, p.3–4, 19)
+- **Problem**: Semantic segmentation needs a class for every pixel. Pixel masks for training are the most expensive kind of label.
+- **Core idea**: "Fully supervised → **Directly** supervised": the training label is the pixel mask itself. "Weakly supervised → **Indirectly** supervised": the training label is weaker than the output, e.g. a few clicked points in the p.4 figure. The lecture's main setting is "Image-level labels at training time" → "Pixel-level labels at test time" (p.19).
+- **vs. previous / key difference**: L08 asked for boxes from image labels (WSOD). L09 asks for pixel masks from weaker labels (WSSS), so the output is even denser than the label.
+- **Keywords**: semantic segmentation, pixel-level labels, image-level labels, directly supervised, indirectly supervised, training time vs test time
+- **Definition ↔ trap**: "Weakly supervised segmentation is indirectly supervised: image-level labels at training time, pixel-level labels at test time." ↔ "Weakly supervised segmentation uses pixel-level labels at training time and image-level labels at test time."
+- 한 줄: train엔 image label, test엔 pixel mask. 정답 mask를 직접 안 주니까 indirectly supervised야.
+
+#### Two sources of information: priors and hints (Slide credit: Rodrigo Benenson, p.5–17)
+- **Problem**: With only weak labels, the model needs extra information to decide which pixels belong to the object.
+- **Core idea**: "There are only two sources of information". **Priors**: "what do I believe to be true independent of any particular image sample" — size, location, shape (p.6), number of instances, contrast (p.7), boundaries, saliency (p.8), class distribution (p.9), similarity across images, similarity with external images (p.10). **Hints**: "indirect supervision received for each image" — image (video) label, image caption (p.11–12), click inside object (p.13), object bounding boxes (p.14), object extreme points (p.15), scribbles (p.16), eye gaze (p.17).
+- **vs. previous / key difference**: A prior is shared by all images and comes from belief. A hint is given per image by an annotator. Hints range from cheap (image label) to rich (boxes, scribbles).
+- **Keywords**: priors, hints, size, location, shape, number of instances, contrast, boundaries, saliency, class distribution, similarity across images, image caption, click, extreme points, scribbles, eye gaze
+- **Definition ↔ trap**: "Hints are indirect supervision received for each image." ↔ "Priors are indirect supervision received for each image."
+- 한 줄: prior는 사진과 상관없이 믿는 것, hint는 사진마다 받는 간접 label.
+
+#### Gray box approach: gradient-based saliency (Simonyan et al., ICLR 2014 workshop ← slide엔 "Simonyan et. al 2014", p.20–21, 23)
+- **Problem**: An image classifier says what is in the image, but not where.
+- **Core idea**: "Utilize the internal information in the network": it "identifies which areas the model focused on for classification by leveraging the activations or gradients within the CNN". Step 1) Train an ImageNet classifier. Step 2) "Calculate how much the score changes when the input is slightly modified", i.e. the gradient of the class score with respect to the input pixels.
+- **vs. previous / key difference**: It needs no change to the network, but "it is extremely noisy" because "the gradient measures sensitivity at the level of individual pixels, resulting in a 'salt-and-pepper' appearance". Key issue (p.23): "Asking apples from the oranges tree" — the "Classifier was not built nor trained to segment objects", so it "highlights only the specific regions necessary for classification rather than the entire object".
+- **Keywords**: gray box, internal information, activations, gradients, score change, saliency map, salt-and-pepper, extremely noisy, asking apples from the oranges tree
+- **Definition ↔ trap**: "Gradient saliency is noisy because the gradient measures sensitivity at the level of individual pixels." ↔ "Gradient saliency is smooth because the gradient measures sensitivity at the level of whole objects."
+- 한 줄: 입력을 살짝 바꿀 때 class 점수가 얼마나 변하나(gradient)로 위치를 보는데, 픽셀 단위라 salt-and-pepper처럼 지저분해.
+
+#### SmoothGrad (Smilkov et al., arXiv 2017, p.22)
+- **Problem**: A single input gradient is noisy.
+- **Core idea**: Step 1) Train a standard CNN classifier. Step 2) Add small random noise to the images. Step 3) Calculate the gradient for each. Step 4) Average. "calculating the gradient multiple times and averaging it removes noise and yields a more meaningful saliency map."
+- **vs. previous / key difference**: Plain gradient saliency uses one gradient of the clean image. SmoothGrad averages gradients over several noisy copies. It is still a gray box method on an unchanged classifier, so the p.23 limitation remains.
+- **Keywords**: SmoothGrad, random noise, gradient for each noisy copy, average, saliency map
+- **Definition ↔ trap**: "SmoothGrad adds noise to the input several times and averages the resulting gradients." ↔ "SmoothGrad averages several noisy images first and then computes a single gradient."
+- 한 줄: 입력에 noise를 섞은 사본마다 gradient를 구해서 평균 내면 깨끗해져.
+
+#### White box approach: CAM, Class Activation Mapping (Zhou et al., CVPR 2016 ← slide엔 "Zhou et al. 2016", p.24–26)
+- **Problem**: Gray box maps need separate gradient calculations and are noisy.
+- **Core idea**: Change the classifier so that it keeps spatial information. Step 1) "eliminate the FC layer". Step 2) "add GAP (Global Average Pooling)". Step 3) "add a 1×1 convolution that performs a linear combination of the features". The class activation map of a class is the weighted sum of the last conv feature maps with that class's weights: $M_c(x,y)=\sum_k w_k^c f_k(x,y)$ (p.25 figure: $w_1\ast$map$_1 + w_2\ast$map$_2 + \dots + w_n\ast$map$_n$; formula from the paper). "since the network itself is designed to preserve spatial information, activation maps can be obtained directly without the need for separate gradient calculations." It is "Designed to Generate Per-Class Maps" (p.26: one CAM for each of the top 5 predicted classes).
+- **vs. previous / key difference**: Gray box reads gradients of an unchanged classifier. White box (CAM) redesigns the network (GAP + linear layer), so the map comes from a forward pass with no gradient computation.
+- **Keywords**: white box, eliminate FC layer, GAP, 1×1 convolution, linear combination, class weights $w_k^c$, class activation map, per-class maps, no separate gradient calculation
+- **Definition ↔ trap**: "CAM obtains activation maps directly because the network is designed to preserve spatial information." ↔ "CAM needs a separate backward pass to compute input gradients for each class."
+- 한 줄: FC를 빼고 GAP + 선형 결합을 넣으면, class weight로 feature map을 더하는 것만으로 class별 위치 지도가 나와.
+
+#### Seeds: thresholding class maps into training data (p.27)
+- **Problem**: A CAM is a continuous score map, not a pixel label.
+- **Core idea**: "The Class Maps are Thresholded, to Generate Training Data". "High value scores ➝ Foreground areas", "Low value scores ➝ Background areas". "(This confident regions are commonly named 'seeds')" (slide grammar kept).
+- **vs. previous / key difference**: The seeds become pseudo labels for training a segmentation network. Only confident regions are labeled (interpretation: the in-between pixels are left out).
+- **Keywords**: threshold, foreground, background, confident regions, seeds, training data, pseudo label
+- **Definition ↔ trap**: "High CAM scores become foreground seeds and low scores become background." ↔ "Low CAM scores become foreground seeds and high scores become background."
+- 한 줄: CAM을 threshold로 잘라서 확실한 곳만 foreground/background seed로 써.
+
+#### CAM's two problems: "Good, but not good enough" (p.28–29)
+- **Problem**: CAM seeds are useful but limited: "1. Resulting masks are not sharp" and "2. Focused on discriminative area only".
+- **Core idea**: The following slides (p.29–41) are a list of fixes. For problem 1: "Increase top layers resolution" (p.29), "Use boundary-aware propagation" (p.30, SEC), "Use transfer learning" with saliency cues (p.33, Oh), "Enforce equivariance" (p.35, SEAM). For problem 2: "Let us play peek-a-boo!" (Hide-and-Seek, p.37–38) and "Let us play adversarial peek-a-boo!" (adversarial erasing, p.39–41).
+- **vs. previous / key difference**: Problem 1 is about **boundaries** (masks are coarse). Problem 2 is about **extent** (only the most discriminative part, such as a face, lights up).
+- **Keywords**: not sharp, discriminative area only, top layers resolution, boundary-aware propagation, transfer learning, equivariance, peek-a-boo, adversarial peek-a-boo
+- **Definition ↔ trap**: "CAM masks are not sharp and focus on the discriminative area only." ↔ "CAM masks have sharp boundaries but cover too much background."
+- 한 줄: CAM의 두 문제는 경계가 흐린 것과 가장 눈에 띄는 부분만 잡는 것.
+
+#### SEC: Seed, Expand, Constrain (Kolesnikov & Lampert, ECCV 2016, p.30–32)
+- **Problem**: CAM limitations: "Activation maps are small and coarse", "Focus only on discriminative regions", "Poor object boundaries".
+- **Core idea**: "Three complementary losses" train a segmentation CNN. **1. Seeding Loss**: "Use CAM as reliable foreground seeds", "Preserve highly confident object regions". **2. Expansion Loss**: "Encourage predictions to expand beyond the seeds", "Use image-level labels via Global Weighted Rank Pooling (GWRP)". **3. Constrain-to-boundary Loss**: "Refine predictions using CRF", "Encourage masks to align with image boundaries". Summary: "Seed: Preserve reliable CAM activations. Expand: Grow seeds to cover the entire object using image-level supervision. Constrain: Refine object boundaries with CRF-based regularization." (paper) Foreground seeds come from CAM (scores above 20% of the maximum) and background seeds from a saliency map; the seeding loss is a cross-entropy on seed pixels only, and the constrain loss is a KL divergence between the network output and its CRF-refined version. The CRF has no learned weights, but the paper back-propagates through it ("For computing gradients of the fully-connected CRF we employ the procedure from [34]", Sec. 3.2); the gray arrows on p.30 also pass through the CRF.
+- **vs. previous / key difference**: Using thresholded CAM seeds directly as labels keeps both CAM problems. SEC keeps the seeds, grows them with image-level labels, and pulls the result to image boundaries in one training objective. The slide files it under "Use boundary-aware propagation" (p.30).
+- **Keywords**: seeding loss, expansion loss, constrain-to-boundary loss, GWRP, CRF, weak localization, segmentation CNN, downscale
+- **Definition ↔ trap**: "SEC's expansion loss uses image-level labels via GWRP to grow predictions beyond the seeds." ↔ "SEC's expansion loss uses a CRF to shrink predictions to the seeds."
+- 한 줄: seed는 지키고(Seed), image label로 키우고(Expand), CRF로 경계에 맞춰(Constrain).
+
+#### Saliency-guided weak supervision (Oh et al., CVPR 2017, p.33–34)
+- **Problem**: CAM "Provides class-specific localization" but "Covers only discriminative regions".
+- **Core idea**: Saliency "Provides complete object extent" but is "Class-agnostic foreground estimation". "Combine CAM and saliency to generate class-specific pseudo masks". **Seeder**: "Generate class-specific seeds from CAM." **Saliency**: "Estimate foreground regions." **Guide Labeller**: "Fuse both cues into pseudo masks." **Segmentation CNN**: "Learn dense pixel-wise predictions." The slide calls this "Use transfer learning" and "We could also use saliency cues" (p.33). (paper) The saliency model is trained on a separate dataset, so its knowledge is transferred.
+- **vs. previous / key difference**: SEC grows seeds inside the same task. Oh borrows an external, class-agnostic cue (saliency) that already knows the full object extent, and lets CAM decide the class.
+- **Keywords**: saliency, class-agnostic, class-specific, seeder, guide labeller, segmenter convnet, dense classifier loss, transfer learning, pseudo masks
+- **Definition ↔ trap**: "CAM gives class-specific localization, and saliency gives a class-agnostic foreground with complete extent." ↔ "Saliency gives class-specific localization, and CAM gives a class-agnostic foreground with complete extent."
+- 한 줄: class는 CAM이, 물체 범위는 saliency가 맡아서 합친 pseudo mask로 학습해.
+
+#### SEAM: equivariance for CAMs (Wang et al., CVPR 2020, p.35–36)
+- **Problem**: "CAMs are often coarse and inconsistent", and "Small input transformations can produce different activation maps".
+- **Core idea**: "Activation maps should be equivariant to the input" (p.35). "Key idea: Enforce Equivariance": "Apply geometric transformations (e.g., affine transform)", "Predict CAMs for both original and transformed images", "Enforce consistency after compensating for the transformation". A Siamese network shares the CNN. **PCM** (Pixel Correlation Module) "propagates CAM activations to other pixels within the same object by utilizing pixel-wise affinity among CNN features". Training objective: **Classification Loss** ("Preserve image-level classification performance"), **Equivariant Regularization (ER) Loss** ("Encourage transformation-consistent CAMs"), **Cross-view Consistency (ECR) Loss** ("Align CAMs across different views"). (paper) SEAM = Self-supervised Equivariant Attention Mechanism, and the paper names ECR "Equivariant Cross Regularization" ← slide엔 "Cross-view Consistency (ECR)". The figure uses L1 for ER and ECR.
+- **vs. previous / key difference**: Plain CAM is trained only by classification, so nothing ties the maps of a transformed image together. SEAM adds a self-supervised constraint: transform the CAM of the original and it should match the CAM of the transformed image. This is the L08 equivariance prior (L08 p.29) applied to CAMs.
+- **Keywords**: equivariance, affine transform, Siamese network, PCM, pixel-wise affinity, classification loss, ER loss, ECR loss, L1, transformation-consistent
+- **Definition ↔ trap**: "SEAM enforces that CAMs are consistent after compensating for the transformation (equivariance)." ↔ "SEAM enforces that CAMs stay unchanged when the image is transformed (invariance)."
+- 한 줄: 사진을 변환하면 CAM도 똑같이 변환돼야 한다(equivariance)는 규칙으로 CAM을 일관되게 만들어.
+
+#### Hide-and-Seek (Singh & Lee, ICCV 2017 ← slide엔 "Wang et al. CVPR 2020", p.37–38)
+- **Problem**: "CAM activates only the most discriminative regions."
+- **Core idea**: "Solution (Hide-and-Seek)": "Randomly hide image patches during training", "Encourage learning from the remaining visible parts", "Generate more complete localization maps". Effect: "The classifier is forced to discover other visible object parts" and "CAM gradually covers a larger portion of the object." "Random hiding encourages the network to discover complementary object parts instead of relying on a single discriminative region." The figure splits the training image into S×S patches and hides a different random set each epoch. p.38 "Let us play peek-a-boo!" compares AlexNet-GAP and HaS heatmaps. (paper) Hiding is used only in training; the full image is used at test time.
+- **vs. previous / key difference**: The fixes for problem 1 refine boundaries. Hide-and-Seek attacks problem 2 by changing the training input, so the network cannot rely on one part.
+- **Keywords**: Hide-and-Seek (HaS), randomly hide patches, peek-a-boo, complementary object parts, more complete localization maps, grid of patches, epoch
+- **Definition ↔ trap**: "Hide-and-Seek randomly hides image patches during training." ↔ "Hide-and-Seek hides the most discriminative region found by the CAM."
+- 한 줄: 학습 때 patch를 무작위로 가리면 얼굴이 가려진 날엔 몸통을 보고 맞혀야 해서 CAM이 넓어져.
+
+#### Adversarial erasing, "adversarial peek-a-boo" (Wei et al., CVPR 2017 ← slide엔 "Wei et al. 2017", p.39–41)
+- **Problem**: CAM covers only the discriminative area, and random hiding does not choose what to hide.
+- **Core idea**: "adversarial instead of random erasures". A classification network produces a heatmap $H_t$. It is thresholded into the mined region $F_t$, which is erased from the image: $I_{t+1}$ = $I_t$ minus $F_t$. The network is trained again on the erased image, so it must find another region (steps $t = 1, 2, 3$, "Recurrent"). The mined regions together form "The Mined Object Region" (p.39 figure). p.40 shows AE-Step1–3 heatmaps and the erased regions in gray; p.41 shows segmentation results (AE-PSL). (paper) Each step trains a new classification network, and PSL = prohibitive segmentation learning.
+- **vs. previous / key difference**: Hide-and-Seek hides **random** patches. Adversarial erasing erases **the region the classifier currently relies on most**, step by step.
+- **Keywords**: adversarial erasing, AE, peek-a-boo, heatmap, threshold, mined region, erase, recurrent, AE-Step, mined object region, AE-PSL
+- **Definition ↔ trap**: "Adversarial erasing removes the currently most discriminative region so the classifier must discover new object regions." ↔ "Adversarial erasing removes random patches so the classifier must discover new object regions."
+- 한 줄: 지금 제일 센 곳을 지우고 다시 학습하길 반복해서, 지운 영역을 모으면 물체 전체가 돼.
+
+#### Takeaways: from image-level to pixel-level labels (p.42)
+- **Problem**: Which of these ideas actually work?
+- **Core idea**: "Training a classifier, and hoping to get segmentations out of it ✗". "Using spatial continuity priors will help, but to a limit ~". "The training can be modified to promote covering the object extent ✔". "With careful changes it is possible to obtain significant improvements ~". "⇒ How far can we go from image-level to pixel-level labels ?"
+- **vs. previous / key difference**: Reading a plain classifier (gray box) is marked ✗. Changing training to cover the object extent (e.g. hiding, erasing) is marked ✔.
+- **Keywords**: classifier, spatial continuity priors, object extent, careful changes
+- **Definition ↔ trap**: "Training a classifier and hoping to get segmentations out of it does not work well." ↔ "Training a plain classifier is enough to get good segmentations out of it."
+- 한 줄: 분류기만 학습하고 segmentation을 기대하면 안 되고, 물체 전체를 덮도록 학습을 바꿔야 해.
+
+#### Webly supervised learning (Shen et al., CVPR 2018, p.43–52)
+- **Problem**: Manual labels are expensive, and CAMs from a target-domain classifier are incomplete.
+- **Core idea**: Webly supervised learning is "A learning method that uses data collected from the web as supervision". It collects images "directly from web search engines", "Enables large-scale learning without manual annotation", but "Labels are noisy, ambiguous, and incomplete", so "Learning must be robust to noisy supervision" (p.44). Pipeline (p.45): 1. Train an image classifier (Model-T) on clean image-level labels. 2. Use Model-T to filter noisy web images. 3. Train Web-SEC (pixel labeler) using the filtered web images. 4. Apply Web-SEC to generate pixel labels for the target images. 5. Use Model-T to produce CAMs on the target images. 6. Fuse the two label sources and train the final segmentation model. Key point (p.47): "web images are much cleaner—typically containing a single centered object—so approximate segmentation masks can be generated automatically", and the network trained on them "learns generic object shapes and can later be transferred to the target dataset".
+- **vs. previous / key difference**: "Unlike CAM-based methods, Web-SEC actually learns a pixel classifier." The figure shows two domains: Model-T (target) **filters** the web data, and Model-W (web) **enhances** the target side. (paper) The paper calls this bi-directional transfer between the target domain and the web domain.
+- **Keywords**: webly supervised, web search engines, noisy labels, Model-T, Model-W, Web-SEC, pixel labeler, filter, enhance, single centered object, fuse
+- **Definition ↔ trap**: "Webly supervised learning trades annotation cost for label noise." ↔ "Webly supervised learning trades label noise for higher annotation cost."
+- 한 줄: 웹 사진은 물체 하나가 가운데 있어서 mask를 자동으로 얻기 쉬워. 거기서 pixel labeler를 배우고 target 사진의 CAM과 합쳐.
+
+#### Boxly supervised learning: "Convnets are robust to noise" (Khoreva et al., CVPR 2017, p.53–61)
+- **Problem**: "From box-level labels to pixel-level instance labels" (p.54). "What we want" is object masks; "What we have" is boxes (p.55).
+- **Core idea**: "Convnets are robust to noise. Let us use that !" "Initially, training is performed using a noisy mask, but the CNN's predictions are then used as pseudo-labels for retraining." "Segmentation networks are robust to noisy supervision", "Approximate masks are sufficient for training", "Iteratively refine pseudo masks during training", "Better masks lead to better segmentation" (p.56). Starting from filled rectangles, the output improves after 1, 5, 10 training rounds (p.57). Better initial masks (20% Bbox, MCG, Grabcut+, MCG ∩ Grabcut+) start higher (p.58–59). "We reach ~95% of full supervision by using GrabCut++" (p.60) ← slide 그래프 범례는 "Grabcut+", "MCG ∩ Grabcut+"(표는 "M ∩ G+"). (paper) The ~95% is reached with MCG ∩ GrabCut+. (paper) Between rounds the predictions are cleaned with the boxes (outside-box pixels reset, CRF), and GrabCut+ uses HED boundaries instead of color differences.
+- **vs. previous / key difference**: Image-level methods must find the object's location and extent. Box labels already give location, so the remaining job is the shape inside the box, done by recursive self-training.
+- **Keywords**: boxly supervised, box-level labels, noisy mask, pseudo-labels, retraining, training rounds, rectangles, 20% Bbox, MCG, GrabCut+, ~95% of full supervision
+- **Definition ↔ trap**: "Box-supervised training starts from noisy masks and uses the CNN's own predictions as pseudo labels for retraining." ↔ "Box-supervised training uses the boxes as fixed labels in every round and never updates them."
+- 한 줄: 네모를 대충 mask로 써서 학습하고, 예측을 다음 round의 label로 쓰길 반복해. 시작 mask를 좋게 하면(슬라이드 제목은 GrabCut++, 그림은 MCG ∩ GrabCut+) full supervision의 ~95%.
+
+#### Summary (p.61)
+- **Problem**: What to remember from WSSS.
+- **Core idea**: "Many priors and hints have been explored". "Exploit all available priors, explore new information sources". "Do not underestimate the power of transfer learning (and webly supervision)". "Current techniques are quite effective, and ride the wave of better network architectures".
+- **vs. previous / key difference**: Not a method. It ties the lecture together: priors and hints (p.5–17), CAM fixes (p.28–41), web data (p.43–52), boxes (p.53–60).
+- **Keywords**: priors, hints, new information sources, transfer learning, webly supervision, better network architectures
+- **Definition ↔ trap**: "Do not underestimate the power of transfer learning (and webly supervision)." ↔ "Transfer learning and webly supervision add little to weakly supervised segmentation."
+- 한 줄: prior와 hint를 다 쓰고, transfer learning과 web data를 얕보지 마.
+
+#### CD-CLIP: class distributions for CAM completeness and boundaries (Yang et al., CVPR 2026, p.62–74)
+- **Problem**: "Beyond CAM" (p.62): "CAM activates only the most discriminative regions" and "CAM boundaries are coarse and inaccurate". Problem 1 "Incomplete activation". Problem 2 "Inaccurate boundaries": "Affinity propagation may spread activation" and "Foreground activation can cross class boundaries" (p.64). Conventional affinity "Uses feature or attention similarity between patches", but "Similar appearance does not always imply the same class" (p.65).
+- **Core idea**: "A patch is characterized not only by its target-class score, but by its distribution over all classes" (target classes + super-classes, p.65, 67). **CDA** (Class Distribution Aware, p.66 figure): compare two patch distributions with JS divergence ("Small JS divergence: similar class distributions"), "Correct the original affinity", "Propagate CAM activation" (head → body). $S_d = \frac{1 - D_{JS}(\mathrm{Softmax}(S_a)\,\|\,\mathrm{Softmax}(S_a)^\top)}{\tau}$, $A_d = \mathrm{Softmax}(S_d)\cdot A_{init}$, $M^c_{re} = M^c_{init}\cdot (A_d)^t$ (p.69). **SBE** (Super-class Boundary Exploration, p.66 figure): "Use the CLIP super-class CAM as a semantic seed and average the corresponding DINO features": $f_s^n = \mathrm{CAP}(M_s^n \odot F_d)$, then "Compare the prototype with every DINO patch": $M_p^n = \mathrm{ReLU}(\mathrm{CosSim}(f_s^n, F_d))$ (p.70). Loss $\mathcal{L} = \mathcal{L}_{seg} + \lambda_1\mathcal{L}_b$, with $\mathcal{L}_b = \mathrm{Dice}(P, Y_s)$ only "if $|C_p| \ge 2$" (p.72). ← 슬라이드는 $S_a$, $A_{init}$, $\tau$, $t$, $M^c_{init}$, $F_d$, $M_s^n$를 정의하지 않아. 해석(p.66 그림 기준): $A_{init}$ = MHSA에서 온 initial affinity, $\tau$ = temperature, $t$ = 전파 횟수, $F_d$ = DINO features, $M_s^n$ = super-class CAM. 시험엔 식 전체보다 "JS로 affinity를 보정한 뒤 곱해서 CAM을 전파"만.
+- **vs. previous / key difference**: Conventional affinity compares appearance; CDA compares class distributions, so it connects same-class patches without leaking across classes. "CDA significantly improves the CAM mIoU from 70.1 to 80.3"; SBE helps the final segmentation more than the CAM "because SBE contributes to boundary learning within the decoder" (p.73). "Better WSSS requires both knowing which patches belong together and knowing where their relationship should stop." (p.74)
+- **Keywords**: CLIP, DINO, class distribution, target classes, super-classes, JS divergence, affinity, MHSA, CDA, super-class prototype, prototype CAM, CAP (class average pooling), SBE, boundary-enhanced loss, Dice, frozen encoders
+- **Definition ↔ trap**: "CD-CLIP compares the class distributions of two patches with JS divergence to decide their affinity." ↔ "CD-CLIP compares only the target-class scores of two patches to decide their affinity."
+- 한 줄: patch를 target class 점수 하나가 아니라 class 분포 전체로 비교해서 CAM을 넓히고(CDA), DINO prototype으로 어디서 멈출지 정해(SBE).
+
+#### Learning from the Web for weakly-supervised incremental segmentation (Liu et al., ECCV 2024, p.75–85)
+- **Problem**: "Can a segmentation model learn new classes from the web without storing its original training images?" In the new scenario "Only the initial model is retained", "Original training images are no longer accessible", and "New and old classes must be learned from web images" (p.77). "Three challenges": web images have a different distribution, "Search queries provide noisy single-class labels", and "Learning new classes causes forgetting of old classes" (p.78).
+- **Core idea**: "Language is used for querying, labeling, filtering, and rehearsal" (p.80). ① Retrieve web images (query with new class names; retrieve rehearsal images using stored captions). ② Filter noisy web images ("Domain filtering removes out-of-distribution images", "Caption filtering removes semantically irrelevant images"). ③ Generate supervision ("Captions are converted into multi-label supervision", "The previous model produces pixel-level pseudo-labels"). ④ Update the model (learn new classes, "Rehearse old classes without storing original images"). "The class name retrieves images; the caption determines their labels" (p.81). For old classes: "Store Captions, Not Images": Old image → stored caption q' → web search → rehearsal image (p.82), then verify by captioning the retrieved image (q'') and comparing nouns (p.83).
+- **vs. previous / key difference**: Conventional WILSS keeps curated dataset images and gives only image-level labels for new classes, with a localizer making pseudo labels (p.79). Here "Web images replace curated incremental data, while captions replace reliable manual image labels" (p.79), and "The web is not only a source of new data. It can serve as an external semantic memory" (p.85). (paper) WILSS = Weakly Incremental Learning for Semantic Segmentation (task from Cermelli et al., CVPR 2022), and the domain filter is a Fourier-based domain discriminator.
+- **Keywords**: incremental learning, WILSS, forgetting, rehearsal, web retrieval, domain filtering, caption filtering, caption labeling, multi-label supervision, stored captions, external memory, pseudo labels, 10–10 / 15–5 / 10–1
+- **Definition ↔ trap**: "The method stores captions of old images, not the images, and uses them to retrieve rehearsal images from the web." ↔ "The method stores the original training images and replays them for rehearsal."
+- 한 줄: 옛 사진 대신 caption만 저장해서 웹에서 비슷한 사진을 다시 찾아 복습하고, 새 class도 웹 사진 + caption label로 배워.
+
+#### WISH: heterogeneous weak labels in SAM's prompt space (Kweon & Yoon, CVPR 2025 ← slide에 cite 없음, p.86–95)
+- **Problem**: "Under a fixed annotation budget, should every image receive the same type of weak label?" (p.86). In homogeneous supervision "Every training image uses the same weak label type": "Tags are cheap but provide no localization", "Boxes are informative but expensive", "Points provide an intermediate level of supervision" (p.87).
+- **Core idea**: Heterogeneous supervision: "Different images may use different weak label types" ($Y_i^{\mathrm{Hetero}} = Y_i^t$ or $Y_i^p$ or $Y_i^b$), and "A single model learns from all label types" (p.87). "SAM's prompt space serves as a common representation for heterogeneous supervision": point prompt → point latent, box prompt → box latent, tag → converted point prompt, and the model predicts $\hat{Z} = \mathcal{H}_{\mathrm{prompt}}(Q)$ from Mask2Former object queries (p.88). Matching: class ($\mathrm{Cost}_{\mathrm{cls}}^{i,j} = \hat{y}^i_{\mathrm{cls}}(c^j)$), prompt ($\mathrm{KLD}(\hat Z^i, Z^j)$), mask ("Select the SAM candidate mask closest to the predicted instance mask", $\min_{n\in\{1,2,3\}} d(\hat M^i, M^{j,n}_{\mathrm{SAM}})$), combined $\alpha\,\mathrm{Cost_{cls}} + \beta\,\mathrm{Cost_{prompt}} + \gamma\,\mathrm{Cost_{mask}}$; "Hungarian matching assigns predictions to weakly labeled instances" (p.89–90). Tags become prompts through CAM peaks: "Local maxima are extracted from each class activation map", "Each selected CAM peak becomes a positive point prompt", "SAM generates an instance mask from each point" (p.91). The CAM comes from a trainable head, $A = \mathcal{H}_{\mathrm{cam}}(F)$, and self-enhancement trains it with $\mathcal{L}_{\mathrm{self}} = \mathcal{L}_{\mathrm{bce}}(A, \hat M_c)$, using the model's predicted masks as the target (p.91, 94). ← slide p.91 step 3("Improve CAMs with Model Predictions") 본문은 step 2 bullet 3개를 그대로 복붙한 슬라이드 오류야. 실제 내용은 $\mathcal{L}_{\mathrm{self}}$ 식과 p.94 "Current instance masks refine the CAM".
+- **vs. previous / key difference**: "Conventional WSIS" "Chooses one weak label type for the entire dataset" and "Treats tags, points, and boxes as separate settings". WISH "Combines different label types in one model" and "Achieves better cost–performance trade-offs" (p.95). "Cheap labels provide breadth, while strong labels provide spatial precision" (p.93). "The optimal supervision strategy may be a portfolio of weak labels, not a single annotation type." (p.95)
+- **Keywords**: heterogeneous supervision, homogeneous supervision, tags, points, boxes, SAM, prompt space, prompt latent, Mask2Former object queries, class matching, prompt matching, mask matching, Hungarian matching, CAM peaks, self-enhancement, annotation budget, WSIS
+- **Definition ↔ trap**: "WISH uses SAM's prompt space as a common representation so that tags, points, and boxes can supervise one model." ↔ "WISH trains a separate model for each weak label type and picks the best one."
+- 한 줄: tag·point·box를 SAM의 prompt 공간으로 옮겨서 한 모델이 섞인 label을 다 배워. 같은 예산이면 섞는 게 더 나을 수 있어.
+
+### Must-know definitions & distinctions
+- **Semantic segmentation**: predict a class for every pixel. The output of WSSS at test time ("Pixel-level labels at test time", p.19).
+- **Fully vs weakly supervised**: **directly** supervised with pixel masks vs **indirectly** supervised with weaker labels (p.4).
+- **Prior vs hint**: "what do I believe to be true independent of any particular image sample" vs "indirect supervision received for each image" (p.5).
+- **Hint types**: image (video) label, image caption, click inside object, object bounding boxes, object extreme points, scribbles, eye gaze (p.11–17).
+- **Gray box vs white box**: read activations or gradients of a normal classifier vs redesign the network so maps come out directly (CAM) (p.20, 24–25).
+- **Gradient saliency**: how much the class score changes when the input is slightly modified; "extremely noisy", "salt-and-pepper" (p.21).
+- **SmoothGrad**: add small random noise, compute the gradient for each copy, average (p.22).
+- **GAP (Global Average Pooling)**: averages each feature map over all positions into one number, replacing the FC layer in CAM (p.24).
+- **CAM**: the class-weighted sum of the last conv feature maps; one map per class, no separate gradient calculation (p.25–26).
+- **Seeds**: confident regions of a thresholded class map; high scores → foreground, low scores → background (p.27).
+- **Not sharp vs discriminative only**: CAM's boundary problem vs its extent problem (p.28).
+- **Seeding vs expansion vs constrain-to-boundary loss (SEC)**: keep confident CAM regions vs grow beyond the seeds with image labels (GWRP) vs align with image boundaries via CRF (p.31).
+- **GWRP**: Global Weighted Rank Pooling, the pooling that connects pixel predictions to image-level labels in the expansion loss (p.31). (paper) It sorts scores and weights them with decaying weights, so it lies between max and average pooling.
+- **CRF**: refines predictions so that masks follow image boundaries; used in SEC's constrain-to-boundary loss (p.31).
+- **Saliency (Oh) vs CAM**: class-agnostic foreground with complete object extent vs class-specific localization of discriminative regions (p.34).
+- **Gradient saliency map vs saliency (Oh)**: a map of input sensitivity of a classifier (p.21–22) vs a foreground estimate from a saliency model (p.34). Same word, different things.
+- **Equivariance (SEAM)**: CAMs should change along with the input transformation; "Enforce consistency after compensating for the transformation" (p.35–36).
+- **PCM**: "propagates CAM activations to other pixels within the same object by utilizing pixel-wise affinity among CNN features" (p.36).
+- **ER loss vs ECR loss**: transformation-consistent CAMs vs CAMs aligned across different views (p.36).
+- **Hide-and-Seek vs adversarial erasing**: **random** patch hiding vs erasing the **currently mined discriminative** region, step by step (p.37, 39).
+- **Webly supervised learning**: uses data collected from the web as supervision; trades annotation cost for label noise (p.44).
+- **Model-T vs Web-SEC**: image classifier trained on clean target image-level labels (filters web images, makes CAMs) vs pixel labeler trained on filtered web images (p.45).
+- **Boxly supervised learning**: from box-level labels to pixel-level labels by recursive retraining on the network's own predictions (p.54–56).
+- **Training round (Khoreva)**: one cycle of training on the current masks and replacing them with the network's predictions (p.56–57).
+- **Class distribution (CD-CLIP)**: a patch's scores over all target classes and super-classes, not just the target-class score (p.65, 67).
+- **JS divergence**: measures how different two distributions are; small = similar class distributions (p.69).
+- **CDA vs SBE**: completes the CAM by distribution-based affinity vs stops it at boundaries with DINO super-class prototypes (p.74).
+- **Super-class prototype**: the average of DINO features inside the CLIP super-class CAM, $f_s^n = \mathrm{CAP}(M_s^n \odot F_d)$ (p.70).
+- **Boundary-enhanced loss**: $\mathcal{L}_b = \mathrm{Dice}(P, Y_s)$ only when $|C_p| \ge 2$, i.e. two or more distinct super-classes (p.72).
+- **Conventional WILSS vs web setting (Liu)**: curated images for new classes and image labels vs web images, caption labels, and no stored original images (p.79).
+- **Rehearsal by captions**: store captions of old images, search the web with them, keep results whose new caption has nouns of a similar semantic family (p.82–83).
+- **Domain filtering vs caption filtering**: removes out-of-distribution images vs removes semantically irrelevant images (p.80).
+- **Homogeneous vs heterogeneous supervision**: every image has the same weak label type vs different images may use different types (p.87).
+- **SAM prompt space (WISH)**: the shared latent where points and boxes are mapped; tags are converted to point prompts first (p.88).
+- **Class vs prompt vs mask matching**: what it is vs where it is vs which SAM mask fits it best (p.90).

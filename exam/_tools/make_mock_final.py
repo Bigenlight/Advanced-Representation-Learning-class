@@ -2,16 +2,22 @@
 
   python3 -I exam/_tools/make_mock_final.py
 
-새 강의가 나오면 맨 위 상수만 바꿔. 구성은 실제 비율의 절반: T/F 5 + MCQ 3 + code 2.
+새 강의가 나오면 CONFIG에 한 줄만 추가해. 구성은 실제 비율의 절반: T/F 5 + MCQ 3 + code 2.
 """
-import os, pathlib, re
+import os, pathlib, re, sys
 os.chdir(pathlib.Path(__file__).resolve().parents[2])
-NUM, TITLE = '08', 'Weakly-Supervised Learning I'
-STEM = f'{NUM}_Weakly_Supervised_Learning_I'
-TF = ['Q3', 'Q6', 'Q10', 'Q12', 'Q14']
-MC = ['Q19', 'Q24', 'Q26']
-PC = ['WS-1', 'WS-3']
-DATE = '2026-11-05'
+# 강의마다 한 줄씩 추가. 실행: python3 -I exam/_tools/make_mock_final.py 09  (인자 없으면 마지막 강의)
+CONFIG = {
+    '08': dict(TITLE='Weakly-Supervised Learning I', STEM='08_Weakly_Supervised_Learning_I',
+               TF=['Q3', 'Q6', 'Q10', 'Q12', 'Q14'], MC=['Q19', 'Q24', 'Q26'], PC=['WS-1', 'WS-3'],
+               DATE='2026-11-05', REVIEW='작성자와 다른 Opus가 독립 검수함'),
+    '09': dict(TITLE='Weakly-Supervised Learning II', STEM='09_Weakly_Supervised_Learning_II',
+               TF=['Q3', 'Q5', 'Q8', 'Q10', 'Q12'], MC=['Q19', 'Q25', 'Q27'], PC=['WS-9', 'WS-12'],
+               DATE='2026-11-09', REVIEW='작성자와 다른 Sonnet이 정답을 가리고 먼저 푼 뒤 대조함 (code card는 독립 테스트)'),
+}
+NUM = sys.argv[1] if len(sys.argv) > 1 else sorted(CONFIG)[-1]
+_c = CONFIG[NUM]
+TITLE, STEM, TF, MC, PC, DATE, REVIEW = (_c[k] for k in ('TITLE', 'STEM', 'TF', 'MC', 'PC', 'DATE', 'REVIEW'))
 pool=open(f'exam/_parts/{STEM}.md',encoding='utf8').read()
 cards=open('exam/pseudocode_final.md',encoding='utf8').read()
 c=pool[pool.index('## C. Question pool'):pool.index('## D. Fill')]
@@ -34,7 +40,7 @@ o=[f'# Mock Quiz — Final, L{NUM} ({TITLE})','',
 '> 단원 미니 모의고사. 10문제 = **T/F 5 + MCQ 3 + code 2** (중간 실제 비율 10 : 5 : 5의 절반).',
 '> **답은 영어로 직접 써.** T/F는 고르고 이유까지, False면 고친 문장까지. MCQ도 왜 그 답인지 한 문장. code는 빈칸 하나 + 과정 설명 2–3문장 (입력 → target은 어디서 오나 → loss → 누가 update되나).',
 '> 헷갈리면 `False?`처럼 `?`를 붙여. 맞아도 `?` 붙은 문제는 다시 봐. 답을 다 적기 전엔 맨 아래를 열지 마.',
-f'> 출처: `exam/_parts/{STEM}.md` C 섹션, `exam/pseudocode_final.md`. 모두 작성자와 다른 Opus가 독립 검수함 ({DATE}). 슬라이드 페이지 번호는 `lectures/{STEM}.pdf` 기준.','']
+f'> 출처: `exam/_parts/{STEM}.md` C 섹션, `exam/pseudocode_final.md`. 모두 {REVIEW} ({DATE}). 슬라이드 페이지 번호는 `lectures/{STEM}.pdf` 기준.','']
 n=0; key=[]
 for q in TF:
     n+=1; st,an=parts(Q[q])
