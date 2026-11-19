@@ -53,7 +53,7 @@ pre code{background:none;padding:0;font-size:inherit;word-break:normal}
 @media (max-width:600px){.m-body .math,.steps .math{white-space:normal}}
 #last>h3::before{display:none}
 /* 요약에서 누르면 오는 자리: 위쪽 여유 + 잠깐 강조 */
-:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09) :is(h3,.m,li)[id]{scroll-margin-top:1.2rem}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09,#l10) :is(h3,.m,li)[id]{scroll-margin-top:1.2rem}
 @keyframes tgt{from{background:var(--accent-soft)}to{background:transparent}}
 :is(h3,.m,li)[id]:target{animation:tgt 2.4s ease-out}
 /* 한눈에 요약 (암기용) */
@@ -85,7 +85,7 @@ pre code{background:none;padding:0;font-size:inherit;word-break:normal}
 .sum-ch{scroll-margin-top:1rem}
 .sum-d,.sum-t{overflow-wrap:anywhere}
 .sum-ch-q .sum-a b{font-weight:800}
-@media (max-width:1000px){:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09) :is(h3,.m,li)[id],.sum-ch{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 4.2rem)}}
+@media (max-width:1000px){:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09,#l10) :is(h3,.m,li)[id],.sum-ch{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 4.2rem)}}
 @media (max-width:640px){main>section>h3{font-size:1.18rem}}
 .wrap{max-width:74rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
@@ -127,13 +127,13 @@ main>section:first-child{border-top:0}
 h2{font-family:var(--f-display);font-weight:700;font-size:1.75rem;line-height:1.2;letter-spacing:-.01em;margin:0 0 .7rem;text-wrap:balance}
 h3{font-family:var(--f-display);font-weight:600;font-size:1.15rem;line-height:1.3;margin:1.8rem 0 .5rem;text-wrap:balance}
 /* 파트(h3) = 번호 배지 + accent 밑줄 · 카드/계보 단계 = 단원-파트-번호 (L01–L07, --ch = 단원 번호) */
-#l01{--ch:"1"}#l02{--ch:"2"}#l03{--ch:"3"}#l04{--ch:"4"}#l05{--ch:"5"}#l06{--ch:"6"}#l07{--ch:"7"}#l08{--ch:"8"}#l09{--ch:"9"}
+#l01{--ch:"1"}#l02{--ch:"2"}#l03{--ch:"3"}#l04{--ch:"4"}#l05{--ch:"5"}#l06{--ch:"6"}#l07{--ch:"7"}#l08{--ch:"8"}#l09{--ch:"9"}#l10{--ch:"10"}
 main>section{counter-reset:part}
 main>section>h3{counter-increment:part;counter-reset:item;display:flex;align-items:center;gap:.6rem;font-size:1.32rem;font-weight:700;margin:2.7rem 0 .9rem;padding-bottom:.5rem;border-bottom:2px solid var(--accent)}
 main>section>h3::before{content:counter(part);flex:none;display:inline-grid;place-items:center;min-width:1.8rem;height:1.8rem;padding:0 .4rem;border-radius:7px;background:var(--accent);color:var(--bg);font:700 .92rem/1 var(--f-mono)}
-:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09)>h3::before{content:var(--ch) "-" counter(part)}
-:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09) .methods>.m>div:first-child::before{counter-increment:item;content:var(--ch) "-" counter(part) "-" counter(item);display:block;width:max-content;margin-bottom:.4rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent)}
-:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09) .steps>li>.s-name::before{counter-increment:item;content:var(--ch) "-" counter(part) "-" counter(item);display:inline-block;margin-right:.45rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent);vertical-align:.12em}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09,#l10)>h3::before{content:var(--ch) "-" counter(part)}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09,#l10) .methods>.m>div:first-child::before{counter-increment:item;content:var(--ch) "-" counter(part) "-" counter(item);display:block;width:max-content;margin-bottom:.4rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent)}
+:is(#l01,#l02,#l03,#l04,#l05,#l06,#l07,#l08,#l09,#l10) .steps>li>.s-name::before{counter-increment:item;content:var(--ch) "-" counter(part) "-" counter(item);display:inline-block;margin-right:.45rem;padding:.2rem .45rem;border:1px solid var(--accent);border-radius:999px;font:600 .7rem/1 var(--f-mono);letter-spacing:.03em;color:var(--accent);vertical-align:.12em}
 p{margin:0 0 .9rem}
 .muted{color:var(--muted)}
 .offscope{display:inline-block;font:600 .74rem/1 var(--f-mono);letter-spacing:.04em;color:var(--rl);border:1px solid var(--rl);border-radius:999px;padding:.4rem .6rem;margin:0 0 1rem}
@@ -379,7 +379,7 @@ details.more{margin:.4rem 0 1.2rem}
       <p class="eyebrow">HYU 고급표현학습 · 2026-2학기 · 기말 범위 W10–W14</p>
       <h1>고급표현학습 기말 한 바퀴</h1>
       <p class="lede">중간고사 뒤 강의를 <b>처음 배우는 사람</b> 기준으로 풀어 쓰는 페이지야. 용어는 처음 나올 때 그 자리에서 풀었어. 논문 이름을 외우기 전에 <b>왜 다음 방법이 나왔는지</b>만 따라가면 돼.</p>
-      <p class="lede">지금은 <b>L08–L09(Weakly-Supervised Learning I · II)</b>까지 들어 있어. 강의가 끝날 때마다 단원이 하나씩 늘어나.</p>
+      <p class="lede">지금은 <b>L08–L10(Weakly-Supervised Learning I · II, Active Learning I)</b>까지 들어 있어. 강의가 끝날 때마다 단원이 하나씩 늘어나.</p>
       <p class="local-note">로컬 버전: 슬라이드 그림 포함. 그림을 누르면 크게 보여.</p>
       <p class="thesis">기말 범위를 꿰는 질문(임시): annotation을 덜 쓰면서 모자란 <em>supervision</em>을 어떻게 메우나?</p>
       <ul class="chips" aria-label="기말 정보">
@@ -415,6 +415,8 @@ details.more{margin:.4rem 0 1.2rem}
       <li class="grp">Weakly-supervised</li>
       <li><a href="#l08"><span class="n">L08</span><span class="t">WSOD</span></a></li>
       <li><a href="#l09"><span class="n">L09</span><span class="t">WSSS</span></a></li>
+      <li class="grp">Active learning</li>
+      <li><a href="#l10"><span class="n">L10</span><span class="t">AL I</span></a></li>
       <li class="grp">정리</li>
       <li><a href="#patterns"><span class="n">PAT</span><span class="t">공통 패턴</span></a></li>
       <li><a href="#code"><span class="n">PC</span><span class="t">Pseudo code</span></a></li>
@@ -427,7 +429,7 @@ details.more{margin:.4rem 0 1.2rem}
 
 <!-- ============ 한눈에 요약 ============ -->
 <section id="sum">
-  <div class="ch-head"><span class="ch-num">SUM</span><h2>한눈에 요약</h2><p class="ch-meta">암기용 · L08–L09</p></div>
+  <div class="ch-head"><span class="ch-num">SUM</span><h2>한눈에 요약</h2><p class="ch-meta">암기용 · L08–L10</p></div>
   <p class="sum-use">단원 → 파트 → 카드 순서로 꼭 외울 것만 모았어. 번호는 <b>단원-파트-카드</b> (예: 8-3-2 = 8강 파트 3의 2번 카드). <b>번호나 이름을 누르면 그 상세 카드로 바로 가.</b> 돌아올 땐 단원 머리의 <b>↑ 요약</b>이나 브라우저 뒤로 가기. 주황 글씨는 시험 함정. pseudo code는 뒤쪽 <a href="#code">Pseudo code</a> 섹션에서 따로 봐.</p>
 <div class="sum-ch" id="sum-l08">
   <a class="sum-ch-h" href="#l08"><span class="sum-ch-n">L08</span><span class="sum-ch-t">Weakly-Supervised Learning I</span></a>
@@ -552,6 +554,58 @@ details.more{margin:.4rem 0 1.2rem}
     </ul>
   </div>
 </div>
+<div class="sum-ch" id="sum-l10">
+  <a class="sum-ch-h" href="#l10"><span class="sum-ch-n">L10</span><span class="sum-ch-t">Active Learning I</span></a>
+  <p class="sum-ch-q"><span class="k">질문</span>label budget이 한정돼 있을 때, 어느 unlabeled sample에 label을 달아야 하나?<span class="sum-a">→ <b>acquisition function</b> U(x)로 sample마다 informativeness 점수를 매겨서 골라: 한 모델의 <b>uncertainty</b>(LC · Margin · Entropy) → 여러 모델의 <b>disagreement</b>(QBC) → diversity · expected model change · hybrid → deep network에선 <b>MC Dropout</b>으로 ensemble을 싸게 흉내 내고, <b>BALD</b>로 <b>epistemic</b> uncertainty가 큰 sample만 골라</span></p>
+  <div class="sum-part">
+    <a class="sum-part-h" href="#l10-p1"><span class="sum-pn">10-1</span>Introduction to Active Learning Framework</a>
+    <ul class="sum-items">
+      <li><a class="sum-k" href="#l10-1-1"><span class="sum-no">10-1-1</span><b>Active Learning</b></a><span class="sum-d">Huge amounts of unlabeled data · Only a <b>limited labeling budget</b> · Goal: Select the <b>most informative</b> unlabeled samples, Maximize model improvement with <b>minimum annotation cost</b> · Workflow: Select informative samples → Human annotation → Retrain the model → Repeat (p.4–5)</span><span class="sum-t">고른 sample의 label은 <b>사람</b>이 달아. 모델 예측을 label로 쓰는 pseudo label(L06–L07)과 달라</span></li>
+      <li><a class="sum-k" href="#l10-1-2"><span class="sum-no">10-1-2</span><b>Acquisition Function</b></a><span class="sum-d">"Assigns an <b>informativeness score</b> to each unlabeled sample" · U(x) = Scoring function for active learning selection · <span class="math">P<sub>θ</sub>(y|x)</span> = softmax classifier · ŷ = most confident prediction · B = Labeling budget · b = Batch size (p.6) · 고르는 과정 = "sampling strategy" or "query strategy" (p.7)</span></li>
+    </ul>
+  </div>
+  <div class="sum-part">
+    <a class="sum-part-h" href="#l10-p2"><span class="sum-pn">10-2</span>Sampling Strategy ①: 한 모델의 uncertainty</a>
+    <ul class="sum-items">
+      <li><a class="sum-k" href="#l10-2-1"><span class="sum-no">10-2-1</span><b>Uncertainty Sampling</b></a><span class="sum-d">Label the samples that the current model is <b>least confident</b> about · Not all unlabeled samples are equally informative · Samples <b>near the decision boundary</b> often provide the greatest learning benefit (p.9) · 재는 법: Least Confidence · Margin · Entropy (p.10)</span></li>
+      <li><a class="sum-k" href="#l10-2-2"><span class="sum-no">10-2-2</span><b>Least Confidence</b></a><span class="sum-d"><span class="math">ŷ = arg max<sub>y</sub> P(y|x)</span>, <span class="math">U(x) = 1 − P(ŷ|x)</span> · Uses only the <b>highest</b> predicted probability · Lower confidence → Higher priority (p.11)</span></li>
+      <li><a class="sum-k" href="#l10-2-3"><span class="sum-no">10-2-3</span><b>Margin Sampling</b></a><span class="sum-d"><span class="math">U(x) = P(ŷ<sub>1</sub>|x) − P(ŷ<sub>2</sub>|x)</span> · Use the <b>top two</b> probabilities · <b>Small</b> margin → High uncertainty (p.12)</span><span class="sum-t">U가 <b>작은</b> sample을 골라. LC · Entropy와 방향이 반대야</span></li>
+      <li><a class="sum-k" href="#l10-2-4"><span class="sum-no">10-2-4</span><b>Entropy Sampling</b></a><span class="sum-d"><span class="math">U(x) = −Σ<sub>y</sub> P(y|x) log P(y|x)</span> · Uses the <b>entire</b> probability distribution · Higher entropy → Higher uncertainty (p.13)</span></li>
+      <li class="sum-tbl"><a class="sum-k" href="#l10-p2"><span class="sum-no">표</span><b>세 측정 비교</b></a><span class="sum-d">쓰는 확률: LC = top-1 · Margin = top-2 · Entropy = 전체 분포 · 고르는 방향: LC · Entropy는 U가 큰 것, Margin은 U가 작은 것</span></li>
+    </ul>
+  </div>
+  <div class="sum-part">
+    <a class="sum-part-h" href="#l10-p3"><span class="sum-pn">10-3</span>Sampling Strategy ②: 여러 모델의 disagreement, QBC</a>
+    <ul class="sum-items">
+      <li><a class="sum-k" href="#l10-3-1"><span class="sum-no">10-3-1</span><b>Query-by-Committee (QBC)</b></a><span class="sum-d">"Instead of relying on a single model, measure uncertainty by <b>disagreement among multiple models</b>" · Train multiple models (committee) → Each model predicts independently → Select samples with the <b>largest disagreement</b> (p.14) · 재는 법: Voter Entropy · Consensus Entropy · KL Divergence (p.15)</span></li>
+      <li><a class="sum-k" href="#l10-3-2"><span class="sum-no">10-3-2</span><b>Voter Entropy</b></a><span class="sum-d"><span class="math">U(x) = H(V(y) / C)</span> · V(y) = class y에 표를 던진 모델 수, C = committee 모델 수 · Only considers the <b>predicted label</b> of each model · High vote diversity → High uncertainty (p.16)</span></li>
+      <li><a class="sum-k" href="#l10-3-3"><span class="sum-no">10-3-3</span><b>Consensus Entropy</b></a><span class="sum-d"><span class="math">P<sub>C</sub>(y) = (1/C) Σ<sub>c</sub> P<sub>θ<sub>c</sub></sub>(y|x)</span>, <span class="math">U(x) = H(P<sub>C</sub>)</span> · Uses the <b>full probability distribution</b> · Measures uncertainty of the committee <b>consensus</b> (p.17)</span></li>
+      <li><a class="sum-k" href="#l10-3-4"><span class="sum-no">10-3-4</span><b>KL Divergence</b></a><span class="sum-d"><span class="math">U(x) = (1/C) Σ<sub>c</sub> D<sub>KL</sub>(P<sub>θ<sub>c</sub></sub> ‖ P<sub>C</sub>)</span> · disagreement between <b>each model</b> and the <b>committee average</b> · Larger KL → Larger disagreement (p.18)</span><span class="sum-t">KL은 <b>각 모델 ‖ 평균</b>이야. 평균 분포 하나의 퍼짐만 보는 건 Consensus Entropy야</span></li>
+      <li class="sum-tbl"><a class="sum-k" href="#l10-p3"><span class="sum-no">표</span><b>세 측정 비교</b></a><span class="sum-d">Voter = Final class labels only · Consensus = Full probability distributions · KL = Distance between distributions (p.19) · "How many people chose which class?" / "How much uncertainty is there on average?" / "How much does each model differ from the average opinion?"</span></li>
+    </ul>
+  </div>
+  <div class="sum-part">
+    <a class="sum-part-h" href="#l10-p4"><span class="sum-pn">10-4</span>Sampling Strategy ③: 다른 기준과 한계</a>
+    <ul class="sum-items">
+      <li><a class="sum-k" href="#l10-4-1"><span class="sum-no">10-4-1</span><b>Diversity Sampling</b></a><span class="sum-d">Select <b>representative</b> samples that cover the data distribution · Avoid selecting <b>redundant</b> samples · Cover different regions of the feature space · Improve generalization (p.20)</span></li>
+      <li><a class="sum-k" href="#l10-4-2"><span class="sum-no">10-4-2</span><b>Expected Model Change</b></a><span class="sum-d">Select samples expected to <b>change the model the most</b> after labeling · Large parameter update · Large loss reduction · High training impact (p.21)</span></li>
+      <li><a class="sum-k" href="#l10-4-3"><span class="sum-no">10-4-3</span><b>Hybrid Strategy</b></a><span class="sum-d">Combine multiple criteria · Uncertain <b>and</b> representative · Informative <b>and</b> diverse · Most modern active learning methods (p.22)</span></li>
+      <li><a class="sum-k" href="#l10-4-4"><span class="sum-no">10-4-4</span><b>Limitations</b></a><span class="sum-d"><b>Hand-crafted</b> acquisition functions (No single strategy works best for all tasks) · <b>Computationally expensive</b> (Committee models · Pairwise similarity computation · Expected model update estimation · Retraining after every acquisition round) · <b>Separate objectives</b> → "Can we learn the acquisition function directly using deep neural networks?" (p.23)</span></li>
+    </ul>
+  </div>
+  <div class="sum-part">
+    <a class="sum-part-h" href="#l10-p5"><span class="sum-pn">10-5</span>Deep Active Learning (Ensemble-based Estimation)</a>
+    <p class="sum-p1">Ensemble(믿을 만하지만 비쌈) → MC Dropout(싼 근사) → DBAL이 BALD로 epistemic만 골라 → Beyond MC Dropout(Snapshot · DEE · Multi-head)</p>
+    <ul class="sum-items">
+      <li><a class="sum-k" href="#l10-5-1"><span class="sum-no">10-5-1</span><b>Aleatoric vs Epistemic</b></a><span class="sum-d">Aleatoric = caused by <b>data noise</b> (Sensor noise · Occlusion · Motion blur · Intrinsic ambiguity), <b>Cannot</b> be reduced by collecting more data · Epistemic = caused by <b>limited model knowledge</b>, <b>Can</b> be reduced with more labeled data (p.25)</span><span class="sum-t">"Active Learning mainly targets <b>Epistemic</b> Uncertainty". 둘을 바꾼 지문 조심</span></li>
+      <li><a class="sum-k" href="#l10-5-2"><span class="sum-no">10-5-2</span><b>Ensemble-based Estimation</b></a><span class="sum-d">Train multiple models independently → If they disagree, the sample is likely informative · EX) AdaBoost, Bootstrapping, Random forests · Problems: Need multiple networks · High training cost · High inference cost (p.26)</span></li>
+      <li><a class="sum-k" href="#l10-5-3"><span class="sum-no">10-5-3</span><b>MC Dropout</b></a><span class="sum-d">"Instead of training multiple networks, apply dropout during <b>inference</b>" · Different dropout masks ≈ Different models · Single network · Low memory · Good approximation to Bayesian inference · 예측의 variance = epistemic uncertainty 추정 (p.27)</span><span class="sum-t">dropout을 test 때도 <b>켜 둬</b> (보통은 꺼)</span></li>
+      <li><a class="sum-k" href="#l10-5-4"><span class="sum-no">10-5-4</span><b>DBAL</b></a><span class="sum-d">Goal: "samples that the model is truly unsure about" · Train a classifier with dropout → Multiple stochastic forward passes → Estimate predictive uncertainty (<b>BALD</b>) → Select → Query labels and retrain (p.28) · "MC Dropout consistently outperforms <b>random sampling</b>" (p.32)</span></li>
+      <li><a class="sum-k" href="#l10-5-5"><span class="sum-no">10-5-5</span><b>BALD</b></a><span class="sum-d"><b>mutual information</b> between the label y and the model parameters θ · <span class="math">BALD(x) ≈ H[p̄(y|x)] − (1/T) Σ<sub>t</sub> H[p<sub>t</sub>(y|x)]</span> = Entropy of mean prediction − Mean entropy of predictions · Case 1 aleatoric: High − High ≈ 0 · Case 2 epistemic: High − Low = Large (p.29–31)</span><span class="sum-t">두 case 모두 평균 예측의 entropy는 <b>High</b>야. 차이는 빼는 항(모델 각자의 entropy)에서 나와</span></li>
+      <li><a class="sum-k" href="#l10-5-6"><span class="sum-no">10-5-6</span><b>Beyond MC Dropout</b></a><span class="sum-d">Naïve ensembles = most <b>reliable</b> uncertainty estimates, but computationally expensive (p.33) · Snapshot Ensemble(cyclic learning rate로 checkpoint 여러 개) · DEE(shared backbone + dropout) · Multi-head / Split-head(feature extractor 하나 + head 여러 개) (p.34) · Accuracy: Naïve Ensemble &gt; Efficient Approximations · Efficiency: Efficient Approximations &gt; Naïve Ensemble (p.35)</span><span class="sum-t">"MC Dropout remains one of the best <b>trade-offs</b> between uncertainty quality and computational cost" (p.35)</span></li>
+    </ul>
+  </div>
+</div>
 
 </section>
 
@@ -562,7 +616,7 @@ details.more{margin:.4rem 0 1.2rem}
   <ol class="check">
     <li><b>큰 그림</b>(MAP)부터 봐. 기말 범위가 어떤 질문으로 이어지는지만 잡으면 돼.</li>
     <li><b>용어 먼저</b>(ABC)는 외우지 말고 훑어. 본문의 용어 링크를 눌러 돌아와도 돼.</li>
-    <li><b>L08 → L09</b> 순서대로 읽어. 앞 방법의 한계가 다음 방법의 문제가 되는 구조라서, 건너뛰면 "이 방법이 왜 나왔지?"가 안 보여.</li>
+    <li><b>L08 → L09 → L10</b> 순서대로 읽어. 앞 방법의 한계가 다음 방법의 문제가 되는 구조라서, 건너뛰면 "이 방법이 왜 나왔지?"가 안 보여.</li>
     <li>단원 끝 셀프 체크는 <b>영어로 직접 써 보고</b> 정답을 열어. 중간고사는 20문제 중 15개가 영어로 쓰는 문제였어.</li>
     <li>다 읽고 나서 <b>공통 패턴</b>(PAT)과 <b>Pseudo code</b>(PC)를 봐. 시험 전날엔 <b>마지막 체크</b>(D-1)로 영어 문장이 바로 나오는지 확인해. 외울 것만 보려면 <b>한눈에 요약</b>(SUM)을 봐. <b>Physical AI 연결</b>(PAI)은 동기 부여용이고 시험 범위가 아니야.</li>
   </ol>
@@ -589,14 +643,14 @@ details.more{margin:.4rem 0 1.2rem}
 <section id="map">
   <h2>큰 그림: 모자란 supervision을 어떻게 메우나</h2>
   <p>중간고사 범위(L01–L07)는 "사람이 label을 안 주면 학습 target은 어디서 오나?" 한 질문으로 꿰었어. 기억난 문제의 절반 넘게 "label · target을 누가 어떻게 만드나"였어.</p>
-  <p>기말 범위는 W10–W14 다섯 강의야. 임시 질문은 <b>annotation을 덜 쓰면서 모자란 supervision을 어떻게 메우나?</b>야. 지금은 L08–L09 두 강의(둘 다 weakly-supervised)까지 들었어. L08은 "<b>어느 box</b>", L09는 "<b>어느 pixel</b>"을 target으로 삼나를 물었어. W14가 끝나면 이 질문을 다시 볼 거야.</p>
+  <p>기말 범위는 W10–W14 다섯 강의야. 임시 질문은 <b>annotation을 덜 쓰면서 모자란 supervision을 어떻게 메우나?</b>야. 지금은 L08–L10 세 강의까지 들었어. L08–L09(weakly-supervised)는 label을 약하게 주고 "<b>어느 box</b>", "<b>어느 pixel</b>"을 target으로 삼나를 물었어. L10(active learning)은 방향이 달라: label은 사람이 정식으로 달되, "<b>어느 sample</b>에 label을 달까"를 모델이 골라. W14가 끝나면 이 질문을 다시 볼 거야.</p>
 
   <div class="tbl"><table>
     <thead><tr><th>주차</th><th>강의</th><th>이 질문에 대한 답</th><th>상태</th></tr></thead>
     <tbody>
       <tr><td>W10 11/5</td><td>L08 Weakly-Supervised I</td><td>label을 <b>약하게</b> 줘. image label만 주고, 어느 box가 물체인지는 모델이 찾아. 대개 고른 box가 다음 학습의 target이 돼.</td><td><a href="#l08">정리됨</a></td></tr>
       <tr><td>W11 11/12</td><td>L09 Weakly-Supervised II</td><td><b>pixel label</b> 대신 image label · web · box · foundation model(CLIP / DINO / SAM)에서 pixel target을 만들어. 대개 classifier의 CAM을 잘라 만든 seed가 출발점이고, 경계와 범위는 다른 단서로 보강해.</td><td><a href="#l09">정리됨</a></td></tr>
-      <tr><td>W12 11/19</td><td>Active Learning I</td><td class="muted">예정</td><td class="muted">예정</td></tr>
+      <tr><td>W12 11/19</td><td>L10 Active Learning I</td><td>label을 <b>골라서</b> 달아. budget 안에서 모델이 제일 informative한 unlabeled sample을 고르면 사람이 label을 달고, 다시 학습하고, 반복해. 고르는 점수(acquisition function)는 대개 <b>uncertainty</b>이고, deep model에선 MC Dropout으로 여러 모델을 흉내 내서 BALD로 epistemic uncertainty를 재.</td><td><a href="#l10">정리됨</a></td></tr>
       <tr><td>W13 11/26</td><td>Active Learning II</td><td class="muted">예정</td><td class="muted">예정</td></tr>
       <tr><td>W14 12/3</td><td>MAE</td><td class="muted">예정</td><td class="muted">예정</td></tr>
     </tbody>
@@ -609,7 +663,7 @@ details.more{margin:.4rem 0 1.2rem}
 <!-- ============ 용어 ============ -->
 <section id="terms">
   <h2>용어 먼저 깔기</h2>
-  <p>L08은 object detection 용어를, L09는 segmentation 용어와 CLIP · DINO · SAM 같은 큰 pretrained model 이름을 "다들 알지?" 하고 지나가. RL · VLA 쪽에선 처음 보는 말이 많으니까 여기서 깔아 둘게. 항목마다 <b>뜻 → 예 → 왜 필요한지</b> 순서고, 보라색 RL 줄은 아는 개념과 짝지은 비유야. 비유라서 완전히 같진 않고, 슬라이드 밖이라 시험 범위도 아니야.</p>
+  <p>L08은 object detection 용어를, L09는 segmentation 용어와 CLIP · DINO · SAM 같은 큰 pretrained model 이름을, L10은 entropy · KL · mutual information 같은 정보이론 용어와 dropout · Bayesian 쪽 용어를 "다들 알지?" 하고 지나가. RL · VLA 쪽에선 처음 보는 말이 많으니까 여기서 깔아 둘게. 항목마다 <b>뜻 → 예 → 왜 필요한지</b> 순서고, 보라색 RL 줄은 아는 개념과 짝지은 비유야. 비유라서 완전히 같진 않고, 슬라이드 밖이라 시험 범위도 아니야.</p>
 
   <h3>Detection 기초</h3>
   <dl class="gloss">
@@ -848,6 +902,106 @@ details.more{margin:.4rem 0 1.2rem}
       <p><span class="k">예</span>WISH의 비용은 <span class="math">Cost = α·Cost<sub>cls</sub> + β·Cost<sub>prompt</sub> + γ·Cost<sub>mask</sub></span>이고 (p.89), "Hungarian matching assigns predictions to weakly labeled instances" (p.90).</p>
       <p><span class="k">왜</span>query 순서와 label 순서는 아무 관계가 없어서, 짝을 먼저 정해야 query마다 loss를 걸 수 있어. WISH는 "what it is, where it is, and which SAM mask fits it best"로 짝을 정해 (p.90).</p>
       <span class="rlx">multi-agent task allocation에서 agent와 task를 비용 최소로 일대일 배정하는 것과 같은 문제야.</span></dd>
+  </dl>
+
+  <h3>Active Learning (L10)</h3>
+  <dl class="gloss">
+    <dt id="t-active-learning">Active learning<small>L10 p.4–5</small></dt>
+    <dd>unlabeled data는 많고 label을 달 예산은 적을 때, <b>모델이 label을 달 sample을 골라서</b> 사람에게 묻는 학습 방식이야. 고르기 → 사람이 label 달기(annotation) → 다시 학습 → 반복.
+      <p><span class="k">예</span>설명용: 사진 10만 장 중 1,000장만 label을 달 수 있으면, random으로 1,000장을 뽑지 않고 지금 모델이 제일 헷갈리는 사진부터 골라서 물어.</p>
+      <p><span class="k">왜</span>"Select the most informative unlabeled samples", "Maximize model improvement with minimum annotation cost" (p.4). 목표는 "Achieve the highest accuracy / With the fewest labeled examples"야 (p.5).</p>
+      <p><span class="k">L06–L07</span>semi-supervised는 unlabeled data에 모델 예측(pseudo label)을 그냥 붙여 써. active learning은 일부를 골라서 <b>사람</b>에게 진짜 label을 받아 (보충).</p>
+      <span class="rlx">agent가 다음에 어떤 data를 모을지 스스로 고르는 exploration과 같은 구도야. 다만 여기선 환경 대신 사람(annotator)에게 label을 물어.</span></dd>
+
+    <dt id="t-labeling-budget">Labeling budget (B)<small>L10 p.4 · p.6</small></dt>
+    <dd>label을 달 수 있는 sample 수의 상한이야. 슬라이드 표기로 "B: Labeling budget (the maximum number of samples to label)"이고, b는 "Batch size"야 (p.6). b는 한 round에 골라서 묻는 sample 수로 읽으면 돼 (해석).
+      <p><span class="k">예</span>설명용: B = 1,000, b = 100이면 100장씩 골라 label을 받고 다시 학습하는 round를 10번 돌 수 있어.</p>
+      <p><span class="k">왜</span>human annotation은 "expensive and time-consuming"이라 예산이 정해져 있어 (p.4). 같은 budget에서 정확도를 최대로 올리는 게 목표야: "Higher accuracy with the same labeling budget" (p.32).</p>
+      <span class="rlx">sample efficiency 문제와 같아. 환경 step(여기선 label 하나)이 비싸서 적게 쓰고 많이 배워야 해.</span></dd>
+
+    <dt id="t-acquisition-function">Acquisition function U(x)<small>L10 p.6–7</small></dt>
+    <dd>unlabeled sample마다 "label을 달면 얼마나 도움이 될까(informativeness)"를 숫자로 매기는 함수야. "Assigns an informativeness score to each unlabeled sample" (p.7). 슬라이드 기호로는 U(x) = "Scoring function for active learning selection"이야 (p.6).
+      <p><span class="k">예</span>Least Confidence는 <span class="math">U(x) = 1 − P(ŷ|x)</span>, Entropy는 <span class="math">U(x) = −Σ<sub>y</sub> P(y|x) log P(y|x)</span>야 (p.11, p.13). 점수가 큰 sample부터 골라. 단 Margin은 U가 <b>작은</b> 쪽을 골라 (p.12).</p>
+      <p><span class="k">왜</span>다음에 label을 달 sample을 고르는 기준이 이 함수야. 이렇게 고르는 과정 전체를 "sampling strategy" 또는 "query strategy"라고 불러 (p.7).</p>
+      <span class="rlx">Q-value로 action을 고르듯 U(x)로 sample을 골라. "이 state가 얼마나 새롭나"를 점수로 매기는 exploration bonus와 더 닮았어.</span></dd>
+
+    <dt id="t-uncertainty-sampling">Uncertainty sampling<small>L10 p.9–13</small></dt>
+    <dd>지금 모델이 <b>가장 자신 없어 하는</b> sample에 label을 다는 전략이야. "Label the samples that the current model is least confident about" (p.9).
+      <p><span class="k">예</span>설명용: 확률이 [0.98, 0.02]인 sample보다 [0.51, 0.49]인 sample을 먼저 골라. 재는 방법은 Least Confidence · Margin · Entropy 세 가지야 (p.10).</p>
+      <p><span class="k">왜</span>"Not all unlabeled samples are equally informative" (p.9). 이미 확신하는 sample은 label을 받아도 배울 게 적고, decision boundary 근처 sample이 "the greatest learning benefit"을 줘.</p>
+      <span class="rlx">policy가 action을 못 정하는(분포가 퍼진) state에서만 expert에게 묻는 것과 같은 발상이야.</span></dd>
+
+    <dt id="t-decision-boundary">Decision boundary<small>L10 p.9</small></dt>
+    <dd>classifier의 예측 class가 바뀌는 경계선이야. 경계 위에선 두 class의 확률이 거의 같아.
+      <p><span class="k">예</span>p.9 그림에서 파란 점(Class 1)과 빨간 삼각형(Class 2) 사이의 검은 점선이 경계고, 그 양옆 회색 점선 사이가 "Uncertainty region"이야. 보라 동그라미(uncertainty sampling이 고른 sample)가 다 이 띠 안에 있어.</p>
+      <p><span class="k">왜</span>경계에서 먼 sample은 label을 받아도 경계가 거의 안 움직여. 경계 근처 sample의 label이 경계를 어디로 옮길지 정해 줘: "Samples near the decision boundary often provide the greatest learning benefit" (p.9).</p>
+      <span class="rlx">Q(s, a<sub>1</sub>) ≈ Q(s, a<sub>2</sub>)라서 greedy action이 바뀌기 직전인 state와 같아. 거기서 얻는 정보가 policy를 제일 많이 바꿔.</span></dd>
+
+    <dt id="t-entropy">Entropy H(·)<small>L10 p.13 · p.16–17 · p.29</small></dt>
+    <dd>확률분포가 얼마나 퍼져 있나(얼마나 불확실한가)를 재는 값이야. Shannon entropy <span class="math">H(p) = −Σ<sub>y</sub> p(y) log p(y)</span>. 한 class에 몰리면 0이고, K개 class에 똑같이 퍼지면 최대(log K)야.
+      <p><span class="k">예</span>설명용: [1, 0]이면 H = 0, [0.5, 0.5]면 H = log 2 ≈ 0.69 (자연로그 기준)야.</p>
+      <p><span class="k">왜</span>L10의 점수 대부분이 entropy야: Entropy Sampling(p.13), Voter Entropy(p.16), Consensus Entropy(p.17), BALD의 두 항(p.29). <b>무엇의</b> entropy인지로 방법이 갈려: Entropy Sampling = 모델 <b>하나</b>의 확률, Voter = 표 비율, Consensus = committee 평균 확률, BALD = T번 forward를 <b>평균한</b> 예측의 entropy − 각 예측 entropy의 평균. 그래서 Case 2(각 모델은 확신, 서로는 다름)에서 모델 하나의 entropy는 낮아도 평균 예측의 entropy는 높아 (p.31).</p>
+      <span class="rlx">SAC의 entropy bonus와 같은 식이야. 거기선 action 분포, 여기선 class 분포가 얼마나 퍼졌나를 재.</span></dd>
+
+    <dt id="t-committee">Committee (QBC)<small>L10 p.14–18</small></dt>
+    <dd>같은 task를 따로 학습한 모델 여러 개의 묶음이야. QBC(<b>Q</b>uery-<b>b</b>y-<b>C</b>ommittee)는 committee 모델들이 서로 다르게 답하는(disagreement) sample에 label을 물어. 모델 수는 C, c번째 모델의 parameter는 θ<sub>c</sub>야 (p.16–17).
+      <p><span class="k">예</span>p.14 그림: 3개는 Cat, 2개는 Dog라고 답하면 vote distribution이 [3/5, 2/5]라서 disagreement가 커 → label을 물어. 다섯 모델이 다 Dog라고 하면(5 vs 0) disagreement가 낮아.</p>
+      <p><span class="k">왜</span>"Instead of relying on a single model, measure uncertainty by disagreement among multiple models" (p.14). 모델 하나의 확신은 틀려도 높을 수 있어서, 여러 모델이 갈리는지를 봐.</p>
+      <span class="rlx">ensemble Q의 disagreement를 exploration 신호로 쓰는 것과 같아 (예: Bootstrapped DQN).</span></dd>
+
+    <dt id="t-kl-divergence">KL divergence<small>L10 p.18</small></dt>
+    <dd><b>K</b>ullback–<b>L</b>eibler divergence. 분포 P가 기준 분포 Q에서 얼마나 떨어져 있나를 재는 값이야: <span class="math">D<sub>KL</sub>(P ‖ Q) = Σ<sub>y</sub> P(y) log (P(y) / Q(y))</span>. 0이면 같은 분포고, P와 Q를 바꾸면 값이 달라져(비대칭).
+      <p><span class="k">예</span>QBC: <span class="math">U(x) = (1/C) Σ<sub>c</sub> D<sub>KL</sub>(P<sub>θ<sub>c</sub></sub> ‖ P<sub>C</sub>)</span>. 모델마다 자기 예측이 committee 평균 P<sub>C</sub>에서 얼마나 먼지 재서 평균 내 (p.18).</p>
+      <p><span class="k">왜</span>"How far each model's prediction is from the committee average" (p.18). Consensus Entropy는 평균 분포 하나의 퍼짐만 보지만, KL은 모델들이 <b>서로 다른지</b>를 직접 재. L09의 <a href="#t-js-divergence">JS divergence</a>는 KL을 두 분포의 평균 기준으로 재서 대칭으로 만든 거야.</p>
+      <span class="rlx">TRPO · PPO가 새 policy가 옛 policy에서 얼마나 멀어졌나를 재는 그 KL이야.</span></dd>
+
+    <dt id="t-diversity-sampling">Diversity sampling<small>L10 p.20 · p.22</small></dt>
+    <dd>데이터 분포를 골고루 덮는 <b>대표(representative)</b> sample을 고르는 전략이야. "Select representative samples that cover the data distribution" (p.20).
+      <p><span class="k">예</span>설명용: uncertainty만 보면 경계 근처의 거의 똑같은 사진 100장을 다 고를 수도 있어. diversity는 "Avoid selecting redundant samples", "Cover different regions of the feature space"를 노려 (p.20).</p>
+      <p><span class="k">왜</span>비슷한 sample을 여러 번 물으면 label을 낭비해. 여러 영역을 덮어야 "Improve generalization" (p.20). 그래서 요즘 방법 대부분은 "Uncertain and representative"처럼 둘을 묶는 hybrid야 (p.22).</p>
+      <span class="rlx">같은 state만 반복 방문하지 않고 state space를 넓게 덮으려는 coverage 기반 exploration과 닮았어.</span></dd>
+
+    <dt id="t-aleatoric">Aleatoric uncertainty<small>L10 p.25 · p.30</small></dt>
+    <dd><b>data 자체의 noise</b> 때문에 생기는 불확실성이야. "Uncertainty caused by data noise" (p.25). 슬라이드 예: Sensor noise, Occlusion, Motion blur, Intrinsic ambiguity.
+      <p><span class="k">예</span>p.30 Case 1의 흐린(blurred) 사진은 어느 모델이 봐도 cat · dog를 반반쯤으로 똑같이 헷갈려.</p>
+      <p><span class="k">왜</span>"Cannot be reduced by collecting more data" (p.25). label을 더 달아도 안 줄어드니까 active learning이 노릴 대상이 아니야. 이름은 라틴어 alea(주사위)에서 왔어 (보충).</p>
+      <span class="rlx">환경의 stochastic transition noise와 같아. 아무리 탐험해도 안 줄어. prediction error를 curiosity bonus로 쓰면 agent가 noise 앞에서 안 떠나는 "noisy TV" 문제가 이거야.</span></dd>
+
+    <dt id="t-epistemic">Epistemic uncertainty<small>L10 p.25 · p.31</small></dt>
+    <dd><b>모델이 아직 몰라서</b> 생기는 불확실성이야. "Uncertainty caused by limited model knowledge" (p.25). "Model has not seen similar examples", "Large uncertainty in model parameters".
+      <p><span class="k">예</span>p.31 Case 2: 모델마다 자신 있게 답하는데 답이 서로 달라 (Model 1 · T는 cat 쪽, Model 2는 dog 쪽으로 높게).</p>
+      <p><span class="k">왜</span>"Can be reduced with more labeled data" (p.25). 그래서 "Active Learning mainly targets Epistemic Uncertainty"야 (p.25). 이름은 그리스어 episteme(지식)에서 왔어 (보충).</p>
+      <span class="rlx">아직 덜 가 본 state에서 value 추정이 불확실한 것과 같아. 탐험하면 줄어서, exploration bonus가 노리는 대상이 이거야.</span></dd>
+
+    <dt id="t-ensemble">Ensemble<small>L10 p.26 · p.33–35</small></dt>
+    <dd>모델 여러 개를 따로 학습해서 예측을 합치는(평균 · 투표) 방법이야. active learning에선 모델들이 <b>서로 갈리는지(disagree)</b>를 uncertainty 신호로 써.
+      <p><span class="k">예</span>"EX) AdaBoost, Bootstrapping, Random forests" (p.26). p.34 그림의 Naïve Ensemble은 모델 N개를 처음부터(from scratch) 따로 학습해.</p>
+      <p><span class="k">왜</span>"Naïve ensembles provide the most reliable uncertainty estimates" (p.33). 대신 "Need multiple networks", "High training cost", "High inference cost" (p.26). 이 비용을 줄이려고 MC Dropout(p.27)과 Snapshot · DEE · Multi-head 같은 근사(p.34)가 나와.</p>
+      <span class="rlx">Bootstrapped DQN의 head 여러 개나 model-based RL의 dynamics model ensemble처럼, 여러 추정기의 차이로 불확실성을 재는 것과 같아.</span></dd>
+
+    <dt id="t-dropout">Dropout<small>L10 p.27 · p.34</small></dt>
+    <dd>학습 중에 neuron 일부를 무작위로 꺼서(0으로 만들어) 특정 neuron에만 기대지 않게 하는 regularization이야. 보통은 <b>test 때 끄고</b> 전체 network로 예측해 (보충: 기초 ML).
+      <p><span class="k">예</span>설명용: 끄는 확률이 0.5면 forward마다 hidden unit의 절반쯤이 랜덤으로 꺼져. 어느 unit을 끌지 정한 0/1 패턴을 dropout mask라고 해.</p>
+      <p><span class="k">왜</span>mask가 바뀔 때마다 사실상 조금 다른 sub-network가 돼. MC Dropout은 이걸 이용해서 test 때도 dropout을 켜 둬 (p.27). DEE도 dropout으로 모델끼리 예측이 달라지게 해 (p.34).</p>
+      <span class="rlx">model-based RL에서 dropout을 켠 dynamics model로 불확실성을 재는 데도 쓰였어 (예: Gal 등의 PILCO 확장).</span></dd>
+
+    <dt id="t-mc-dropout">MC Dropout<small>L10 p.27–28</small></dt>
+    <dd><b>M</b>onte <b>C</b>arlo Dropout. test(inference) 때도 dropout을 켜 두고 같은 입력을 여러 번(T번) forward해서, 매번 다른 mask로 나온 예측들을 ensemble처럼 쓰는 방법이야. "Instead of training multiple networks, apply dropout during inference" (p.27). Monte Carlo = 무작위 sample 여러 개로 기댓값을 근사한다는 뜻이야.
+      <p><span class="k">예</span>설명용: T = 20번 forward하면 확률 벡터 20개가 나와. 그 평균은 예측으로 쓰고, 퍼짐(variance)이나 BALD는 uncertainty로 써.</p>
+      <p><span class="k">왜</span>"Different dropout masks ≈ Different models". 장점은 "Single network", "Low memory", "Good approximation to Bayesian inference"야 (p.27). DBAL이 이걸로 BALD를 계산해 (p.28).</p>
+      <span class="rlx">Q network를 여러 개 학습하는 대신, 하나의 network에서 mask만 바꿔 Q 추정치를 여러 개 싸게 뽑는 셈이야.</span></dd>
+
+    <dt id="t-mutual-information">Mutual information<small>L10 p.29</small></dt>
+    <dd>한 변수를 알면 다른 변수의 불확실성(entropy)이 <b>얼마나 줄어드나</b>를 재는 값이야. <span class="math">I(y, θ) = H[y] − E<sub>θ</sub>[H[y | θ]]</span> 꼴로 써. 0이면 서로 아무 정보도 안 줘 (보충: 정의).
+      <p><span class="k">예</span><span class="math">BALD(x) = I(y, θ | x, D)</span>: sample x의 label y를 알면 model parameter θ에 대해 얼마나 알게 되나야 (p.29). 대칭이라서 "θ를 알면 y가 얼마나 확실해지나"로 읽어도 값이 같아.</p>
+      <p><span class="k">왜</span>label을 물어서 <b>모델(θ)에 대해</b> 많이 배울 sample을 고르고 싶으니까, y와 θ 사이의 정보량이 딱 맞는 점수야. noise 때문에 헷갈리는 sample은 y를 알아도 θ에 대해 배울 게 없어서 값이 작아 (p.30).</p>
+      <span class="rlx">VIME 같은 information gain exploration이 "이 transition을 보면 dynamics model parameter에 대해 얼마나 배우나"를 bonus로 줘. 같은 꼴의 양이야.</span></dd>
+
+    <dt id="t-bald">BALD<small>L10 p.28–32</small></dt>
+    <dd><b>B</b>ayesian <b>A</b>ctive <b>L</b>earning by <b>D</b>isagreement (슬라이드엔 풀이가 없고, 원 논문 Houlsby et al. 2011의 이름이야). label y와 model parameter θ의 <a href="#t-mutual-information">mutual information</a>으로 sample을 고르는 acquisition function이야: "BALD measures the mutual information between the label y of sample x and the model parameters θ" (p.29). 근사식은 <span class="math">BALD(x) ≈ H[p̄(y|x)] − (1/T) Σ<sub>t</sub> H[p<sub>t</sub>(y|x)]</span> = "Entropy of mean prediction − Mean entropy of predictions"야 (p.29).
+      <p><span class="k">예</span>Case 1(aleatoric, 흐린 사진): 모델마다 반반 → High − High ≈ 0. Case 2(epistemic): 모델마다 확신하는데 답이 달라서 평균은 반반 → High − Low = Large (p.30–31).</p>
+      <p><span class="k">왜</span>첫 항(평균 예측의 entropy)만 보면 두 case 모두 High라서 구별이 안 돼. 둘째 항(모델 각자의 entropy 평균)을 빼서 aleatoric 몫을 지우고 <b>모델끼리 갈리는 몫(epistemic)</b>만 남겨: "BALD measures how much the models disagree with each other" (p.32). 보충: QBC의 KL 평균(p.18)을 풀어 쓰면 <span class="math">H(P<sub>C</sub>) − (1/C) Σ<sub>c</sub> H(P<sub>θ<sub>c</sub></sub>)</span>라서, MC Dropout sample 자리에 committee 모델을 넣은 BALD와 같은 식이야 (슬라이드 밖 유도).</p>
+      <span class="rlx">noisy TV 문제를 피하는 발상과 닮았어 (비유). "전체 예측 불확실성 − 모델 각자의 불확실성"이라서 환경 noise(aleatoric)엔 bonus가 안 붙고, 모델 사이 disagreement(epistemic)에만 붙어.</span></dd>
   </dl>
 </section>
 
@@ -1744,9 +1898,488 @@ details.more{margin:.4rem 0 1.2rem}
   <label class="done"><input type="checkbox" id="done-l09" data-done="l09">다 봤음</label>
 </section>
 
+<!-- ============ L10 ============ -->
+<section id="l10">
+  <div class="ch-head"><span class="ch-num">L10</span><h2>Active Learning I</h2><p class="ch-meta">36p · W12 · Active learning</p><a class="to-sum" href="#sum-l10">↑ 요약</a></div>
+  <p class="ch-q"><span class="k">질문</span>label budget이 한정돼 있을 때, 어느 unlabeled sample에 label을 달아야 하나?</p>
+  <p>L08–L09는 label을 <b>약하게</b> 줘서 비용을 아꼈어. image label만 주고 box나 pixel은 모델이 찾게 했지. L10은 다른 길로 가. label은 사람이 단 정답 그대로 주되, <b>몇 개에만</b> 줘. unlabeled data는 넘치고 labeling budget은 적으니까, "어느 sample에 label을 달면 모델이 제일 많이 좋아지나?"를 모델이 직접 골라. 이게 <a href="#t-active-learning">active learning</a>이야.</p>
+  <p>흐름은 이래. 고르는 기준은 sample마다 점수를 매기는 <a href="#t-acquisition-function">acquisition function</a> <span class="math">U(x)</span>야. 앞 절반(p.8–23)은 고전 전략이야: 모델 하나가 얼마나 헷갈리나(LC · Margin · Entropy) → 모델 여러 개가 얼마나 갈리나(QBC) → uncertainty 말고 다른 기준(diversity · expected model change · hybrid) → 한계. 뒤 절반(p.24–35)은 deep network로 가. uncertainty를 <a href="#t-aleatoric">aleatoric</a>과 <a href="#t-epistemic">epistemic</a>으로 나누고, active learning이 노리는 epistemic을 <a href="#t-ensemble">ensemble</a>로 재. 비싼 ensemble 대신 <a href="#t-mc-dropout">MC Dropout</a>을 쓰고, 그걸로 <a href="#t-bald">BALD</a>를 계산하는 게 DBAL이야. 끝은 ensemble 근사들의 정확도 · 비용 trade-off야.</p>
+
+  <h3 id="l10-p1">Introduction to Active Learning Framework (p.3–7)</h3>
+  <div class="methods">
+    <div class="m" id="l10-1-1"><div><span class="m-name">Active Learning</span><span class="m-src">p.4–5</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>label을 달 sample을 모델이 골라서, 적은 label로 최대한 좋은 모델을 만드는 학습 방식이야.</p>
+      <p><span class="k">문제</span>Motivation (p.4): "Huge amounts of <b>unlabeled data</b>", "Only a <b>limited labeling budget</b>", "Human annotation is <b>expensive and time-consuming</b>". Key question: "If we can label only a small subset, which samples should we choose?"</p>
+      <p><span class="k">핵심</span>Goal (p.4): "Select the <b>most informative</b> unlabeled samples", "Maximize model improvement with <b>minimum annotation cost</b>". Objective (p.5): "Achieve the highest accuracy", "With the fewest labeled examples". <a href="#t-labeling-budget">labeling budget</a>은 label을 달 수 있는 최대 개수야(p.6의 B).</p>
+      <p><span class="k">어떻게</span>Workflow (p.5)를 반복해.</p>
+      <ol>
+        <li>Select informative samples</li>
+        <li>Human annotation</li>
+        <li>Retrain the model</li>
+        <li>Repeat</li>
+      </ol>
+      <figure class="fig"><a class="zoom" href="../assets/lecture10/p005_al_loop.png" style="max-width:340px"><img src="../assets/lecture10/p005_al_loop.png" alt="Active learning cycle: too much unlabeled data, active learning picks which to label, human labels, valuable labeled dataset, better model, repeat"></a><figcaption>왼쪽 위 "Too much unlabeled data"에서 시작해서 시계 방향으로 돌아. Active learning(노란 상자)이 "Which to label?"을 정하면 → 사람이 label을 달고(Let's label!) → label 달린 data가 쌓이고(Valuable labeled dataset) → 다시 학습한 Better model이 다음 선택을 해. <b>고르는 주체가 사람이 아니라 지금의 모델이라는 게 핵심이야.</b> 모델이 바뀌면 다음 round에 고르는 sample도 바뀌어.<span class="pg">L10 p.5</span></figcaption></figure>
+      <p><span class="k">왜 돼?</span>(노트 보충) sample마다 배울 거리가 달라. 모델이 이미 확실히 맞히는 sample에 label을 달면 budget만 쓰고 모델은 거의 안 변해. 그래서 p.5는 이 질문으로 끝나: "How do we measure which samples are the most informative?" 이 강의 나머지가 전부 이 질문의 답이야.</p>
+      <p><span class="k">차이</span>weakly-supervised(L08–L09)는 label의 <b>종류</b>를 싸게 바꿔(box 대신 image label). active learning은 label의 <b>개수</b>를 줄여. label 자체는 사람이 단 정답 그대로야. semi-supervised(L06–L07)는 label 달린 set이 이미 정해져 있고 나머지 unlabeled data를 학습에 끌어 쓰는 쪽이야. active learning의 핵심은 <b>어느 sample에 label을 달지 고르는 것</b>이야.</p>
+    </div></div>
+
+    <div class="m" id="l10-1-2"><div><span class="m-name">Acquisition Function</span><span class="m-src">p.6–7</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>unlabeled sample마다 "label을 달 가치" 점수를 매기는 함수 <span class="math">U(x)</span>야.</p>
+      <p><span class="k">문제</span>Core Question (p.7): "Which unlabeled sample should we label next?"</p>
+      <p><span class="k">핵심</span>"Assigns an <b>informativeness score</b> to each unlabeled sample." (p.7) "The process of identifying the most valuable examples to label next is referred to as "<b>sampling strategy</b>" or "<b>query strategy</b>"." (p.7)</p>
+      <p>p.6 Notations에서 꼭 알아 둘 기호야.</p>
+      <ul>
+        <li><span class="math">U(x)</span>: "Scoring function for active learning selection"</li>
+        <li><span class="math">P<sub>θ</sub>(y|x)</span>: "A softmax classifier parameterized by θ". 입력 x에 대한 class별 확률이야.</li>
+        <li><span class="math">ŷ = argmax<sub>y</sub> P<sub>θ</sub>(y|x)</span>: "The most confident prediction by the classifier"</li>
+        <li><span class="math">(x<sup>l</sup>, y) ~ 𝒳</span>: labeled dataset (y는 one-hot), <span class="math">u ~ 𝒰</span>: unlabeled dataset, <span class="math">𝒟 = 𝒳 ∪ 𝒰</span>: 전체, K: class 수</li>
+        <li>B: "Labeling budget (the maximum number of samples to label)", b: "Batch size"</li>
+      </ul>
+      <details class="slide more"><summary>슬라이드 그림 더 보기 (1장)</summary><figure class="fig"><a class="zoom" href="../assets/lecture10/p006_notations.png" style="max-width:460px"><img src="../assets/lecture10/p006_notations.png" alt="Notation table: K, labeled and unlabeled datasets, U(x) scoring function, softmax classifier, most confident prediction, labeling budget B, batch size b"></a><figcaption>p.6 Notations 표 원본이야. 뒤 식에 계속 나오는 건 <b>U(x)</b>(고르는 점수), <b>P<sub>θ</sub>(y|x)</b>(softmax 확률), <b>ŷ</b>(1등 class), <b>B</b>(labeling budget)야.<span class="pg">L10 p.6</span></figcaption></figure></details>
+      <p><span class="k">어떻게</span>한 round는 이렇게 돌아(노트 보충, 슬라이드엔 기호와 workflow만 있어).</p>
+      <ol>
+        <li>지금 모델로 𝒰의 모든 x에 <span class="math">U(x)</span>를 계산해.</li>
+        <li>점수가 가장 "informative"한 쪽부터 골라 사람에게 label을 받아. b는 슬라이드에 "Batch size"로만 적혀 있어. 한 round에 고르는 개수로 읽는 게 자연스러워(해석).</li>
+        <li>고른 sample을 𝒰에서 𝒳로 옮기고 다시 학습해.</li>
+        <li>쓴 label 수가 B에 닿을 때까지 반복해.</li>
+      </ol>
+      <p><span class="k">차이</span>뒤에 나오는 LC · Margin · Entropy · Voter · Consensus · KL · BALD는 전부 <span class="math">U(x)</span>를 정의하는 방법이야. 틀(점수 계산 → 고르기 → label → 재학습)은 같고 점수만 바꿔 끼워. 고르는 <b>방향</b>은 조심해: 대부분 U가 <b>클수록</b> 먼저 고르는데, Margin(p.12)만 U가 <b>작을수록</b> 먼저야.</p>
+    </div></div>
+  </div>
+
+  <h3 id="l10-p2">Sampling Strategy ①: 한 모델의 uncertainty (p.8–13)</h3>
+  <p>목차의 두 번째 덩어리 "Sampling Strategy (Query Strategies)"(p.8–23)는 길어서 세 파트로 나눴어. 이 파트는 모델 <b>하나</b>의 예측 확률 <span class="math">P<sub>θ</sub>(y|x)</span>만 보고 "얼마나 헷갈리나"를 재.</p>
+  <div class="methods">
+    <div class="m" id="l10-2-1"><div><span class="m-name">Uncertainty Sampling</span><span class="m-src">p.9–10</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>지금 모델이 가장 자신 없어 하는 sample에 label을 달아.</p>
+      <p><span class="k">문제</span>"<b>Not all</b> unlabeled samples are <b>equally informative</b>." (p.9)</p>
+      <p><span class="k">핵심</span>"Label the samples that the <b>current model is least confident</b> about." "<b>Samples near the decision boundary</b> often provide the <b>greatest learning benefit</b>." (p.9) <a href="#t-decision-boundary">decision boundary</a>는 모델이 class를 가르는 경계선이야.</p>
+      <figure class="fig"><a class="zoom" href="../assets/lecture10/p009_uncertainty_boundary.png" style="max-width:440px"><img src="../assets/lecture10/p009_uncertainty_boundary.png" alt="2D scatter with blue class-1 dots, red class-2 triangles, gray unlabeled circles, a dashed decision boundary and purple circles selected near it"></a><figcaption>파란 점과 빨간 삼각형은 이미 label이 있는 data, 회색 동그라미는 아직 label이 없는 후보야. 가운데 검은 점선이 지금 모델의 decision boundary고, 양옆 회색 점선 사이가 uncertainty region이야. <b>보라색 동그라미(uncertainty sampling이 고른 것)는 전부 boundary 근처에 있어.</b> 멀리 있는 회색 후보는 이미 확실히 맞히니까 안 골라.<span class="pg">L10 p.9</span></figcaption></figure>
+      <p><span class="k">어떻게</span>p.10: "How uncertain is this probability?" <span class="math">P<sub>θ</sub>(y|x)</span>. "Three common measures": Least Confidence, Margin Sampling, Entropy. 셋 다 확률 벡터 하나를 숫자 하나(U)로 바꾸는 방법이야. 차이는 확률의 <b>어디까지</b> 보느냐야.</p>
+      <p><span class="k">왜 돼?</span>(노트 보충) boundary에서 먼 sample은 이미 확실히 맞혀서 label을 달아도 모델이 거의 안 변해. boundary 근처 sample의 label은 boundary가 어디를 지나야 하는지 직접 알려 줘.</p>
+      <p><span class="k">차이</span>모델 <b>하나</b>의 확률만 봐. 다음 파트 QBC(10-3)는 모델 <b>여러 개</b>가 얼마나 갈리나를 봐. 그리고 확률 하나로는 "data가 원래 애매해서" 헷갈리는 건지 "모델이 덜 배워서" 헷갈리는 건지 구분이 안 돼. p.30의 흐린 사진은 모델마다 entropy가 High라서 entropy 점수가 높게 나와. 이 구분은 10-5에서 다뤄.</p>
+    </div></div>
+
+    <div class="m" id="l10-2-2"><div><span class="m-name">Least Confidence</span><span class="m-src">p.11</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>1등 class의 확률이 낮을수록 먼저 골라.</p>
+      <p><span class="k">핵심</span>Predict <span class="math">ŷ = argmax<sub>y</sub> P(y|x)</span>, Acquisition score <span class="math">U(x) = 1 − P(ŷ|x)</span>. "Uses <b>only the highest</b> predicted probability". "<b>Lower confidence → Higher priority</b>" (p.11)</p>
+      <p><span class="math">P(ŷ|x)</span>는 1등 class의 확률, 곧 모델의 confidence야. 1에서 빼니까 confidence가 낮을수록 U가 커지고, U가 큰 sample부터 골라. K class면 U는 0(완전 확신)부터 1 − 1/K(완전 uniform)까지야.</p>
+      <div class="note easy"><span class="tag">예시로 보면</span><p>설명용 숫자야. 3-class에서 A = (0.5, 0.3, 0.2), B = (0.5, 0.25, 0.25)면 둘 다 1등이 0.5라서 U = 0.5로 같아. LC는 1등만 보니까 2등 · 3등이 어떻게 나뉘든 구분 못 해.</p></div>
+      <p><span class="k">차이</span>LC = top-1만, Margin = top-2, Entropy = 분포 전체 (p.11–13).</p>
+    </div></div>
+
+    <div class="m" id="l10-2-3"><div><span class="m-name">Margin Sampling</span><span class="m-src">p.12</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>1등과 2등 확률의 차이가 작을수록 먼저 골라.</p>
+      <p><span class="k">핵심</span>"Use the <b>top two</b> probabilities". <span class="math">U(x) = P(ŷ<sub>1</sub>|x) − P(ŷ<sub>2</sub>|x)</span>. "<b>Small margin → High uncertainty</b>" (p.12)</p>
+      <p><span class="math">ŷ<sub>1</sub></span>은 확률이 가장 높은 class, <span class="math">ŷ<sub>2</sub></span>는 두 번째 class야. 여기 U는 margin 그 자체라서 <b>U가 작은 sample부터</b> 골라(argmin). LC · Entropy는 U가 큰 쪽부터 골라서 방향이 반대야. 구현에선 −margin을 점수로 써서 "큰 게 먼저"로 맞추기도 해(보충).</p>
+      <p><span class="k">왜 돼?</span>1등과 2등이 거의 같다 = 그 두 class 사이에서 망설인다 = 그 두 class의 boundary 근처야.</p>
+      <div class="note easy"><span class="tag">예시로 보면</span><p>같은 설명용 숫자로 A = (0.5, 0.3, 0.2)는 margin 0.2, B = (0.5, 0.25, 0.25)는 margin 0.25야. margin이 작은 A를 먼저 골라. LC로는 둘이 같았어.</p></div>
+      <p><span class="k">차이</span>top-2만 봐서 3등 아래는 무시해. 고르는 방향이 LC · Entropy와 반대인 게 시험 함정이야.</p>
+    </div></div>
+
+    <div class="m" id="l10-2-4"><div><span class="m-name">Entropy Sampling</span><span class="m-src">p.13</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>예측 분포 전체의 entropy가 높을수록 먼저 골라.</p>
+      <p><span class="k">핵심</span>"Uses the <b>entire probability distribution</b>". "<b>Higher entropy → Higher uncertainty</b>" (p.13)</p>
+      <p><span class="math">U(x) = −Σ<sub>y</sub> P(y|x) log P(y|x)</span></p>
+      <p><a href="#t-entropy">entropy</a>는 분포가 얼마나 퍼져 있나를 재. one-hot (1, 0, 0)이면 0(완전 확신)이고, uniform (1/K, …, 1/K)이면 최대 log K야. 확률이 작은 class까지 전부 합에 들어가.</p>
+      <div class="note easy"><span class="tag">예시로 보면</span><p>설명용 숫자야(자연로그). A = (0.5, 0.3, 0.2)는 H ≈ 1.030, B = (0.5, 0.25, 0.25)는 H ≈ 1.040이라 <b>B</b>를 먼저 골라. Margin은 A를 골랐어. 세 기준이 다른 순위를 줄 수 있다는 게 요점이야. 2-class에선 셋 다 |p − 0.5|가 작을수록 더 헷갈린다고 보니까 순위가 같아.</p></div>
+      <p><span class="k">차이</span>LC · Margin은 확률 한두 개만 보고, Entropy는 전부 봐. 셋 다 모델 하나의 확률이라 aleatoric과 epistemic을 구분 못 하는 건 같아(10-5-5에서 BALD가 이걸 고쳐).</p>
+    </div></div>
+  </div>
+
+  <p>세 기준을 한 표로 모으면 이래. 예시 숫자는 설명용이야.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>방법 (p.)</th><th>U(x)</th><th>쓰는 확률</th><th>먼저 고르는 쪽</th><th>A = (.5, .3, .2) vs B = (.5, .25, .25)</th></tr></thead>
+    <tbody>
+      <tr><td>Least Confidence (p.11)</td><td><span class="math">1 − P(ŷ|x)</span></td><td>top-1만</td><td>U 큰 쪽 ("Lower confidence → Higher priority")</td><td>0.5 vs 0.5 → 같음</td></tr>
+      <tr><td>Margin (p.12)</td><td><span class="math">P(ŷ<sub>1</sub>|x) − P(ŷ<sub>2</sub>|x)</span></td><td>top-2</td><td><b>U 작은 쪽</b> ("Small margin → High uncertainty")</td><td>0.2 vs 0.25 → A</td></tr>
+      <tr><td>Entropy (p.13)</td><td><span class="math">−Σ<sub>y</sub> P(y|x) log P(y|x)</span></td><td>전체 분포</td><td>U 큰 쪽 ("Higher entropy → Higher uncertainty")</td><td>1.030 vs 1.040 → B</td></tr>
+    </tbody>
+  </table></div>
+  <figure class="viz" id="viz-l10-uncertainty">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">2-class에서 LC · Margin · Entropy는 모두 p = 0.5에서 가장 헷갈린다고 봐</p><span class="illus">illustrative</span></div>
+  <div class="viz-scroll">
+  <svg viewBox="0 0 640 300" role="img" aria-label="least confidence, margin and entropy as functions of the class-1 probability p in a two-class problem">
+    <line class="ax" x1="60" y1="250" x2="600" y2="250"/><line class="ax" x1="60" y1="40" x2="60" y2="250"/>
+    <line class="grid" x1="60" y1="145" x2="600" y2="145"/>
+    <text class="t t-m mono" x="54" y="44" text-anchor="end">1</text>
+    <text class="t t-m mono" x="54" y="149" text-anchor="end">.5</text>
+    <text class="t t-m mono" x="54" y="254" text-anchor="end">0</text>
+    <text class="t t-m mono" x="60" y="270" text-anchor="middle">0</text>
+    <text class="t t-m mono" x="330" y="270" text-anchor="middle">0.5</text>
+    <text class="t t-m mono" x="600" y="270" text-anchor="middle">1</text>
+    <text class="t t-m" x="600" y="290" text-anchor="end">p = P(class 1 | x)</text>
+    <path class="ln-acc" data-lc stroke-width="2.4"/>
+    <path class="ln-trap" data-mg stroke-width="2.4" stroke-dasharray="7 5"/>
+    <path class="ln-ok" data-en stroke-width="2.4"/>
+    <line class="ln-m" data-mark x1="0" y1="40" x2="0" y2="250" stroke-dasharray="3 4"/>
+    <circle class="f-acc" data-d1 r="5"/><circle class="f-trap" data-d2 r="5"/><circle class="f-ok" data-d3 r="5"/>
+    <text class="t t-acc b" x="70" y="22">LC = 1 − max(p, 1−p)</text>
+    <text class="t t-trap b" x="262" y="22">Margin = |p − (1−p)| ← 작을수록 고름</text>
+    <text class="t t-ok b" x="530" y="22">Entropy</text>
+  </svg>
+  </div>
+  <div class="viz-ctrl">
+    <label for="viz-l10-uncertainty-p">p <input type="range" id="viz-l10-uncertainty-p" min="0" max="1" step="0.01" value="0.7"></label><output data-out>0.70</output>
+    <span data-vals class="mono"></span>
+  </div>
+  <figcaption>2-class에서 class 1의 확률 p를 움직여 봐 (class 2는 1 − p). 파란 실선이 LC(p.11), 주황 점선이 Margin(p.12), 초록 실선이 Entropy(p.13, 자연로그라 최대 ln 2 ≈ 0.69)야. 세 곡선 모두 <b>p = 0.5에서 가장 헷갈린다</b>고 봐: LC · Entropy는 최대, Margin은 최소 0이야. Margin만 주황인 건 <b>작을수록 먼저 고르는</b> 반대 방향이라서야. 2-class에선 세 기준이 같은 순위를 주고, 갈리는 건 3-class 이상일 때야(위 표의 A · B). 곡선은 식을 그대로 그린 거고 실험 수치가 아니야. (개념 그림)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l10-uncertainty'); if(!root) return;
+    var inp=root.querySelector('input'), out=root.querySelector('[data-out]'), vals=root.querySelector('[data-vals]');
+    var X=function(p){return 60+540*p;}, Y=function(v){return 250-210*v;};
+    function lc(p){return 1-Math.max(p,1-p);}
+    function mg(p){return Math.abs(2*p-1);}
+    function en(p){var h=0; if(p>0) h-=p*Math.log(p); if(p<1) h-=(1-p)*Math.log(1-p); return h;}
+    function path(f){var d=''; for(var i=0;i<=100;i++){var p=i/100; d+=(i?'L':'M')+X(p).toFixed(1)+' '+Y(f(p)).toFixed(1);} return d;}
+    root.querySelector('[data-lc]').setAttribute('d',path(lc));
+    root.querySelector('[data-mg]').setAttribute('d',path(mg));
+    root.querySelector('[data-en]').setAttribute('d',path(en));
+    var mk=root.querySelector('[data-mark]'), d1=root.querySelector('[data-d1]'), d2=root.querySelector('[data-d2]'), d3=root.querySelector('[data-d3]');
+    function draw(){
+      var p=parseFloat(inp.value); out.textContent=p.toFixed(2);
+      var x=X(p); mk.setAttribute('x1',x); mk.setAttribute('x2',x);
+      d1.setAttribute('cx',x); d1.setAttribute('cy',Y(lc(p)));
+      d2.setAttribute('cx',x); d2.setAttribute('cy',Y(mg(p)));
+      d3.setAttribute('cx',x); d3.setAttribute('cy',Y(en(p)));
+      vals.textContent='LC '+lc(p).toFixed(2)+' · Margin '+mg(p).toFixed(2)+' · Entropy '+en(p).toFixed(2);
+    }
+    inp.addEventListener('input',draw);
+    draw();
+  })();
+  </script>
+</figure>
+
+
+  <h3 id="l10-p3">Sampling Strategy ②: 여러 모델의 disagreement, QBC (p.14–19)</h3>
+  <p>이번엔 모델 하나의 확신이 아니라 모델 <b>여러 개</b>가 서로 얼마나 다른 답을 내나를 재. disagreement를 숫자로 바꾸는 방법이 셋이야.</p>
+  <div class="methods">
+    <div class="m" id="l10-3-1"><div><span class="m-name">Query-by-Committee</span><span class="m-src">p.14–15</span><small class="m-full"><span class="ab"><b>Q</b>uery-<b>b</b>y-<b>C</b>ommittee (QBC)</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>모델 여러 개(committee)에게 따로 예측시켜서, 의견이 가장 갈리는 sample에 label을 달아.</p>
+      <p><span class="k">문제</span>모델 하나의 확률은 그 모델 하나의 의견일 뿐이야.</p>
+      <p><span class="k">핵심</span>"Instead of relying on a single model, measure uncertainty by <b>disagreement among multiple models</b>." (p.14) <a href="#t-committee">committee</a>는 같은 task를 푸는 모델 C개의 모임이야.</p>
+      <ol>
+        <li>Train multiple models (committee)</li>
+        <li>Each model predicts independently</li>
+        <li>Select samples with the largest disagreement</li>
+      </ol>
+      <figure class="fig"><a class="zoom" href="../assets/lecture10/p014_qbc_committee.png" style="max-width:480px"><img src="../assets/lecture10/p014_qbc_committee.png" alt="Query-by-committee: models 1 to C vote cat or dog for an unlabeled kitten, vote distribution 3/5 and 2/5 gives high disagreement; below, a puppy with 5 dog votes is low disagreement and a cat with 2 cat and 3 dog votes is high"></a><figcaption>위 줄을 왼쪽에서 오른쪽으로 읽어. 고양이 사진 하나를 committee의 Model 1 … Model C가 따로 예측하고, 표를 세면 Cat 3 · Dog 2라 vote distribution이 [3/5, 2/5]야. 표가 갈렸으니 uncertainty(disagreement)가 High고, 이 sample을 label 후보로 골라. 아래 두 칸이 대비야: 강아지는 다섯 표가 다 Dog라서 low disagreement, 오른쪽 고양이는 Cat 2 · Dog 3이라 high disagreement야. <b>QBC는 모델 하나의 확신이 아니라 모델끼리 얼마나 갈리나를 봐.</b><span class="pg">L10 p.14</span></figcaption></figure>
+      <p>p.15 "Measuring Disagreement": <b>Voter Entropy</b>, <b>Consensus Entropy</b>, <b>KL Divergence</b>. 이 세 개가 다음 카드들이야.</p>
+      <p><span class="k">왜 돼?</span>(노트 보충) 모두 같은 labeled data로 배웠는데 답이 갈린다 = 지금 data로는 그 영역의 답이 하나로 안 정해진다는 뜻이야. 그 sample에 label을 달면 이 갈림이 정리돼.</p>
+      <p><span class="k">차이</span>uncertainty sampling(10-2)은 한 모델의 <b>확신 부족</b>, QBC는 여러 모델의 <b>불일치</b>를 재. 대신 모델을 여러 개 학습해야 해서 비싸 ("Committee models", p.23). 같은 아이디어가 deep network에선 10-5-2 ensemble로 다시 나와.</p>
+    </div></div>
+
+    <div class="m" id="l10-3-2"><div><span class="m-name">Voter Entropy</span><span class="m-src">p.16</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>모델마다 한 표(예측 label)씩 세어서, 표가 고르게 갈릴수록 높은 점수를 줘.</p>
+      <p><span class="k">핵심</span>"Count committee votes." <span class="math">U(x) = H(V(y) / C)</span>. "Only considers the <b>predicted label</b> of each model". "<b>High vote diversity → High uncertainty</b>" (p.16)</p>
+      <ul>
+        <li>C: "Number of models in the committee"</li>
+        <li>V(y): "Number of committee members voting for class y"</li>
+        <li>V(y)/C: "Fraction of votes for class y". 표 비율을 확률 분포처럼 써.</li>
+        <li>H(·): "Shannon entropy"</li>
+      </ul>
+      <p><span class="k">예시로 보면</span>p.14 그림은 5표 중 Cat 3, Dog 2라서 vote distribution이 [3/5, 2/5]야. 자연로그로 계산하면 H ≈ 0.67이라 높아(2-class 최대 ln 2 ≈ 0.69). p.14 그림 아래 왼쪽 칸처럼 Dog 5, Cat 0이면 H = 0이야.</p>
+      <p><span class="k">차이</span>확률 크기는 버려. 51%로 cat이라고 한 모델과 99%로 cat이라고 한 모델이 똑같이 한 표야.</p>
+    </div></div>
+
+    <div class="m" id="l10-3-3"><div><span class="m-name">Consensus Entropy</span><span class="m-src">p.17</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>모델들의 확률을 평균한 분포(consensus)의 entropy야.</p>
+      <p><span class="k">핵심</span>"Average prediction probabilities." <span class="math">U(x) = H(P<sub>C</sub>)</span>, <span class="math">P<sub>C</sub>(y) = (1/C) Σ<sub>c=1</sub><sup>C</sup> P<sub>θ<sub>c</sub></sub>(y|x)</span>. "Uses the <b>full probability distribution</b>". "Measures uncertainty of the committee consensus" (p.17)</p>
+      <p><span class="math">θ<sub>c</sub></span>는 "Parameters of model c", <span class="math">P<sub>C</sub>(y)</span>는 "Average probability over all committee members"야. 평균 분포가 평평할수록 U가 커.</p>
+      <p><span class="k">왜 조심?</span>평균이 평평해지는 경우가 둘이야. (a) 모든 모델이 똑같이 50 : 50으로 헷갈릴 때, (b) 모델마다 확신하는데 서로 다른 답을 낼 때. consensus entropy는 둘 다 높게 쳐서 구분을 못 해. 10-5-5 BALD의 첫째 항이 바로 이 값이고, BALD는 여기서 둘째 항을 빼서 (a)를 걸러 내.</p>
+      <p><span class="k">차이</span>Voter는 label만, Consensus는 확률 전체를 써 (p.19). p.19는 consensus를 "How much uncertainty is there on average?"라고 풀었는데 ← 식은 <b>평균 분포의 entropy</b>야. entropy들의 평균이 아니야.</p>
+    </div></div>
+
+    <div class="m" id="l10-3-4"><div><span class="m-name">KL Divergence</span><span class="m-src">p.18–19</span><small class="m-full"><span class="ab"><b>K</b>ullback–<b>L</b>eibler divergence</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>각 모델의 예측이 committee 평균에서 얼마나 떨어져 있나를 재서 평균 내.</p>
+      <p><span class="k">핵심</span>"Measures disagreement between <b>each model and the committee average</b>". "<b>Larger KL → Larger disagreement</b>" (p.18)</p>
+      <p><span class="math">U(x) = (1/C) Σ<sub>c=1</sub><sup>C</sup> D<sub>KL</sub>(P<sub>θ<sub>c</sub></sub> ‖ P<sub>C</sub>)</span></p>
+      <p>"How far each model's prediction is from the committee average." (p.18) <a href="#t-kl-divergence">KL divergence</a> <span class="math">D<sub>KL</sub>(P ‖ Q) = Σ<sub>y</sub> P(y) log (P(y)/Q(y))</span>는 분포 P가 Q와 얼마나 다른지 재고, 같으면 0이야. 방향은 각 모델 <span class="math">P<sub>θ<sub>c</sub></sub></span>이 앞, 평균 <span class="math">P<sub>C</sub></span>가 뒤야.</p>
+      <p><span class="k">차이</span>Consensus는 평균 하나만 보고, KL은 각 모델이 평균과 얼마나 다른지를 봐. 모든 모델이 똑같이 50 : 50으로 헷갈리면 KL = 0(불일치 없음)인데 consensus entropy는 최대야.</p>
+      <p>노트 보충(슬라이드 밖 유도): 정리하면 <span class="math">(1/C) Σ<sub>c</sub> D<sub>KL</sub>(P<sub>θ<sub>c</sub></sub> ‖ P<sub>C</sub>) = H(P<sub>C</sub>) − (1/C) Σ<sub>c</sub> H(P<sub>θ<sub>c</sub></sub>)</span>야. "평균의 entropy − entropy의 평균"이라 10-5-5 BALD와 같은 꼴이고, L09의 <a href="#t-js-divergence">JS divergence</a>를 분포 여러 개로 넓힌 거야.</p>
+    </div></div>
+  </div>
+
+  <p>p.19 표와 풀이 문장은 그대로 외워 둬.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Method (p.19)</th><th>Uses</th><th>p.19 풀이</th></tr></thead>
+    <tbody>
+      <tr><td>Voter Entropy</td><td>Final class labels only</td><td>"How many people chose which class?"</td></tr>
+      <tr><td>Consensus Entropy</td><td>Full probability distributions</td><td>"How much uncertainty is there on average?"</td></tr>
+      <tr><td>KL Divergence</td><td>Distance between distributions</td><td>"How much does each model differ from the average opinion?"</td></tr>
+    </tbody>
+  </table></div>
+  <p>설명용 숫자로 세 경우를 비교하면 차이가 보여(모델 C = 4개, 2-class, 자연로그).</p>
+  <div class="tbl"><table>
+    <thead><tr><th>경우</th><th>Voter</th><th>Consensus</th><th>KL 평균</th></tr></thead>
+    <tbody>
+      <tr><td>X: 넷 다 (0.55, 0.45). 똑같이 헷갈림</td><td>0 (넷 다 같은 표)</td><td>≈ 0.69 (높음)</td><td>0</td></tr>
+      <tr><td>Y: 둘은 (0.9, 0.1), 둘은 (0.1, 0.9). 각자 확신, 서로 반대</td><td>≈ 0.69 (2 : 2)</td><td>≈ 0.69 (평균이 0.5 : 0.5)</td><td>≈ 0.37 (높음)</td></tr>
+      <tr><td>Z: 넷 다 (0.9, 0.1). 확신하고 일치</td><td>0</td><td>≈ 0.33</td><td>0</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 id="l10-p4">Sampling Strategy ③: 다른 기준과 한계 (p.20–23)</h3>
+  <p>지금까지는 전부 "헷갈리는 sample"을 골랐어. 이 파트는 uncertainty 말고 다른 기준 셋과, 고전 전략 전체의 한계야. 슬라이드엔 식 없이 bullet만 있어.</p>
+  <div class="methods">
+    <div class="m" id="l10-4-1"><div><span class="m-name">Diversity Sampling</span><span class="m-src">p.20</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>data 분포를 골고루 덮는 대표 sample을 골라.</p>
+      <p><span class="k">핵심</span>"Select <b>representative</b> samples that <b>cover the data distribution</b>." (p.20)</p>
+      <ul>
+        <li>Avoid selecting redundant samples</li>
+        <li>Cover different regions of the feature space</li>
+        <li>Improve generalization</li>
+      </ul>
+      <p><span class="k">문제</span>슬라이드엔 "Avoid selecting redundant samples"까지만 있어. 해석하면, uncertainty 점수만 보고 여러 개를 한꺼번에 고르면 boundary 근처의 거의 똑같은 sample이 몰려 뽑힐 수 있어. 같은 정보에 label을 중복으로 사는 셈이야. <a href="#t-diversity-sampling">diversity sampling</a>은 이걸 피해.</p>
+      <p><span class="k">차이</span>uncertainty는 <b>모델</b> 기준(모델이 헷갈리나), diversity는 <b>data</b> 기준(feature space를 덮나)이야. sample끼리 거리를 재야 해서 "Pairwise similarity computation"이 비싸 (p.23).</p>
+    </div></div>
+
+    <div class="m" id="l10-4-2"><div><span class="m-name">Expected Model Change</span><span class="m-src">p.21</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>label을 달면 모델을 가장 많이 바꿀 sample을 골라.</p>
+      <p><span class="k">핵심</span>"Select samples expected to <b>change the model the most</b> after labeling." (p.21)</p>
+      <ul>
+        <li>Large parameter update</li>
+        <li>Large loss reduction</li>
+        <li>High training impact</li>
+      </ul>
+      <p><span class="k">왜 "expected"?</span>label을 달기 전이라 정답을 몰라. 그래서 가능한 label마다 모델이 얼마나 바뀔지 계산해 기대값을 내야 해(해석). 이게 p.23의 "Expected model update estimation" 비용이야.</p>
+      <p><span class="k">차이</span>uncertainty는 지금 예측 확률만 봐. expected model change는 그 sample이 <b>학습에 미칠 영향</b>을 미리 계산해.</p>
+    </div></div>
+
+    <div class="m" id="l10-4-3"><div><span class="m-name">Hybrid Strategy</span><span class="m-src">p.22</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>기준 여러 개를 섞어서 골라.</p>
+      <p><span class="k">핵심</span>"<b>Combine multiple criteria</b> for better sample selection." (p.22)</p>
+      <ul>
+        <li>Uncertain and representative</li>
+        <li>Informative and diverse</li>
+        <li>Most modern active learning methods</li>
+      </ul>
+      <p><span class="k">차이</span>앞의 방법들은 기준 하나만 써. hybrid는 "헷갈리면서(uncertainty) 서로 겹치지 않는(diversity)" 식으로 둘 이상을 같이 봐. 어떻게 섞는지는 슬라이드에 없어.</p>
+    </div></div>
+
+    <div class="m" id="l10-4-4"><div><span class="m-name">Limitations</span><span class="m-src">p.23</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>고전 전략은 사람이 손으로 만든 점수라 task마다 맞는 게 다르고, 계산이 비싸고, 기준들이 따로 놀아.</p>
+      <ul>
+        <li><b>Hand-crafted acquisition functions</b>: Entropy, Margin, Diversity, … "No single strategy works best for all tasks", "Difficult to adapt across datasets"</li>
+        <li><b>Computationally expensive</b>: Committee models(→ QBC), Pairwise similarity computation(→ diversity), Expected model update estimation(→ expected model change), Retraining after every acquisition round(→ 모든 active learning loop)</li>
+        <li><b>Separate objectives</b>: Uncertainty, Diversity, Expected model change</li>
+      </ul>
+      <p>끝 질문: "Can we learn the acquisition function directly using deep neural networks?" (p.23) 괄호 속 짝짓기는 내 정리야. 슬라이드엔 비용 목록만 있어.</p>
+      <p><span class="k">차이</span>앞 세 카드는 기준이고, 이 카드는 그 기준들의 공통 약점이야. 다음 파트(Deep Active Learning)는 acquisition function을 <b>학습</b>하진 않아. deep network에서 uncertainty를 <b>제대로 재는</b> 쪽이야. p.23의 질문이 다음 강의에서 다뤄질지는 슬라이드에 없어. p.36은 "Next Week.. Deep Active Learning .."만 적어 놨어(해석: 이어지는 주제일 가능성).</p>
+    </div></div>
+  </div>
+
+  <h3 id="l10-p5">Deep Active Learning (Ensemble-based Estimation) (p.24–35)</h3>
+  <p>deep network의 softmax 확률 하나로 잰 uncertainty엔 두 종류가 섞여 있어. 이 파트는 active learning이 노려야 할 쪽만 골라 재는 이야기야: 두 종류 구분 → ensemble로 epistemic 재기 → 싼 근사 MC Dropout → MC Dropout + BALD = DBAL → 다른 ensemble 근사.</p>
+  <div class="methods">
+    <div class="m" id="l10-5-1"><div><span class="m-name">Aleatoric vs Epistemic</span><span class="m-src">p.25</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>data 자체가 애매해서 생기는 불확실성(aleatoric)과, 모델이 덜 배워서 생기는 불확실성(epistemic)이야.</p>
+      <ul>
+        <li><a href="#t-aleatoric"><b>Aleatoric Uncertainty</b></a>: "Uncertainty caused by <b>data noise</b>". Sensor noise, Occlusion, Motion blur, Intrinsic ambiguity. "<b>Cannot be reduced by collecting more data</b>"</li>
+        <li><a href="#t-epistemic"><b>Epistemic Uncertainty</b></a>: "Uncertainty caused by <b>limited model knowledge</b>". "Model has not seen similar examples", "Large uncertainty in model parameters". "<b>Can be reduced with more labeled data</b>"</li>
+      </ul>
+      <p><span class="k">핵심</span>"<b>Active Learning mainly targets Epistemic Uncertainty.</b>" (p.25)</p>
+      <p><span class="k">왜 돼?</span>active learning은 label을 더 사서 모델을 고치는 방법이야. label로 줄일 수 있는 건 epistemic뿐이야. 흐린 사진(aleatoric)에 label을 달아 줘도 다음에 비슷하게 흐린 사진이 오면 모델은 여전히 헷갈려. 이름 보충: aleatoric은 라틴어 alea(주사위), epistemic은 그리스어 episteme(지식)에서 왔어.</p>
+      <p><span class="k">차이</span>10-2의 LC · Margin · Entropy는 모델 하나의 softmax만 봐서 둘을 섞어 재. 둘을 나누려면 "모델이 여러 개일 때 서로 갈리나"를 봐야 해. 그게 다음 카드부터야.</p>
+    </div></div>
+
+    <div class="m" id="l10-5-2"><div><span class="m-name">Ensemble-based Estimation</span><span class="m-src">p.26</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>모델을 여러 개 따로 학습시켜서, 의견이 갈리면 informative sample로 봐.</p>
+      <p><span class="k">핵심</span>Idea (p.26): "Train multiple models independently." "If they disagree, → the sample is likely informative." "EX) AdaBoost, Bootstrapping, Random forests". <a href="#t-ensemble">ensemble</a>은 여러 모델의 예측을 모아(평균 · 투표) 쓰는 방법이야.</p>
+      <p><span class="k">왜 돼?</span>모델끼리 갈린다 = parameter가 하나로 안 정해진다 = p.25 epistemic 설명의 "Large uncertainty in model parameters"야. 반대로 data가 원래 애매하면(aleatoric) 모델들이 <b>다 같이</b> 헷갈려서 의견은 안 갈려.</p>
+      <p><span class="k">문제</span>"Need multiple networks", "High training cost", "High inference cost" (p.26).</p>
+      <p><span class="k">차이</span>아이디어는 QBC(10-3-1)와 같아: 여러 모델의 disagreement. deep network를 여러 개 학습하는 건 비싸서 비용이 문제로 부각돼. 다음 카드가 이 비용을 줄여.</p>
+    </div></div>
+
+    <div class="m" id="l10-5-3"><div><span class="m-name">MC Dropout</span><span class="m-src">Gal &amp; Ghahramani 2016 · p.27</span><small class="m-full"><span class="ab"><b>M</b>onte <b>C</b>arlo Dropout</span><span class="pt">Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning (ICML 2016)</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>network를 여러 개 학습하는 대신, inference 때도 dropout을 켜고 여러 번 돌려서 ensemble처럼 써.</p>
+      <p><span class="k">문제</span>ensemble은 network가 여러 개 필요해서 비싸 (p.26).</p>
+      <p><span class="k">핵심</span>"Instead of training multiple networks, <b>apply dropout during inference</b>." "Different dropout masks ≈ Different models" (p.27). <a href="#t-dropout">dropout</a>은 학습 중 neuron 일부를 무작위로 꺼(0으로) 두는 regularization이고, 보통 test 때는 꺼. <a href="#t-mc-dropout">MC Dropout</a>은 test 때도 켜 둬. Monte Carlo는 무작위 sample을 여러 번 뽑아 평균으로 근사한다는 뜻이야.</p>
+      <ol>
+        <li>dropout을 넣은 network 하나를 학습해.</li>
+        <li>test 때 dropout을 켠 채 같은 x를 T번 forward해. 매번 mask가 달라.</li>
+        <li>T개 예측 <span class="math">p<sub>t</sub>(y|x)</span>를 모아 불확실성을 재.</li>
+      </ol>
+      <p>"MC Dropout performs multiple stochastic forward passes with different dropout masks, approximating an ensemble of neural networks. The variance of their predictions is used as an estimate of epistemic uncertainty." (p.27) ← 여기선 분산을 말하고, DBAL(p.28–29)은 같은 T개 예측으로 BALD를 계산해.</p>
+      <p>Advantages: "Single network", "Low memory", "Good approximation to Bayesian inference" (p.27).</p>
+      <p><span class="k">왜 돼?</span>mask 하나 = neuron 일부를 끈 sub-network 하나야. T번 돌리면 서로 조금씩 다른 모델 T개의 예측을 얻는 셈이야. 논문은 이걸 parameter 분포에서 모델을 뽑는 Bayesian inference의 근사로 봐.</p>
+      <p><span class="k">차이</span>naive ensemble은 network N개를 따로 학습해. MC Dropout은 network <b>하나</b>만 학습해. 단 forward는 여전히 T번 돌려야 해(해석). 핵심 함정: dropout을 <b>inference 때도</b> 켜.</p>
+    </div></div>
+
+    <div class="m" id="l10-5-4"><div><span class="m-name">DBAL</span><span class="m-src">Gal et al. 2017 · p.28, 32</span><small class="m-full"><span class="ab"><b>D</b>eep <b>B</b>ayesian <b>A</b>ctive <b>L</b>earning</span><span class="pt">Deep Bayesian Active Learning with Image Data (ICML 2017)</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>MC Dropout으로 epistemic uncertainty를 재고(BALD), 가장 높은 sample에 label을 다는 deep active learning이야.</p>
+      <p><span class="k">문제</span>Goal (p.28): We want to find "<b>samples that the model is truly unsure about.</b>"</p>
+      <p><span class="k">핵심</span>Key Idea (p.28): "Approximate Bayesian inference using <b>MC Dropout</b>", "Estimate epistemic uncertainty by running multiple forward passes with different dropout masks", "Query samples with the highest uncertainty".</p>
+      <p><span class="k">어떻게</span>Pipeline (p.28):</p>
+      <ol>
+        <li>Train a classifier with dropout</li>
+        <li>Perform multiple stochastic forward passes</li>
+        <li>Estimate predictive uncertainty (<b>BALD</b>)</li>
+        <li>Select the most informative unlabeled samples</li>
+        <li>Query labels and retrain</li>
+      </ol>
+      <p><span class="k">결과</span>p.32 (그래프, 수치는 비중 낮음): "MC Dropout consistently outperforms random sampling." "Bayesian uncertainty leads to better sample selection." "More informative samples → Higher accuracy with the same labeling budget".</p>
+      <figure class="fig"><a class="zoom" href="../assets/lecture10/p032_dbal_mnist_curve.png" style="max-width:480px"><img src="../assets/lecture10/p032_dbal_mnist_curve.png" alt="MNIST test accuracy versus number of acquired images for BALD, Var Ratios, Max Entropy, MBR and Random"></a><figcaption>가로축은 지금까지 label을 단(acquired) 사진 수, 세로축은 MNIST test accuracy야. 빨간 선이 BALD, 주황 선이 Random이야. <b>label이 어느 정도 쌓인 뒤(대략 200장 넘어서부터)엔 MC Dropout 기반 선들(BALD · Var Ratios · Max Entropy)이 Random보다 위에 있어.</b> 맨 앞 구간은 서로 비슷하거나 뒤섞여 있어. MBR은 비교용 기존 방법(Zhu et al., 2003)이야. 수치는 외울 필요 없어.<span class="pg">L10 p.32</span></figcaption></figure>
+      <p>"BALD measures how much the models disagree with each other. It selects samples with high epistemic uncertainty, where acquiring labels is expected to provide the greatest improvement in model performance." (p.32)</p>
+      <p><span class="k">차이</span>10-1-1의 active learning loop 그대로야. <span class="math">U(x)</span> 자리에 BALD를 넣고, QBC의 committee 자리를 dropout mask가 대신해.</p>
+    </div></div>
+
+    <div class="m" id="l10-5-5"><div><span class="m-name">BALD</span><span class="m-src">p.29–31</span><small class="m-full"><span class="ab"><b>B</b>ayesian <b>A</b>ctive <b>L</b>earning by <b>D</b>isagreement</span></small></div><div class="m-body">
+      <p><span class="k">한 줄</span>"평균 예측이 얼마나 헷갈리나"에서 "모델 하나하나가 평균적으로 얼마나 헷갈리나"를 빼서, 모델끼리 갈리는 몫(epistemic)만 남겨.</p>
+      <p><span class="k">문제</span>entropy 같은 점수는 흐린 사진(aleatoric)도 높게 쳐. 거기 label을 사면 budget 낭비야.</p>
+      <p><span class="k">핵심</span>"BALD measures the <b>mutual information between the label y of sample x and the model parameters θ</b>." (p.29)</p>
+      <p><span class="math">BALD(x) = I(y, θ | x, 𝒟) = ℋ[p(y | x, 𝒟)] − 𝔼<sub>p(θ|𝒟)</sub>[ℋ[p(y | x, θ)]]</span></p>
+      <p><span class="math">BALD(x) ≈ ℋ[p̄(y | x)] − (1/T) Σ<sub>t=1</sub><sup>T</sup> ℋ[p<sub>t</sub>(y | x)]</span></p>
+      <p>"<b>BALD = Entropy of mean prediction − Mean entropy of predictions</b>" (p.29)</p>
+      <ul>
+        <li><a href="#t-mutual-information">mutual information</a> <span class="math">I(y, θ)</span>: y를 알면 θ에 대한 불확실성이 얼마나 줄어드나. 곧 "이 sample의 label이 모델에 대해 얼마나 알려 주나"야.</li>
+        <li><span class="math">p(θ|𝒟)</span>: data를 본 뒤 parameter의 분포(posterior). MC Dropout에선 mask 하나가 여기서 뽑은 θ 하나 역할이야.</li>
+        <li><span class="math">p̄(y|x) = (1/T) Σ<sub>t</sub> p<sub>t</sub>(y|x)</span>: T번 forward의 평균 예측 = "Mean prediction". 첫째 항은 "How uncertain is the average of all models?"</li>
+        <li><span class="math">p<sub>t</sub>(y|x)</span>: t번째 forward(mask t)의 예측. 둘째 항은 "How uncertain is each model individually?"</li>
+      </ul>
+      <figure class="fig"><a class="zoom" href="../assets/lecture10/p029_bald_formula.png" style="max-width:500px"><img src="../assets/lecture10/p029_bald_formula.png" alt="BALD formulas: mutual information definition, entropy of mean prediction minus mean entropy of predictions, with the two terms boxed"></a><figcaption>위 두 줄이 정의(y와 θ의 mutual information)고, 가운데 상자가 말로 쓴 식 "Entropy of mean prediction − Mean entropy of predictions"야. 아래 근사식에서 <b>빨간 상자</b>가 평균 예측 p̄(y|x), 그 바깥 <b>왼쪽 파란 상자</b>가 첫째 항("How uncertain is the average of all models?"), <b>오른쪽 파란 상자</b>가 둘째 항("How uncertain is each model individually?")이야. T는 MC Dropout forward 횟수야.<span class="pg">L10 p.29</span></figcaption></figure>
+      <p><span class="k">어떻게 읽나</span>두 경우로 보면 바로 보여.</p>
+      <ul>
+        <li><b>Case 1: Aleatoric uncertainty</b> (Inherently ambiguous data, p.30): "All models make similar predictions and are equally uncertain." Sample x (blurred image). 모델마다 Entropy High, 평균 Entropy High → "BALD(x) ≈ High − High ≈ 0 (Small)" → "Labeling this sample is unlikely to significantly improve the model."</li>
+        <li><b>Case 2: Epistemic uncertainty</b> (Model lacks knowledge, p.31): "Different models make different predictions, while each model is individually confident." Sample x (ambiguous image) ← p.25는 "Intrinsic ambiguity"를 aleatoric 예시로 들었어. 여기 "ambiguous"는 "모델끼리 갈린다"는 뜻으로 읽어. 모델마다 Entropy Low, 평균 Entropy High → "BALD(x) ≈ High − Low = Large" → "Labeling this sample is expected to provide the greatest improvement to the model."</li>
+      </ul>
+      <div class="figrow"><figure class="fig"><a class="zoom" href="../assets/lecture10/p030_bald_case1_aleatoric.png" style="max-width:300px"><img src="../assets/lecture10/p030_bald_case1_aleatoric.png" alt="Case 1 aleatoric: blurred image, every sampled model predicts about 0.5 cat and 0.5 dog with high entropy, the average is also high, BALD about High minus High, small"></a><figcaption>Case 1 (aleatoric). 흐린 사진에 Model 1 … Model T가 전부 cat · dog 반반이라 각자 Entropy High, 평균 예측도 반반이라 High야. <b>BALD ≈ High − High ≈ 0</b>이라 label을 달아도 효과가 작아.<span class="pg">L10 p.30</span></figcaption></figure><figure class="fig"><a class="zoom" href="../assets/lecture10/p031_bald_case2_epistemic.png" style="max-width:300px"><img src="../assets/lecture10/p031_bald_case2_epistemic.png" alt="Case 2 epistemic: models disagree, model 1 and model T predict cat confidently and model 2 predicts dog confidently, each entropy low, average entropy high, BALD large"></a><figcaption>Case 2 (epistemic). 모델마다 한쪽으로 확신해서 각자 Entropy Low인데, 답이 cat · dog로 갈려서 평균 예측은 반반 → High야. <b>BALD ≈ High − Low = Large</b>라 label을 달면 효과가 제일 커. 두 그림의 평균 예측 막대는 똑같이 반반이야. 차이는 개별 모델 막대에만 있어.<span class="pg">L10 p.31</span></figcaption></figure></div>
+      <p><span class="k">왜 돼?</span>첫째 항(평균의 entropy)은 두 경우 다 높아. 전체 불확실성이라서야. 둘째 항(entropy의 평균)은 모델 하나하나가 느끼는 헷갈림이라 data noise 몫이 여기 들어가. 그래서 빼면 모델끼리 갈리는 몫, 곧 epistemic이 남아. 이 "전체 = aleatoric + epistemic" 분해 해석과 "BALD ≥ 0"(entropy가 concave라서)은 노트 보충이야.</p>
+      <figure class="viz" id="viz-l10-bald">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">BALD = 평균의 entropy − entropy의 평균: 모델끼리 갈릴 때만 커져</p><span class="illus">illustrative</span></div>
+  <div class="viz-scroll">
+  <svg viewBox="0 0 680 310" role="img" aria-label="four sampled models and their mean prediction over cat and dog, with entropy of the mean, mean entropy and BALD">
+    <line class="ax" x1="20" y1="200" x2="660" y2="200"/>
+    <g data-bars></g>
+    <text class="t b mono" data-eq x="20" y="290" style="font-size:14px"></text>
+    <text class="t t-m" data-note x="20" y="22"></text>
+  </svg>
+  </div>
+  <div class="viz-ctrl">
+    <label for="viz-l10-bald-d">모델끼리 의견 차이 <input type="range" id="viz-l10-bald-d" min="0" max="1" step="0.05" value="0"></label><output data-out>0.00</output>
+    <button type="button" data-agree aria-pressed="false">모두 확신 · 일치</button>
+  </div>
+  <figcaption>MC Dropout forward 4번(T = 4, 모델 4개 역할)의 예측을 cat(파랑) · dog(회색) 막대로 그렸고, 맨 오른쪽 주황 테두리가 평균 예측 p̄야. 막대 밑 숫자는 그 예측의 entropy(자연로그)야. 슬라이더가 0이면 넷 다 cat · dog 반반이라 <b>p.30 Case 1</b>(aleatoric): ℋ[p̄] ≈ 0.69, 평균 ℋ ≈ 0.69, BALD ≈ 0이야. 1로 올리면 둘은 cat, 둘은 dog로 확신해서 <b>p.31 Case 2</b>(epistemic): 평균은 그대로 반반(≈ 0.69)인데 각자의 entropy가 작아져서 BALD가 커져. <b>평균 예측만 보면 두 경우가 똑같아</b>. 그래서 평균 예측의 entropy(consensus entropy, BALD 첫째 항)만으로는 둘을 못 나눠. 모델 하나의 entropy는 case 2에서 오히려 낮아. 버튼은 넷 다 cat으로 확신하는 경우야: 두 항이 다 작아서 BALD ≈ 0. 확률 값은 개념용이야. (개념 그림)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l10-bald'); if(!root) return;
+    var inp=root.querySelector('input'), out=root.querySelector('[data-out]'), g=root.querySelector('[data-bars]');
+    var eq=root.querySelector('[data-eq]'), nt=root.querySelector('[data-note]'), ba=root.querySelector('[data-agree]');
+    var agree=false, S=[1,-1,1,-1];
+    function H(p){var h=0; if(p>0) h-=p*Math.log(p); if(p<1) h-=(1-p)*Math.log(1-p); return h;}
+    function group(x,p,label,isMean){
+      var h='', bh1=150*p, bh2=150*(1-p);
+      if(isMean) h+='<rect class="ln-trap" x="'+(x-8)+'" y="34" width="104" height="172" rx="6" fill="none" stroke-width="1.6"/>';
+      h+='<rect class="f-acc" x="'+x+'" y="'+(200-bh1).toFixed(1)+'" width="38" height="'+bh1.toFixed(1)+'" rx="3"/>';
+      h+='<rect class="f-m" x="'+(x+48)+'" y="'+(200-bh2).toFixed(1)+'" width="38" height="'+bh2.toFixed(1)+'" rx="3"/>';
+      h+='<text class="t mono" x="'+(x+19)+'" y="'+Math.max(200-bh1-6,46).toFixed(1)+'" text-anchor="middle">'+p.toFixed(2)+'</text>';
+      h+='<text class="t mono" x="'+(x+67)+'" y="'+Math.max(200-bh2-6,46).toFixed(1)+'" text-anchor="middle">'+(1-p).toFixed(2)+'</text>';
+      h+='<text class="t t-m" x="'+(x+19)+'" y="218" text-anchor="middle">cat</text><text class="t t-m" x="'+(x+67)+'" y="218" text-anchor="middle">dog</text>';
+      h+='<text class="t '+(isMean?'t-trap ':'')+'b" x="'+(x+43)+'" y="240" text-anchor="middle">'+label+'</text>';
+      h+='<text class="t mono t-m" x="'+(x+43)+'" y="258" text-anchor="middle">ℋ = '+H(p).toFixed(2)+'</text>';
+      return h;
+    }
+    function draw(){
+      var d=parseFloat(inp.value); out.textContent=d.toFixed(2); inp.disabled=agree; out.style.opacity=agree?.4:1;
+      var P=S.map(function(s){return agree?0.95:0.5+0.45*d*s;});
+      var m=P.reduce(function(a,b){return a+b;},0)/P.length;
+      var h='';
+      for(var i=0;i<4;i++) h+=group(20+i*130,P[i],'model '+(i+1),false);
+      h+=group(560,m,'평균 p̄',true);
+      g.innerHTML=h;
+      var Hm=H(m), mH=P.map(H).reduce(function(a,b){return a+b;},0)/P.length, b=Hm-mH;
+      eq.textContent='ℋ[p̄] = '+Hm.toFixed(2)+'   −   (1/T)Σℋ[pₜ] = '+mH.toFixed(2)+'   =   BALD ≈ '+Math.max(b,0).toFixed(2);
+      nt.textContent= agree?'모두 확신하고 일치: 두 항 다 작아 → label 효과 작음' : d<0.15?'Case 1 쪽: 다 같이 헷갈림 → BALD ≈ 0 (aleatoric)' : d>0.7?'Case 2 쪽: 각자 확신, 서로 반대 → BALD 큼 (epistemic)' : '의견이 갈릴수록 둘째 항만 줄어들어 BALD가 커짐';
+    }
+    inp.addEventListener('input',draw);
+    ba.addEventListener('click',function(){agree=!agree; ba.setAttribute('aria-pressed',agree?'true':'false'); draw();});
+    draw();
+  })();
+  </script>
+</figure>
+
+      <p><span class="k">차이</span>consensus entropy(10-3-3)는 첫째 항(평균 예측의 entropy)만 써서 case 1도 높게 쳐. BALD는 둘째 항을 빼서 case 1을 0 근처로 내려. Entropy sampling(10-2-4)은 첫째 항이 아니라 <b>모델 하나</b>의 entropy야: case 1(흐린 사진)엔 높고, case 2처럼 그 모델이 확신하면 <b>낮아서</b> 오히려 놓쳐. 식 모양은 QBC의 KL 평균(10-3-4 보충 유도)과 같아. 다른 건 committee 대신 dropout mask에서 모델을 뽑는다는 것뿐이야. BALD라는 이름과 식은 Houlsby et al. 2011 "Bayesian Active Learning for Classification and Preference Learning"에서 왔어 (슬라이드엔 약자 풀이와 cite가 없어).</p>
+    </div></div>
+
+    <div class="m" id="l10-5-6"><div><span class="m-name">Beyond MC Dropout</span><span class="m-src">p.33–35</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>가장 믿을 만한 건 naive ensemble인데 비싸서, 학습 한 번이나 network 하나로 ensemble을 흉내 내는 근사들이 있어.</p>
+      <p><span class="k">문제</span>Limitation (p.33): "<b>Naïve ensembles</b> provide the <b>most reliable</b> uncertainty estimates." "However, training many independent networks is <b>computationally expensive</b>."</p>
+      <p><span class="k">핵심</span>Efficient Ensemble Approximations (p.34):</p>
+      <ul>
+        <li><b>Snapshot Ensemble</b>: "Save multiple checkpoints from <b>one training run</b> using a <b>cyclic learning rate</b>." "Different local minima act as an implicit ensemble." learning rate를 주기적으로 크게 올렸다 내리면 주기마다 다른 local minimum에 앉고, 그때마다 저장해.</li>
+        <li><b>Diversity Encouraging Ensemble (DEE)</b>: "Initialize multiple models from a <b>shared backbone</b>." "Encourage prediction diversity with <b>dropout</b>." 그림: pretrained backbone 하나로 초기화한 뒤 모델마다 dropout을 넣어 fine-tune해.</li>
+        <li><b>Multi-head / Split-head Network</b>: "Share <b>one feature extractor</b>." "Use <b>multiple prediction heads</b> as lightweight ensemble members."</li>
+      </ul>
+      <p>세 방법 모두 슬라이드에 cite가 없어. Snapshot Ensemble은 Huang et al. "Snapshot Ensembles: Train 1, Get M for Free" (ICLR 2017)야.</p>
+      <figure class="fig"><a class="zoom" href="../assets/lecture10/p034_efficient_ensembles.png" style="max-width:520px"><img src="../assets/lecture10/p034_efficient_ensembles.png" alt="Four panels: naive ensemble trains N models from scratch; snapshot ensemble saves checkpoints from one run with cyclic learning rate; diversity encouraging ensemble fine-tunes models from a shared pretrained backbone with dropout; multi-head network shares one feature extractor with several heads"></a><figcaption>왼쪽부터 네 칸이야. 1. Naïve Ensemble은 model N개를 처음부터 따로 학습해. 2. Snapshot은 학습 한 번에 cyclic LR로 loss 골짜기(다른 local minima)마다 checkpoint를 저장해. 3. DEE는 pretrained backbone 하나로 초기화한 모델들을 dropout을 넣어 fine-tune해. 4. Multi-head는 feature extractor 하나에 head만 여러 개야. <b>2–4는 1보다 싸게 ensemble을 흉내 내는 근사이고, 넷 다 마지막은 Ensemble Prediction(average / vote)이야.</b><span class="pg">L10 p.34</span></figcaption></figure>
+      <p><span class="k">결론</span>Takeaway (p.35): "Accuracy: <b>Naïve Ensemble > Efficient Approximations</b>", "Efficiency: <b>Efficient Approximations > Naïve Ensemble</b>", "<b>MC Dropout remains one of the best trade-offs</b> between uncertainty quality and computational cost."</p>
+      <p><span class="k">차이</span>다섯 방법을 "몇 번 학습하나 · 다양성은 어디서 오나"로 나누면 이래.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>방법</th><th>학습</th><th>모델(부품) 수</th><th>다양성은 어디서</th></tr></thead>
+        <tbody>
+          <tr><td>Naïve Ensemble (p.34 그림 1)</td><td>N번, from scratch</td><td>network N개</td><td>"Train N models independently from scratch"</td></tr>
+          <tr><td>Snapshot (p.34)</td><td>1번</td><td>checkpoint K개</td><td>cyclic LR로 다른 local minima</td></tr>
+          <tr><td>DEE (p.34)</td><td>backbone 1번 + fine-tune N번</td><td>모델 N개 (같은 초기화)</td><td>dropout</td></tr>
+          <tr><td>Multi-head (p.34)</td><td>1번 (해석)</td><td>feature extractor 1 + head N개</td><td>head마다 다른 parameter (슬라이드엔 설명 없음)</td></tr>
+          <tr><td>MC Dropout (p.27)</td><td>1번</td><td>network 1개, forward T번</td><td>test 때 dropout mask</td></tr>
+        </tbody>
+      </table></div>
+    </div></div>
+  </div>
+
+  <p>이 강의의 acquisition function을 한 표로 모으면 이래.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>U(x)</th><th>모델 수</th><th>쓰는 것</th><th>먼저 고르는 쪽</th><th>흐린 사진(case 1)</th></tr></thead>
+    <tbody>
+      <tr><td>Least Confidence (p.11)</td><td>1</td><td>top-1 확률</td><td>U 큼</td><td>높게 쳐</td></tr>
+      <tr><td>Margin (p.12)</td><td>1</td><td>top-2 확률</td><td><b>U 작음</b></td><td>높게 쳐</td></tr>
+      <tr><td>Entropy (p.13)</td><td>1</td><td>분포 전체</td><td>U 큼</td><td>높게 쳐</td></tr>
+      <tr><td>Voter Entropy (p.16)</td><td>C</td><td>예측 label (표)</td><td>U 큼</td><td>정해지지 않음 (0.5 : 0.5면 표가 동률)</td></tr>
+      <tr><td>Consensus Entropy (p.17)</td><td>C</td><td>평균 분포</td><td>U 큼</td><td>높게 쳐 (BALD 첫째 항)</td></tr>
+      <tr><td>KL Divergence (p.18)</td><td>C</td><td>각 분포와 평균의 거리</td><td>U 큼</td><td>낮게 쳐 (모델끼리 같으면 0)</td></tr>
+      <tr><td>BALD (p.29)</td><td>T번 forward (MC Dropout)</td><td>평균의 entropy − entropy의 평균</td><td>U 큼</td><td>≈ 0 (p.30)</td></tr>
+    </tbody>
+  </table></div>
+  <p>"흐린 사진" 열에서 LC · Margin · Entropy · Consensus 줄은 p.30처럼 모든 모델이 (0.5, 0.5) 근처라고 둘 때의 계산이고, KL 줄은 노트 보충 유도에서 나와.</p>
+
+  <div class="note rl"><span class="tag">RL로 번역</span>
+    <p>슬라이드 밖 비유라서 시험 범위가 아니야. 각 줄의 단서까지 같이 봐.</p>
+    <ul>
+      <li>active learning loop(고르기 → 사람 label → 재학습) ↔ DAgger의 expert query. 단 기본 DAgger는 policy가 방문한 state 전부에 expert label을 받아. 불확실할 때만 사람을 부르는 변형(ThriftyDAgger 같은 interactive imitation learning)이 active learning과 같은 구도야. robot data 수집 · VLA fine-tuning에서 "어느 demo를 더 받을까"가 이 질문이야.</li>
+      <li>epistemic uncertainty ↔ exploration bonus. ensemble disagreement로 탐험하는 Bootstrapped DQN은 shared torso + head K개라서 10-5-6 Multi-head와 같은 모양이야. 단 Bootstrapped DQN은 head마다 bootstrap mask로 다른 data를 보여 줘.</li>
+      <li>aleatoric uncertainty ↔ stochastic environment의 noise. prediction error로 curiosity를 주면 noise 많은 화면(noisy TV)에 끌려가. BALD가 둘째 항을 빼서 흐린 사진을 거르는 것과 같은 처방이야(줄일 수 없는 noise 몫을 빼).</li>
+      <li>BALD = <span class="math">I(y; θ)</span> ↔ VIME 같은 information gain 탐험(dynamics model parameter에 대한 정보 이득). 단 VIME은 transition에 대한 정보, BALD는 label에 대한 정보야.</li>
+      <li>Expected Model Change ↔ prioritized experience replay(TD error가 큰 transition = update가 큰 것부터). 단 PER은 이미 reward가 있는 transition 중에서 고르고, active learning은 label이 없는 것 중에서 label을 살 것을 골라.</li>
+      <li>MC Dropout ↔ model-based RL에서 dynamics model의 불확실성을 dropout으로 싸게 재는 것. ensemble(PETS류)이 더 믿을 만하지만 비싼 것까지 p.35 trade-off와 같아.</li>
+    </ul>
+  </div>
+  <div class="note trap"><span class="tag">시험 함정</span><ul>
+    <li>LC는 <b>top-1만</b>, Margin은 <b>top-2</b>, Entropy는 <b>전체 분포</b> (p.11–13). "Entropy uses only the highest probability" 같은 뒤섞기 조심.</li>
+    <li>방향: LC "Lower confidence → <b>Higher priority</b>", Margin "<b>Small</b> margin → High uncertainty", Entropy "<b>Higher</b> entropy → Higher uncertainty". Margin만 U가 작은 쪽을 골라 (p.11–13).</li>
+    <li>Voter = <b>final class labels only</b>, Consensus = <b>full probability distributions</b>, KL = <b>distance between distributions</b> (p.19).</li>
+    <li>Consensus entropy는 <b>평균 분포의 entropy</b>야. p.19 풀이의 "on average"를 entropy의 평균으로 읽으면 BALD 둘째 항과 헷갈려 (p.17).</li>
+    <li>KL은 <span class="math">D<sub>KL</sub>(P<sub>θ<sub>c</sub></sub> ‖ P<sub>C</sub>)</span>: 각 모델과 <b>committee 평균</b> 사이야. 모델끼리나 정답 label과의 거리가 아니야 (p.18).</li>
+    <li>Aleatoric = data noise, more data로 <b>못</b> 줄여. Epistemic = limited model knowledge, more labeled data로 <b>줄여</b>. Active learning은 <b>epistemic</b>을 노려 (p.25).</li>
+    <li>MC Dropout은 dropout을 <b>inference 때도</b> 켜. network는 <b>하나</b>야 ("Single network", "Low memory", p.27).</li>
+    <li>BALD = <b>평균의 entropy − entropy의 평균</b>. 순서를 뒤집으면 음수가 돼. BALD는 label y와 <b>parameter θ</b>의 mutual information이야 (p.29).</li>
+    <li>Case 1(aleatoric, 흐린 사진): High − High ≈ 0, label 효과 작음. Case 2(epistemic): High − Low = Large, label 효과 큼 (p.30–31). p.31 sample 이름 "ambiguous image"에 끌려 aleatoric으로 답하지 마.</li>
+    <li>Naïve ensemble = <b>most reliable</b>이지만 비싸. Accuracy는 Naïve > Efficient, Efficiency는 Efficient > Naïve. MC Dropout은 "<b>one of the best trade-offs</b>"야. 유일한 최고라고 쓰면 틀려 (p.33–35).</li>
+    <li>Snapshot = 학습 <b>한 번</b> + cyclic LR checkpoint. DEE = shared backbone + dropout. Multi-head = feature extractor 공유 + head 여러 개 (p.34).</li>
+    <li>p.23 한계 세 묶음: hand-crafted, computationally expensive, separate objectives. "No single strategy works best for all tasks".</li>
+  </ul></div>
+  <div class="note next"><span class="tag">다음으로</span><p>p.36은 "Next Week.. Deep Active Learning .."으로 끝나. 다음 강의는 W13 Active Learning II(11/26)이야. p.23의 질문 "Can we learn the acquisition function directly using deep neural networks?"가 아직 열려 있어. 이번 강의의 deep active learning은 uncertainty를 <b>재는</b> 쪽(ensemble · MC Dropout · BALD)까지였어. 내용은 그 강의에서 확인해.</p></div>
+  <div class="quiz"><p class="quiz-h">셀프 체크: 영어로 먼저 써 보고 열어</p>
+    <details class="q"><summary><span class="typ">T/F</span><span class="qs en">Aleatoric uncertainty can be reduced by labeling more samples, so active learning mainly targets aleatoric uncertainty.</span></summary><p class="ans"><b>False.</b> <span class="en">Why: Aleatoric uncertainty is caused by data noise such as sensor noise, occlusion, motion blur, and intrinsic ambiguity, and it cannot be reduced by collecting more data. Epistemic uncertainty is caused by limited model knowledge and can be reduced with more labeled data. Corrected: Epistemic uncertainty can be reduced with more labeled data, so active learning mainly targets epistemic uncertainty.</span> 두 이름을 맞바꾼 지문이야 (p.25).</p></details>
+    <details class="q"><summary><span class="typ">MCQ</span><span class="qs en">What is the second term of BALD, (1/T) Σ<sub>t</sub> H[p<sub>t</sub>(y|x)], for?<br>(A) It measures how uncertain the average prediction of all models is.<br>(B) It measures how uncertain each model is individually, so subtracting it removes the uncertainty that every model shares.<br>(C) It counts how many models vote for each class.<br>(D) It measures the distance between each model and the labeled data.</span></summary><p class="ans"><b>(B)</b> <span class="en">The second term is the mean entropy of predictions. It is high when every model is uncertain about the same blurred image (Case 1), so BALD ≈ High − High ≈ 0. When the models are individually confident but disagree (Case 2), it is low and BALD ≈ High − Low is large.</span> (A)는 첫째 항(entropy of mean prediction), (C)는 Voter Entropy(p.16)야. 근거 p.29–31.</p></details>
+    <details class="q"><summary><span class="typ">빈칸</span><span class="qs en">Fill in the blank and explain the process: <code>model.______()</code> is called right before <code>probs = torch.stack([model(x).softmax(-1) for _ in range(T)])</code>, which collects T predictions for the same unlabeled batch.</span></summary><p class="ans"><b>train</b> (accept: switching only the dropout layers to train mode). <span class="en">This is MC Dropout. Dropout stays on at inference, so every forward pass uses a different dropout mask and the T passes act like T different models. Their mean prediction and their individual entropies give BALD, and the samples with the highest BALD are sent to the human annotator.</span> 평소 test처럼 <code>eval()</code>을 부르면 dropout이 꺼져서 T번 모두 같은 예측이 나와 (p.27–28).</p></details>
+  </div>
+  <label class="done"><input type="checkbox" id="done-l10" data-done="l10">다 봤음</label>
+</section>
+
 <!-- ============ 공통 패턴 ============ -->
 <section id="patterns">
-  <h2>공통 패턴: L08–L09에 계속 나오는 부품</h2>
+  <h2>공통 패턴: L08–L10에 계속 나오는 부품</h2>
   <p>방법은 많지만 질문은 두 개야. 이 표 두 개가 잡히면 "이건 어느 방법?" 문제가 거의 풀려. 강의가 늘면 표에 행이 늘어나.</p>
 
   <h3>왜 같은 부품이 계속 나오나</h3>
@@ -1822,13 +2455,49 @@ details.more{margin:.4rem 0 1.2rem}
   </div>
   <div class="note trap"><span class="tag">시험 함정</span><p>슬라이드는 SEC · Oh · SEAM을 1번 자리에 놓았어. 그런데 본문엔 2번과 이어지는 말도 있어: SEC의 Expansion loss는 "expand beyond the seeds"(p.31), Oh의 saliency는 "Provides complete object extent"(p.34)야. T/F에선 슬라이드 자리를 기준으로 답하고, 이유에 이 점을 같이 써.</p></div>
   <div class="note easy"><span class="tag">쉽게 말하면</span><p>L08은 "<b>어느 box</b>를 target으로 삼나"였고, L09는 같은 질문을 "<b>어느 pixel</b>"로 옮긴 거야. L08에서 box가 얼굴 같은 discriminative part만 잡았던 것처럼(L08 p.35), L09의 CAM도 제일 눈에 띄는 부분만 켜져. 그래서 두 강의 모두 "다른 단서를 빌려 target을 넓히고 다듬는" 방법들이 이어져. 이 두 표도 슬라이드와 그림을 같이 읽어 정리한 거야.</p></div>
+
+  <h3>L10: target이 아니라 "어느 sample에 label을 다나"</h3>
+  <p>L08–L09는 label이 약해서 target을 모델이 만들어야 했어. L10은 방향이 반대야. label은 사람이 정식으로 달아 주고, 대신 <b>어느 sample에 달지</b>를 모델이 골라. 고르는 점수가 <a href="#t-acquisition-function">acquisition function</a> U(x)이고, 방법은 "uncertainty를 무엇으로 재나"로 갈려.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>방법</th><th>모델 수</th><th>쓰는 정보</th><th>점수 U(x)</th><th>고르는 방향</th></tr></thead>
+      <tbody>
+        <tr><td>Least Confidence <span class="m-src">p.11</span></td><td>1</td><td>top-1 확률 P(ŷ|x)만</td><td><span class="math">1 − P(ŷ|x)</span></td><td>U가 큰 것 (Lower confidence → Higher priority)</td></tr>
+        <tr><td>Margin <span class="m-src">p.12</span></td><td>1</td><td>top-2 확률</td><td><span class="math">P(ŷ<sub>1</sub>|x) − P(ŷ<sub>2</sub>|x)</span></td><td><b>U가 작은 것</b> (Small margin → High uncertainty)</td></tr>
+        <tr><td>Entropy <span class="m-src">p.13</span></td><td>1</td><td>확률분포 전체</td><td><span class="math">−Σ<sub>y</sub> P(y|x) log P(y|x)</span></td><td>U가 큰 것</td></tr>
+        <tr><td>Voter Entropy <span class="m-src">p.16</span></td><td>C (committee)</td><td>모델마다 최종 label 하나(표)만</td><td><span class="math">H(V(y) / C)</span></td><td>U가 큰 것 (High vote diversity)</td></tr>
+        <tr><td>Consensus Entropy <span class="m-src">p.17</span></td><td>C</td><td>확률분포 전체를 평균한 P<sub>C</sub></td><td><span class="math">H(P<sub>C</sub>)</span></td><td>U가 큰 것</td></tr>
+        <tr><td>KL Divergence <span class="m-src">p.18</span></td><td>C</td><td>모델별 분포와 평균 P<sub>C</sub> 사이 거리</td><td><span class="math">(1/C) Σ<sub>c</sub> D<sub>KL</sub>(P<sub>θ<sub>c</sub></sub> ‖ P<sub>C</sub>)</span></td><td>U가 큰 것 (Larger KL → Larger disagreement)</td></tr>
+        <tr><td>BALD (DBAL) <span class="m-src">p.28–29</span></td><td>network 1개 × MC Dropout forward T번</td><td>forward마다 나온 분포 p<sub>t</sub> + 그 평균 p̄</td><td><span class="math">H[p̄(y|x)] − (1/T) Σ<sub>t</sub> H[p<sub>t</sub>(y|x)]</span></td><td>U가 큰 것 (epistemic이 클수록)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>L10: "여러 모델"은 어디서 오나</h3>
+  <p>QBC · ensemble · BALD는 모두 모델 여러 개의 예측이 갈리는지를 봐. 차이는 그 여러 모델을 <b>얼마나 비싸게 얻나</b>야.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>방법</th><th>여러 모델을 얻는 법</th><th>비용</th><th>슬라이드 설명·평가</th></tr></thead>
+      <tbody>
+        <tr><td>Naïve Ensemble <span class="m-src">p.26 · 33–34</span></td><td>모델 N개를 처음부터 따로 학습</td><td>학습 · 추론 모두 비쌈 ("High training cost", "High inference cost"; 모델 N개라 대략 N배로 읽어도 돼)</td><td>"the most reliable uncertainty estimates"</td></tr>
+        <tr><td>QBC committee <span class="m-src">p.14 · 23</span></td><td>"Train multiple models (committee)"</td><td>모델 C개 ("Committee models"가 비싼 이유로 꼽혀)</td><td>disagreement로 uncertainty를 재</td></tr>
+        <tr><td>MC Dropout <span class="m-src">p.27</span></td><td>network 하나, test 때 dropout mask를 바꿔 여러 번 forward</td><td>학습 1번 · "Single network" · "Low memory"</td><td>"one of the best trade-offs" (p.35)</td></tr>
+        <tr><td>Snapshot Ensemble <span class="m-src">p.34</span></td><td>한 번의 학습에서 cyclic learning rate로 checkpoint 여러 개 저장</td><td>학습 1번</td><td>"Different local minima act as an implicit ensemble"</td></tr>
+        <tr><td>DEE <span class="m-src">p.34</span></td><td>shared backbone에서 여러 모델을 초기화 + dropout</td><td>backbone 공유</td><td>"Encourage prediction diversity with dropout"</td></tr>
+        <tr><td>Multi-head / Split-head <span class="m-src">p.34</span></td><td>feature extractor 하나 + prediction head 여러 개</td><td>head만 여러 개</td><td>"lightweight ensemble members"</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>정리: "Accuracy: Naïve Ensemble &gt; Efficient Approximations", "Efficiency: Efficient Approximations &gt; Naïve Ensemble" (p.35).</p>
+  <div class="note trap"><span class="tag">시험 함정</span><p>점수는 대개 "클수록 먼저 고른다"인데 <b>Margin만 반대</b>야. margin이 <b>작을수록</b> 불확실해서 먼저 골라 (p.12). 또 Consensus Entropy와 BALD의 첫 항은 같은 모양(평균 예측의 entropy)이라서 그것만으론 aleatoric과 epistemic을 구별 못 해. BALD는 둘째 항(모델 각자의 entropy 평균)을 빼서 epistemic 몫만 남겨 (p.29–31). Entropy Sampling(p.13)은 <b>모델 하나</b>의 entropy라서 BALD 첫 항과 달라: Case 2처럼 각 모델이 확신하면 모델 하나의 entropy는 <b>낮고</b>, High인 건 T개를 평균한 예측의 entropy야 (p.31).</p></div>
+  <div class="note easy"><span class="tag">쉽게 말하면</span><p>중간 범위는 "<b>label이 없을 때</b> target을 어디서 만드나", L08–L09는 "<b>label이 약할 때</b>"였어. L10은 "<b>label을 몇 개만 달 수 있을 때 어디에 다나</b>"야. 셋 다 annotation 비용을 줄이려는 같은 동기고, L10만 사람에게 다시 묻는 loop가 있어. 재밌는 대비: FixMatch 같은 pseudo label 방법은 모델이 <b>확신하는</b> sample을 골라 그 예측을 label로 쓰고, active learning은 모델이 <b>확신 못 하는</b> sample을 골라 사람에게 물어. 두 표는 슬라이드 수식과 불릿을 모아 정리한 거야.</p></div>
 </section>
 
 <!-- ============ Pseudo code ============ -->
 <section id="code">
-  <h2>Pseudo code 7개: 핵심 줄만</h2>
-  <p>L08 슬라이드 41장, L09 슬라이드 96장 모두 Algorithm 박스나 코드 박스가 <b>0개</b>야. 그래도 넘어가면 안 돼. 중간고사 코드 문제 4개 중 3개(Rotation, FixMatch, Mean Teacher)가 슬라이드에 코드가 없는 방법이었어. 그래서 슬라이드의 pipeline 문장을 짧은 코드로 옮긴 카드를 만들었어.</p>
-  <p>여기엔 계열 대표 <b>1순위만</b> 있어 (L08 3개 + L09 4개). 슬라이드 코드가 아니라 <b>설명용으로 쓰고 dummy tensor로 돌려 본 코드</b>야. 전체 카드와 빈칸 · 모범 설명은 repo의 <code>exam/pseudocode_final.md</code>(L08 WS-1–WS-8, L09 WS-9–WS-19)에 있어. 색이 들어간 줄이 core idea가 박힌 줄이야.</p>
+  <h2>Pseudo code 11개: 핵심 줄만</h2>
+  <p>L08 슬라이드 41장, L09 슬라이드 96장, L10 슬라이드 36장 모두 Algorithm 박스나 코드 박스가 <b>0개</b>야. 그래도 넘어가면 안 돼. 중간고사 코드 문제 4개 중 3개(Rotation, FixMatch, Mean Teacher)가 슬라이드에 코드가 없는 방법이었어. 그래서 슬라이드의 pipeline 문장을 짧은 코드로 옮긴 카드를 만들었어.</p>
+  <p>여기엔 계열 대표 <b>1순위만</b> 있어 (L08 3개 + L09 4개 + L10 4개). 슬라이드 코드가 아니라 <b>설명용으로 쓰고 dummy tensor로 돌려 본 코드</b>야. 전체 카드와 빈칸 · 모범 설명은 repo의 <code>exam/pseudocode_final.md</code>(L08 WS-1–WS-8, L09 WS-9–WS-19, L10 AL-1–AL-6)에 있어. 색이 들어간 줄이 core idea가 박힌 줄이야.</p>
 
   <h3>먼저: 코드 읽는 법</h3>
   <dl class="gloss">
@@ -1848,6 +2517,19 @@ details.more{margin:.4rem 0 1.2rem}
     <dd>True/False 지도 두 장의 <b>합집합</b>(OR)을 a에 덮어써. 지운 영역을 step마다 누적하는 줄이야.</dd>
     <dt><code>F.multilabel_soft_margin_loss</code><small>CAM</small></dt>
     <dd>class마다 "있다 / 없다"를 따로 맞히는 loss야. 사진 하나에 class가 여러 개일 수 있어서 softmax 대신 써.</dd>
+    <!-- L10-code-gloss -->
+    <dt><code>x.topk(b, largest=False)</code><small>Active learning loop · LC · Margin</small></dt>
+    <dd>가장 <b>큰</b> b개의 값과 번호를 돌려줘. <code>.indices</code>로 번호만 꺼내. <code>largest=False</code>면 가장 <b>작은</b> b개야. margin처럼 작을수록 불확실한 점수에 써.</dd>
+    <dt><code>H = lambda q: -torch.special.xlogy(q, q).sum(dim=-1)</code><small>QBC · BALD</small></dt>
+    <dd>L10 카드의 entropy helper야. <code>xlogy(q, q)</code>는 q · log q인데 q = 0이면 0을 돌려줘 (0 · log 0 = 0). 마지막 축(class 축)으로 더하니까 <code>[N, K]</code>를 넣으면 <code>[N]</code>, <code>[T, N, K]</code>를 넣으면 <code>[T, N]</code>이 나와.</dd>
+    <dt><code>P.mean(dim=0)</code><small>QBC · BALD</small></dt>
+    <dd>예측을 <code>[모델 수, N, K]</code>로 쌓았을 때 첫 축, 즉 <b>모델 축</b>으로 평균해서 <code>[N, K]</code>를 남겨. committee 평균 <span class="math">P<sub>C</sub></span>와 MC Dropout 평균 예측 <span class="math">p̄</span>가 이 줄이야.</dd>
+    <dt><code>F.one_hot(idx, K).sum(dim=0)</code><small>QBC voter</small></dt>
+    <dd>모델마다 찍은 class 번호를 길이 K의 0/1 벡터로 바꾸고 모델 축으로 더해. class별 <b>표 수</b> V(y)가 나와.</dd>
+    <dt><code>model.train()</code> / <code>model.eval()</code><small>MC Dropout</small></dt>
+    <dd>layer의 동작 모드를 바꿔. dropout은 <code>train()</code>에서만 켜지고 <code>eval()</code>에선 꺼져. 보통 inference는 <code>eval()</code>이지만 MC Dropout은 일부러 <code>train()</code>으로 둬서 매번 다른 mask를 써. gradient 계산 여부는 이 스위치가 아니라 <code>no_grad</code>가 정해.</dd>
+    <dt><code>torch.isin(a, b)</code><small>Active learning loop</small></dt>
+    <dd>a의 원소마다 b 안에 있으면 True야. 앞에 <code>~</code>를 붙여 뒤집으면 "아직 안 고른 것"만 남아서, 고른 sample을 pool에서 빼는 데 써.</dd>
   </dl>
 
   <h3>MIL 가족: 고르고 학습하기</h3>
@@ -2008,6 +2690,106 @@ for r in range(R):
       <p><span class="k">알아보는 법</span>round loop 안에서 <code>argmax</code>로 예측을 만들고, box 밖을 0으로 자르고, <code>label</code>을 덮어써. L08 MIL의 re-localize ↔ re-train을 pixel 단위로 한 구조야.</p>
     </div>
   </div>
+  <!-- L10-code-block -->
+  <h3>L10 고르기 가족: 한 모델의 uncertainty</h3>
+  <p>L10 슬라이드 36장에도 Algorithm · 코드 박스는 <b>0개</b>야. 그래서 p.5–7 workflow와 p.11–13, 16–18, 29의 수식을 코드로 옮겼어. 여기엔 1순위 4개(AL-1–AL-4)만 있고, 2순위는 맨 끝에 핵심 줄만 적었어. 전체 6장(AL-1–AL-6)과 빈칸 · 모범 설명은 repo의 <code>exam/pseudocode_final.md</code>에 있어.</p>
+  <p>L08 · L09 카드는 target을 만들고 loss로 update하는 코드였어. L10 카드는 거의 다 <b>점수를 계산해서 top-b를 고르는</b> 코드야. update는 사람이 고른 sample에 label을 단 뒤 다시 학습할 때만 일어나. 새 label 값은 모델이 아니라 <b>사람</b>이 줘 (L07 pseudo label과 다른 점).</p>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">Active learning loop</span><span class="m-src">AL-1 · p.5–7</span></div>
+    <pre><code>labeled = init_idx.clone()                             # small labeled set X (p.6)
+unlabeled = all_idx[~torch.isin(all_idx, labeled)]     # unlabeled pool U (p.6)
+for r in range(B // b):                                # labeling budget B, b samples per round (p.6)
+    model = train(x[labeled], y[labeled])              # retrain the model on labeled data only (p.5)
+    <span class="hl">scores = U(model, x[unlabeled])</span>                    # acquisition function: informativeness score (p.7)
+    <span class="hl">pick = unlabeled[scores.topk(b).indices]</span>           # select the most informative samples (p.5)
+    labeled = torch.cat([labeled, pick])               # human annotation: y[pick] is revealed (p.5)
+    unlabeled = unlabeled[~torch.isin(unlabeled, pick)]  # repeat with a smaller pool (p.5)</code></pre>
+    <div class="m-body">
+      <p><span class="k">한 줄</span>점수가 높은 b개만 사람에게 label 받고, 다시 학습하고, budget B를 다 쓸 때까지 반복해.</p>
+      <p><span class="k">입력 → 출력</span>작은 초기 labeled set, unlabeled pool, 점수 함수 <code>U</code>, budget <code>B</code>, round당 개수 <code>b</code>를 받아서 B개가 늘어난 labeled set과 다시 학습한 <code>model</code>을 돌려줘.</p>
+      <p><span class="k">핵심 줄</span></p>
+      <ol>
+        <li><code>U(model, x[unlabeled])</code>: acquisition function이야. "Assigns an informativeness score to each unlabeled sample" (p.7). 이 자리에 아래 LC · Entropy · QBC · BALD가 들어가.</li>
+        <li><code>scores.topk(b)</code>: 한 round에 <b>b</b>개만 골라 (p.6: B = labeling budget, b = batch size). <code>B</code>를 넣으면 한 round에 budget을 다 써.</li>
+      </ol>
+      <p><span class="k">core idea</span>"Select informative samples → Human annotation → Retrain the model → Repeat" (p.5). target은 <b>사람이 단 label</b>이고, <code>y</code>는 고른 index에서만 읽어. update되는 건 round마다 다시 학습하는 <code>model</code>뿐이야. 이 재학습이 p.23의 "Retraining after every acquisition round" 비용이야.</p>
+      <p><span class="k">알아보는 법</span><code>topk</code>로 고르고, <code>isin</code>으로 pool에서 빼고, loop 안에서 다시 <code>train</code>해. <code>topk</code>는 큰 쪽을 고르니까 <code>U</code>는 "클수록 가치 큼"이어야 해. Margin은 <code>-U_margin</code>으로 넣어.</p>
+    </div>
+  </div>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">Uncertainty sampling: LC · Margin · Entropy</span><span class="m-src">AL-2 · p.9–13</span></div>
+    <pre><code>p = model(x_u).softmax(dim=1)                          # P(y|x): [N, K] for unlabeled samples (p.10)
+top2 = p.topk(2, dim=1).values                         # P(ŷ1|x), P(ŷ2|x)
+<span class="hl">U_lc = 1 - top2[:, 0]</span>                                  # least confidence: 1 - P(ŷ|x) (p.11)
+<span class="hl">U_margin = top2[:, 0] - top2[:, 1]</span>                     # margin: P(ŷ1|x) - P(ŷ2|x) (p.12)
+<span class="hl">U_ent = -(p * p.log()).sum(dim=1)</span>                      # entropy: -Σ_y P(y|x) log P(y|x) (p.13)
+pick_lc = U_lc.topk(b).indices                         # lower confidence -&gt; higher priority (p.11)
+<span class="hl">pick_margin = U_margin.topk(b, largest=False).indices</span> # small margin -&gt; high uncertainty (p.12)
+pick_ent = U_ent.topk(b).indices                       # higher entropy -&gt; higher uncertainty (p.13)</code></pre>
+    <div class="m-body">
+      <p><span class="k">한 줄</span>모델 하나의 softmax가 덜 확신하는 sample을 골라. 셋의 차이는 확률 분포에서 어디까지 보느냐야.</p>
+      <p><span class="k">입력 → 출력</span>이미 학습된 모델 하나와 unlabeled sample <code>x_u</code>를 받아서 세 점수([N])와 각 점수로 고른 index b개를 돌려줘.</p>
+      <p><span class="k">핵심 줄</span></p>
+      <ol>
+        <li><code>1 - top2[:, 0]</code>: LC는 <b>top-1 확률만</b> 써 ("Uses only the highest predicted probability", p.11).</li>
+        <li><code>top2[:, 0] - top2[:, 1]</code>: Margin은 <b>top-2</b>를 써 (p.12).</li>
+        <li><code>-(p * p.log()).sum(dim=1)</code>: Entropy는 <b>분포 전체</b>를 써 (p.13). 균등 분포면 최대 <span class="math">log K</span>야.</li>
+        <li><code>largest=False</code>: margin만 방향이 반대야. "Small margin → High uncertainty" (p.12). <code>largest=True</code>로 두면 가장 확신하는 sample을 골라.</li>
+      </ol>
+      <p><span class="k">core idea</span>"Samples near the decision boundary often provide the greatest learning benefit" (p.9). 셋은 순위가 다를 수 있어. 설명용 숫자로 A = [0.50, 0.30, 0.20], B = [0.50, 0.49, 0.01]이면 LC는 둘이 같고(0.5), margin은 B(0.01)를, entropy는 A(1.03 &gt; 0.74)를 골라. class가 2개면 셋의 순위가 같아. 이 코드에서 update되는 건 없어.</p>
+      <p><span class="k">알아보는 법</span>모델이 <b>하나</b>고 <code>softmax</code> 한 번에서 점수 셋이 나와. <code>topk(2</code>가 보이면 margin, <code>log</code>와 <code>sum</code>이 보이면 entropy야.</p>
+    </div>
+  </div>
+
+  <h3>L10 disagreement 가족: 여러 모델이 엇갈리나</h3>
+  <p>두 카드는 같은 질문의 두 답이야: <b>여러 모델의 의견이 엇갈리는 정도를 어떻게 재나?</b> QBC는 따로 학습한 모델 C개를 쓰고, MC Dropout은 network 하나에 dropout mask를 T번 바꿔서 모델 T개처럼 써. 두 카드 모두 예측을 <code>[모델 수, N, K]</code>로 쌓고 <b>첫 축(dim=0)으로 평균</b>해.</p>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">Query-by-Committee: Voter · Consensus · KL</span><span class="m-src">AL-3 · p.14–19</span></div>
+    <pre><code>P = torch.stack([m(x_u).softmax(dim=1) for m in committee])   # [C, N, K]: P_θc(y|x), C = len(committee), K = #classes (p.14)
+<span class="hl">votes = F.one_hot(P.argmax(dim=2), K).sum(dim=0)</span>         # V(y): votes per class [N, K] (p.16)
+U_vote = H(votes / C)                                    # voter entropy H(V(y)/C) (p.16)
+<span class="hl">P_C = P.mean(dim=0)</span>                                      # consensus P_C(y) = (1/C) Σ_c P_θc(y|x) (p.17)
+U_cons = H(P_C)                                          # consensus entropy H(P_C) (p.17)
+<span class="hl">U_kl = (P * (P.log() - P_C.log())).sum(dim=2).mean(dim=0)</span>  # (1/C) Σ_c D_KL(P_θc || P_C) (p.18)</code></pre>
+    <div class="m-body">
+      <p><span class="k">한 줄</span>모델 여러 개(committee)가 가장 크게 엇갈리는 sample을 골라.</p>
+      <p><span class="k">입력 → 출력</span>따로 학습된 모델 C개와 unlabeled sample <code>x_u</code>를 받아서 disagreement 점수 셋([N])을 돌려줘. <code>H</code>는 entropy helper야.</p>
+      <p><span class="k">핵심 줄</span></p>
+      <ol>
+        <li><code>F.one_hot(P.argmax(dim=2), K).sum(dim=0)</code>: Voter는 각 모델의 <b>최종 label만</b> 세 (p.16 "Only considers the predicted label of each model").</li>
+        <li><code>P.mean(dim=0)</code>: committee 평균 <span class="math">P<sub>C</sub></span>야. Consensus는 그 entropy, 즉 <b>확률 분포 전체</b>를 써 (p.17).</li>
+        <li>KL 줄: 각 member와 평균 사이 거리 <span class="math">D<sub>KL</sub>(P<sub>θ<sub>c</sub></sub> ‖ P<sub>C</sub>)</span>를 C명에 대해 평균해 (p.18). member가 앞, 평균이 뒤야.</li>
+      </ol>
+      <p><span class="k">core idea</span>"Instead of relying on a single model, measure uncertainty by disagreement among multiple models" (p.14). p.14 그림처럼 5명 중 cat 3, dog 2면 vote 분포 [3/5, 2/5]의 entropy는 0.67이야. 세 모델이 cat 0.99 / 0.55 / 0.75로 전부 cat을 찍으면 voter는 0인데 KL은 0.11로 잡아. 이 코드에서 update되는 건 없어.</p>
+      <p><span class="k">알아보는 법</span>모델 <b>목록</b>(<code>committee</code>)을 돌고, <code>one_hot</code>으로 표를 세고, <code>mean(dim=0)</code>으로 member 축을 평균해.</p>
+    </div>
+  </div>
+  <div class="pc">
+    <div class="pc-h"><span class="m-name">MC Dropout + BALD</span><span class="m-src">AL-4 · p.27–31</span></div>
+    <pre><code><span class="hl">model.train()</span>                                            # dropout stays ON at inference (p.27)
+with torch.no_grad():
+    P = torch.stack([model(x_u).softmax(dim=1) for _ in range(T)])  # T stochastic passes, different masks: [T, N, K] (p.28)
+p_bar = P.mean(dim=0)                                    # mean prediction p̄(y|x) (p.29)
+<span class="hl">bald = H(p_bar) - H(P).mean(dim=0)</span>                       # entropy of mean - mean entropy (p.29)
+pick = bald.topk(b).indices                              # highest epistemic uncertainty -&gt; query labels (p.28)</code></pre>
+    <div class="m-body">
+      <p><span class="k">한 줄</span>dropout을 켠 채 같은 입력을 T번 넣고, "평균의 entropy − entropy의 평균"이 큰 sample을 골라.</p>
+      <p><span class="k">입력 → 출력</span>dropout이 들어간 학습된 network 하나와 unlabeled sample <code>x_u</code>, pass 수 <code>T</code>를 받아서 BALD 점수([N])와 고른 index b개를 돌려줘.</p>
+      <p><span class="k">핵심 줄</span></p>
+      <ol>
+        <li><code>model.train()</code>: inference인데 dropout을 <b>켜</b> 둬. "Different dropout masks ≈ Different models" (p.27). <code>eval()</code>이면 T번 출력이 다 같아서 BALD = 0이야.</li>
+        <li><code>H(p_bar) - H(P).mean(dim=0)</code>: <span class="math">BALD(x) ≈ 𝓗[p̄(y|x)] − (1/T) Σ<sub>t</sub> 𝓗[p<sub>t</sub>(y|x)]</span> (p.29). 빼는 순서가 거꾸로면 0 이하가 돼.</li>
+      </ol>
+      <p><span class="k">core idea</span>BALD는 label y와 parameter θ 사이의 mutual information이야 (p.29). Case 1(aleatoric, 다 50:50)은 High − High ≈ 0, Case 2(epistemic, 각자 확신하는데 서로 다름)는 High − Low = Large야 (p.30–31). 첫 항 <span class="math">𝓗[p̄]</span>만 보면 두 case가 둘 다 높아서 구분이 안 돼. 둘째 항을 빼야 data noise 몫이 빠지고, active learning이 노리는 <b>epistemic</b> 몫만 남아 (p.25). 이 코드에서 update되는 건 없고, 고른 sample은 "Query labels and retrain"으로 넘어가 (p.28).</p>
+      <p><span class="k">알아보는 법</span>모델은 <b>하나</b>인데 <code>for _ in range(T)</code>로 같은 입력을 여러 번 넣어. <code>train()</code>이 <code>no_grad</code>와 같이 나오고, <code>mean(dim=0)</code>이 두 군데(평균의 entropy / entropy의 평균)에 있어.</p>
+    </div>
+  </div>
+  <p><span class="k">2순위</span>p.34의 싼 ensemble 둘은 핵심 줄만 기억해. 둘 다 위 BALD · KL 점수를 그대로 붙여 쓸 수 있어.</p>
+  <ul>
+    <li><b>Snapshot Ensemble</b> (AL-5): 학습을 <b>한 번</b>만 하면서 cyclic lr이 바닥일 때마다 저장해. <code>if t == iters_per_cycle - 1: snapshots.append(copy.deepcopy(model))</code>. "Different local minima act as an implicit ensemble" (p.34).</li>
+    <li><b>Multi-head / Split-head</b> (AL-6): feature extractor는 <b>한 번</b>만 돌리고 head 여러 개를 member로 써. <code>feat = backbone(x_u)</code> → <code>P = torch.stack([h(feat).softmax(dim=1) for h in heads])</code>. "Share one feature extractor" (p.34).</li>
+    <li>p.35: 정확도는 naive ensemble이 낫고, 효율은 근사 방법들이 나아. MC Dropout은 "one of the best trade-offs"야.</li>
+  </ul>
 </section>
 
 <!-- ============ Physical AI ============ -->
@@ -2040,16 +2822,36 @@ for r in range(R):
       <p><span class="k">한 줄</span>로봇 data는 비싸서, 인터넷 사진 · 영상과 caption으로 representation을 먼저 배우는 흐름이 있어 (예: R3M은 Ego4D 사람 영상으로 pretraining).</p>
       <p><span class="k">수업과 연결</span>webly supervision의 거래(annotation cost ↔ label noise)와 같아. Liu가 caption을 검색 key로 저장했듯, 언어로 적어 둔 episode 설명은 비슷한 data를 다시 찾는 memory key로도 쓸 수 있어.</p>
     </div></div>
+    <div class="m"><div><span class="m-name">uncertainty로 사람 부르기 = query strategy</span><span class="m-src">L10 p.5–7</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>robot imitation learning에서 사람 시연(teleoperation)은 비싸. 어느 순간에 사람에게 개입을 요청할지 고르는 게 active learning과 같은 문제야.</p>
+      <p><span class="k">수업과 연결</span>DAgger는 policy가 방문한 state마다 expert label을 묻는데, 전부 묻는 건 비싸. policy가 헷갈리거나 처음 보는 state일 때만 사람을 부르는 interactive imitation learning(예: ThriftyDAgger는 policy ensemble의 disagreement로 novelty를 재)이 acquisition function을 쓰는 셈이야. Select → Human annotation → Retrain → Repeat (p.5)가 그대로 data collection loop가 돼.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">epistemic = 탐험할 곳</span><span class="m-src">L10 p.25 · p.34</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>RL의 exploration bonus는 agent를 epistemic uncertainty가 큰 곳으로 보내.</p>
+      <p><span class="k">수업과 연결</span>ensemble Q의 disagreement(Bootstrapped DQN)나 dynamics model ensemble의 disagreement가 QBC · ensemble-based estimation과 같은 신호야. Bootstrapped DQN의 "shared network + head K개"는 p.34의 Multi-head / Split-head와 같은 모양이야.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">aleatoric = noisy TV</span><span class="m-src">L10 p.25 · p.29–31</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>prediction error를 curiosity bonus로 쓰면, agent가 랜덤 noise가 나오는 화면(noisy TV) 앞에서 안 떠나.</p>
+      <p><span class="k">수업과 연결</span>noise는 aleatoric이라 아무리 봐도 안 줄어. BALD가 "Mean entropy of predictions"를 빼서 aleatoric 몫을 지우듯, exploration도 모델 사이 disagreement(epistemic)만 bonus로 주면 이 함정을 피해.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">BALD = information gain</span><span class="m-src">L10 p.29</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>VIME 같은 방법은 "이 경험을 하면 dynamics model parameter에 대해 얼마나 배우나"를 bonus로 줘.</p>
+      <p><span class="k">수업과 연결</span>BALD의 <span class="math">I(y, θ | x, D)</span>와 같은 꼴이야. sample x 대신 transition, label y 대신 다음 state가 들어갈 뿐이야.</p>
+    </div></div>
+    <div class="m"><div><span class="m-name">MC Dropout · multi-head = 싼 uncertainty</span><span class="m-src">L10 p.27 · p.34–35</span></div><div class="m-body">
+      <p><span class="k">한 줄</span>큰 model을 통째로 여러 번 학습하기 어려우면, dropout을 켠 채 여러 번 forward하거나 head만 여러 개 둬서 불확실성을 싸게 잴 수 있어.</p>
+      <p><span class="k">수업과 연결</span>VLA처럼 큰 model에선 backbone은 공유하고 action head만 여러 개 두는 쪽이 현실적인 선택지가 될 수 있어 (내 해석, p.34의 4번 그림과 같은 모양). 다만 p.35대로 efficient approximation은 naïve ensemble보다 uncertainty 품질이 낮을 수 있어.</p>
+    </div></div>
   </div>
 </section>
 
 <!-- ============ 마지막 체크 ============ -->
 <section id="last">
-  <h2>마지막 체크: 이 26줄은 영어로 바로 나와야 해</h2>
-  <p>시험 전날 이것만 다시 봐. 지금은 L08–L09 몫이고, 강의가 늘면 줄이 늘어나. 읽는 법은 이래.</p>
+  <h2>마지막 체크: 이 39줄은 영어로 바로 나와야 해</h2>
+  <p>시험 전날 이것만 다시 봐. 지금은 L08–L10 몫이고, 강의가 늘면 줄이 늘어나. 읽는 법은 이래.</p>
   <ul>
     <li>영어 문장을 소리 내서 말해 보고, 막히면 밑의 한국어 풀이를 봐.</li>
-    <li>굵은 단어는 T/F 함정이나 빈칸으로 나오기 좋은 자리야. 그 단어가 짝꿍 단어로 바뀐 문장(train ↔ test, bags ↔ instances, most ↔ least, high ↔ low, random ↔ most discriminative, equivariant ↔ invariant 등)이 나오면 False일 가능성이 커.</li>
+    <li>굵은 단어는 T/F 함정이나 빈칸으로 나오기 좋은 자리야. 그 단어가 짝꿍 단어로 바뀐 문장(train ↔ test, bags ↔ instances, most ↔ least, high ↔ low, random ↔ most discriminative, equivariant ↔ invariant, aleatoric ↔ epistemic, small ↔ large margin 등)이 나오면 False일 가능성이 커.</li>
   </ul>
   <h3>L08 Weakly-Supervised Learning I</h3>
   <ol class="check en">
@@ -2083,13 +2885,30 @@ for r in range(R):
     <li>CD-CLIP compares patches by their <b>class distributions</b> using <b>JS divergence</b>: CDA completes the CAM, and SBE fixes the <b>boundaries</b>.<span class="s-why">JS가 작을수록 같은 영역이야. boundary loss는 super-class가 2개 이상일 때만 걸어. p.65–74</span></li>
     <li>Liu et al. store <b>captions, not images</b>, and use the web as external memory; WISH maps tags, points, and boxes into <b>SAM's prompt space</b>.<span class="s-why">Liu: class name이 사진을 찾고 caption이 label을 정해. WISH: 섞인(heterogeneous) weak label을 한 모델이 배워. p.81–82, p.88</span></li>
   </ol>
+  <h3>L10 Active Learning I</h3>
+  <ol class="check en" start="27">
+    <li>Active learning selects the <b>most informative</b> unlabeled samples to maximize model improvement with <b>minimum annotation cost</b>.<span class="s-why">Workflow: Select informative samples → Human annotation → Retrain the model → Repeat. p.4–5</span></li>
+    <li>An <b>acquisition function</b> assigns an <b>informativeness score</b> to each unlabeled sample; the selection process is called a <b>sampling (query) strategy</b>.<span class="s-why">기호로 U(x). B = labeling budget, b = batch size. p.6–7</span></li>
+    <li>Uncertainty sampling labels the samples the current model is <b>least confident</b> about; samples <b>near the decision boundary</b> often provide the greatest learning benefit.<span class="s-why">"Not all unlabeled samples are equally informative". p.9</span></li>
+    <li>Least confidence uses only the <b>highest</b> predicted probability: <span class="math">U(x) = 1 − P(ŷ|x)</span>; lower confidence means higher priority.<span class="s-why">top-1 하나만 봐서 나머지 class가 어떻게 퍼졌는지는 무시해. p.11</span></li>
+    <li>Margin sampling uses the <b>top two</b> probabilities; a <b>small</b> margin means <b>high</b> uncertainty.<span class="s-why"><span class="math">U(x) = P(ŷ<sub>1</sub>|x) − P(ŷ<sub>2</sub>|x)</span>. 다른 점수와 달리 U가 <b>작은</b> sample을 골라. p.12</span></li>
+    <li>Entropy sampling uses the <b>entire</b> probability distribution; higher entropy means higher uncertainty.<span class="s-why"><span class="math">U(x) = −Σ<sub>y</sub> P(y|x) log P(y|x)</span>. p.13</span></li>
+    <li>QBC measures uncertainty by <b>disagreement among multiple models</b> (a committee) instead of relying on a single model.<span class="s-why">모델마다 따로 예측하고, disagreement가 제일 큰 sample을 골라. p.14</span></li>
+    <li>Voter entropy uses <b>final class labels only</b>; consensus entropy uses the <b>averaged full probability distributions</b>; KL divergence measures how far <b>each model</b> is from the <b>committee average</b>.<span class="s-why"><span class="math">H(V(y) / C)</span> · <span class="math">H(P<sub>C</sub>)</span> · <span class="math">(1/C) Σ<sub>c</sub> D<sub>KL</sub>(P<sub>θ<sub>c</sub></sub> ‖ P<sub>C</sub>)</span>. p.16–19</span></li>
+    <li>Diversity sampling selects <b>representative</b> samples that cover the data distribution and avoids <b>redundant</b> ones; hybrid strategies combine uncertainty with representativeness.<span class="s-why">Expected model change는 label을 달면 모델이 제일 많이 바뀔 sample을 골라 (large parameter update · large loss reduction). p.20–22</span></li>
+    <li>Aleatoric uncertainty comes from <b>data noise</b> and <b>cannot</b> be reduced with more data; epistemic uncertainty comes from <b>limited model knowledge</b> and <b>can</b> be reduced with more labeled data.<span class="s-why">"Active Learning mainly targets <b>Epistemic</b> Uncertainty". p.25</span></li>
+    <li>MC Dropout keeps dropout <b>on at inference</b> and runs multiple stochastic forward passes; different dropout masks act like <b>different models</b>.<span class="s-why">single network · low memory · Bayesian inference 근사. 진짜 ensemble의 학습 · 추론 비용을 피해. p.26–27</span></li>
+    <li>BALD = <b>entropy of the mean prediction</b> − <b>mean entropy of the predictions</b>; it is near zero for aleatoric samples and large for epistemic samples.<span class="s-why">label y와 parameter θ의 mutual information이야. DBAL은 MC Dropout으로 BALD를 계산하고, random sampling보다 일관되게 좋아. p.28–32</span></li>
+    <li>Naïve ensembles give the most <b>reliable</b> uncertainty but are expensive; MC Dropout is one of the best <b>trade-offs</b> between uncertainty quality and computational cost.<span class="s-why">효율 근사: Snapshot(cyclic LR checkpoints) · DEE(shared backbone + dropout) · Multi-head(shared feature extractor). p.33–35</span></li>
+  </ol>
   <h3>다음 할 일</h3>
   <p>이 페이지로 흐름을 잡았으면 repo에서 이 순서로 가면 돼.</p>
   <ol class="check">
-    <li><code>exam/pseudocode_final.md</code>의 "한눈에 보기" + L08 · L09 1순위 카드<span class="s-why">코드를 보고 빈칸을 채운 뒤, 과정 설명을 영어 2–3문장으로 직접 써 봐.</span></li>
+    <li><code>exam/pseudocode_final.md</code>의 "한눈에 보기" + L08 · L09 · L10 1순위 카드<span class="s-why">코드를 보고 빈칸을 채운 뒤, 과정 설명을 영어 2–3문장으로 직접 써 봐.</span></li>
     <li><code>exam/_parts/08_Weakly_Supervised_Learning_I.md</code>로 T/F 이유 쓰기 연습<span class="s-why">L08 문제 pool이야. 답을 고르는 데서 멈추지 말고 이유까지 영어로 써.</span></li>
     <li><code>exam/_parts/09_Weakly_Supervised_Learning_II.md</code>로 T/F 이유 쓰기 연습<span class="s-why">L09 문제 pool이야. CAM · seed · SEC · SEAM · 가리기와 지우기가 핵심이야.</span></li>
-    <li><code>exam/mock_quiz_final_L08.md</code> · <code>exam/mock_quiz_final_L09.md</code> 단원 미니 모의고사<span class="s-why">답을 영어로 직접 써서 채점해. 맞았어도 헷갈린 문제는 해당 카드로 돌아가.</span></li>
+    <li><code>exam/_parts/10_Active_Learning_I.md</code>로 T/F 이유 쓰기 연습<span class="s-why">L10 문제 pool이야. LC · Margin · Entropy의 점수 방향, QBC의 세 측정, aleatoric vs epistemic, BALD가 핵심이야.</span></li>
+    <li><code>exam/mock_quiz_final_L08.md</code> · <code>exam/mock_quiz_final_L09.md</code> · <code>exam/mock_quiz_final_L10.md</code> 단원 미니 모의고사<span class="s-why">답을 영어로 직접 써서 채점해. 맞았어도 헷갈린 문제는 해당 카드로 돌아가.</span></li>
     <li>개념이 흔들리면 <code>exam/core_ideas_final.md</code>에서 그 방법만 다시 보기<span class="s-why">방법마다 Problem → Core idea → vs. previous 순서로 영어 정리가 돼 있어.</span></li>
   </ol>
 </section>

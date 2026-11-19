@@ -14,6 +14,9 @@ CONFIG = {
     '09': dict(TITLE='Weakly-Supervised Learning II', STEM='09_Weakly_Supervised_Learning_II',
                TF=['Q3', 'Q5', 'Q8', 'Q10', 'Q12'], MC=['Q19', 'Q25', 'Q27'], PC=['WS-9', 'WS-12'],
                DATE='2026-11-09', REVIEW='작성자와 다른 Sonnet이 정답을 가리고 먼저 푼 뒤 대조함 (code card는 독립 테스트)'),
+    '10': dict(TITLE='Active Learning I', STEM='10_Active_Learning_I',
+               TF=['Q2', 'Q6', 'Q8', 'Q10', 'Q12'], MC=['Q16', 'Q20', 'Q22'], PC=['AL-2', 'AL-4'],
+               DATE='2026-11-19', REVIEW='작성자와 다른 Sonnet이 정답을 가리고 먼저 푼 뒤 대조함 (code card는 독립 테스트)'),
 }
 NUM = sys.argv[1] if len(sys.argv) > 1 else sorted(CONFIG)[-1]
 _c = CONFIG[NUM]

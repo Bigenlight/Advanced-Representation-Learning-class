@@ -7,6 +7,7 @@
 > **코드는 전부 dummy tensor로 돌려 봤어.** `A`, `iou`, `train_detector` 같은 helper는 카드에서 뺐고, 핵심 줄만 남겼어.
 > **L09 스캔 결과**: 96p 전수 스캔에서도 **Algorithm·코드 박스 0개**야. 수식은 전부 그림 안에 있어. 카드는 WS-9–WS-19 (11장, 1순위 4장)이고 이 파일 뒤쪽 `## L09` 블록에 있어.
 > **참고**: `midterm_recall.md`가 weakly-supervised 후보로 꼽은 **CAM 계산은 L09의 WS-9**야 (L08엔 CAM이 없어).
+> **L10 스캔 결과**: 36p 전수 스캔에서도 **Algorithm·코드 박스 0개**야. 수식은 p.6(표기), p.11–13, 16–18, 29에 있고 전부 그림이야. 카드는 AL-1–AL-6 (6장, 1순위 4장)이고 이 파일 뒤쪽 `## L10` 블록에 있어.
 
 **연습 방법**: 조각을 보고 ① 빈칸을 채우고 ② 아래 순서로 영어 2–3문장을 직접 써 봐. 빈칸은 가볍고 무게는 설명에 있어.
 
@@ -674,3 +675,320 @@ q_idx, j_idx = linear_sum_assignment(cost.detach().numpy())  # Hungarian matchin
 6. **SEAM은 equivariance야.** 원본 CAM에 변환 A를 걸어서 변환된 이미지의 CAM과 비교해. "변환해도 CAM이 그대로"(invariance)가 아니야.
 7. **Boxly**: 첫 label은 box를 채운 noisy mask고, 그다음부터는 network 예측이야. box 밖은 늘 background야.
 8. **CD-CLIP은 JS divergence가 작을수록 affinity가 커** ($1 - D_{JS}$). **WISH mask cost는 SAM mask 3개 중 min**이야.
+
+---
+
+## L10 Active Learning I — 한눈에 보기
+
+> **L10 스캔 결과**: 36p 전수 스캔에서 **Algorithm·코드 박스 0개**야. 수식은 전부 그림이라 글자로는 안 잡혀. 수식이 있는 쪽: p.6 (Notations 표: $U(\mathbf{x})$, $P_\theta(y|\mathbf{x})$, $\hat y$, $B$, $b$), p.11 (LC), p.12 (Margin), p.13 (Entropy), p.16 (Voter), p.17 (Consensus), p.18 (KL), p.29 (BALD).
+> **고른 기준**: 1순위는 슬라이드 목차 흐름마다 대표 하나야. 전체 loop(AL-1), 한 모델의 uncertainty(AL-2), 여러 모델의 disagreement(AL-3), deep AL의 MC Dropout + BALD(AL-4). 2순위는 p.34 "Efficient Ensemble Approximations" 중 코드로 차이가 보이는 두 개야 (Snapshot, Multi-head). DEE는 helper 호출뿐이라 카드에서 뺐어.
+> **이어 돌린 카드**: AL-1 loop는 3 round를 이어 돌려서 labeled ∩ unlabeled = ∅, 매 round b개씩, 총 B개만 썼는지 확인했어. AL-1 loop의 U 자리에 AL-4 BALD를 넣어서도 3 round 돌렸어. AL-3의 KL 평균 = BALD 꼴 항등식은 random committee 50개 sample로 확인했어.
+> **이 강의 코드는 "학습"보다 "고르기"야.** L08–L09 카드는 target을 만들고 loss로 update하는 코드였어. L10 카드는 대부분 **score를 계산해서 top-b를 고르는** 코드고, update는 사람이 label을 단 뒤 다시 학습할 때만 일어나.
+
+**L10 용어 먼저**
+
+- **pool (unlabeled pool)**: label이 아직 없는 sample 모음이야 ($\mathcal U$, p.6). 여기서 골라 사람에게 보내.
+- **acquisition function $U(\mathbf{x})$**: unlabeled sample 하나에 "label 달 가치" 점수를 매기는 함수야 ("Assigns an informativeness score to each unlabeled sample", p.7). 고르는 규칙 전체는 sampling strategy / query strategy라고 불러.
+- **$B$ vs $b$**: $B$ = labeling budget, label을 달 수 있는 **최대 개수**. $b$ = batch size, **한 round에** 고르는 개수야 (p.6). 이름이 비슷해서 헷갈려.
+- **committee**: 같은 문제를 따로 푸는 모델 여러 개야 (QBC, p.14). $C$ = committee 크기.
+- **MC Dropout**: test 때도 dropout을 켠 채 같은 입력을 $T$번 넣는 방법이야 (p.27). mask가 매번 달라서 모델 $T$개를 쓰는 것처럼 돼. MC = Monte Carlo(무작위로 여러 번 뽑아서 평균 내기).
+
+| 카드 | 방법 (p.N) | 우선순위 | 꼭 기억할 핵심 줄 | 빈칸 | core idea 한 줄 |
+|---|---|---|---|---|---|
+| AL-1 | Active learning loop (p.5–7) | **1** | `pick = unlabeled[scores.topk(b).indices]` | `b` | 점수가 높은 b개만 사람에게 label 받고, 다시 학습하고, 반복해 |
+| AL-2 | Uncertainty: LC · Margin · Entropy (p.9–13) | **1** | `U_margin.topk(b, largest=False)` | `False` | 한 모델의 softmax가 덜 확신하는 sample을 골라. margin만 작은 쪽을 골라 |
+| AL-3 | QBC: Voter · Consensus · KL (p.14–19) | **1** | `P_C = P.mean(dim=0)` | `mean` | 모델 여러 개가 가장 크게 엇갈리는 sample을 골라 |
+| AL-4 | MC Dropout + BALD (p.27–31) | **1** | `model.train()` → `H(p_bar) - H(P).mean(dim=0)` | `train` | dropout을 켠 채 T번 돌려서, 평균의 entropy − entropy의 평균이 큰 sample을 골라 |
+| AL-5 | Snapshot Ensemble (p.34) | 2 | `if t == iters_per_cycle - 1: snapshots.append(...)` | `iters_per_cycle - 1` | 학습 한 번에 cyclic lr로 local minimum마다 checkpoint를 모아 ensemble로 써 |
+| AL-6 | Multi-head / Split-head (p.34) | 2 | `h(feat) for h in heads` | `feat` | feature extractor 하나를 공유하고 head 여러 개를 ensemble member로 써 |
+
+모든 카드에서 entropy helper는 이거야 (빈칸 아님):
+
+```python
+import torch, torch.nn.functional as F
+H = lambda q: -torch.special.xlogy(q, q).sum(dim=-1)   # Shannon entropy over the last dim, 0·log0 = 0
+```
+
+---
+
+## L10 1순위: 계열 대표 방법
+
+### AL-1. Active learning loop — select, annotate, retrain, repeat
+
+```python
+labeled = init_idx.clone()                             # small labeled set X (p.6)
+unlabeled = all_idx[~torch.isin(all_idx, labeled)]     # unlabeled pool U (p.6)
+for r in range(B // b):                                # labeling budget B, b samples per round (p.6)
+    model = train(x[labeled], y[labeled])              # retrain the model on labeled data only (p.5)
+    scores = U(model, x[unlabeled])                    # acquisition function: informativeness score (p.7)
+    pick = unlabeled[scores.topk(______).indices]      # select the most informative samples (p.5)
+    labeled = torch.cat([labeled, pick])               # human annotation: y[pick] is revealed (p.5)
+    unlabeled = unlabeled[~torch.isin(unlabeled, pick)]  # repeat with a smaller pool (p.5)
+```
+
+**Answer**: `b` (accept: `k=b`, `batch_size`. `B`는 틀려. `B`는 전체 budget이라 한 round에 다 써 버려)
+
+**Process (EN)**: This code runs the active learning loop. In each round the model is retrained on the labeled set only, the acquisition function U(x) gives every sample in the unlabeled pool an informativeness score, and the b samples with the highest scores are sent to a human annotator and moved from the pool to the labeled set, until the labeling budget B is spent. The blank is `b`, the number of samples labeled per round, so B // b rounds use exactly the budget.
+
+**풀이**: active learning은 "다 label하지 말고, **모델이 고른 것만** label하자"야. 목표는 "Achieve the highest accuracy / With the fewest labeled examples"(p.5)고, 고르는 규칙이 `U`야. `U` 자리에 AL-2, AL-3(QBC), AL-4(BALD)가 들어가.
+
+- **`U`는 "클수록 label 달 가치가 큼"으로 맞춰서 넣어.** 이 loop는 `topk`(큰 쪽)로 고르니까 LC·Entropy·QBC·BALD는 그대로 넣으면 돼. **Margin은 부호를 뒤집어 `-U_margin`으로** 넣어야 해. p.12 식 그대로 넣으면 margin이 큰 것, 즉 **가장 확신하는** sample을 골라 (직접 확인).
+- **target은 어디서 와?** 사람(oracle)이야. `y`는 숨겨진 정답이고, `y[labeled]`처럼 **고른 index에서만** 읽어. score 계산(`U`)엔 label이 필요 없어.
+- **누가 update돼?** `model`만, round마다 `train`에서 다시 학습돼. score를 매기고 고르는 줄은 아무것도 update 안 해.
+- **왜 train이 loop 맨 앞이야?** 슬라이드 순서는 Select → Human annotation → Retrain → Repeat(p.5)야. 그런데 고르려면 score를 낼 모델이 먼저 있어야 해서, 처음엔 작은 초기 labeled set으로 학습하고 시작해. 원을 어디서 끊어 읽느냐의 차이야.
+- **이어 돌린 결과**: 설명용 toy(점 100개, 초기 label 5개, b = 10, B = 30)로 3 round 돌리면 labeled가 15 → 25 → 35가 되고, labeled와 pool이 안 겹치고, 정확히 B개만 새로 label해. entropy를 U로 쓰면 고른 점들이 decision boundary(x0 = 0) 쪽에 몰려. 고른 점의 |x0| 평균이 전체 평균보다 작은 걸 확인했어 (p.9 그림과 같은 경향).
+- **비용이 여기 숨어 있어**: round마다 다시 학습해야 해. p.23 Limitations의 "Retraining after every acquisition round"가 이 `train` 줄이야.
+- **다른 빈칸 후보**: `topk`(top-b 고르기), `B // b`(round 수), `isin`, `labeled`(학습은 labeled에서만).
+
+**근거**: p.4 "If we can label only a small subset, which samples should we choose?", "Select the most informative unlabeled samples", "Maximize model improvement with minimum annotation cost". p.5 "Workflow • Select informative samples • Human annotation • Retrain the model • Repeat", 그림 "Which to label? → Active learning → Let's label! → Valuable labeled dataset → Better model". p.6 $\mathcal X$ "Labeled dataset", $\mathcal U$ "Unlabeled dataset", $U(\mathbf x)$ "Scoring function for active learning selection", $B$ "Labeling budget (the maximum number of samples to label)", $b$ "Batch size". p.7 "Assigns an informativeness score to each unlabeled sample.", "sampling strategy" / "query strategy".
+
+**단순화**:
+- 슬라이드 코드가 아니라 p.5 workflow와 p.6 표기를 코드로 옮긴 거야. `train`, `U`는 helper야.
+- 슬라이드는 $B$가 초기 labeled set까지 포함하는지 말하지 않아. 이 카드는 **새로 label하는 개수**로 읽었어.
+- 마지막 round에서 고른 label로 한 번 더 학습하는 줄은 뺐어. 실제로는 loop가 끝난 뒤 최종 모델을 다시 학습해.
+- `B`가 `b`로 안 나눠떨어지면 마지막 round에 남은 만큼만 고르면 돼. 카드에선 생략했어.
+
+### AL-2. Uncertainty sampling — Least Confidence · Margin · Entropy
+
+```python
+p = model(x_u).softmax(dim=1)                          # P(y|x): [N, K] for unlabeled samples (p.10)
+top2 = p.topk(2, dim=1).values                         # P(ŷ1|x), P(ŷ2|x)
+U_lc = 1 - top2[:, 0]                                  # least confidence: 1 - P(ŷ|x) (p.11)
+U_margin = top2[:, 0] - top2[:, 1]                     # margin: P(ŷ1|x) - P(ŷ2|x) (p.12)
+U_ent = -(p * p.log()).sum(dim=1)                      # entropy: -Σ_y P(y|x) log P(y|x) (p.13)
+pick_lc = U_lc.topk(b).indices                         # lower confidence -> higher priority (p.11)
+pick_margin = U_margin.topk(b, largest=______).indices # small margin -> high uncertainty (p.12)
+pick_ent = U_ent.topk(b).indices                       # higher entropy -> higher uncertainty (p.13)
+```
+
+**Answer**: `False` (accept: `(-U_margin).topk(b)`, `U_margin.argsort()[:b]`. 핵심은 "작은 margin부터")
+
+**Process (EN)**: This code computes three uncertainty scores from the softmax output P(y|x) of one trained model on unlabeled samples. Least confidence uses only the top-1 probability, margin uses the gap between the top-2 probabilities, and entropy uses the whole distribution; least confidence and entropy select the samples with the highest score, but margin selects the samples with the smallest gap. The blank is `False`, because a small margin means high uncertainty; no model is updated here, and the selected samples are labeled by a human and used to retrain the model.
+
+**풀이**: 셋 다 "모델이 **덜 확신하는** sample을 고르자"(p.9)야. 차이는 확률 분포에서 **어디까지 보느냐**야.
+
+| | 보는 것 | 식 | 고르는 쪽 |
+|---|---|---|---|
+| Least Confidence | top-1 확률 하나 | $1 - P(\hat y\|x)$ | **큰** U |
+| Margin | top-2 확률 둘 | $P(\hat y_1\|x) - P(\hat y_2\|x)$ | **작은** U |
+| Entropy | 분포 전체 | $-\sum_y P(y\|x)\log P(y\|x)$ | **큰** U |
+
+- **margin만 방향이 반대야.** LC와 entropy는 "점수 = 불확실도"라서 큰 걸 골라. margin은 "점수 = 1등과 2등의 차이"라서 **작을수록** 불확실해 ("Small margin → High uncertainty", p.12). `largest=True`로 두면 거꾸로 가장 확신하는 sample을 골라 (직접 돌려서 확인).
+- **셋이 순위가 다를 수 있어.** 설명용 숫자, class 3개:
+  - A = [0.50, 0.30, 0.20]: LC 0.5, margin 0.20, entropy 1.03
+  - B = [0.50, 0.49, 0.01]: LC 0.5, margin 0.01, entropy 0.74
+  - LC는 둘이 같아 (top-1만 보니까). margin은 B를 골라 (1·2등이 거의 붙었어). entropy는 A를 골라 (확률이 세 class에 더 퍼져 있어).
+- **class가 2개면 셋이 같은 순위야.** top-1이 정해지면 나머지가 다 정해지니까 (직접 확인).
+- **최댓값**: 균등 분포 [1/3, 1/3, 1/3]이면 entropy = $\log K$ = log 3 ≈ 1.10으로 최대, margin = 0으로 최소야. 셋 다 이 sample을 1등으로 골라.
+- **누가 update돼?** 이 코드에선 아무것도. `model`은 이미 학습된 하나고, 고른 sample이 사람에게 label 받은 뒤 AL-1 loop에서 다시 학습돼.
+- **다른 빈칸 후보**: `1 -`(LC), `topk(2`(margin은 top-2), `log`(entropy), `sum(dim=1)`, `[:, 1]`.
+
+**근거**: p.9 "Label the samples that the current model is least confident about.", "Not all unlabeled samples are equally informative.", "Samples near the decision boundary often provide the greatest learning benefit." p.10 "How uncertain is this probability? $P_\theta(y|\mathbf x)$", "Three common measures • Least Confidence • Margin Sampling • Entropy". p.11 $\hat y = \arg\max_y P(y|x)$, $U(x) = 1 - P(\hat y|x)$, "Uses only the highest predicted probability", "Lower confidence → Higher priority". p.12 "Use the top two probabilities", $U(x) = P(\hat y_1|x) - P(\hat y_2|x)$, "Small margin → High uncertainty". p.13 "Uses the entire probability distribution", "Higher entropy → Higher uncertainty", $U(x) = -\sum_y P(y|x)\log P(y|x)$.
+
+**단순화**:
+- `p.log()`는 확률이 정확히 0이면 `0 * -inf = nan`이 돼. softmax 출력은 0이 거의 안 나오지만, 실제 구현은 `xlogy`나 작은 `eps`를 써.
+- 구현에 따라 margin 점수를 $1 - (P_1 - P_2)$나 $-(P_1 - P_2)$로 바꿔서 "큰 걸 고르기"로 통일하기도 해. 슬라이드 식은 차이 그대로라 **작은 걸** 골라.
+- log 밑(e, 2)은 순위를 안 바꿔.
+
+### AL-3. Query-by-Committee — Voter · Consensus · KL
+
+```python
+P = torch.stack([m(x_u).softmax(dim=1) for m in committee])   # [C, N, K]: P_θc(y|x), C = len(committee), K = #classes (p.14)
+votes = F.one_hot(P.argmax(dim=2), K).sum(dim=0)         # V(y): votes per class [N, K] (p.16)
+U_vote = H(votes / C)                                    # voter entropy H(V(y)/C) (p.16)
+P_C = P.______(dim=0)                                    # consensus P_C(y) = (1/C) Σ_c P_θc(y|x) (p.17)
+U_cons = H(P_C)                                          # consensus entropy H(P_C) (p.17)
+U_kl = (P * (P.log() - P_C.log())).sum(dim=2).mean(dim=0)  # (1/C) Σ_c D_KL(P_θc || P_C) (p.18)
+```
+
+**Answer**: `mean` (accept: `sum(dim=0) / C`. 핵심은 committee member 축 `dim=0`으로 평균. `sum(dim=0)`만 쓰면 틀려: p.17의 $\frac1C$가 빠져서 $P_C$가 확률 분포가 아니게 돼)
+
+**Process (EN)**: This code measures disagreement in query-by-committee, where C models trained separately each predict class probabilities for the unlabeled samples. Voter entropy counts only each member's predicted label, consensus entropy is the entropy of the averaged probabilities P_C, and the KL score averages how far each member's distribution is from P_C; the samples with the largest disagreement are selected for labeling. The blank is `mean`, which averages the C members' distributions into the committee consensus P_C.
+
+**풀이**: 모델 하나의 확신(AL-2) 대신, **모델 여러 개가 얼마나 엇갈리나**를 봐 (p.14). 다 같은 답이면 쉬운 sample, 갈리면 label 달 가치가 있는 sample이야.
+
+- **세 점수가 쓰는 정보가 달라** (p.19 표):
+  - Voter Entropy: 각 모델의 **최종 label만** (`argmax` → 표 세기). "How many people chose which class?"
+  - Consensus Entropy: **확률 분포 전체**를 평균한 $P_C$의 entropy. "How much uncertainty is there on average?"
+  - KL Divergence: **분포 사이 거리**. 각 모델이 평균 의견에서 얼마나 먼가. "How much does each model differ from the average opinion?"
+- **p.14 그림 숫자로**: 5명 중 cat 3, dog 2 → vote 분포 [3/5, 2/5] → voter entropy = 0.67 (최대 log 2 ≈ 0.69에 가까워).
+- **voter는 확신 차이를 못 봐.** 설명용: 세 모델이 cat 0.99 / 0.55 / 0.75로 전부 cat을 찍으면 voter entropy = 0이야. KL은 0.11로 잡아 (직접 확인).
+- **KL 방향**: $D_{KL}(P_{\theta_c} \| P_C)$, member가 앞, 평균이 뒤야. 그걸 $C$명에 대해 평균해.
+- **누가 update돼?** 여기선 아무것도. committee는 이미 따로 학습돼 있고, 고른 sample이 label 받은 뒤 다시 학습돼.
+- **다른 빈칸 후보**: `argmax`(voter는 label만), `one_hot`, `C`(표를 비율로), `P_C.log()`(KL의 뒤쪽), `dim=0`(member 축).
+
+> 보충 (슬라이드 밖 유도, 시험 범위 아님): KL 점수를 풀면 $\frac1C\sum_c D_{KL}(P_{\theta_c}\|P_C) = H(P_C) - \frac1C\sum_c H(P_{\theta_c})$야. 즉 "consensus entropy − member entropy의 평균"이고, AL-4 BALD와 **같은 꼴**이야 (committee member를 MC Dropout sample로 바꾸면 BALD). random committee로 직접 돌려서 같은 값인 걸 확인했어. L09에서 본 JS divergence를 여러 분포로 넓힌 것이기도 해.
+
+**근거**: p.14 "Instead of relying on a single model, measure uncertainty by disagreement among multiple models.", "Train multiple models (committee)", "Each model predicts independently", "Select samples with the largest disagreement", 그림 "Votes on each class … Vote distribution [3/5, 2/5]". p.15 "Voter Entropy • Consensus Entropy • KL Divergence". p.16 "Count committee votes.", $U(x) = H\big(\frac{V(y)}{C}\big)$, "Only considers the predicted label of each model", "High vote diversity → High uncertainty", $V(y)$ "Number of committee members voting for class y". p.17 "Average prediction probabilities.", $U(x) = H(P_C)$, $P_C(y) = \frac1C\sum_{c=1}^C P_{\theta_c}(y|\mathbf x)$, "Uses the full probability distribution", "Measures uncertainty of the committee consensus". p.18 $U(x) = \frac1C\sum_{c=1}^C D_{KL}(P_{\theta_c}\|P_C)$, "Measures disagreement between each model and the committee average", "Larger KL → Larger disagreement". p.19 표.
+
+**단순화**: committee를 어떻게 만드는지(다른 초기값, 다른 data subset 등)는 슬라이드에 없어서 `committee`는 이미 학습된 모델 목록으로 뒀어. voter entropy의 `votes / C`엔 0이 생기니까 `H`는 `xlogy`로 0·log0 = 0을 처리해. KL 줄의 `P.log()`도 확률이 0이면 `eps`가 필요해.
+
+### AL-4. MC Dropout + BALD — DBAL acquisition
+
+```python
+model.______()                                           # dropout stays ON at inference (p.27)
+with torch.no_grad():
+    P = torch.stack([model(x_u).softmax(dim=1) for _ in range(T)])  # T stochastic passes, different masks: [T, N, K] (p.28)
+p_bar = P.mean(dim=0)                                    # mean prediction p̄(y|x) (p.29)
+bald = H(p_bar) - H(P).mean(dim=0)                       # entropy of mean - mean entropy (p.29)
+pick = bald.topk(b).indices                              # highest epistemic uncertainty -> query labels (p.28)
+```
+
+**Answer**: `train` (accept: dropout layer만 켜기, `for m in model.modules(): if isinstance(m, nn.Dropout): m.train()`)
+
+**Process (EN)**: This code implements the acquisition step of DBAL: MC Dropout keeps dropout active at inference, so T stochastic forward passes of one network act like T sampled models. BALD is the entropy of the mean prediction minus the mean entropy of the individual predictions; it is near zero when every pass is equally unsure (aleatoric noise) and large when the passes are individually confident but disagree (epistemic uncertainty), and the top-b samples are queried and the model is retrained. The blank is `train`, because in eval mode dropout is off, all T passes give the same output, and BALD becomes zero.
+
+**풀이**: 두 단계야.
+
+1. **MC Dropout = 싼 ensemble.** 모델을 여러 개 학습하는 대신 test 때도 dropout을 켜. 매번 다른 neuron이 꺼지니까 "Different dropout masks ≈ Different models"(p.27)야. 그래서 AL-3 committee의 `P`와 같은 `[T, N, K]`가 network 하나로 나와.
+2. **BALD = 평균의 entropy − entropy의 평균** (p.29). 첫 항은 "평균 의견이 얼마나 불확실한가", 둘째 항은 "모델 하나하나가 평균적으로 얼마나 불확실한가"야.
+
+| | 각 모델 | 평균 예측 | $H(\bar p)$ | 평균 $H(p_t)$ | BALD |
+|---|---|---|---|---|---|
+| Case 1 aleatoric (p.30) | 다 50:50 | 50:50 | High | High | ≈ 0 |
+| Case 2 epistemic (p.31) | 각자 확신, 서로 다름 | 50:50 근처 | High | Low | Large |
+
+- **설명용 숫자 (직접 계산)**: Case 2를 모델 두 개 [0.95, 0.05], [0.05, 0.95]로 두면 $H(\bar p) = \log 2 ≈ 0.693$, 각 모델 entropy ≈ 0.199라서 BALD ≈ 0.495야. Case 1(전부 ≈ 50:50)은 BALD ≈ 0이야.
+- **첫 항만 쓰면 왜 안 돼?** $H(\bar p)$는 두 case 모두 High라서 구분을 못 해. 둘째 항을 빼야 **데이터 자체의 noise(aleatoric) 몫이 빠지고** 모델이 몰라서 생긴 몫(epistemic)만 남아. Active learning이 노리는 게 이거야 ("Active Learning mainly targets Epistemic Uncertainty", p.25).
+- **빼는 순서**: $H(\bar p) - \text{mean}\,H(p_t)$야. entropy는 concave라서 이 값은 항상 0 이상이야 (Jensen). 순서를 뒤집으면 0 이하가 돼서 고르는 순서가 엉망이 돼.
+- **`eval()`이면?** dropout이 꺼져서 T번 다 같은 출력이 나와. 그러면 모든 sample의 BALD = 0이야 (직접 확인). 일반 inference는 `eval()`이 맞지만 MC Dropout은 일부러 켜 둬.
+- **누가 update돼?** 이 코드에선 아무것도 (`no_grad`). DBAL pipeline(p.28)에선 고른 sample을 label 받아 "Query labels and retrain"해. AL-1 loop의 `U` 자리에 이 코드를 넣으면 돼 (3 round 이어서 돌려 봤어).
+- **다른 빈칸 후보**: `mean(dim=0)`(T 축 평균, 위치가 두 군데야: 평균의 entropy / entropy의 평균), `-`(빼기), `T`, `no_grad`.
+
+> 보충 (시험 범위 아님): p.27 끝 문장은 epistemic 추정으로 "the variance of their predictions"를 말하고, DBAL(p.28–29)은 BALD를 써. 같은 T개 예측에서 뽑는 서로 다른 점수야. p.32 그래프 범례의 Max Entropy는 논문(Gal et al., ICML 2017)에서 MC Dropout 평균 예측의 entropy, 즉 BALD의 **첫 항만** 쓴 점수야.
+
+**근거**: p.25 "Aleatoric Uncertainty: Uncertainty caused by data noise", "Cannot be reduced by collecting more data", "Epistemic Uncertainty: Uncertainty caused by limited model knowledge", "Can be reduced with more labeled data", "Active Learning mainly targets Epistemic Uncertainty." p.27 "Instead of training multiple networks, apply dropout during inference.", "Different dropout masks ≈ Different models", "MC Dropout performs multiple stochastic forward passes with different dropout masks, approximating an ensemble of neural networks." p.28 "Pipeline • Train a classifier with dropout • Perform multiple stochastic forward passes • Estimate predictive uncertainty (BALD) • Select the most informative unlabeled samples • Query labels and retrain". p.29 "BALD measures the mutual information between the label y of sample x and the model parameters θ.", $\text{BALD}(x) = \mathcal H[p(y|x,\mathcal D)] - \mathbb E_{p(\theta|\mathcal D)}[\mathcal H[p(y|x,\theta)]]$, "BALD = Entropy of mean prediction − Mean entropy of predictions", $\text{BALD}(x) \approx \mathcal H[\bar p(y|x)] - \frac1T\sum_{t=1}^T \mathcal H[p_t(y|x)]$. p.30 "BALD(x) ≈ High − High ≈ 0 (Small)". p.31 "BALD(x) ≈ High − Low = Large".
+
+**단순화**:
+- 슬라이드 코드가 아니라 p.27–29 문장과 식을 옮긴 거야.
+- `model.train()`은 BatchNorm까지 학습 모드로 바꿔서 batch 통계를 쓰고 running stat을 갱신해. 실제 구현은 dropout layer만 켜.
+- 논문: MC Dropout = Gal & Ghahramani, ICML 2016 "Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning" (p.27 cite). DBAL = Gal, Islam & Ghahramani, ICML 2017 "Deep Bayesian Active Learning with Image Data" (p.28 cite). BALD(**B**ayesian **A**ctive **L**earning by **D**isagreement)라는 이름은 Houlsby et al. 2011 "Bayesian Active Learning for Classification and Preference Learning"(arXiv)에서 왔어. 슬라이드엔 이 cite가 없어서 웹으로 확인했어.
+
+---
+
+## L10 2순위: 효율적인 ensemble 근사 (p.33–35)
+
+> **왜 여기 있어**: naive ensemble(모델 N개를 따로 학습)이 uncertainty는 가장 믿을 만하지만 비싸 (p.33). p.34는 더 싼 대안 셋을 보여 줘. 그중 코드로 차이가 드러나는 둘을 카드로 만들었어. 셋째 DEE(Diversity Encouraging Ensemble: 공유 backbone에서 여러 모델을 초기화하고 dropout으로 다양성을 줘)는 비교 표에만 넣었어.
+
+### AL-5. Snapshot Ensemble — one run, many checkpoints
+
+```python
+snapshots = []
+for it in range(cycles * iters_per_cycle):                       # ONE training run (p.34)
+    t = it % iters_per_cycle                                     # position inside the current cycle
+    lr = lr0 / 2 * (math.cos(math.pi * t / iters_per_cycle) + 1) # cyclic learning rate: high -> low, then restart (p.34)
+    for g in opt.param_groups: g['lr'] = lr
+    train_step(model, opt)
+    if t == ______:                                      # end of a cycle: lr is lowest, near a local minimum
+        snapshots.append(copy.deepcopy(model))           # save a checkpoint = one ensemble member (p.34)
+```
+
+**Answer**: `iters_per_cycle - 1` (cycle의 마지막 iteration. 같은 뜻이면 돼. `iters_per_cycle` = cycle 하나의 iteration 수, `cycles` = cycle 수 = snapshot 수야)
+
+**Process (EN)**: This code builds a snapshot ensemble from a single training run. The learning rate follows a cycle that decays to almost zero and then restarts high, and at the end of each cycle, where the model has settled near a local minimum, a copy of the model is saved; the saved snapshots then act as ensemble members whose disagreement scores the unlabeled samples. The blank is `iters_per_cycle - 1`, the last iteration of a cycle, where the learning rate is lowest.
+
+**풀이**: 학습을 한 번만 하는데 모델 여러 개를 얻는 방법이야. lr이 거의 0이 되면 모델이 local minimum 근처에 자리를 잡아. 그때 저장하고, lr을 다시 크게 올려서 다른 minimum으로 튕겨 나가게 해. "Different local minima act as an implicit ensemble"(p.34)이야.
+
+- **이어 돌린 결과**: `lr0 = 0.2`, `iters_per_cycle = 20`, `cycles = 3`이면 저장 시점 lr ≈ 0.0012로 cycle 최소이고, 바로 다음 iteration에 lr이 0.2로 다시 올라가. snapshot 3개는 서로 다른 weight야.
+- **`deepcopy`가 왜 필요해?** `model.state_dict()`를 그냥 append하면 같은 tensor를 가리키는 참조라서, 끝나고 보면 전부 마지막 weight와 같아져 (직접 확인). 시험 빈칸 후보는 아니지만 구현 함정이야.
+- **naive ensemble과 차이**: naive는 N개를 처음부터 따로 학습해서 학습 비용이 N배야. snapshot은 학습 한 번이야. 대신 naive ensemble보다 덜 정확해 ("Accuracy: Naïve Ensemble > Efficient Approximations", p.35).
+
+> 보충 (슬라이드 밖, 시험 범위 아님): 한 학습 궤적에서 나온 snapshot끼리는 덜 달라서 uncertainty 품질도 떨어지는 경향이야.
+> 보충 (슬라이드 밖, 시험 범위 아님): 고를 때는 저장한 snapshot을 다 돌려야 해서, 이 단계의 비용은 naive ensemble과 같아. p.35의 "Efficiency: Efficient Approximations > Naïve Ensemble"은 주로 **학습** 비용 얘기야.
+- **다른 빈칸 후보**: `cos`(cyclic 모양), `%`(cycle 안 위치), `deepcopy`.
+
+**근거**: p.33 "Naïve ensembles provide the most reliable uncertainty estimates.", "However, training many independent networks is computationally expensive." p.34 "Snapshot Ensemble • Save multiple checkpoints from one training run using a cyclic learning rate. • Different local minima act as an implicit ensemble.", 그림 "2. Snapshot Ensemble: One training run with cyclic LR. Save multiple checkpoints.", "One model, multiple snapshots (different local minima)", "Ensemble Prediction (average / vote)". p.35 Takeaway.
+
+**단순화**: cosine 모양의 cyclic lr 식은 원 논문(Huang et al., ICLR 2017 "Snapshot Ensembles: Train 1, get M for free") 방식이고 슬라이드엔 "cyclic learning rate"까지만 있어. 슬라이드엔 cite가 없어서 웹으로 확인했어. 논문의 M은 snapshot 수라서, 헷갈리지 않게 cycle 길이는 `iters_per_cycle`로 썼어. `train_step`은 helper야.
+
+### AL-6. Multi-head / Split-head — shared backbone, many heads
+
+```python
+feat = backbone(x_u)                                     # share one feature extractor: one pass (p.34)
+P = torch.stack([h(______).softmax(dim=1) for h in heads])  # M heads = lightweight ensemble members: [M, N, K] (p.34)
+p_bar = P.mean(dim=0)                                    # ensemble prediction (average) (p.34 figure)
+U = H(p_bar) - H(P).mean(dim=0)                          # disagreement among heads (same form as AL-3 KL / AL-4 BALD)
+pick = U.topk(b).indices                                 # most disagreed samples -> query labels
+```
+
+**Answer**: `feat` (공유 feature. `backbone(x_u)`를 다시 쓰면 값은 같지만 backbone을 M번 돌려서 이 방법의 요점이 사라져)
+
+**Process (EN)**: This code uses a multi-head network as a lightweight ensemble: one shared feature extractor computes the features once, and M prediction heads each output class probabilities from these same features. The heads' predictions are averaged into the ensemble prediction, and their disagreement is used as the acquisition score for choosing samples to label. The blank is `feat`, the shared features, so the expensive backbone runs only once per sample.
+
+**풀이**: 무거운 부분(feature extractor)은 하나만 두고, 가벼운 head만 여러 개 둬. head = ensemble member야 ("Use multiple prediction heads as lightweight ensemble members", p.34).
+
+> 보충 (학습 방법은 슬라이드 밖, 시험 범위 아님): 흔한 구현은 각 head가 labeled data로 자기 CE loss를 받고, backbone은 그 합을 받아 (직접 돌려서 gradient가 다 가는 것 확인). head마다 초기값이 달라서 예측이 조금씩 갈려.
+- **비용**: inference 때 backbone은 **한 번**만 돌아 (hook으로 호출 횟수 확인). naive ensemble은 network M개, MC Dropout은 network 하나를 T번 돌려.
+- **약점**: naive ensemble보다 덜 정확해 (p.35 "Accuracy: Naïve Ensemble > Efficient Approximations").
+
+> 보충 (슬라이드 밖, 시험 범위 아님): backbone을 공유하니까 member끼리 많이 닮아서, disagreement가 naive ensemble보다 작게 나오기 쉬워.
+- **다른 빈칸 후보**: `mean(dim=0)`(head 축 평균), `heads`, `backbone`.
+
+> 보충 (슬라이드 밖, 시험 범위 아님): RL의 Bootstrapped DQN(Osband et al., NeurIPS 2016)이 똑같은 모양이야. torso(공유 feature) 하나에 Q head K개를 달고, head끼리 갈리는 정도를 exploration에 써.
+
+**근거**: p.34 "Multi-head / Split-head Network • Share one feature extractor. • Use multiple prediction heads as lightweight ensemble members.", 그림 "4. Multi-head / Split-head: Share one feature extractor. Use multiple heads as ensemble members.", "Shared Feature Extractor (Backbone) → Head 1 … Head N → Ensemble Prediction (average / vote)".
+
+**단순화**: 점수 식은 슬라이드에 없어. AL-3 KL 평균 / AL-4 BALD와 같은 꼴(평균의 entropy − entropy의 평균)을 붙였어. 슬라이드엔 multi-head의 cite가 없어.
+
+---
+
+## L10 방법 간 비교
+
+### 무엇을 보고 고르나
+
+| 카드 | 점수 | 보는 정보 | 고르는 쪽 | 모델 수 |
+|---|---|---|---|---|
+| AL-2 LC (p.11) | $1 - P(\hat y\|x)$ | top-1 확률 | 큰 값 | 1 |
+| AL-2 Margin (p.12) | $P(\hat y_1\|x) - P(\hat y_2\|x)$ | top-2 확률 | **작은 값** | 1 |
+| AL-2 Entropy (p.13) | $-\sum_y P\log P$ | 분포 전체 | 큰 값 | 1 |
+| AL-3 Voter (p.16) | $H(V(y)/C)$ | 각 모델의 label만 | 큰 값 | C |
+| AL-3 Consensus (p.17) | $H(P_C)$ | 평균 분포 | 큰 값 | C |
+| AL-3 KL (p.18) | $\frac1C\sum_c D_{KL}(P_{\theta_c}\|P_C)$ | 분포 사이 거리 | 큰 값 | C |
+| AL-4 BALD (p.29) | $H(\bar p) - \frac1T\sum_t H(p_t)$ | 평균 분포 + 각 분포 | 큰 값 | 1 network × T pass |
+
+### Consensus entropy vs BALD: aleatoric을 걸러 내나
+
+| | Case 1 aleatoric (p.30) | Case 2 epistemic (p.31) |
+|---|---|---|
+| 설명용 예측 | [0.50, 0.50], [0.52, 0.48], [0.49, 0.51] | [0.9, 0.1], [0.1, 0.9], [0.95, 0.05] |
+| $H(\bar p)$ (= consensus entropy 꼴) | 0.693 | 0.647 |
+| BALD | 0.0003 | 0.365 |
+| label 달 가치 | 낮아 (data noise라 label을 줘도 안 줄어) | 높아 (모델이 몰라서 갈림) |
+
+$H(\bar p)$만 보면 둘 다 높아서 구분이 안 돼. BALD는 둘째 항(각 모델의 entropy 평균)을 빼서 Case 1을 0 근처로 내려.
+
+### ensemble을 어떻게 만드나: 비용 vs 품질 (p.26, 33–35)
+
+| 방법 | 학습 | 고를 때 forward | member가 다른 이유 |
+|---|---|---|---|
+| Naive ensemble / committee (p.26, 33) | network N개 따로 | N개 | 다른 초기값·data (AdaBoost, Bootstrapping, Random forests가 예시, p.26) |
+| MC Dropout (AL-4, p.27) | network 1개 (dropout 포함) | 1개 × T번 | dropout mask |
+| Snapshot (AL-5, p.34) | 학습 한 번 (cyclic lr) | snapshot M개 | 서로 다른 local minimum |
+| DEE (p.34) | pretrained backbone에서 N개 fine-tune | N개 | 공유 초기값 + dropout |
+| Multi-head (AL-6, p.34) | backbone 1 + head M개 | backbone 1번 + head M개 | head 초기값 |
+
+p.35 Takeaway: "Accuracy: Naïve Ensemble > Efficient Approximations", "Efficiency: Efficient Approximations > Naïve Ensemble", "MC Dropout remains one of the best trade-offs between uncertainty quality and computational cost."
+
+### target은 어디서 오나
+
+| 카드 | 학습 target | update되는 것 |
+|---|---|---|
+| AL-1 loop | 사람이 단 label (고른 b개만 새로) | round마다 `model` 재학습 |
+| AL-2 / AL-3 / AL-4 점수 | 없음 (고르기만) | 없음 |
+| AL-5 Snapshot | labeled data의 label | 한 모델이 계속 학습, cycle 끝마다 복사만 |
+| AL-6 Multi-head | labeled data의 label (head마다 같은 label, 슬라이드 밖 구현) | backbone + 모든 head |
+
+L07의 pseudo label과 다른 점: L10에서 새 label은 **모델이 만들지 않아.** 모델은 **어느 sample에** label을 달지 고르기만 하고, label 값은 사람이 줘.
+
+---
+
+## L10 함정 Top 8
+
+1. **Margin만 작은 쪽을 골라.** LC·Entropy는 점수가 클수록 불확실하고, margin은 "Small margin → High uncertainty"(p.12)야.
+2. **LC = top-1만, Margin = top-2, Entropy = 분포 전체** (p.11–13). "LC uses the entire distribution"은 틀려.
+3. **Voter = label만, Consensus = 확률 분포 전체, KL = 분포 사이 거리** (p.19). voter는 모델이 같은 label을 찍으면 확신 차이를 못 봐.
+4. **KL은 각 member와 committee 평균 사이야.** $D_{KL}(P_{\theta_c}\|P_C)$를 C명에 대해 평균해 (p.18). member끼리 짝지어 비교하는 게 아니야.
+5. **MC Dropout은 inference 때 dropout을 켜 둬** (p.27). `eval()`로 끄면 T번 예측이 같아서 BALD = 0이야.
+6. **BALD = 평균의 entropy − entropy의 평균** (p.29). 순서가 거꾸로면 0 이하가 돼. 정의는 label y와 parameter θ 사이의 mutual information이야.
+7. **Aleatoric은 data를 더 모아도 안 줄고, epistemic은 줄어** (p.25). Active learning은 **epistemic**을 노려. Case 1(aleatoric)은 BALD ≈ 0, Case 2(epistemic)는 BALD가 커 (p.30–31).
+8. **Naive ensemble이 uncertainty를 가장 믿을 만하게 주지만 학습이 비싸** (p.33). Snapshot은 학습 **한 번**, Multi-head는 **feature extractor 공유**야. MC Dropout은 품질과 비용 사이 trade-off가 **가장 좋은 쪽에 드는** 방법이야 (p.35 "one of the best trade-offs", 유일한 1등이라는 말은 아니야).

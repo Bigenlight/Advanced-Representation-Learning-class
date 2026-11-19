@@ -1,0 +1,54 @@
+<figure class="viz" id="viz-l10-uncertainty">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">2-class에서 LC · Margin · Entropy는 모두 p = 0.5에서 가장 헷갈린다고 봐</p><span class="illus">illustrative</span></div>
+  <div class="viz-scroll">
+  <svg viewBox="0 0 640 300" role="img" aria-label="least confidence, margin and entropy as functions of the class-1 probability p in a two-class problem">
+    <line class="ax" x1="60" y1="250" x2="600" y2="250"/><line class="ax" x1="60" y1="40" x2="60" y2="250"/>
+    <line class="grid" x1="60" y1="145" x2="600" y2="145"/>
+    <text class="t t-m mono" x="54" y="44" text-anchor="end">1</text>
+    <text class="t t-m mono" x="54" y="149" text-anchor="end">.5</text>
+    <text class="t t-m mono" x="54" y="254" text-anchor="end">0</text>
+    <text class="t t-m mono" x="60" y="270" text-anchor="middle">0</text>
+    <text class="t t-m mono" x="330" y="270" text-anchor="middle">0.5</text>
+    <text class="t t-m mono" x="600" y="270" text-anchor="middle">1</text>
+    <text class="t t-m" x="600" y="290" text-anchor="end">p = P(class 1 | x)</text>
+    <path class="ln-acc" data-lc stroke-width="2.4"/>
+    <path class="ln-trap" data-mg stroke-width="2.4" stroke-dasharray="7 5"/>
+    <path class="ln-ok" data-en stroke-width="2.4"/>
+    <line class="ln-m" data-mark x1="0" y1="40" x2="0" y2="250" stroke-dasharray="3 4"/>
+    <circle class="f-acc" data-d1 r="5"/><circle class="f-trap" data-d2 r="5"/><circle class="f-ok" data-d3 r="5"/>
+    <text class="t t-acc b" x="70" y="22">LC = 1 − max(p, 1−p)</text>
+    <text class="t t-trap b" x="262" y="22">Margin = |p − (1−p)| ← 작을수록 고름</text>
+    <text class="t t-ok b" x="530" y="22">Entropy</text>
+  </svg>
+  </div>
+  <div class="viz-ctrl">
+    <label for="viz-l10-uncertainty-p">p <input type="range" id="viz-l10-uncertainty-p" min="0" max="1" step="0.01" value="0.7"></label><output data-out>0.70</output>
+    <span data-vals class="mono"></span>
+  </div>
+  <figcaption>2-class에서 class 1의 확률 p를 움직여 봐 (class 2는 1 − p). 파란 실선이 LC(p.11), 주황 점선이 Margin(p.12), 초록 실선이 Entropy(p.13, 자연로그라 최대 ln 2 ≈ 0.69)야. 세 곡선 모두 <b>p = 0.5에서 가장 헷갈린다</b>고 봐: LC · Entropy는 최대, Margin은 최소 0이야. Margin만 주황인 건 <b>작을수록 먼저 고르는</b> 반대 방향이라서야. 2-class에선 세 기준이 같은 순위를 주고, 갈리는 건 3-class 이상일 때야(위 표의 A · B). 곡선은 식을 그대로 그린 거고 실험 수치가 아니야. (개념 그림)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l10-uncertainty'); if(!root) return;
+    var inp=root.querySelector('input'), out=root.querySelector('[data-out]'), vals=root.querySelector('[data-vals]');
+    var X=function(p){return 60+540*p;}, Y=function(v){return 250-210*v;};
+    function lc(p){return 1-Math.max(p,1-p);}
+    function mg(p){return Math.abs(2*p-1);}
+    function en(p){var h=0; if(p>0) h-=p*Math.log(p); if(p<1) h-=(1-p)*Math.log(1-p); return h;}
+    function path(f){var d=''; for(var i=0;i<=100;i++){var p=i/100; d+=(i?'L':'M')+X(p).toFixed(1)+' '+Y(f(p)).toFixed(1);} return d;}
+    root.querySelector('[data-lc]').setAttribute('d',path(lc));
+    root.querySelector('[data-mg]').setAttribute('d',path(mg));
+    root.querySelector('[data-en]').setAttribute('d',path(en));
+    var mk=root.querySelector('[data-mark]'), d1=root.querySelector('[data-d1]'), d2=root.querySelector('[data-d2]'), d3=root.querySelector('[data-d3]');
+    function draw(){
+      var p=parseFloat(inp.value); out.textContent=p.toFixed(2);
+      var x=X(p); mk.setAttribute('x1',x); mk.setAttribute('x2',x);
+      d1.setAttribute('cx',x); d1.setAttribute('cy',Y(lc(p)));
+      d2.setAttribute('cx',x); d2.setAttribute('cy',Y(mg(p)));
+      d3.setAttribute('cx',x); d3.setAttribute('cy',Y(en(p)));
+      vals.textContent='LC '+lc(p).toFixed(2)+' · Margin '+mg(p).toFixed(2)+' · Entropy '+en(p).toFixed(2);
+    }
+    inp.addEventListener('input',draw);
+    draw();
+  })();
+  </script>
+</figure>

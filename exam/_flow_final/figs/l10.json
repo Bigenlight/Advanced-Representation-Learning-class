@@ -1,0 +1,77 @@
+[
+ {
+  "slot": "l10-in01",
+  "src": "assets/lecture10/p005_al_loop.png",
+  "alt": "Active learning cycle: too much unlabeled data, active learning picks which to label, human labels, valuable labeled dataset, better model, repeat",
+  "caption": "왼쪽 위 \"Too much unlabeled data\"에서 시작해서 시계 방향으로 돌아. Active learning(노란 상자)이 \"Which to label?\"을 정하면 → 사람이 label을 달고(Let's label!) → label 달린 data가 쌓이고(Valuable labeled dataset) → 다시 학습한 Better model이 다음 선택을 해. <b>고르는 주체가 사람이 아니라 지금의 모델이라는 게 핵심이야.</b> 모델이 바뀌면 다음 round에 고르는 sample도 바뀌어.",
+  "page": "L10 p.5",
+  "width": 340
+ },
+ {
+  "slot": "l10-in02",
+  "src": "assets/lecture10/p006_notations.png",
+  "alt": "Notation table: K, labeled and unlabeled datasets, U(x) scoring function, softmax classifier, most confident prediction, labeling budget B, batch size b",
+  "caption": "p.6 Notations 표 원본이야. 뒤 식에 계속 나오는 건 <b>U(x)</b>(고르는 점수), <b>P<sub>θ</sub>(y|x)</b>(softmax 확률), <b>ŷ</b>(1등 class), <b>B</b>(labeling budget)야.",
+  "page": "L10 p.6",
+  "width": 460,
+  "fold": true
+ },
+ {
+  "slot": "l10-in03",
+  "src": "assets/lecture10/p009_uncertainty_boundary.png",
+  "alt": "2D scatter with blue class-1 dots, red class-2 triangles, gray unlabeled circles, a dashed decision boundary and purple circles selected near it",
+  "caption": "파란 점과 빨간 삼각형은 이미 label이 있는 data, 회색 동그라미는 아직 label이 없는 후보야. 가운데 검은 점선이 지금 모델의 decision boundary고, 양옆 회색 점선 사이가 uncertainty region이야. <b>보라색 동그라미(uncertainty sampling이 고른 것)는 전부 boundary 근처에 있어.</b> 멀리 있는 회색 후보는 이미 확실히 맞히니까 안 골라.",
+  "page": "L10 p.9",
+  "width": 440
+ },
+ {
+  "slot": "l10-in05",
+  "src": "assets/lecture10/p014_qbc_committee.png",
+  "alt": "Query-by-committee: models 1 to C vote cat or dog for an unlabeled kitten, vote distribution 3/5 and 2/5 gives high disagreement; below, a puppy with 5 dog votes is low disagreement and a cat with 2 cat and 3 dog votes is high",
+  "caption": "위 줄을 왼쪽에서 오른쪽으로 읽어. 고양이 사진 하나를 committee의 Model 1 … Model C가 따로 예측하고, 표를 세면 Cat 3 · Dog 2라 vote distribution이 [3/5, 2/5]야. 표가 갈렸으니 uncertainty(disagreement)가 High고, 이 sample을 label 후보로 골라. 아래 두 칸이 대비야: 강아지는 다섯 표가 다 Dog라서 low disagreement, 오른쪽 고양이는 Cat 2 · Dog 3이라 high disagreement야. <b>QBC는 모델 하나의 확신이 아니라 모델끼리 얼마나 갈리나를 봐.</b>",
+  "page": "L10 p.14",
+  "width": 480
+ },
+ {
+  "slot": "l10-in06",
+  "src": "assets/lecture10/p029_bald_formula.png",
+  "alt": "BALD formulas: mutual information definition, entropy of mean prediction minus mean entropy of predictions, with the two terms boxed",
+  "caption": "위 두 줄이 정의(y와 θ의 mutual information)고, 가운데 상자가 말로 쓴 식 \"Entropy of mean prediction − Mean entropy of predictions\"야. 아래 근사식에서 <b>빨간 상자</b>가 평균 예측 p̄(y|x), 그 바깥 <b>왼쪽 파란 상자</b>가 첫째 항(\"How uncertain is the average of all models?\"), <b>오른쪽 파란 상자</b>가 둘째 항(\"How uncertain is each model individually?\")이야. T는 MC Dropout forward 횟수야.",
+  "page": "L10 p.29",
+  "width": 500
+ },
+ {
+  "slot": "l10-in07",
+  "src": "assets/lecture10/p030_bald_case1_aleatoric.png",
+  "alt": "Case 1 aleatoric: blurred image, every sampled model predicts about 0.5 cat and 0.5 dog with high entropy, the average is also high, BALD about High minus High, small",
+  "caption": "Case 1 (aleatoric). 흐린 사진에 Model 1 … Model T가 전부 cat · dog 반반이라 각자 Entropy High, 평균 예측도 반반이라 High야. <b>BALD ≈ High − High ≈ 0</b>이라 label을 달아도 효과가 작아.",
+  "page": "L10 p.30",
+  "width": 300,
+  "row": true
+ },
+ {
+  "slot": "l10-in07",
+  "src": "assets/lecture10/p031_bald_case2_epistemic.png",
+  "alt": "Case 2 epistemic: models disagree, model 1 and model T predict cat confidently and model 2 predicts dog confidently, each entropy low, average entropy high, BALD large",
+  "caption": "Case 2 (epistemic). 모델마다 한쪽으로 확신해서 각자 Entropy Low인데, 답이 cat · dog로 갈려서 평균 예측은 반반 → High야. <b>BALD ≈ High − Low = Large</b>라 label을 달면 효과가 제일 커. 두 그림의 평균 예측 막대는 똑같이 반반이야. 차이는 개별 모델 막대에만 있어.",
+  "page": "L10 p.31",
+  "width": 300,
+  "row": true
+ },
+ {
+  "slot": "l10-in08",
+  "src": "assets/lecture10/p032_dbal_mnist_curve.png",
+  "alt": "MNIST test accuracy versus number of acquired images for BALD, Var Ratios, Max Entropy, MBR and Random",
+  "caption": "가로축은 지금까지 label을 단(acquired) 사진 수, 세로축은 MNIST test accuracy야. 빨간 선이 BALD, 주황 선이 Random이야. <b>label이 어느 정도 쌓인 뒤(대략 200장 넘어서부터)엔 MC Dropout 기반 선들(BALD · Var Ratios · Max Entropy)이 Random보다 위에 있어.</b> 맨 앞 구간은 서로 비슷하거나 뒤섞여 있어. MBR은 비교용 기존 방법(Zhu et al., 2003)이야. 수치는 외울 필요 없어.",
+  "page": "L10 p.32",
+  "width": 480
+ },
+ {
+  "slot": "l10-in09",
+  "src": "assets/lecture10/p034_efficient_ensembles.png",
+  "alt": "Four panels: naive ensemble trains N models from scratch; snapshot ensemble saves checkpoints from one run with cyclic learning rate; diversity encouraging ensemble fine-tunes models from a shared pretrained backbone with dropout; multi-head network shares one feature extractor with several heads",
+  "caption": "왼쪽부터 네 칸이야. 1. Naïve Ensemble은 model N개를 처음부터 따로 학습해. 2. Snapshot은 학습 한 번에 cyclic LR로 loss 골짜기(다른 local minima)마다 checkpoint를 저장해. 3. DEE는 pretrained backbone 하나로 초기화한 모델들을 dropout을 넣어 fine-tune해. 4. Multi-head는 feature extractor 하나에 head만 여러 개야. <b>2–4는 1보다 싸게 ensemble을 흉내 내는 근사이고, 넷 다 마지막은 Ensemble Prediction(average / vote)이야.</b>",
+  "page": "L10 p.34",
+  "width": 520
+ }
+]

@@ -1,0 +1,52 @@
+<figure class="viz" id="viz-l10-bald">
+  <div class="viz-head"><span class="viz-tag">인터랙티브</span><p class="viz-title">BALD = 평균의 entropy − entropy의 평균: 모델끼리 갈릴 때만 커져</p><span class="illus">illustrative</span></div>
+  <div class="viz-scroll">
+  <svg viewBox="0 0 680 310" role="img" aria-label="four sampled models and their mean prediction over cat and dog, with entropy of the mean, mean entropy and BALD">
+    <line class="ax" x1="20" y1="200" x2="660" y2="200"/>
+    <g data-bars></g>
+    <text class="t b mono" data-eq x="20" y="290" style="font-size:14px"></text>
+    <text class="t t-m" data-note x="20" y="22"></text>
+  </svg>
+  </div>
+  <div class="viz-ctrl">
+    <label for="viz-l10-bald-d">모델끼리 의견 차이 <input type="range" id="viz-l10-bald-d" min="0" max="1" step="0.05" value="0"></label><output data-out>0.00</output>
+    <button type="button" data-agree aria-pressed="false">모두 확신 · 일치</button>
+  </div>
+  <figcaption>MC Dropout forward 4번(T = 4, 모델 4개 역할)의 예측을 cat(파랑) · dog(회색) 막대로 그렸고, 맨 오른쪽 주황 테두리가 평균 예측 p̄야. 막대 밑 숫자는 그 예측의 entropy(자연로그)야. 슬라이더가 0이면 넷 다 cat · dog 반반이라 <b>p.30 Case 1</b>(aleatoric): ℋ[p̄] ≈ 0.69, 평균 ℋ ≈ 0.69, BALD ≈ 0이야. 1로 올리면 둘은 cat, 둘은 dog로 확신해서 <b>p.31 Case 2</b>(epistemic): 평균은 그대로 반반(≈ 0.69)인데 각자의 entropy가 작아져서 BALD가 커져. <b>평균 예측만 보면 두 경우가 똑같아</b>. 그래서 평균 예측의 entropy(consensus entropy, BALD 첫째 항)만으로는 둘을 못 나눠. 모델 하나의 entropy는 case 2에서 오히려 낮아. 버튼은 넷 다 cat으로 확신하는 경우야: 두 항이 다 작아서 BALD ≈ 0. 확률 값은 개념용이야. (개념 그림)</figcaption>
+  <script>
+  (function(){
+    var root=document.getElementById('viz-l10-bald'); if(!root) return;
+    var inp=root.querySelector('input'), out=root.querySelector('[data-out]'), g=root.querySelector('[data-bars]');
+    var eq=root.querySelector('[data-eq]'), nt=root.querySelector('[data-note]'), ba=root.querySelector('[data-agree]');
+    var agree=false, S=[1,-1,1,-1];
+    function H(p){var h=0; if(p>0) h-=p*Math.log(p); if(p<1) h-=(1-p)*Math.log(1-p); return h;}
+    function group(x,p,label,isMean){
+      var h='', bh1=150*p, bh2=150*(1-p);
+      if(isMean) h+='<rect class="ln-trap" x="'+(x-8)+'" y="34" width="104" height="172" rx="6" fill="none" stroke-width="1.6"/>';
+      h+='<rect class="f-acc" x="'+x+'" y="'+(200-bh1).toFixed(1)+'" width="38" height="'+bh1.toFixed(1)+'" rx="3"/>';
+      h+='<rect class="f-m" x="'+(x+48)+'" y="'+(200-bh2).toFixed(1)+'" width="38" height="'+bh2.toFixed(1)+'" rx="3"/>';
+      h+='<text class="t mono" x="'+(x+19)+'" y="'+Math.max(200-bh1-6,46).toFixed(1)+'" text-anchor="middle">'+p.toFixed(2)+'</text>';
+      h+='<text class="t mono" x="'+(x+67)+'" y="'+Math.max(200-bh2-6,46).toFixed(1)+'" text-anchor="middle">'+(1-p).toFixed(2)+'</text>';
+      h+='<text class="t t-m" x="'+(x+19)+'" y="218" text-anchor="middle">cat</text><text class="t t-m" x="'+(x+67)+'" y="218" text-anchor="middle">dog</text>';
+      h+='<text class="t '+(isMean?'t-trap ':'')+'b" x="'+(x+43)+'" y="240" text-anchor="middle">'+label+'</text>';
+      h+='<text class="t mono t-m" x="'+(x+43)+'" y="258" text-anchor="middle">ℋ = '+H(p).toFixed(2)+'</text>';
+      return h;
+    }
+    function draw(){
+      var d=parseFloat(inp.value); out.textContent=d.toFixed(2); inp.disabled=agree; out.style.opacity=agree?.4:1;
+      var P=S.map(function(s){return agree?0.95:0.5+0.45*d*s;});
+      var m=P.reduce(function(a,b){return a+b;},0)/P.length;
+      var h='';
+      for(var i=0;i<4;i++) h+=group(20+i*130,P[i],'model '+(i+1),false);
+      h+=group(560,m,'평균 p̄',true);
+      g.innerHTML=h;
+      var Hm=H(m), mH=P.map(H).reduce(function(a,b){return a+b;},0)/P.length, b=Hm-mH;
+      eq.textContent='ℋ[p̄] = '+Hm.toFixed(2)+'   −   (1/T)Σℋ[pₜ] = '+mH.toFixed(2)+'   =   BALD ≈ '+Math.max(b,0).toFixed(2);
+      nt.textContent= agree?'모두 확신하고 일치: 두 항 다 작아 → label 효과 작음' : d<0.15?'Case 1 쪽: 다 같이 헷갈림 → BALD ≈ 0 (aleatoric)' : d>0.7?'Case 2 쪽: 각자 확신, 서로 반대 → BALD 큼 (epistemic)' : '의견이 갈릴수록 둘째 항만 줄어들어 BALD가 커짐';
+    }
+    inp.addEventListener('input',draw);
+    ba.addEventListener('click',function(){agree=!agree; ba.setAttribute('aria-pressed',agree?'true':'false'); draw();});
+    draw();
+  })();
+  </script>
+</figure>
